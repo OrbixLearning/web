@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { User } from '../../models/User';
+import { environment } from '../../environments/environment';
+import { User } from '../models/User';
 import { ContextService } from './context.service';
 
 @Injectable({

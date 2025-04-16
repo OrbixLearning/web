@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { Classroom } from '../../models/Classroom';
-import { Institution } from '../../models/Institution';
-import { User, UserAccount } from '../../models/User';
+import { inject, Injectable, signal } from '@angular/core';
+import { Classroom } from '../models/Classroom';
+import { Institution } from '../models/Institution';
+import { User, UserAccount } from '../models/User';
 
 @Injectable({
   providedIn: 'root',

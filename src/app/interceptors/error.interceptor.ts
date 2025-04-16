@@ -3,8 +3,8 @@ import { inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { catchError, lastValueFrom, throwError } from 'rxjs';
-import { ErrorPopUpComponent } from '../../components/error-pop-up/error-pop-up.component';
 import { AuthService } from '../services/auth.service';
+import { ErrorPopUpComponent } from '../components/error-pop-up/error-pop-up.component';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const SILENT_URLS = ['logout', 'login', 'auth'];

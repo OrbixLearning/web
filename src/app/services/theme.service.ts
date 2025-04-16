@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Institution } from '../../models/Institution';
+import { Institution } from '../models/Institution';
 
 @Injectable({
   providedIn: 'root',
