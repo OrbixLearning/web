@@ -1,0 +1,62 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { lastValueFrom, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { User } from '../../models/User';
+import { ContextService } from './context.service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  api: string = `${environment.API_URL}/auth`;
+  googleOAuthUri: string = 'https://accounts.google.com/o/oauth2/v2/auth';
+  http: HttpClient = inject(HttpClient);
+  context: ContextService = inject(ContextService);
+
+  auth(): Observable<User> {
+    return this.http.get<User>(`${this.api}/auth`);
+  }
+
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(`${this.api}/login`, { email, password });
+  }
+
+  register(
+    firstName: string,
+    surName: string,
+    email: string,
+    password: string
+  ): Observable<any> {
+    return this.http.post(`${this.api}/register`, {
+      firstName,
+      surName,
+      email,
+      password,
+    });
+  }
+
+  logout(): Observable<any> {
+    this.context.clearUser();
+    return this.http.get(`${this.api}/logout`);
+  }
+
+  getGoogleClientId(): Observable<{ clientId: string }> {
+    return this.http.get<{ clientId: string }>(`${this.api}/google-client-id`);
+  }
+
+  async getGoogleOAuthURL(): Promise<string> {
+    let googleClientId = (await lastValueFrom(this.getGoogleClientId()))
+      .clientId;
+    let params = new URLSearchParams();
+    params.append('client_id', googleClientId);
+    params.append('redirect_uri', environment.OAUTH_REDIRECT_URI);
+    params.append('response_type', 'code');
+    params.append('scope', 'email profile');
+    return `${this.googleOAuthUri}?${params.toString()}`;
+  }
+
+  oAuthLogin(code: string, redirectUri: string): Observable<any> {
+    return this.http.post(`${this.api}/oauth-login`, { code, redirectUri });
+  }
+}
