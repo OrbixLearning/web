@@ -7,4 +7,5 @@ export type Classroom = {
   institution?: Institution;
   students?: UserAccount[];
   teachers?: UserAccount[];
+  icon?: string;
 };
