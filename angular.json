@@ -12,7 +12,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "orbix",
+      "prefix": "o",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",

@@ -7,7 +7,7 @@ export type ErrorPopUpData = {
 };
 
 @Component({
-  selector: 'orbix-error-pop-up',
+  selector: 'o-error-pop-up',
   imports: [],
   templateUrl: './error-pop-up.component.html',
   styleUrl: './error-pop-up.component.scss',
