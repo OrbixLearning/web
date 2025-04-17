@@ -12,10 +12,10 @@ export class AuthService {
   api: string = `${environment.API_URL}/auth`;
   googleOAuthUri: string = 'https://accounts.google.com/o/oauth2/v2/auth';
   http: HttpClient = inject(HttpClient);
-  context: ContextService = inject(ContextService);
+  ctx: ContextService = inject(ContextService);
 
   auth(): Observable<User> {
-    return this.http.get<User>(`${this.api}/auth`);
+    return this.http.get<User>(this.api);
   }
 
   login(email: string, password: string): Observable<any> {
@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    this.context.clearUser();
+    this.ctx.clearUser();
     return this.http.get(`${this.api}/logout`);
   }
 
