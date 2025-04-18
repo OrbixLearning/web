@@ -1,10 +1,79 @@
-import { Component } from '@angular/core';
-import { CardModule } from 'primeng/card';
+import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { LoadingComponent } from '../../components/loading/loading.component';
 
 @Component({
   selector: 'o-login',
-  imports: [CardModule],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatButtonModule,
+    LoadingComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {}
+export class LoginComponent {
+  service: AuthService = inject(AuthService);
+  router: Router = inject(Router);
+  formBuilder: FormBuilder = inject(FormBuilder);
+
+  isLoading: boolean = false;
+  error: string = '';
+  form = this.formBuilder.group({
+    email: ['', Validators.required],
+    password: ['', Validators.required],
+  });
+
+  getFormControl(name: string): FormControl {
+    return this.form.get(name) as FormControl;
+  }
+
+  async onSubmit() {
+    if (this.form.valid) {
+      this.isLoading = true;
+      await lastValueFrom(
+        this.service.login(
+          this.getFormControl('email').value,
+          this.getFormControl('password').value
+        )
+      )
+        .then(() => {
+          this.router.navigate(['/']);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.error = 'Email ou senha inválidos.';
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    }
+  }
+
+  async loginWithGoogle() {
+    this.isLoading = true;
+    await this.service
+      .getGoogleOAuthURL()
+      .then((url: string) => {
+        window.location.href = url;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  }
+}
