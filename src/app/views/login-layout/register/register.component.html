@@ -25,11 +25,16 @@
 	</mat-form-field>
 	<mat-form-field appearance="fill" subscriptSizing="dynamic">
 		<mat-label>Senha</mat-label>
-		<input matInput type="password" name="password" formControlName="password" />
+		<input matInput [type]="hidePassword ? 'password' : 'text'" name="password" formControlName="password" />
+		<mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' :
+			'visibility'}}</mat-icon>
 	</mat-form-field>
 	<mat-form-field appearance="fill" subscriptSizing="dynamic">
 		<mat-label>Confirmar Senha</mat-label>
-		<input matInput type="password" name="passwordConfirmation" formControlName="passwordConfirmation" />
+		<input matInput [type]="hidePasswordConfirmation ? 'password' : 'text'" name="passwordConfirmation"
+			formControlName="passwordConfirmation" />
+		<mat-icon matSuffix (click)="hidePasswordConfirmation = !hidePasswordConfirmation">{{hidePasswordConfirmation ?
+			'visibility_off' : 'visibility'}}</mat-icon>
 	</mat-form-field>
 	@if (error !== '') {
 	<div class="register-error-div">

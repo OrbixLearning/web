@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import {
-	FormBuilder,
-	FormControl,
-	ReactiveFormsModule,
-	Validators,
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -13,6 +13,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { AuthService } from '../../../services/auth.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'o-login',
@@ -24,6 +25,7 @@ import { AuthService } from '../../../services/auth.service';
     MatButtonModule,
     LoadingComponent,
     RouterModule,
+    MatIconModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -40,6 +42,7 @@ export class LoginComponent {
     email: ['', Validators.required],
     password: ['', Validators.required],
   });
+  hidePassword: boolean = true;
 
   getFormControl(name: string): FormControl {
     return this.form.get(name) as FormControl;

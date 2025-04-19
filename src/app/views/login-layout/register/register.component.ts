@@ -44,6 +44,8 @@ export class RegisterComponent {
   });
   isLoading: boolean = false;
   error: string = '';
+  hidePassword: boolean = true;
+  hidePasswordConfirmation: boolean = true;
 
   getFormControl(name: string): FormControl {
     return this.form.get(name) as FormControl;

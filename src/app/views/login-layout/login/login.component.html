@@ -11,7 +11,9 @@
 	</mat-form-field>
 	<mat-form-field appearance="fill" subscriptSizing="dynamic">
 		<mat-label>Senha</mat-label>
-		<input matInput type="password" name="password" formControlName="password" />
+		<input matInput [type]="hidePassword ? 'password' : 'text'" name="password" formControlName="password" />
+		<mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' :
+			'visibility'}}</mat-icon>
 	</mat-form-field>
 	@if (error !== '') {
 	<div class="login-error-div">
