@@ -3,8 +3,9 @@ import { inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { catchError, lastValueFrom, throwError } from 'rxjs';
-import { AuthService } from '../services/auth.service';
 import { ErrorPopUpComponent } from '../components/error-pop-up/error-pop-up.component';
+import { AuthService } from '../services/auth.service';
+import { ErrorUtils } from '../utils/Error.util';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const SILENT_URLS = ['logout', 'login', 'auth'];
@@ -21,13 +22,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      let m = '';
-      if (error.error) {
-        m =
-          typeof error.error === 'string'
-            ? error.error
-            : error.error?.message || '';
-      }
+      let m = ErrorUtils.extractMessage(error);
 
       switch (error.status) {
         case 401:

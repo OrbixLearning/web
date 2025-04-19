@@ -1,0 +1,65 @@
+mat-card-title {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 24px;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.login-error-div {
+  color: red;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 14px;
+}
+
+form .login-button {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+form .login-button:disabled {
+  opacity: 0.3;
+}
+
+.login-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 1rem;
+  width: 100%;
+
+  a {
+    padding: 0 30px;
+  }
+
+  .register-button {
+    background-color: var(--primary-color);
+    color: white;
+  }
+}
+
+.google-button {
+  width: 100%;
+  height: 100%;
+  margin: 10px 0;
+  border: 1px solid var(--primary-color);
+  padding: 10px 0;
+
+  .google-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    color: var(--text-color);
+  }
+}

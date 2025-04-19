@@ -20,7 +20,39 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./views/login/login.component').then((m) => m.LoginComponent),
+      import('./views/login-layout/login-layout.component').then(
+        (m) => m.LoginLayoutComponent
+      ),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./views/login-layout/login/login.component').then(
+            (m) => m.LoginComponent
+          ),
+      },
+      {
+        path: 'register',
+        loadComponent: () =>
+          import('./views/login-layout/register/register.component').then(
+            (m) => m.RegisterComponent
+          ),
+      },
+      {
+        path: 'forgot-password',
+        loadComponent: () =>
+          import(
+            './views/login-layout/forgot-password/forgot-password.component'
+          ).then((m) => m.ForgotPasswordComponent),
+      },
+      {
+        path: 'reset-password',
+        loadComponent: () =>
+          import(
+            './views/login-layout/reset-password/reset-password.component'
+          ).then((m) => m.ResetPasswordComponent),
+      },
+    ],
   },
   {
     path: 'oauth-callback',

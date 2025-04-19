@@ -1,18 +1,18 @@
 import { Component, inject } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  ReactiveFormsModule,
-  Validators,
+	FormBuilder,
+	FormControl,
+	ReactiveFormsModule,
+	Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
-import { LoadingComponent } from '../../components/loading/loading.component';
+import { LoadingComponent } from '../../../components/loading/loading.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'o-login',
@@ -23,6 +23,7 @@ import { LoadingComponent } from '../../components/loading/loading.component';
     MatCardModule,
     MatButtonModule,
     LoadingComponent,
+    RouterModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -31,6 +32,7 @@ export class LoginComponent {
   service: AuthService = inject(AuthService);
   router: Router = inject(Router);
   formBuilder: FormBuilder = inject(FormBuilder);
+  route: ActivatedRoute = inject(ActivatedRoute);
 
   isLoading: boolean = false;
   error: string = '';
@@ -56,8 +58,7 @@ export class LoginComponent {
           this.router.navigate(['/']);
         })
         .catch((err) => {
-          console.error(err);
-          this.error = 'Email ou senha inválidos.';
+          this.error = err.error;
         })
         .finally(() => {
           this.isLoading = false;

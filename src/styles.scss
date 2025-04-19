@@ -2,6 +2,19 @@
 // For more information: https://material.angular.io/guide/theming
 @use "@angular/material" as mat;
 
+/* You can add global styles to this file, and also import other style files */
+@layer theme {
+  :root {
+    --primary-color: #030333;
+    --secondary-color: #bbbb00;
+    --tertiary-color: #17a2b8;
+    --background-color: #ffffff;
+    --text-color: #000000;
+
+    //   Add more as Orbix visual identity evolves
+  }
+}
+
 html {
   @include mat.theme(
     (
@@ -16,19 +29,6 @@ html {
   );
 }
 
-/* You can add global styles to this file, and also import other style files */
-@layer theme {
-  :root {
-    --primary-color: #030333;
-    --secondary-color: #bbbb00;
-    --tertiary-color: #17a2b8;
-    --background-color: #ffffff;
-    --text-color: #000000;
-
-    //   Add more as Orbix visual identity evolves
-  }
-}
-
 html,
 body {
   height: 100%;
@@ -38,4 +38,106 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// MATERIAL COLOR OVERRIDE
+
+.mat-accent {
+  --mdc-radio-selected-focus-icon-color: var(--primary-color) !important;
+  --mdc-radio-selected-hover-icon-color: var(--primary-color) !important;
+  --mdc-radio-selected-icon-color: var(--primary-color) !important;
+  --mdc-radio-selected-pressed-icon-color: var(--primary-color) !important;
+  --mat-radio-checked-ripple-color: var(--primary-color) !important;
+  --mdc-circular-progress-active-indicator-color: var(
+    --primary-color
+  ) !important;
+  --mdc-slider-handle-color: var(--primary-color) !important;
+  --mdc-slider-focus-handle-color: var(--primary-color) !important;
+  --mdc-slider-hover-handle-color: var(--primary-color) !important;
+  --mdc-slider-active-track-color: var(--primary-color) !important;
+  --mdc-slider-inactive-track-color: var(--primary-color) !important;
+  --mdc-slider-with-tick-marks-inactive-container-color: var(
+    --primary-color
+  ) !important;
+  --mat-full-pseudo-checkbox-selected-icon-color: var(
+    --primary-color
+  ) !important;
+}
+
+.mat-accent .mat-slider-track-fill {
+  background-color: var(--primary-color) !important;
+}
+
+.mat-slider-thumb-label {
+  background-color: var(--primary-color) !important;
+}
+
+.mat-slider-thumb {
+  background-color: var(--primary-color) !important;
+}
+
+html {
+  // Mat Stepper
+  --mat-stepper-header-selected-state-icon-background-color: var(
+    --primary-color
+  ) !important;
+  --mat-stepper-header-done-state-icon-background-color: var(
+    --primary-color
+  ) !important;
+  --mat-stepper-header-edit-state-icon-background-color: var(
+    --primary-color
+  ) !important;
+
+  // Mat Slider
+  --mdc-circular-progress-active-indicator-color: var(
+    --primary-color
+  ) !important;
+  --mat-slider-ripple-color: var(--primary-color) !important;
+  --mdc-slider-handle-color: var(--primary-color) !important;
+  --mdc-slider-focus-handle-color: var(--primary-color) !important;
+  --mdc-slider-hover-handle-color: var(--primary-color) !important;
+  --mdc-slider-active-track-color: var(--primary-color) !important;
+  --mdc-slider-inactive-track-color: var(--primary-color) !important;
+  --mdc-slider-with-tick-marks-inactive-container-color: var(
+    --primary-color
+  ) !important;
+
+  // Mat Slide Toggle
+  .mat-mdc-slide-toggle.mat-accent {
+    --mdc-switch-selected-focus-state-layer-color: var(
+      --primary-color
+    ) !important;
+    --mdc-switch-selected-handle-color: var(--primary-color) !important;
+    --mdc-switch-selected-hover-state-layer-color: var(
+      --primary-color
+    ) !important;
+    --mdc-switch-selected-pressed-state-layer-color: var(
+      --primary-color
+    ) !important;
+    --mdc-switch-selected-focus-handle-color: var(--primary-color) !important;
+    --mdc-switch-selected-hover-handle-color: var(--primary-color) !important;
+    --mdc-switch-selected-pressed-handle-color: var(--primary-color) !important;
+    --mdc-switch-selected-focus-track-color: var(--primary-color) !important;
+    --mdc-switch-selected-hover-track-color: var(--primary-color) !important;
+    --mdc-switch-selected-pressed-track-color: var(--primary-color) !important;
+    --mdc-switch-selected-track-color: var(--primary-color) !important;
+  }
+  .mdc-switch:enabled .mdc-switch__track::after {
+    background: var(--primary-color) !important;
+  }
+
+  // Mat Checkbox
+  --mdc-checkbox-selected-focus-icon-color: var(--primary-color) !important;
+  --mdc-checkbox-selected-hover-icon-color: var(--primary-color) !important;
+  --mdc-checkbox-selected-icon-color: var(--primary-color) !important;
+  --mdc-checkbox-selected-pressed-icon-color: var(--primary-color) !important;
+  --mdc-checkbox-selected-focus-state-layer-color: var(
+    --primary-color
+  ) !important;
+  --mdc-checkbox-selected-hover-state-layer-color: var(
+    --primary-color
+  ) !important;
+  --mdc-checkbox-selected-pressed-state-layer-color: var(
+    --primary-color
+  ) !important;
 }

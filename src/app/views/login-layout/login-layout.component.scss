@@ -1,0 +1,15 @@
+.login-background {
+  background-color: var(--primary-color);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+
+  .login-card {
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: none;
+  }
+}
