@@ -41,6 +41,14 @@ export class AuthService {
     return this.http.get(`${this.api}/logout`);
   }
 
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.api}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.http.post(`${this.api}/reset-password`, { token, password });
+  }
+
   getGoogleClientId(): Observable<{ clientId: string }> {
     return this.http.get<{ clientId: string }>(`${this.api}/google-client-id`);
   }
