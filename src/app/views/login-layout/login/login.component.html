@@ -1,6 +1,4 @@
-@if (isLoading) {
-<o-loading></o-loading>
-}
+<o-loading [isLoading]="isLoading" />
 
 <!-- Title -->
 <mat-card-title>Orbix Learning</mat-card-title>
@@ -26,7 +24,7 @@
 
 <!-- Register and Forgot Password -->
 <div class="login-actions">
-	<a mat-button class="register-button" [routerLink]="['./register']" [relativeTo]="route">Registrar</a>
+	<a mat-button class="register-button" [routerLink]="['./register']" [relativeTo]="route">Cadastrar</a>
 	<a mat-button [routerLink]="['./forgot-password']" [relativeTo]="route">Esqueci minha senha</a>
 </div>
 

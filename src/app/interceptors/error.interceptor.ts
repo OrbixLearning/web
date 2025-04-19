@@ -9,7 +9,7 @@ import { ErrorUtils } from '../utils/Error.util';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const SILENT_URLS = ['logout', 'login', 'auth'];
-  const skipUrl = SILENT_URLS.some((u) => req.url.includes(u));
+  const skipUrl = SILENT_URLS.some((u) => req.url.endsWith(u));
   const skipHeader = req.headers.get('skipErrorInterceptor') === 'true';
 
   if (skipUrl || skipHeader) {

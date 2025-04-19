@@ -1,1 +1,41 @@
-<p>register works!</p>
+<o-loading [isLoading]="isLoading" />
+
+<!-- Title -->
+<mat-card-title>Cadastrar</mat-card-title>
+
+<!-- Back Button -->
+<a mat-button [routerLink]="['/login']" style="margin-bottom: 10px;">
+	<mat-icon>arrow_back</mat-icon>
+	Voltar
+</a>
+
+<!-- Login Form -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+	<mat-form-field appearance="fill" subscriptSizing="dynamic">
+		<mat-label>Nome</mat-label>
+		<input matInput type="text" name="firsName" formControlName="firstName" />
+	</mat-form-field>
+	<mat-form-field appearance="fill" subscriptSizing="dynamic">
+		<mat-label>Sobrenome</mat-label>
+		<input matInput type="text" name="surName" formControlName="surName" />
+	</mat-form-field>
+	<mat-form-field appearance="fill" subscriptSizing="dynamic">
+		<mat-label>Email</mat-label>
+		<input matInput type="email" name="email" formControlName="email" />
+	</mat-form-field>
+	<mat-form-field appearance="fill" subscriptSizing="dynamic">
+		<mat-label>Senha</mat-label>
+		<input matInput type="password" name="password" formControlName="password" />
+	</mat-form-field>
+	<mat-form-field appearance="fill" subscriptSizing="dynamic">
+		<mat-label>Confirmar Senha</mat-label>
+		<input matInput type="password" name="passwordConfirmation" formControlName="passwordConfirmation" />
+	</mat-form-field>
+	@if (error !== '') {
+	<div class="register-error-div">
+		<span>{{error}}</span>
+	</div>
+	}
+	<button mat-raised-button cdkFocusInitial type="submit" class="register-button"
+		[disabled]="isLoading || form.invalid">Cadastrar</button>
+</form>

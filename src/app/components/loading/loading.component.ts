@@ -8,5 +8,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrl: './loading.component.scss',
 })
 export class LoadingComponent {
+  @Input() isLoading!: boolean;
   @Input() text: string | undefined;
 }

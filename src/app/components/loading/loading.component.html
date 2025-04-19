@@ -1,6 +1,8 @@
+@if (isLoading) {
 <div class="loading">
-    <mat-spinner></mat-spinner>
-    @if (text) {
-    <p>{{ text }}</p>
-    }
+	<mat-spinner></mat-spinner>
+	@if (text) {
+	<p>{{ text }}</p>
+	}
 </div>
+}
