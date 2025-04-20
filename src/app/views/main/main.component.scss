@@ -1,0 +1,19 @@
+.layout-content {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.layout-wrapper {
+	display: flex;
+	flex: 1;
+	overflow: hidden;
+}
+
+.layout-main {
+	flex: 1;
+	overflow-y: auto;
+	height: calc(100vh - var(--header-height));
+	padding: 16px;
+}

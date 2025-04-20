@@ -1,0 +1,56 @@
+:host {
+	display: flex;
+	height: var(--header-height);
+	background-color: var(--primary-color);
+	color: var(--text-color-light);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 16px;
+}
+
+header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+
+	mat-icon {
+		color: var(--text-color-light);
+		font-size: 24px;
+		cursor: pointer;
+	}
+
+	mat-form-field {
+		background-color: var(--primary-color);
+		color: var(--text-color-light);
+	}
+
+	mat-select {
+		color: var(--text-color-light);
+	}
+
+	.selector {
+		background-color: var(--primary-color);
+		color: var(--text-color-light);
+		width: 300px;
+	}
+}
+
+.left-header,
+.right-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex: 1;
+	gap: 20px;
+}
+
+.left-header {
+	justify-content: flex-start;
+}
+
+.right-header {
+	justify-content: flex-end;
+}

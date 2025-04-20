@@ -1,4 +1,10 @@
-<o-header></o-header>
-<o-sidebar></o-sidebar>
-<router-outlet></router-outlet>
-<button (click)="logout()">Logout</button>
+<content class="layout-content">
+	<o-header />
+	<div class="layout-wrapper">
+		<o-sidebar />
+		<main class="layout-main">
+			<router-outlet />
+			<button (click)="logout()">Logout</button>
+		</main>
+	</div>
+</content>
