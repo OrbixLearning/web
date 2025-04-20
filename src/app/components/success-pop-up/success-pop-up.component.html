@@ -1,8 +1,3 @@
-<h1>Ocorreu um erro!</h1>
-@if (data.code) {
-<h3>Código {{data.code}}</h3>
-}
-@if (data.message) {
+<h1>{{data.title}}</h1>
 <h3>{{data.message}}</h3>
-}
 <button mat-raised-button mat-dialog-close>{{data.buttonText ? data.buttonText : 'Ok'}}</button>
