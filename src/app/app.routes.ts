@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { institutionGuard } from './guards/institution.guard';
 
 export const routes: Routes = [
 	{
@@ -10,6 +11,28 @@ export const routes: Routes = [
 			{
 				path: '',
 				loadComponent: () => import('./views/main/home/home.component').then(m => m.HomeComponent),
+			},
+			{
+				path: 'i/:institutionId',
+				loadComponent: () =>
+					import('./views/main/institution/institution.component').then(m => m.InstitutionComponent),
+				canActivate: [institutionGuard],
+				children: [
+					{
+						path: '',
+						loadComponent: () =>
+							import('./views/main/institution/institution-home/institution-home.component').then(
+								m => m.InstitutionHomeComponent,
+							),
+					},
+					{
+						path: 'settings',
+						loadComponent: () =>
+							import('./views/main/institution/institution-settings/institution-settings.component').then(
+								m => m.InstitutionSettingsComponent,
+							),
+					},
+				],
 			},
 		],
 	},

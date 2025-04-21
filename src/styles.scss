@@ -6,12 +6,13 @@
 @layer theme {
 	:root {
 		--primary-color: #030333;
-		--secondary-color: #bbbb00;
+		--secondary-color: #ffffdd;
 		--tertiary-color: #17a2b8;
 		--background-color: #ffffff;
 		--text-color: #000000;
 		--text-color-light: #ffffff;
-		--header-height: 90px;
+		--header-height: 80px;
+		--sidebar-width: 180px;
 
 		//   Add more as Orbix visual identity evolves
 	}

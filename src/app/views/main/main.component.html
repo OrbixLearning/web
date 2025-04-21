@@ -1,10 +1,20 @@
 <content class="layout-content">
-	<o-header />
-	<div class="layout-wrapper">
-		<o-sidebar />
-		<main class="layout-main">
+
+	<!-- Header -->
+	<o-header (sidebar)="drawer.toggle()" />
+
+	<mat-drawer-container class="layout-wrapper">
+
+		<!-- Sidebar -->
+		<mat-drawer #drawer mode="side" opened class="layout-drawer">
+			<o-sidebar />
+		</mat-drawer>
+
+		<!-- Main Content -->
+		<mat-drawer-content class="layout-main">
 			<router-outlet />
 			<button (click)="logout()">Logout</button>
-		</main>
-	</div>
+		</mat-drawer-content>
+
+	</mat-drawer-container>
 </content>

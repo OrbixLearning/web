@@ -1,21 +1,25 @@
 <header>
 	<div class="left-header">
-		<button mat-icon-button (click)="toggleSidebar()">
+		<button mat-button (click)="sidebar.emit()" class="menu-button">
 			<mat-icon>menu</mat-icon>
 		</button>
 
-		<img src="./../../../assets/placeholder/PUCMinasLogo.png" alt="Logo Orbix" style="width: 80px" />
+		<img [src]="logo" alt="Logo" style="max-height: 50px; max-width: 50px;" />
 
-		<p-select [options]="institutions" [(ngModel)]="selectedInstitution" [checkmark]="true" [loading]="isLoading"
-			optionLabel="name" placeholder="Selecione uma Instituição" class="selector" />
+		<p-select [options]="institutions" [(ngModel)]="ctx.institution" [checkmark]="true"
+			[loading]="institutions.length === 0" optionLabel="name" placeholder="Selecione uma Instituição"
+			class="selector" (ngModelChange)="changeInstitution($event)" />
+
+		@if (canConfigureInstitution) {
+		<button mat-icon-button (click)="onSettings()">
+			<mat-icon>settings</mat-icon>
+		</button>
+		}
 	</div>
 
 	<div class="right-header">
 		<button mat-icon-button (click)="onNotifications()">
 			<mat-icon>notifications</mat-icon>
-		</button>
-		<button mat-icon-button (click)="onSettings()">
-			<mat-icon>settings</mat-icon>
 		</button>
 		<button mat-icon-button (click)="onProfile()">
 			<mat-icon>account_circle</mat-icon>
