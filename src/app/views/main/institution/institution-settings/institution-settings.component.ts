@@ -96,15 +96,17 @@ export class InstitutionSettingsComponent {
 		if (this.form.valid) {
 			this.isLoading = true;
 
-			let institution = { ...this.ctx.institution! };
-			institution.name = this.getFormControl('name').value;
-			institution.primaryColor = this.getFormControl('primaryColor').value;
-			institution.secondaryColor = this.getFormControl('secondaryColor').value;
-
 			// TODO: Handle logo upload
 			// institution.logo = this.logo;
 
-			await lastValueFrom(this.service.update(institution))
+			await lastValueFrom(
+				this.service.update(
+					this.ctx.institution!.id!,
+					this.getFormControl('name').value,
+					this.getFormControl('primaryColor').value,
+					this.getFormControl('secondaryColor').value,
+				),
+			)
 				.then((i: Institution) => {
 					this.ctx.institution = i;
 					this.resetForm();

@@ -20,7 +20,12 @@ export class InstitutionService {
 		return this.http.get<InstitutionRoleEnum>(`${this.api}/role/${id}`);
 	}
 
-	update(institution: Institution): Observable<Institution> {
-		return this.http.put<Institution>(this.api, institution);
+	update(id: string, name: string, primaryColor: string, secondaryColor: string): Observable<Institution> {
+		return this.http.put<Institution>(this.api, {
+			id,
+			name,
+			primaryColor,
+			secondaryColor,
+		});
 	}
 }
