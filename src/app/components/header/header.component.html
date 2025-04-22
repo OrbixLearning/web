@@ -4,14 +4,15 @@
 			<mat-icon>menu</mat-icon>
 		</button>
 
-		<img [src]="logo" alt="Logo" style="max-height: 50px; max-width: 50px;" />
+		<img [src]="logo" alt="Logo" style="max-height: 50px; max-width: 50px; cursor: pointer;"
+			[routerLink]="[homeUrl]" />
 
 		<p-select [options]="institutions" [(ngModel)]="ctx.institution" [checkmark]="true"
 			[loading]="institutions.length === 0" optionLabel="name" placeholder="Selecione uma Instituição"
 			class="selector" (ngModelChange)="changeInstitution($event)" />
 
 		@if (canConfigureInstitution) {
-		<button mat-icon-button (click)="onSettings()">
+		<button mat-icon-button [routerLink]="[settingsUrl]">
 			<mat-icon>settings</mat-icon>
 		</button>
 		}
@@ -21,7 +22,7 @@
 		<button mat-icon-button (click)="onNotifications()">
 			<mat-icon>notifications</mat-icon>
 		</button>
-		<button mat-icon-button (click)="onProfile()">
+		<button mat-icon-button [routerLink]="['/profile']">
 			<mat-icon>account_circle</mat-icon>
 		</button>
 	</div>

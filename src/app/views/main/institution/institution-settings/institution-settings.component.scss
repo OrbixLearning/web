@@ -1,0 +1,92 @@
+.institution-settings {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	width: 100%;
+	gap: 50px;
+
+	.form-div {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		width: 50%;
+		gap: 40px;
+
+		.title {
+			font-size: 24px;
+			font-weight: bold;
+		}
+
+		mat-form-field {
+			width: 80%;
+		}
+
+		.logo-div {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			align-items: flex-start;
+			gap: 30px;
+
+			.logo-left-div {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				align-items: flex-start;
+				gap: 30px;
+
+				p {
+					font-size: 20px;
+					font-weight: bold;
+				}
+			}
+
+			img {
+				max-height: 150px;
+				max-width: 150px;
+				border-radius: 10px;
+				border: 1px solid #ccc;
+			}
+		}
+
+		.color-div {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			align-items: center;
+			gap: 30px;
+
+			mat-form-field {
+				width: 250px;
+			}
+
+			p-colorpicker {
+				border: 1px solid #aaa;
+				border-radius: var(--p-form-field-border-radius);
+				--p-colorpicker-preview-width: 50px;
+				--p-colorpicker-preview-height: 50px;
+			}
+		}
+
+		.save-button {
+			background-color: var(--primary-color);
+			color: white;
+			width: 150px;
+
+			&:disabled {
+				opacity: 0.3;
+				cursor: not-allowed;
+			}
+		}
+	}
+
+	.buttons-div {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 30px;
+	}
+}

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { classroomGuard } from './guards/classroom.guard';
 import { institutionGuard } from './guards/institution.guard';
 
 export const routes: Routes = [
@@ -11,6 +12,14 @@ export const routes: Routes = [
 			{
 				path: '',
 				loadComponent: () => import('./views/main/home/home.component').then(m => m.HomeComponent),
+			},
+			{
+				path: 'settings',
+				loadComponent: () => import('./views/main/settings/settings.component').then(m => m.SettingsComponent),
+			},
+			{
+				path: 'profile',
+				loadComponent: () => import('./views/main/profile/profile.component').then(m => m.ProfileComponent),
 			},
 			{
 				path: 'i/:institutionId',
@@ -31,6 +40,42 @@ export const routes: Routes = [
 							import('./views/main/institution/institution-settings/institution-settings.component').then(
 								m => m.InstitutionSettingsComponent,
 							),
+					},
+					{
+						path: 'users',
+						loadComponent: () =>
+							import('./views/main/institution/institution-users/institution-users.component').then(
+								m => m.InstitutionUsersComponent,
+							),
+					},
+					{
+						path: 'classrooms',
+						loadComponent: () =>
+							import(
+								'./views/main/institution/institution-classrooms/institution-classrooms.component'
+							).then(m => m.InstitutionClassroomsComponent),
+					},
+					{
+						path: 'c/:classroomId',
+						loadComponent: () =>
+							import('./views/main/classroom/classroom.component').then(m => m.ClassroomComponent),
+						canActivate: [classroomGuard],
+						children: [
+							{
+								path: '',
+								loadComponent: () =>
+									import('./views/main/classroom/classroom-home/classroom-home.component').then(
+										m => m.ClassroomHomeComponent,
+									),
+							},
+							{
+								path: 'settings',
+								loadComponent: () =>
+									import(
+										'./views/main/classroom/classroom-settings/classroom-settings.component'
+									).then(m => m.ClassroomSettingsComponent),
+							},
+						],
 					},
 				],
 			},

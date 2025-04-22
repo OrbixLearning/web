@@ -19,4 +19,8 @@ export class InstitutionService {
 	getInstitutionRole(id: string): Observable<InstitutionRoleEnum> {
 		return this.http.get<InstitutionRoleEnum>(`${this.api}/role/${id}`);
 	}
+
+	update(institution: Institution): Observable<Institution> {
+		return this.http.put<Institution>(this.api, institution);
+	}
 }
