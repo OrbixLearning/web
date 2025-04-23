@@ -1,1 +1,72 @@
-<p>profile works!</p>
+<div class="profile-settings">
+	@if (isLoading) {
+	<o-loading [isLoading]="isLoading" />
+	}
+
+	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-div">
+
+		<div class="picture-div">
+			@if (user?.profilePicture) {
+			<img [src]="user?.profilePicture" alt="profilePicture">
+			} @else {
+			<mat-icon>person</mat-icon>
+			}
+			@if (self) {
+			<p-fileupload mode="basic" chooseLabel="Alterar" chooseIcon="pi pi-upload" name="picture" accept=".png,.svg"
+				maxFileSize="1000000" (onSelect)="picture = $event.currentFiles[0]" />
+			}
+		</div>
+
+
+		@if (self) {
+		<div class="name-div">
+			<mat-form-field subscriptSizing="dynamic" appearance="outline">
+				<mat-label>Nome</mat-label>
+				<input matInput name="firstName" formControlName="firstName" required />
+			</mat-form-field>
+
+			<mat-form-field subscriptSizing="dynamic" appearance="outline">
+				<mat-label>Sobrenome</mat-label>
+				<input matInput name="surName" formControlName="surName" required />
+			</mat-form-field>
+		</div>
+		} @else {
+		<p class="name-p">{{user?.firstName}} {{user?.surName}}</p>
+		}
+
+		@if (self) {
+		<div>
+			<button mat-button type="button" (click)="resetForm()">Cancelar</button>
+			<button mat-raised-button cdkInitialFocus type="submit" class="save-button" [disabled]="disableSaveButton">
+				<mat-icon>save</mat-icon>
+				Salvar
+			</button>
+		</div>
+		}
+
+		<div class="emails-div">
+			<p>Emails</p>
+
+			@for (institution of user?.createdInstitutions; track institution.id) {
+			<o-account-card [institution]="institution" [institutionRole]="creatorEnum" />
+			}
+
+			@for (account of user?.accounts; track account.id) {
+			<o-account-card [email]="account.email" [institution]="account.institution"
+				[institutionRole]="account.institutionRole" />
+			}
+
+			@if (self) {
+			<button mat-raised-button (click)="linkEmail()" type="button">Vincular email</button>
+			}
+		</div>
+
+		@if (self) {
+		<button mat-raised-button (click)="logout()" type="button">Sair</button>
+		}
+	</form>
+
+	<div class="gamification-div">
+		<o-game-card [user]="user" />
+	</div>
+</div>

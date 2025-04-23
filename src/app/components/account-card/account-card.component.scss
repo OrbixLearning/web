@@ -1,0 +1,17 @@
+.account-card-div {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: stretch;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+
+	.info-div {
+	}
+
+	img {
+		height: 80px;
+		width: 80px;
+	}
+}

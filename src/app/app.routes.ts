@@ -18,7 +18,7 @@ export const routes: Routes = [
 				loadComponent: () => import('./views/main/settings/settings.component').then(m => m.SettingsComponent),
 			},
 			{
-				path: 'profile',
+				path: 'profile/:userId',
 				loadComponent: () => import('./views/main/profile/profile.component').then(m => m.ProfileComponent),
 			},
 			{

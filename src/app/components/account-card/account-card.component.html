@@ -1,0 +1,14 @@
+<div class="account-card-div">
+	<div class="info-div">
+		<p>{{institution?.name}}</p>
+		<p>{{email}}</p>
+		<p>{{institutionRoleText()}}</p>
+		@if (amountOfClassrooms !== undefined) {
+		<p>{{amountOfClassrooms}} turmas</p>
+		}
+	</div>
+
+	@if (institution) {
+	<img [src]="institution.logo" alt="Institution Logo">
+	}
+</div>

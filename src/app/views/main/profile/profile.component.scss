@@ -1,0 +1,74 @@
+.profile-settings {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	width: 100%;
+	gap: 50px;
+
+	.form-div {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		width: 50%;
+		gap: 40px;
+
+		.picture-div {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			align-items: center;
+			gap: 30px;
+
+			img {
+				max-height: 100px;
+				max-width: 100px;
+				border-radius: 10px;
+				border: 1px solid #ccc;
+			}
+
+			mat-icon {
+				height: 100px;
+				width: 100px;
+				font-size: 100px;
+				border-radius: 10px;
+				border: 1px solid #ccc;
+			}
+		}
+
+		.name-div {
+			display: flex;
+			flex-direction: row;
+			gap: 20px;
+		}
+
+		.name-p {
+			font-size: 24px;
+			font-weight: bold;
+		}
+
+		.save-button {
+			background-color: var(--primary-color);
+			color: white;
+			width: 150px;
+
+			&:disabled {
+				opacity: 0.3;
+				cursor: not-allowed;
+			}
+		}
+	}
+
+	.emails-div {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		width: 80%;
+
+		p {
+			font-size: 20px;
+			font-weight: bold;
+		}
+	}
+}

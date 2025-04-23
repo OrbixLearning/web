@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SelectModule } from 'primeng/select';
 import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
 import { Institution } from '../../models/Institution';
@@ -16,7 +16,6 @@ import { ContextService } from '../../services/context.service';
 })
 export class HeaderComponent {
 	ctx: ContextService = inject(ContextService);
-	route: ActivatedRoute = inject(ActivatedRoute);
 	router: Router = inject(Router);
 
 	@Output() sidebar: EventEmitter<void> = new EventEmitter<void>();
