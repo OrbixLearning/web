@@ -14,4 +14,8 @@ export class UserService {
 	get(id: string): Observable<User> {
 		return this.http.get<User>(`${this.api}/${id}`);
 	}
+
+	getAmountOfClassroomsInInstitution(id: string): Observable<number> {
+		return this.http.get<number>(`${this.api}/classrooms-amount/${id}`);
+	}
 }

@@ -47,17 +47,20 @@
 		<div class="emails-div">
 			<p>Emails</p>
 
-			@for (institution of user?.createdInstitutions; track institution.id) {
-			<o-account-card [institution]="institution" [institutionRole]="creatorEnum" />
-			}
-
-			@for (account of user?.accounts; track account.id) {
+			@for (account of this.user?.accounts; track account.id) {
 			<o-account-card [email]="account.email" [institution]="account.institution"
 				[institutionRole]="account.institutionRole" />
 			}
 
 			@if (self) {
 			<button mat-raised-button (click)="linkEmail()" type="button">Vincular email</button>
+			}
+		</div>
+
+		<div class="emails-div">
+			<p>Instituições criadas</p>
+			@for (institution of user?.createdInstitutions; track institution.id) {
+			<o-account-card [institution]="institution" />
 			}
 		</div>
 
