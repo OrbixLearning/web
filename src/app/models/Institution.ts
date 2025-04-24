@@ -2,12 +2,13 @@ import { Classroom } from './Classroom';
 import { User, UserAccount } from './User';
 
 export type Institution = {
-  id?: string;
-  name?: string;
-  creator?: User;
-  accounts?: UserAccount[];
-  classrooms?: Classroom[];
-  logo?: string;
-  primaryColor?: string;
-  secondaryColor?: string;
+	id: string | null; // The personal institution does not have an id
+	name: string;
+	logo: string | null;
+	primaryColor: string | null;
+	secondaryColor: string | null;
+
+	accounts?: UserAccount[];
+	classrooms?: Classroom[];
+	creator?: User;
 };

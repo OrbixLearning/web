@@ -18,4 +18,8 @@ export class UserService {
 	getAmountOfClassroomsInInstitution(id: string): Observable<number> {
 		return this.http.get<number>(`${this.api}/classrooms-amount/${id}`);
 	}
+
+	update(firstName: string, surName: string): Observable<User> {
+		return this.http.put<User>(this.api, { firstName, surName });
+	}
 }

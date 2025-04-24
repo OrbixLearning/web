@@ -30,8 +30,6 @@ export class ContextService {
 				lastValueFrom(this.institutionService.getUserInstitutions()).then((institutions: Institution[]) => {
 					this.institutionList = institutions;
 				});
-				this.clearInstitution();
-				this.clearInstitutionRole();
 			} else {
 				this.clearInstitutionList();
 			}

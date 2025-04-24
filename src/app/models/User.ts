@@ -4,20 +4,21 @@ import { Institution } from './Institution';
 import { Role } from './Role';
 
 export type User = {
-  id?: string;
-  accounts?: UserAccount[];
-  firstName?: string;
-  surName?: string;
-  role?: Role;
-  profilePicture?: string;
-  createdInstitutions?: Institution[];
+	id: string;
+	accounts: UserAccount[];
+	firstName: string;
+	surName: string;
+	role: Role;
+	profilePicture: string | null;
+
+	createdInstitutions?: Institution[];
 };
 
 export type UserAccount = {
-  id?: string;
-  email?: string;
-  authMethod?: AuthMethodEnum;
-  institution?: Institution;
-  institutionRole?: InstitutionRoleEnum;
-  user?: User;
+	id: string;
+	email: string;
+	authMethod: AuthMethodEnum;
+	institution: Institution;
+	institutionRole: InstitutionRoleEnum;
+	user: User;
 };

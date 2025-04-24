@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -9,6 +10,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
 import { AccountCardComponent } from '../../../components/account-card/account-card.component';
 import { GameCardComponent } from '../../../components/game-card/game-card.component';
+import { LinkAccountPopUpComponent } from '../../../components/link-account-pop-up/link-account-pop-up.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { InstitutionRoleEnum } from '../../../enums/InstitutionRole.enum';
 import { User } from '../../../models/User';
@@ -38,6 +40,7 @@ export class ProfileComponent {
 	authService: AuthService = inject(AuthService);
 	formBuilder: FormBuilder = inject(FormBuilder);
 	router: Router = inject(Router);
+	dialog: MatDialog = inject(MatDialog);
 
 	isLoading: boolean = false;
 	picture?: File;
@@ -104,7 +107,18 @@ export class ProfileComponent {
 		this.picture = undefined;
 	}
 
-	linkEmail() {}
+	linkAccount() {
+		this.dialog
+			.open(LinkAccountPopUpComponent)
+			.afterClosed()
+			.subscribe((result: User) => {
+				if (result) {
+					this.ctx.user = this.user;
+					this.getUserData();
+					this.resetForm();
+				}
+			});
+	}
 
 	async logout() {
 		await lastValueFrom(this.authService.logout()).then(() => {
@@ -112,5 +126,20 @@ export class ProfileComponent {
 		});
 	}
 
-	async onSubmit() {}
+	async onSubmit() {
+		if (this.form.valid) {
+			this.isLoading = true;
+			await lastValueFrom(
+				this.service.update(this.getFormControl('firstName').value, this.getFormControl('surName').value),
+			)
+				.then((user: User) => {
+					this.ctx.user = user;
+					this.getUserData();
+					this.resetForm();
+				})
+				.finally(() => {
+					this.isLoading = false;
+				});
+		}
+	}
 }
