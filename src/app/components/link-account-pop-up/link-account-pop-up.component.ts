@@ -1,19 +1,16 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { DividerModule } from 'primeng/divider';
-import { InputOtpModule } from 'primeng/inputotp';
 import { lastValueFrom } from 'rxjs';
-import { User } from '../../models/User';
+import { User, UserAccount } from '../../models/User';
 import { AuthService } from '../../services/auth.service';
+import { ConfirmPopUpComponent } from '../confirm-pop-up/confirm-pop-up.component';
 import { LoadingComponent } from '../loading/loading.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
-import { SuccessPopUpComponent } from '../success-pop-up/success-pop-up.component';
 
 @Component({
 	selector: 'o-link-account-pop-up',
@@ -26,9 +23,6 @@ import { SuccessPopUpComponent } from '../success-pop-up/success-pop-up.componen
 		LoadingComponent,
 		PopUpHeaderComponent,
 		MatFormFieldModule,
-		InputOtpModule,
-		DividerModule,
-		MatStepperModule,
 	],
 	templateUrl: './link-account-pop-up.component.html',
 	styleUrl: './link-account-pop-up.component.scss',
@@ -39,15 +33,13 @@ export class LinkAccountPopUpComponent {
 	service: AuthService = inject(AuthService);
 	dialog: MatDialog = inject(MatDialog);
 
-	@ViewChild('stepper') stepper?: MatStepper;
-
-	form: FormGroup = this.formBuilder.group({
-		email: ['', [Validators.required, Validators.email]],
+	isLoading: boolean = false;
+	error: string = '';
+	form = this.formBuilder.group({
+		email: ['', Validators.required],
 		password: ['', Validators.required],
 	});
-	isLoading: boolean = false;
 	hidePassword: boolean = true;
-	error: string = '';
 
 	getFormControl(name: string): FormControl {
 		return this.form.get(name) as FormControl;
@@ -56,29 +48,52 @@ export class LinkAccountPopUpComponent {
 	async onSubmit() {
 		if (this.form.valid) {
 			this.isLoading = true;
-			await lastValueFrom(
-				this.service.sendLinkAccountCode(
-					this.getFormControl('email').value,
-					this.getFormControl('password').value,
-				),
-			)
-				.then(() => {
+			await lastValueFrom(this.service.validateAccountLink(this.getFormControl('email').value))
+				.then((auth: UserAccount) => {
 					this.dialog
-						.open(SuccessPopUpComponent, {
+						.open(ConfirmPopUpComponent, {
 							data: {
-								title: `Um email foi enviado para ${this.getFormControl('email').value}`,
-								message: 'Verifique sua caixa de entrada, copie o código enviado e cole-o abaixo.',
-								buttonText: 'Ok',
+								title: `Deseja confirmar o vínculo da conta ${auth.email} à esta conta?`,
+								message: 'Essa ação não pode ser desfeita.',
 							},
 						})
 						.afterClosed()
-						.subscribe(() => {
-							this.stepper?.next();
+						.subscribe(async r => {
+							if (r) {
+								await this.linkAccount();
+							} else {
+								this.form.reset();
+							}
 						});
 				})
 				.finally(() => {
 					this.isLoading = false;
 				});
 		}
+	}
+
+	async linkAccount() {
+		this.isLoading = true;
+		await lastValueFrom(
+			this.service.linkAccount(this.getFormControl('email').value, this.getFormControl('password').value),
+		)
+			.then((user: User) => {
+				this.dialogRef.close(user);
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
+
+	async linkWithGoogle() {
+		this.isLoading = true;
+		await this.service
+			.getGoogleOAuthURL(true)
+			.then((url: string) => {
+				window.location.href = url;
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
 	}
 }

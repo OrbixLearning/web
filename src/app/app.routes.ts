@@ -22,6 +22,13 @@ export const routes: Routes = [
 				loadComponent: () => import('./views/main/profile/profile.component').then(m => m.ProfileComponent),
 			},
 			{
+				path: 'link-account-callback',
+				loadComponent: () =>
+					import('./views/main/profile/link-account-callback/link-account-callback.component').then(
+						m => m.LinkAccountCallbackComponent,
+					),
+			},
+			{
 				path: 'i/:institutionId',
 				loadComponent: () =>
 					import('./views/main/institution/institution.component').then(m => m.InstitutionComponent),

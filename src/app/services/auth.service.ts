@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { User } from '../models/User';
+import { User, UserAccount } from '../models/User';
 import { ContextService } from './context.service';
 
 @Injectable({
@@ -48,11 +48,14 @@ export class AuthService {
 		return this.http.get<{ clientId: string }>(`${this.api}/google-client-id`);
 	}
 
-	async getGoogleOAuthURL(): Promise<string> {
+	async getGoogleOAuthURL(linkAccount: boolean = false): Promise<string> {
 		let googleClientId = (await lastValueFrom(this.getGoogleClientId())).clientId;
 		let params = new URLSearchParams();
 		params.append('client_id', googleClientId);
-		params.append('redirect_uri', environment.OAUTH_REDIRECT_URI);
+		params.append(
+			'redirect_uri',
+			linkAccount ? environment.ACCOUNT_LINK_REDIRECT_URI : environment.OAUTH_REDIRECT_URI,
+		);
 		params.append('response_type', 'code');
 		params.append('scope', 'email profile');
 		return `${this.googleOAuthUri}?${params.toString()}`;
@@ -62,11 +65,11 @@ export class AuthService {
 		return this.http.post(`${this.api}/oauth-login`, { code, redirectUri });
 	}
 
-	sendLinkAccountCode(email: string, password: string): Observable<any> {
-		return this.http.post(`${this.api}/link-account-code`, { email, password });
+	validateAccountLink(email: string): Observable<UserAccount> {
+		return this.http.post<UserAccount>(`${this.api}/validate-account-link`, { email });
 	}
 
-	linkAccount(code: string): Observable<User> {
-		return this.http.post<User>(`${this.api}/link-account`, { code });
+	linkAccount(email: string, password: string): Observable<User> {
+		return this.http.post<User>(`${this.api}/link-account`, { email, password });
 	}
 }
