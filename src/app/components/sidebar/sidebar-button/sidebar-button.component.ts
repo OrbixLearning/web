@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 	styleUrl: './sidebar-button.component.scss',
 })
 export class SidebarButtonComponent {
-	@Input() icon?: string;
+	@Input() icon?: string | null;
 	@Input() text?: string;
 	@Output() buttonClick: EventEmitter<void> = new EventEmitter<void>();
 }
