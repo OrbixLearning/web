@@ -1,0 +1,5 @@
+<mat-dialog-actions class="pu-buttons-div">
+	<button mat-button [mat-dialog-close]="null">{{cancelButton}}</button>
+	<button mat-raised-button cdkFocusInitial class="pu-confirm-button" (click)="confirm.emit()"
+		[disabled]="disable">{{confirmButton}}</button>
+</mat-dialog-actions>

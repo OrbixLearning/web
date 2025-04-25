@@ -1,1 +1,27 @@
-<p>link-account-pop-up works!</p>
+<o-loading [isLoading]="isLoading" />
+
+<o-pop-up-header title="Vincular email" />
+
+<mat-dialog-content class="link-account-content">
+
+	<form [formGroup]="form" (ngSubmit)="onSubmit()">
+		<p>Acesse a conta que deseja vincular</p>
+		<mat-form-field appearance="outline" subscriptSizing="dynamic" style="width: 300px">
+			<mat-label>Email</mat-label>
+			<input matInput formControlName="email" type="email" />
+		</mat-form-field>
+		<mat-form-field appearance="outline" subscriptSizing="dynamic" style="width: 300px">
+			<mat-label>Senha</mat-label>
+			<input matInput [type]="hidePassword ? 'password' : 'text'" name="password" formControlName="password" />
+			<mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' :
+				'visibility'}}</mat-icon>
+		</mat-form-field>
+		@if (error !== '') {
+		<div class="error">
+			<span>{{error}}</span>
+		</div>
+		}
+		<button mat-raised-button type="submit" [disabled]="isLoading || form.invalid">Vincular conta</button>
+	</form>
+
+</mat-dialog-content>

@@ -21,4 +21,5 @@ export type UserAccount = {
 	institution: Institution;
 	institutionRole: InstitutionRoleEnum;
 	user: User;
+	active: boolean;
 };
