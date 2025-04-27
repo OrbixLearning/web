@@ -3,12 +3,12 @@ import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angu
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { AuthService } from '../../../services/auth.service';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'o-login',
