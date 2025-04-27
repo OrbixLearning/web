@@ -10,7 +10,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
 import { AccountCardComponent } from '../../../components/account-card/account-card.component';
 import { GameCardComponent } from '../../../components/game-card/game-card.component';
-import { LinkAccountPopUpComponent } from '../../../components/link-account-pop-up/link-account-pop-up.component';
+import { LinkAccountPopUpComponent } from '../../../components/pop-ups/link-account-pop-up/link-account-pop-up.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { InstitutionRoleEnum } from '../../../enums/InstitutionRole.enum';
 import { Institution } from '../../../models/Institution';

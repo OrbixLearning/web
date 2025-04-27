@@ -6,10 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { lastValueFrom } from 'rxjs';
-import { User, UserAccount } from '../../models/User';
-import { AuthService } from '../../services/auth.service';
+import { User, UserAccount } from '../../../models/User';
+import { AuthService } from '../../../services/auth.service';
 import { ConfirmPopUpComponent } from '../confirm-pop-up/confirm-pop-up.component';
-import { LoadingComponent } from '../loading/loading.component';
+import { LoadingComponent } from '../../loading/loading.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 
 @Component({

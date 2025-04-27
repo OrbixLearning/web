@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../components/loading/loading.component';
-import { SuccessPopUpComponent } from '../../../components/success-pop-up/success-pop-up.component';
+import { SuccessPopUpComponent } from '../../../components/pop-ups/success-pop-up/success-pop-up.component';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({

@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { ErrorPopUpComponent, ErrorPopUpData } from '../../../components/error-pop-up/error-pop-up.component';
+import { ErrorPopUpComponent, ErrorPopUpData } from '../../../components/pop-ups/error-pop-up/error-pop-up.component';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
