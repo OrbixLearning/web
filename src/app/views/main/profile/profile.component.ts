@@ -13,7 +13,8 @@ import { GameCardComponent } from '../../../components/game-card/game-card.compo
 import { LinkAccountPopUpComponent } from '../../../components/link-account-pop-up/link-account-pop-up.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { InstitutionRoleEnum } from '../../../enums/InstitutionRole.enum';
-import { User } from '../../../models/User';
+import { Institution } from '../../../models/Institution';
+import { User, UserAccount } from '../../../models/User';
 import { AuthService } from '../../../services/auth.service';
 import { ContextService } from '../../../services/context.service';
 import { UserService } from '../../../services/user.service';
@@ -83,6 +84,20 @@ export class ProfileComponent {
 		return false;
 	}
 
+	get sortedAccounts(): UserAccount[] {
+		if (!this.user?.accounts) {
+			return [];
+		}
+		return this.user?.accounts.sort((a, b) => a.email.localeCompare(b.email));
+	}
+
+	get sortedCreatedInstitutions(): Institution[] {
+		if (!this.user?.createdInstitutions) {
+			return [];
+		}
+		return this.user?.createdInstitutions.sort((a, b) => a.name.localeCompare(b.name));
+	}
+
 	async getUserData() {
 		if (self) {
 			this.user = this.ctx.user;
@@ -113,7 +128,7 @@ export class ProfileComponent {
 			.afterClosed()
 			.subscribe((result: User) => {
 				if (result) {
-					this.ctx.user = this.user;
+					this.ctx.user = result;
 					this.getUserData();
 					this.resetForm();
 				}

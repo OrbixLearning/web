@@ -58,8 +58,8 @@ export class HeaderComponent {
 			return false;
 		}
 		return (
-			this.ctx.institutionRole === InstitutionRoleEnum.ADMIN ||
-			this.ctx.institutionRole === InstitutionRoleEnum.CREATOR
+			this.ctx.institutionRoles!.includes(InstitutionRoleEnum.ADMIN) ||
+			this.ctx.institutionRoles!.includes(InstitutionRoleEnum.CREATOR)
 		);
 	}
 

@@ -47,7 +47,7 @@
 		<div class="emails-div">
 			<p>Emails</p>
 
-			@for (account of this.user?.accounts; track account.id) {
+			@for (account of sortedAccounts; track account.id) {
 			<o-account-card [email]="account.email" [institution]="account.institution"
 				[institutionRole]="account.institutionRole" />
 			}
@@ -57,12 +57,14 @@
 			}
 		</div>
 
+		@if (user?.createdInstitutions && user!.createdInstitutions!.length > 0) {
 		<div class="emails-div">
 			<p>Instituições criadas</p>
-			@for (institution of user?.createdInstitutions; track institution.id) {
+			@for (institution of sortedCreatedInstitutions; track institution.id) {
 			<o-account-card [institution]="institution" />
 			}
 		</div>
+		}
 
 		@if (self) {
 		<button mat-raised-button (click)="logout()" type="button">Sair</button>

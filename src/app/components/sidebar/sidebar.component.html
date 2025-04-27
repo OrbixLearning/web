@@ -1,7 +1,7 @@
 <aside class="sidebar">
 	<o-sidebar-button icon="home" text="Início" (buttonClick)="goToHome()" />
 
-	@for (classroom of ctx.classroomList; track classroom.id) {
+	@for (classroom of sortedClassrooms; track classroom.id) {
 	<o-sidebar-button [icon]="classroom.icon" [text]="classroom.name" (buttonClick)="goToClassroom(classroom)" />
 	}
 </aside>

@@ -19,6 +19,11 @@ export class SidebarComponent {
 	ctx: ContextService = inject(ContextService);
 	service: ClassroomService = inject(ClassroomService);
 
+	get sortedClassrooms(): Classroom[] {
+		if (!this.ctx.classroomList) return [];
+		return this.ctx.classroomList.sort((a, b) => a.name.localeCompare(b.name));
+	}
+
 	goToHome() {}
 
 	goToClassroom(classroom: Classroom) {

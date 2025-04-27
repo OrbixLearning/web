@@ -19,7 +19,7 @@ export class ContextService {
 	private userSignal = signal<User | undefined>(undefined);
 	private institutionListSignal = signal<Institution[]>([]);
 	private institutionSignal = signal<Institution | undefined>(undefined);
-	private institutionRoleSignal = signal<InstitutionRoleEnum | undefined>(undefined);
+	private institutionRolesSignal = signal<InstitutionRoleEnum[] | undefined>(undefined);
 	private classroomListSignal = signal<Classroom[]>([]);
 	private classroomSignal = signal<Classroom | undefined>(undefined);
 
@@ -40,15 +40,15 @@ export class ContextService {
 			if (institution && institution.id) {
 				Promise.all([
 					lastValueFrom(this.classroomService.getClassrooms(institution.id)),
-					lastValueFrom(this.institutionService.getInstitutionRole(institution.id)),
-				]).then(([classrooms, role]) => {
+					lastValueFrom(this.institutionService.getInstitutionRoles(institution.id)),
+				]).then(([classrooms, roles]) => {
 					this.classroomList = classrooms;
-					this.institutionRole = role;
+					this.institutionRoles = roles;
 				});
 				this.clearClassroom();
 			} else {
 				this.clearClassroomList();
-				this.clearInstitutionRole();
+				this.clearInstitutionRoles();
 			}
 		});
 	}
@@ -63,8 +63,8 @@ export class ContextService {
 	get institution(): Institution | undefined {
 		return this.institutionSignal();
 	}
-	get institutionRole(): InstitutionRoleEnum | undefined {
-		return this.institutionRoleSignal();
+	get institutionRoles(): InstitutionRoleEnum[] | undefined {
+		return this.institutionRolesSignal();
 	}
 	get classroomList(): Classroom[] {
 		return this.classroomListSignal();
@@ -83,8 +83,8 @@ export class ContextService {
 	set institution(value: Institution | undefined) {
 		this.institutionSignal.set(value ? { ...value } : undefined);
 	}
-	set institutionRole(value: InstitutionRoleEnum | undefined) {
-		this.institutionRoleSignal.set(value);
+	set institutionRoles(value: InstitutionRoleEnum[]) {
+		this.institutionRolesSignal.set([...value]);
 	}
 	set classroomList(value: Classroom[]) {
 		this.classroomListSignal.set([...value]);
@@ -101,14 +101,14 @@ export class ContextService {
 	clearInstitutionList() {
 		this.institutionListSignal.set([]);
 		this.clearInstitution();
-		this.clearInstitutionRole();
+		this.clearInstitutionRoles();
 	}
 	clearInstitution() {
 		this.institutionSignal.set(undefined);
 		this.clearClassroomList();
 	}
-	clearInstitutionRole() {
-		this.institutionRoleSignal.set(undefined);
+	clearInstitutionRoles() {
+		this.institutionRolesSignal.set([]);
 	}
 	clearClassroomList() {
 		this.classroomListSignal.set([]);

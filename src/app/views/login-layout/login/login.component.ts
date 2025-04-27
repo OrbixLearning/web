@@ -53,7 +53,11 @@ export class LoginComponent {
 					this.router.navigate(['/']);
 				})
 				.catch(err => {
-					this.error = err.error;
+					if (err.status === 0) {
+						this.error = 'Sem conexão com a internet';
+					} else {
+						this.error = err.error;
+					}
 				})
 				.finally(() => {
 					this.isLoading = false;

@@ -16,8 +16,8 @@ export class InstitutionService {
 		return this.http.get<Institution[]>(`${this.api}/user`);
 	}
 
-	getInstitutionRole(id: string): Observable<InstitutionRoleEnum> {
-		return this.http.get<InstitutionRoleEnum>(`${this.api}/role/${id}`);
+	getInstitutionRoles(id: string): Observable<InstitutionRoleEnum[]> {
+		return this.http.get<InstitutionRoleEnum[]>(`${this.api}/role/${id}`);
 	}
 
 	update(id: string, name: string, primaryColor: string, secondaryColor: string): Observable<Institution> {
