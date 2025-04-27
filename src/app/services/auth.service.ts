@@ -19,10 +19,12 @@ export class AuthService {
 	}
 
 	login(email: string, password: string): Observable<any> {
+		email = email.trim().toLowerCase();
 		return this.http.post(`${this.api}/login`, { email, password });
 	}
 
 	register(firstName: string, surName: string, email: string, password: string): Observable<any> {
+		email = email.trim().toLowerCase();
 		return this.http.post(`${this.api}/register`, {
 			firstName,
 			surName,
@@ -37,6 +39,7 @@ export class AuthService {
 	}
 
 	forgotPassword(email: string): Observable<any> {
+		email = email.trim().toLowerCase();
 		return this.http.post(`${this.api}/forgot-password`, { email });
 	}
 
@@ -66,10 +69,12 @@ export class AuthService {
 	}
 
 	validateAccountLink(email: string): Observable<UserAccount> {
+		email = email.trim().toLowerCase();
 		return this.http.post<UserAccount>(`${this.api}/validate-account-link`, { email });
 	}
 
 	linkAccount(email: string, password: string): Observable<User> {
+		email = email.trim().toLowerCase();
 		return this.http.post<User>(`${this.api}/link-account`, { email, password });
 	}
 }
