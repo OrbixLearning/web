@@ -23,12 +23,9 @@ export class ContextService {
 	private classroomListSignal = signal<Classroom[] | undefined>(undefined);
 	private classroomSignal = signal<Classroom | undefined>(undefined);
 
-	public userLoading: Promise<any> | null = null;
 	public institutionListLoading: Promise<any> | null = null;
-	public institutionLoading: Promise<any> | null = null;
 	public institutionRolesLoading: Promise<any> | null = null;
 	public classroomListLoading: Promise<any> | null = null;
-	public classroomLoading: Promise<any> | null = null;
 
 	constructor() {
 		effect(() => {
@@ -43,13 +40,7 @@ export class ContextService {
 		effect(() => {
 			const institution = this.institutionSignal();
 			if (institution && institution.id) {
-				Promise.all([
-					lastValueFrom(this.classroomService.getClassrooms(institution.id)),
-					lastValueFrom(this.institutionService.getInstitutionRoles(institution.id)),
-				]).then(([classrooms, roles]) => {
-					this.classroomList = classrooms;
-					this.institutionRoles = roles;
-				});
+				Promise.all([this.loadClassroomList(), this.loadInstitutionRoles()]);
 				this.clearClassroom();
 			} else {
 				this.clearClassroomList();
@@ -124,8 +115,6 @@ export class ContextService {
 	}
 
 	// LOAD
-	// TODO: LOADS
-	async loadUser() {}
 	async loadInstitutionList() {
 		this.institutionListLoading = lastValueFrom(this.institutionService.getUserInstitutions());
 		await this.institutionListLoading.then((institutions: Institution[]) => {
@@ -133,8 +122,20 @@ export class ContextService {
 			this.institutionListLoading = null;
 		});
 	}
-	async loadInstitution() {}
-	async loadInstitutionRoles() {}
-	async loadClassroomList() {}
-	async loadClassroom() {}
+	async loadInstitutionRoles() {
+		this.institutionRolesLoading = lastValueFrom(
+			this.institutionService.getInstitutionRoles(this.institution!.id!),
+		);
+		await this.institutionRolesLoading.then((roles: InstitutionRoleEnum[]) => {
+			this.institutionRoles = roles;
+			this.institutionRolesLoading = null;
+		});
+	}
+	async loadClassroomList() {
+		this.classroomListLoading = lastValueFrom(this.classroomService.getClassrooms(this.institution!.id!));
+		await this.classroomListLoading.then((classrooms: Classroom[]) => {
+			this.classroomList = classrooms;
+			this.classroomListLoading = null;
+		});
+	}
 }
