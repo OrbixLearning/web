@@ -70,11 +70,15 @@ export class AuthService {
 
 	validateAccountLink(email: string): Observable<UserAccount> {
 		email = email.trim().toLowerCase();
-		return this.http.post<UserAccount>(`${this.api}/validate-account-link`, { email });
+		return this.http.post<UserAccount>(`${this.api}/link/validate-account-link`, { email });
 	}
 
 	linkAccount(email: string, password: string): Observable<User> {
 		email = email.trim().toLowerCase();
-		return this.http.post<User>(`${this.api}/link-account`, { email, password });
+		return this.http.post<User>(`${this.api}/link/link-account`, { email, password });
+	}
+
+	oAuthLinkAccount(code: string, redirectUri: string): Observable<User> {
+		return this.http.post<User>(`${this.api}/link/oauth-link-account`, { code, redirectUri });
 	}
 }
