@@ -17,19 +17,24 @@ export class ContextService {
 	classroomService: ClassroomService = inject(ClassroomService);
 
 	private userSignal = signal<User | undefined>(undefined);
-	private institutionListSignal = signal<Institution[]>([]);
+	private institutionListSignal = signal<Institution[] | undefined>(undefined);
 	private institutionSignal = signal<Institution | undefined>(undefined);
 	private institutionRolesSignal = signal<InstitutionRoleEnum[] | undefined>(undefined);
-	private classroomListSignal = signal<Classroom[]>([]);
+	private classroomListSignal = signal<Classroom[] | undefined>(undefined);
 	private classroomSignal = signal<Classroom | undefined>(undefined);
+
+	public userLoading: Promise<any> | null = null;
+	public institutionListLoading: Promise<any> | null = null;
+	public institutionLoading: Promise<any> | null = null;
+	public institutionRolesLoading: Promise<any> | null = null;
+	public classroomListLoading: Promise<any> | null = null;
+	public classroomLoading: Promise<any> | null = null;
 
 	constructor() {
 		effect(() => {
 			const user = this.userSignal();
 			if (user) {
-				lastValueFrom(this.institutionService.getUserInstitutions()).then((institutions: Institution[]) => {
-					this.institutionList = institutions;
-				});
+				this.loadInstitutionList();
 			} else {
 				this.clearInstitutionList();
 			}
@@ -57,7 +62,7 @@ export class ContextService {
 	get user(): User | undefined {
 		return this.userSignal();
 	}
-	get institutionList(): Institution[] {
+	get institutionList(): Institution[] | undefined {
 		return this.institutionListSignal();
 	}
 	get institution(): Institution | undefined {
@@ -66,7 +71,7 @@ export class ContextService {
 	get institutionRoles(): InstitutionRoleEnum[] | undefined {
 		return this.institutionRolesSignal();
 	}
-	get classroomList(): Classroom[] {
+	get classroomList(): Classroom[] | undefined {
 		return this.classroomListSignal();
 	}
 	get classroom(): Classroom | undefined {
@@ -77,17 +82,17 @@ export class ContextService {
 	set user(value: User | undefined) {
 		this.userSignal.set(value ? { ...value } : undefined);
 	}
-	set institutionList(value: Institution[]) {
-		this.institutionListSignal.set([...value]);
+	set institutionList(value: Institution[] | undefined) {
+		this.institutionListSignal.set(value ? [...value] : undefined);
 	}
 	set institution(value: Institution | undefined) {
 		this.institutionSignal.set(value ? { ...value } : undefined);
 	}
-	set institutionRoles(value: InstitutionRoleEnum[]) {
-		this.institutionRolesSignal.set([...value]);
+	set institutionRoles(value: InstitutionRoleEnum[] | undefined) {
+		this.institutionRolesSignal.set(value ? [...value] : undefined);
 	}
-	set classroomList(value: Classroom[]) {
-		this.classroomListSignal.set([...value]);
+	set classroomList(value: Classroom[] | undefined) {
+		this.classroomListSignal.set(value ? [...value] : undefined);
 	}
 	set classroom(value: Classroom | undefined) {
 		this.classroomSignal.set(value ? { ...value } : undefined);
@@ -99,7 +104,7 @@ export class ContextService {
 		this.clearInstitutionList();
 	}
 	clearInstitutionList() {
-		this.institutionListSignal.set([]);
+		this.institutionListSignal.set(undefined);
 		this.clearInstitution();
 		this.clearInstitutionRoles();
 	}
@@ -108,13 +113,28 @@ export class ContextService {
 		this.clearClassroomList();
 	}
 	clearInstitutionRoles() {
-		this.institutionRolesSignal.set([]);
+		this.institutionRolesSignal.set(undefined);
 	}
 	clearClassroomList() {
-		this.classroomListSignal.set([]);
+		this.classroomListSignal.set(undefined);
 		this.clearClassroom();
 	}
 	clearClassroom() {
 		this.classroomSignal.set(undefined);
 	}
+
+	// LOAD
+	// TODO: LOADS
+	async loadUser() {}
+	async loadInstitutionList() {
+		this.institutionListLoading = lastValueFrom(this.institutionService.getUserInstitutions());
+		await this.institutionListLoading.then((institutions: Institution[]) => {
+			this.institutionList = institutions;
+			this.institutionListLoading = null;
+		});
+	}
+	async loadInstitution() {}
+	async loadInstitutionRoles() {}
+	async loadClassroomList() {}
+	async loadClassroom() {}
 }

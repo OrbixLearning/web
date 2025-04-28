@@ -36,8 +36,9 @@ export class HeaderComponent {
 	}
 
 	get institutions(): Institution[] {
+		const institutionList = this.ctx.institutionList;
 		let arr: Institution[] = [{ id: null, name: 'Pessoal', logo: null, primaryColor: null, secondaryColor: null }];
-		arr.push(...this.ctx.institutionList);
+		arr.push(...(this.ctx.institutionList || []));
 		return arr;
 	}
 
