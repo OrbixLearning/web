@@ -30,6 +30,12 @@ export class InstitutionUsersComponent {
 	accounts: UserAccount[] = [];
 	totalRecords: number = 0;
 
+	get tableStyle() {
+		return {
+			'min-width': '50rem',
+		};
+	}
+
 	async getAccounts(event?: TableLazyLoadEvent) {
 		if (!this.ctx.institution?.id) return;
 

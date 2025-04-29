@@ -15,12 +15,13 @@
 	</div>
 </header>
 
+<!-- Filter -->
 <div class="ius-filter-div">
 	<!-- TODO: Add filter options here -->
 </div>
 
 <!-- Table -->
-<p-table [value]="accounts" [lazy]="true" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '50rem' }"
+<p-table [value]="accounts" [lazy]="true" [paginator]="true" [rows]="10" [tableStyle]="tableStyle"
 	[rowsPerPageOptions]="[5, 10, 20]" [showCurrentPageReport]="true" [loading]="isLoading"
 	currentPageReportTemplate="Página {currentPage} de {totalPages}" [alwaysShowPaginator]="false"
 	[showJumpToPageDropdown]="true" (onLazyLoad)="getAccounts($event)">
