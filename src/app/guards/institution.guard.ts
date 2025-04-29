@@ -11,7 +11,7 @@ export const institutionGuard: CanActivateFn = async (route, state) => {
 			throw new Error('Institution ID not found in route parameters');
 		}
 		if (ctx.institutionList === undefined) {
-			await ctx.institutionListLoading;
+			await ctx.loadInstitutionList();
 		}
 		if (!ctx.institutionList || ctx.institutionList.length === 0) {
 			throw new Error('Institution list is empty');

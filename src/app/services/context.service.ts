@@ -23,14 +23,14 @@ export class ContextService {
 	private classroomListSignal = signal<Classroom[] | undefined>(undefined);
 	private classroomSignal = signal<Classroom | undefined>(undefined);
 
-	public institutionListLoading: Promise<any> | null = null;
-	public institutionRolesLoading: Promise<any> | null = null;
-	public classroomListLoading: Promise<any> | null = null;
+	public institutionListLoading: boolean = false;
+	public institutionRolesLoading: boolean = false;
+	public classroomListLoading: boolean = false;
 
 	constructor() {
 		effect(() => {
 			const user = this.userSignal();
-			if (user) {
+			if (user && !this.institutionListLoading) {
 				this.loadInstitutionList();
 			} else {
 				this.clearInstitutionList();
@@ -116,26 +116,28 @@ export class ContextService {
 
 	// LOAD
 	async loadInstitutionList() {
-		this.institutionListLoading = lastValueFrom(this.institutionService.getUserInstitutions());
-		await this.institutionListLoading.then((institutions: Institution[]) => {
+		this.institutionListLoading = true;
+		await lastValueFrom(this.institutionService.getUserInstitutions()).then((institutions: Institution[]) => {
 			this.institutionList = institutions;
-			this.institutionListLoading = null;
+			this.institutionListLoading = false;
 		});
 	}
 	async loadInstitutionRoles() {
-		this.institutionRolesLoading = lastValueFrom(
-			this.institutionService.getInstitutionRoles(this.institution!.id!),
+		this.institutionRolesLoading = true;
+		await lastValueFrom(this.institutionService.getInstitutionRoles(this.institution!.id!)).then(
+			(roles: InstitutionRoleEnum[]) => {
+				this.institutionRoles = roles;
+				this.institutionRolesLoading = false;
+			},
 		);
-		await this.institutionRolesLoading.then((roles: InstitutionRoleEnum[]) => {
-			this.institutionRoles = roles;
-			this.institutionRolesLoading = null;
-		});
 	}
 	async loadClassroomList() {
-		this.classroomListLoading = lastValueFrom(this.classroomService.getClassrooms(this.institution!.id!));
-		await this.classroomListLoading.then((classrooms: Classroom[]) => {
-			this.classroomList = classrooms;
-			this.classroomListLoading = null;
-		});
+		this.classroomListLoading = true;
+		await lastValueFrom(this.classroomService.getClassrooms(this.institution!.id!)).then(
+			(classrooms: Classroom[]) => {
+				this.classroomList = classrooms;
+				this.classroomListLoading = false;
+			},
+		);
 	}
 }
