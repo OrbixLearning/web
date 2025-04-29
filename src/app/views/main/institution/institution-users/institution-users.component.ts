@@ -9,6 +9,8 @@ import { Page } from '../../../../models/Page';
 import { UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
 import { InstitutionService } from '../../../../services/institution.service';
+import { MatDialog } from '@angular/material/dialog';
+import { UserCreationPopUpComponent } from '../../../../components/pop-ups/user-creation-pop-up/user-creation-pop-up.component';
 
 @Component({
 	selector: 'o-institution-users',
@@ -21,6 +23,7 @@ export class InstitutionUsersComponent {
 	router: Router = inject(Router);
 	service: InstitutionService = inject(InstitutionService);
 	cd: ChangeDetectorRef = inject(ChangeDetectorRef);
+	dialog: MatDialog = inject(MatDialog);
 
 	isLoading: boolean = false;
 	page?: Page<UserAccount>;
@@ -50,11 +53,12 @@ export class InstitutionUsersComponent {
 		this.router.navigate(['/i/' + this.ctx.institution?.id + '/settings']);
 	}
 
-	createUser() {}
+	createUser() {
+		this.dialog
+			.open(UserCreationPopUpComponent, {})
+			.afterClosed()
+			.subscribe(res => {});
+	}
 
 	deleteSelectedUsers() {}
-
-	cancel() {}
-
-	async save() {}
 }

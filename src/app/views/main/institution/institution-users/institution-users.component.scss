@@ -1,0 +1,15 @@
+.ius-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	height: 60px;
+	margin-bottom: 30px;
+
+	div {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 30px;
+	}
+}
