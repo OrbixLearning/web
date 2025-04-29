@@ -30,8 +30,8 @@ export class ContextService {
 	constructor() {
 		effect(() => {
 			const user = this.userSignal();
-			if (user && !this.institutionListLoading) {
-				this.loadInstitutionList();
+			if (user) {
+				if (!this.institutionListLoading) this.loadInstitutionList();
 			} else {
 				this.clearInstitutionList();
 			}
