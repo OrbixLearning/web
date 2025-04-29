@@ -55,7 +55,7 @@ export class HeaderComponent {
 	}
 
 	get canConfigureInstitution(): boolean {
-		if (!this.ctx.institution?.id) {
+		if (!this.ctx.institution?.id || !this.ctx.institutionRoles) {
 			return false;
 		}
 		return (

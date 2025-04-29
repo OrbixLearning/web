@@ -1,1 +1,48 @@
-<p>institution-users works!</p>
+<!-- Header -->
+<header>
+	<button mat-icon-button (click)="goBack()">
+		<mat-icon>arrow_left</mat-icon>
+	</button>
+
+	<button mat-raised-button (click)="createUser()">
+		Criar usuário
+	</button>
+
+	<button mat-raised-button (click)="deleteSelectedUsers()">
+		Excluir usuários
+	</button>
+</header>
+
+<content>
+	<p-table [value]="accounts" [lazy]="true" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '50rem' }"
+		[rowsPerPageOptions]="[5, 10, 20]" [showCurrentPageReport]="true" [loading]="isLoading"
+		currentPageReportTemplate="Página {currentPage} de {totalPages}" [alwaysShowPaginator]="false"
+		[showJumpToPageDropdown]="true" (onLazyLoad)="getAccounts($event)">
+		<ng-template #header>
+			<tr>
+				<th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+				<th style="width:25%">Email</th>
+				<th style="width:25%">Nome</th>
+				<th style="width:25%">Cargo</th>
+			</tr>
+		</ng-template>
+		<ng-template #body let-account>
+			<tr>
+				<td> <p-tableCheckbox [value]="account" /> </td>
+				<td>{{ account.email }}</td>
+				<td>{{ account.user.firstName }} {{account.user.surName}}</td>
+				<td>{{ account.institutionRole }}</td>
+			</tr>
+		</ng-template>
+	</p-table>
+
+	<div>
+		<button mat-raised-button (click)="cancel()">
+			Cancelar
+		</button>
+
+		<button mat-raised-button (click)="save()">
+			Salvar
+		</button>
+	</div>
+</content>

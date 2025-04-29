@@ -1,9 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
 import { Institution } from '../models/Institution';
+import { Page } from '../models/Page';
+import { UserAccount } from '../models/User';
 
 @Injectable({
 	providedIn: 'root',
@@ -26,6 +28,12 @@ export class InstitutionService {
 			name,
 			primaryColor,
 			secondaryColor,
+		});
+	}
+
+	getInstitutionUsers(institutionId: string, page: number, size: number): Observable<Page<UserAccount>> {
+		return this.http.get<Page<UserAccount>>(`${this.api}/users/${institutionId}`, {
+			params: new HttpParams().set('page', page).set('size', size),
 		});
 	}
 }
