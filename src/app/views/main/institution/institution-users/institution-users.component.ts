@@ -22,7 +22,7 @@ import { UserService } from '../../../../services/user.service';
 
 @Component({
 	selector: 'o-institution-users',
-	imports: [MatButtonModule, MatIconModule, TableModule, SelectModule, FormsModule, RouterModule],
+	imports: [MatButtonModule, MatIconModule, TableModule, SelectModule, FormsModule, RouterModule, SelectModule],
 	templateUrl: './institution-users.component.html',
 	styleUrl: './institution-users.component.scss',
 })
@@ -38,9 +38,10 @@ export class InstitutionUsersComponent {
 	page?: Page<UserAccount>;
 	accounts: UserAccount[] = [];
 	totalRecords: number = 0;
-	institutionRoles: InstitutionRoleEnum[] = Object.values(InstitutionRoleEnum).filter(
+	roles: InstitutionRoleEnum[] = Object.values(InstitutionRoleEnum).filter(
 		ire => ire !== InstitutionRoleEnum.CREATOR,
 	);
+	rolesFilter?: InstitutionRoleEnum;
 	selectedUsers: UserAccount[] = [];
 	paginationFirst: number = 0;
 
@@ -53,6 +54,8 @@ export class InstitutionUsersComponent {
 
 	async getAccounts(event?: TableLazyLoadEvent) {
 		if (!this.ctx.institution?.id) return;
+
+		console.log('getAccounts', event);
 
 		let page;
 		let size;
