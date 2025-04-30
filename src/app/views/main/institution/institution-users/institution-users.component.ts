@@ -18,6 +18,7 @@ import { UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
 import { InstitutionService } from '../../../../services/institution.service';
 import { UserService } from '../../../../services/user.service';
+import { PasswordResetPopUpComponent } from '../../../../components/pop-ups/password-reset-pop-up/password-reset-pop-up.component';
 
 @Component({
 	selector: 'o-institution-users',
@@ -108,7 +109,9 @@ export class InstitutionUsersComponent {
 			});
 	}
 
-	resetPassword(account: UserAccount) {}
+	resetPassword(account: UserAccount) {
+		this.dialog.open(PasswordResetPopUpComponent, { data: account });
+	}
 
 	async updateInstitutionRole(accountId: string, newRole: InstitutionRoleEnum) {
 		this.isLoading = true;

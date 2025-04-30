@@ -31,4 +31,8 @@ export class UserService {
 	deleteUserAccounts(ids: string[]): Observable<void> {
 		return this.http.put<void>(`${this.api}/delete-accounts`, { ids });
 	}
+
+	resetUserAccountPassword(id: string, password: string): Observable<void> {
+		return this.http.put<void>(`${this.api}/account-password-reset`, { id, password });
+	}
 }

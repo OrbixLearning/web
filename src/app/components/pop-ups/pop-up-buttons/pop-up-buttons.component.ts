@@ -12,5 +12,6 @@ export class PopUpButtonsComponent {
 	@Input() cancelButton: string = 'Cancelar';
 	@Input() confirmButton: string = 'Confirmar';
 	@Input() disable: boolean = false;
+	@Input() type: 'button' | 'submit' | 'reset' = 'button';
 	@Output() confirm: EventEmitter<void> = new EventEmitter<void>();
 }
