@@ -10,8 +10,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
 import { AccountCardComponent } from '../../../components/account-card/account-card.component';
 import { GameCardComponent } from '../../../components/game-card/game-card.component';
-import { LinkAccountPopUpComponent } from '../../../components/pop-ups/link-account-pop-up/link-account-pop-up.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
+import { LinkAccountPopUpComponent } from '../../../components/pop-ups/link-account-pop-up/link-account-pop-up.component';
 import { InstitutionRoleEnum } from '../../../enums/InstitutionRole.enum';
 import { Institution } from '../../../models/Institution';
 import { User, UserAccount } from '../../../models/User';
@@ -99,7 +99,7 @@ export class ProfileComponent {
 	}
 
 	async getUserData() {
-		if (self) {
+		if (this.self) {
 			this.user = this.ctx.user;
 		} else {
 			this.isLoading = true;
