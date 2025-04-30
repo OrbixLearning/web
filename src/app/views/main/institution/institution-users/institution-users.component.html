@@ -21,10 +21,10 @@
 </div>
 
 <!-- Table -->
-<p-table [value]="accounts" [lazy]="true" [paginator]="true" [rows]="10" [tableStyle]="tableStyle"
-	[rowsPerPageOptions]="[5, 10, 20]" [showCurrentPageReport]="true" [loading]="isLoading"
-	currentPageReportTemplate="Página {currentPage} de {totalPages}" [alwaysShowPaginator]="false"
-	[showJumpToPageDropdown]="true" [(selection)]="selectedUsers" (onLazyLoad)="getAccounts($event)">
+<p-table [value]="accounts" size="small" [lazy]="true" (onLazyLoad)="getAccounts($event)" [loading]="isLoading"
+	[(selection)]="selectedUsers" [first]="paginationFirst" [paginator]="true" [rows]="10"
+	[rowsPerPageOptions]="[5, 10, 20, 30]" [showCurrentPageReport]="true" [totalRecords]="totalRecords"
+	currentPageReportTemplate="Página {currentPage} de {totalPages}" paginatorPosition="both" [tableStyle]="tableStyle">
 	<ng-template #header>
 		<tr>
 			<th style="width:5%"><p-tableHeaderCheckbox /></th>
@@ -52,7 +52,7 @@
 				</p-cellEditor>
 			</td>
 			<td>
-				<button mat-raised-button (click)="resetPassword(account)">
+				<button mat-raised-button (click)="resetPassword(account)" style="height: 30px">
 					Redefinir senha
 				</button>
 			</td>

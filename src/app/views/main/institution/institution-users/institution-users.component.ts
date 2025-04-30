@@ -11,6 +11,7 @@ import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { PasswordResetPopUpComponent } from '../../../../components/pop-ups/password-reset-pop-up/password-reset-pop-up.component';
 import { UserCreationPopUpComponent } from '../../../../components/pop-ups/user-creation-pop-up/user-creation-pop-up.component';
 import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
 import { Page } from '../../../../models/Page';
@@ -18,7 +19,6 @@ import { UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
 import { InstitutionService } from '../../../../services/institution.service';
 import { UserService } from '../../../../services/user.service';
-import { PasswordResetPopUpComponent } from '../../../../components/pop-ups/password-reset-pop-up/password-reset-pop-up.component';
 
 @Component({
 	selector: 'o-institution-users',
@@ -42,6 +42,7 @@ export class InstitutionUsersComponent {
 		ire => ire !== InstitutionRoleEnum.CREATOR,
 	);
 	selectedUsers: UserAccount[] = [];
+	paginationFirst: number = 0;
 
 	get tableStyle() {
 		return {
@@ -56,7 +57,7 @@ export class InstitutionUsersComponent {
 		let page;
 		let size;
 		if (event?.first !== undefined && event?.rows != undefined) {
-			page = event.first;
+			page = event.first / event.rows;
 			size = event.rows;
 		} else {
 			page = this.page?.number || 0;
