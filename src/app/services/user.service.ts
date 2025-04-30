@@ -35,4 +35,22 @@ export class UserService {
 	resetUserAccountPassword(id: string, password: string): Observable<void> {
 		return this.http.put<void>(`${this.api}/account-password-reset`, { id, password });
 	}
+
+	createInstitutionalAccount(
+		email: string,
+		firstName: string,
+		surName: string,
+		password: string,
+		institutionId: string,
+		role: InstitutionRoleEnum,
+	): Observable<UserAccount> {
+		return this.http.post<UserAccount>(this.api, {
+			email,
+			firstName,
+			surName,
+			password,
+			institutionId,
+			role,
+		});
+	}
 }

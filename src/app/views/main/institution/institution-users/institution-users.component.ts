@@ -78,9 +78,13 @@ export class InstitutionUsersComponent {
 
 	createUser() {
 		this.dialog
-			.open(UserCreationPopUpComponent, {})
+			.open(UserCreationPopUpComponent)
 			.afterClosed()
-			.subscribe(res => {});
+			.subscribe(async res => {
+				if (res) {
+					await this.getAccounts();
+				}
+			});
 	}
 
 	deleteSelectedUsers() {

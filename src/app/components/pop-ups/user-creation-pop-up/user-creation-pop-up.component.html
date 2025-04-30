@@ -1,1 +1,56 @@
-<p>user-creation-pop-up works!</p>
+<o-pop-up-header [title]="'Criar usuário para ' + ctx.institution?.name" />
+
+<o-loading [isLoading]="isLoading" />
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+	<div class="ucpu-form-div">
+		<div class="ucpu-form-column">
+			<mat-form-field appearance="fill" subscriptSizing="dynamic">
+				<mat-label>Nome</mat-label>
+				<input matInput type="text" name="firsName" formControlName="firstName" />
+			</mat-form-field>
+			<mat-form-field appearance="fill" subscriptSizing="dynamic">
+				<mat-label>Email</mat-label>
+				<input matInput type="email" name="email" formControlName="email" />
+			</mat-form-field>
+			<mat-form-field appearance="fill" subscriptSizing="dynamic">
+				<mat-label>Senha</mat-label>
+				<input matInput [type]="hidePassword ? 'password' : 'text'" name="password"
+					formControlName="password" />
+				<mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' :
+					'visibility'}}</mat-icon>
+			</mat-form-field>
+		</div>
+
+		<div class="ucpu-form-column">
+			<mat-form-field appearance="fill" subscriptSizing="dynamic">
+				<mat-label>Sobrenome</mat-label>
+				<input matInput type="text" name="surName" formControlName="surName" />
+			</mat-form-field>
+			<mat-form-field appearance="fill" subscriptSizing="dynamic">
+				<mat-label>Cargo</mat-label>
+				<mat-select formControlName="role" name="role">
+					@for (role of roles; track role) {
+					<mat-option [value]="role">{{role}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+			<mat-form-field appearance="fill" subscriptSizing="dynamic">
+				<mat-label>Confirmar Senha</mat-label>
+				<input matInput [type]="hidePasswordConfirmation ? 'password' : 'text'" name="passwordConfirmation"
+					formControlName="passwordConfirmation" />
+				<mat-icon matSuffix
+					(click)="hidePasswordConfirmation = !hidePasswordConfirmation">{{hidePasswordConfirmation ?
+					'visibility_off' : 'visibility'}}</mat-icon>
+			</mat-form-field>
+			@if (error !== '') {
+			<div class="ucpu-error-div">
+				<span>{{error}}</span>
+			</div>
+			}
+		</div>
+	</div>
+
+	<o-pop-up-buttons [disable]="isLoading || form.invalid" type="submit" confirmButton="Redefinir senha" />
+</form>
