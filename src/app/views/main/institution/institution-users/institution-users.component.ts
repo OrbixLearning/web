@@ -1,20 +1,27 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SelectModule } from 'primeng/select';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { lastValueFrom } from 'rxjs';
+import {
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
+} from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { UserCreationPopUpComponent } from '../../../../components/pop-ups/user-creation-pop-up/user-creation-pop-up.component';
+import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
 import { Page } from '../../../../models/Page';
 import { UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
 import { InstitutionService } from '../../../../services/institution.service';
-import { MatDialog } from '@angular/material/dialog';
-import { UserCreationPopUpComponent } from '../../../../components/pop-ups/user-creation-pop-up/user-creation-pop-up.component';
+import { UserService } from '../../../../services/user.service';
 
 @Component({
 	selector: 'o-institution-users',
-	imports: [MatButtonModule, MatIconModule, TableModule, SelectModule],
+	imports: [MatButtonModule, MatIconModule, TableModule, SelectModule, FormsModule, RouterModule],
 	templateUrl: './institution-users.component.html',
 	styleUrl: './institution-users.component.scss',
 })
@@ -22,6 +29,7 @@ export class InstitutionUsersComponent {
 	ctx: ContextService = inject(ContextService);
 	router: Router = inject(Router);
 	service: InstitutionService = inject(InstitutionService);
+	userService: UserService = inject(UserService);
 	cd: ChangeDetectorRef = inject(ChangeDetectorRef);
 	dialog: MatDialog = inject(MatDialog);
 
@@ -29,18 +37,30 @@ export class InstitutionUsersComponent {
 	page?: Page<UserAccount>;
 	accounts: UserAccount[] = [];
 	totalRecords: number = 0;
+	institutionRoles: InstitutionRoleEnum[] = Object.values(InstitutionRoleEnum).filter(
+		ire => ire !== InstitutionRoleEnum.CREATOR,
+	);
+	selectedUsers: UserAccount[] = [];
 
 	get tableStyle() {
 		return {
 			'min-width': '50rem',
+			'margin-bottom': '140px', // To avoid the scroll when editing a cell
 		};
 	}
 
 	async getAccounts(event?: TableLazyLoadEvent) {
 		if (!this.ctx.institution?.id) return;
 
-		const page = event?.first ? event?.first / event?.rows! : 0;
-		const size = event?.rows || 10;
+		let page;
+		let size;
+		if (event?.first !== undefined && event?.rows != undefined) {
+			page = event.first;
+			size = event.rows;
+		} else {
+			page = this.page?.number || 0;
+			size = this.page?.size || 10;
+		}
 
 		this.isLoading = true;
 		this.cd.detectChanges();
@@ -55,10 +75,6 @@ export class InstitutionUsersComponent {
 			});
 	}
 
-	goBack() {
-		this.router.navigate(['/i/' + this.ctx.institution?.id + '/settings']);
-	}
-
 	createUser() {
 		this.dialog
 			.open(UserCreationPopUpComponent, {})
@@ -66,5 +82,44 @@ export class InstitutionUsersComponent {
 			.subscribe(res => {});
 	}
 
-	deleteSelectedUsers() {}
+	deleteSelectedUsers() {
+		let data: ConfirmPopUpData = {
+			title: `Tem certeza que deseja excluir ${this.selectedUsers.length} usuário${
+				this.selectedUsers.length > 1 ? 's' : ''
+			}?`,
+			message: `Essa ação não pode ser desfeita!`,
+			confirmButton: 'Excluir',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async r => {
+				if (r) {
+					this.isLoading = true;
+					this.cd.detectChanges();
+					await lastValueFrom(this.userService.deleteUserAccounts(this.selectedUsers.map(u => u.id)))
+						.then(() => {
+							this.getAccounts();
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				}
+			});
+	}
+
+	resetPassword(account: UserAccount) {}
+
+	async updateInstitutionRole(accountId: string, newRole: InstitutionRoleEnum) {
+		this.isLoading = true;
+		this.cd.detectChanges();
+		await lastValueFrom(this.userService.updateUserInstitutionRole(accountId, newRole))
+			.then(() => {})
+			.catch(async () => {
+				await this.getAccounts();
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
 }

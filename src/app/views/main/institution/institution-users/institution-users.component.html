@@ -1,15 +1,15 @@
 <!-- Header -->
 <header class="ius-header">
-	<button mat-icon-button (click)="goBack()">
+	<button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/settings']">
 		<mat-icon>arrow_back</mat-icon>
 	</button>
 
 	<div>
 		<button mat-raised-button (click)="createUser()">
-			Criar usuário
+			Criar usuários
 		</button>
 
-		<button mat-raised-button (click)="deleteSelectedUsers()">
+		<button mat-raised-button [disabled]="selectedUsers.length === 0" (click)="deleteSelectedUsers()">
 			Excluir usuários
 		</button>
 	</div>
@@ -24,21 +24,43 @@
 <p-table [value]="accounts" [lazy]="true" [paginator]="true" [rows]="10" [tableStyle]="tableStyle"
 	[rowsPerPageOptions]="[5, 10, 20]" [showCurrentPageReport]="true" [loading]="isLoading"
 	currentPageReportTemplate="Página {currentPage} de {totalPages}" [alwaysShowPaginator]="false"
-	[showJumpToPageDropdown]="true" (onLazyLoad)="getAccounts($event)">
+	[showJumpToPageDropdown]="true" [(selection)]="selectedUsers" (onLazyLoad)="getAccounts($event)">
 	<ng-template #header>
 		<tr>
-			<th><p-tableHeaderCheckbox /></th>
-			<th style="width:30%">Email</th>
-			<th style="width:30%">Nome</th>
-			<th style="width:30%">Cargo</th>
+			<th style="width:5%"><p-tableHeaderCheckbox /></th>
+			<th style="width:25%">Email</th>
+			<th style="width:25%">Nome</th>
+			<th style="width:20%">Cargo</th>
+			<th style="width:20%">Senha</th>
+			<th style="width:5%">Perfil</th>
 		</tr>
 	</ng-template>
-	<ng-template #body let-account>
+	<ng-template #body let-account let-editing="editing">
 		<tr>
 			<td> <p-tableCheckbox [value]="account" /> </td>
 			<td>{{ account.email }}</td>
 			<td>{{ account.user.firstName }} {{account.user.surName}}</td>
-			<td>{{ account.institutionRole }}</td>
+			<td [pEditableColumn]="account.institutionRole" pEditableColumnField="institutionRole">
+				<p-cellEditor>
+					<ng-template #input>
+						<p-select [options]="institutionRoles" [(ngModel)]="account.institutionRole" [checkmark]="true"
+							(onChange)="updateInstitutionRole(account.id, $event.value)" />
+					</ng-template>
+					<ng-template #output>
+						{{ account.institutionRole }}
+					</ng-template>
+				</p-cellEditor>
+			</td>
+			<td>
+				<button mat-raised-button (click)="resetPassword(account)">
+					Redefinir senha
+				</button>
+			</td>
+			<td>
+				<button mat-icon-button [routerLink]="['/profile/' + account.user.id]">
+					<mat-icon>person</mat-icon>
+				</button>
+			</td>
 		</tr>
 	</ng-template>
 </p-table>

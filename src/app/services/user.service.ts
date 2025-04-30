@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { User } from '../models/User';
+import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
+import { User, UserAccount } from '../models/User';
 
 @Injectable({
 	providedIn: 'root',
@@ -21,5 +22,13 @@ export class UserService {
 
 	update(firstName: string, surName: string): Observable<User> {
 		return this.http.put<User>(this.api, { firstName, surName });
+	}
+
+	updateUserInstitutionRole(id: string, role: InstitutionRoleEnum): Observable<UserAccount> {
+		return this.http.put<UserAccount>(`${this.api}/institution-role`, { id, role });
+	}
+
+	deleteUserAccounts(ids: string[]): Observable<void> {
+		return this.http.put<void>(`${this.api}/delete-accounts`, { ids });
 	}
 }
