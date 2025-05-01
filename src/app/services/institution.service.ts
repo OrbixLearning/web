@@ -30,10 +30,4 @@ export class InstitutionService {
 			secondaryColor,
 		});
 	}
-
-	getInstitutionUsers(institutionId: string, page: number, size: number): Observable<Page<UserAccount>> {
-		return this.http.get<Page<UserAccount>>(`${this.api}/users/${institutionId}`, {
-			params: new HttpParams().set('page', page).set('size', size),
-		});
-	}
 }

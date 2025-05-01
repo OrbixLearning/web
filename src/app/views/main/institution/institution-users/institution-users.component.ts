@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
+import { FilterMetadata } from 'primeng/api';
 import { SelectModule } from 'primeng/select';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { lastValueFrom } from 'rxjs';
@@ -55,8 +56,6 @@ export class InstitutionUsersComponent {
 	async getAccounts(event?: TableLazyLoadEvent) {
 		if (!this.ctx.institution?.id) return;
 
-		console.log('getAccounts', event);
-
 		let page;
 		let size;
 		if (event?.first !== undefined && event?.rows != undefined) {
@@ -67,9 +66,15 @@ export class InstitutionUsersComponent {
 			size = this.page?.size || 10;
 		}
 
+		let emailFilter: string = (event?.filters?.['email'] as FilterMetadata)?.value || '';
+		let nameFilter: string = (event?.filters?.['name'] as FilterMetadata)?.value || '';
+		let roleFilter: InstitutionRoleEnum = (event?.filters?.['role'] as FilterMetadata)?.value || '';
+
 		this.isLoading = true;
 		this.cd.detectChanges();
-		await lastValueFrom(this.service.getInstitutionUsers(this.ctx.institution.id, page, size))
+		await lastValueFrom(
+			this.userService.getInstitutionUsers(this.ctx.institution.id, page, size, emailFilter, nameFilter, roleFilter),
+		)
 			.then((res: Page<UserAccount>) => {
 				this.page = res;
 				this.accounts = this.page.content;

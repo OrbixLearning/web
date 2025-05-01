@@ -39,7 +39,7 @@
 				<p-columnFilter [showMenu]="false" type="text" field="name" placeholder="Filtrar nome" />
 			</th>
 			<th>
-				<p-columnFilter field="institutionRole" matchMode="equals" [showMenu]="false">
+				<p-columnFilter field="role" matchMode="equals" [showMenu]="false">
 					<ng-template #filter let-filter="filterCallback">
 						<p-select [options]="roles" [(ngModel)]="rolesFilter" placeholder="Filtrar cargo"
 							[showClear]="true" (onChange)="filter($event.value)" />
