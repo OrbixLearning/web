@@ -15,11 +15,6 @@
 	</div>
 </header>
 
-<!-- Filter -->
-<div class="ius-filter-div">
-	<!-- TODO: Add filter options here -->
-</div>
-
 <!-- Table -->
 <p-table [value]="accounts" size="small" dataKey="id" [lazy]="true" (onLazyLoad)="getAccounts($event)"
 	[loading]="isLoading" [(selection)]="selectedUsers" [first]="paginationFirst" [paginator]="true" [rows]="10"

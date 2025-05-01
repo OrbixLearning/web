@@ -133,7 +133,7 @@ export class ContextService {
 	}
 	async loadClassroomList() {
 		this.classroomListLoading = true;
-		await lastValueFrom(this.classroomService.getClassrooms(this.institution!.id!)).then(
+		await lastValueFrom(this.classroomService.getUserClassrooms(this.institution!.id!)).then(
 			(classrooms: Classroom[]) => {
 				this.classroomList = classrooms;
 				this.classroomListLoading = false;

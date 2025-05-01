@@ -18,20 +18,18 @@ import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
 import { Page } from '../../../../models/Page';
 import { UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
-import { InstitutionService } from '../../../../services/institution.service';
 import { UserService } from '../../../../services/user.service';
 
 @Component({
 	selector: 'o-institution-users',
-	imports: [MatButtonModule, MatIconModule, TableModule, SelectModule, FormsModule, RouterModule, SelectModule],
+	imports: [MatButtonModule, MatIconModule, TableModule, SelectModule, FormsModule, RouterModule],
 	templateUrl: './institution-users.component.html',
 	styleUrl: './institution-users.component.scss',
 })
 export class InstitutionUsersComponent {
 	ctx: ContextService = inject(ContextService);
 	router: Router = inject(Router);
-	service: InstitutionService = inject(InstitutionService);
-	userService: UserService = inject(UserService);
+	service: UserService = inject(UserService);
 	cd: ChangeDetectorRef = inject(ChangeDetectorRef);
 	dialog: MatDialog = inject(MatDialog);
 
@@ -74,7 +72,7 @@ export class InstitutionUsersComponent {
 		this.isLoading = true;
 		this.cd.detectChanges();
 		await lastValueFrom(
-			this.userService.getInstitutionUsers(
+			this.service.getInstitutionUsers(
 				this.ctx.institution.id,
 				page,
 				size,
@@ -120,8 +118,9 @@ export class InstitutionUsersComponent {
 				if (r) {
 					this.isLoading = true;
 					this.cd.detectChanges();
-					await lastValueFrom(this.userService.deleteUserAccounts(this.selectedUsers.map(u => u.id)))
+					await lastValueFrom(this.service.deleteUserAccounts(this.selectedUsers.map(u => u.id)))
 						.then(() => {
+							this.selectedUsers = [];
 							this.getAccounts();
 						})
 						.finally(() => {
@@ -138,7 +137,7 @@ export class InstitutionUsersComponent {
 	async updateInstitutionRole(accountId: string, newRole: InstitutionRoleEnum) {
 		this.isLoading = true;
 		this.cd.detectChanges();
-		await lastValueFrom(this.userService.updateUserInstitutionRole(accountId, newRole))
+		await lastValueFrom(this.service.updateUserInstitutionRole(accountId, newRole))
 			.then(() => {})
 			.catch(async () => {
 				await this.getAccounts();
