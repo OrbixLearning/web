@@ -15,8 +15,9 @@ export class AccountCardComponent {
 	service: UserService = inject(UserService);
 
 	@Input() email?: string;
-	@Input() institution?: Institution;
-	@Input() institutionRole?: InstitutionRoleEnum;
+	@Input() institution?: Institution | null;
+	@Input() institutionRole?: InstitutionRoleEnum | null;
+	@Input() idInInstitution?: string | null;
 
 	amountOfClassrooms?: number;
 	isLoading: boolean = false;

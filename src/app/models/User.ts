@@ -17,8 +17,9 @@ export type UserAccount = {
 	id: string;
 	email: string;
 	authMethod: AuthMethodEnum;
-	institution: Institution;
-	institutionRole: InstitutionRoleEnum;
+	institution: Institution | null;
+	institutionRole: InstitutionRoleEnum | null;
+	idInInstitution: string | null;
 	user: User;
 	active: boolean;
 };

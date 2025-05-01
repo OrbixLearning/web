@@ -66,6 +66,7 @@ export class InstitutionUsersComponent {
 			size = this.page?.size || 10;
 		}
 
+		let idInInstitutionFilter: string = (event?.filters?.['idInInstitution'] as FilterMetadata)?.value || '';
 		let emailFilter: string = (event?.filters?.['email'] as FilterMetadata)?.value || '';
 		let nameFilter: string = (event?.filters?.['name'] as FilterMetadata)?.value || '';
 		let roleFilter: InstitutionRoleEnum = (event?.filters?.['role'] as FilterMetadata)?.value || '';
@@ -73,7 +74,15 @@ export class InstitutionUsersComponent {
 		this.isLoading = true;
 		this.cd.detectChanges();
 		await lastValueFrom(
-			this.userService.getInstitutionUsers(this.ctx.institution.id, page, size, emailFilter, nameFilter, roleFilter),
+			this.userService.getInstitutionUsers(
+				this.ctx.institution.id,
+				page,
+				size,
+				idInInstitutionFilter,
+				emailFilter,
+				nameFilter,
+				roleFilter,
+			),
 		)
 			.then((res: Page<UserAccount>) => {
 				this.page = res;

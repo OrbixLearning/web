@@ -42,6 +42,7 @@ export class UserCreationPopUpComponent {
 		email: ['', [Validators.required, Validators.email]],
 		name: ['', Validators.required],
 		role: [InstitutionRoleEnum.STUDENT, Validators.required],
+		idInInstitution: ['', Validators.required],
 		password: ['', Validators.required],
 		passwordConfirmation: ['', Validators.required],
 	});
@@ -73,6 +74,7 @@ export class UserCreationPopUpComponent {
 					this.getFormControl('name').value,
 					this.getFormControl('password').value,
 					this.ctx.institution!.id!,
+					this.getFormControl('idInInstitution').value,
 					this.getFormControl('role').value,
 				),
 			)

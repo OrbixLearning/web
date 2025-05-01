@@ -3,8 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
-import { User, UserAccount } from '../models/User';
 import { Page } from '../models/Page';
+import { User, UserAccount } from '../models/User';
 
 @Injectable({
 	providedIn: 'root',
@@ -43,6 +43,7 @@ export class UserService {
 		password: string,
 		institutionId: string,
 		role: InstitutionRoleEnum,
+		idInInstitution: string,
 	): Observable<UserAccount> {
 		return this.http.post<UserAccount>(this.api, {
 			email,
@@ -50,6 +51,7 @@ export class UserService {
 			password,
 			institutionId,
 			role,
+			idInInstitution,
 		});
 	}
 
@@ -57,6 +59,7 @@ export class UserService {
 		institutionId: string,
 		page: number,
 		size: number,
+		idInInstitutionFilter: string,
 		emailFilter: string,
 		nameFilter: string,
 		roleFilter: InstitutionRoleEnum,
@@ -64,6 +67,7 @@ export class UserService {
 		let params = new HttpParams()
 			.set('page', page)
 			.set('size', size)
+			.set('idInInstitution', idInInstitutionFilter)
 			.set('email', emailFilter)
 			.set('name', nameFilter)
 			.set('role', roleFilter);

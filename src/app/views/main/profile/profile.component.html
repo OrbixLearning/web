@@ -44,7 +44,7 @@
 
 			@for (account of sortedAccounts; track account.id) {
 			<o-account-card [email]="account.email" [institution]="account.institution"
-				[institutionRole]="account.institutionRole" />
+				[institutionRole]="account.institutionRole" [idInInstitution]="account.idInInstitution" />
 			}
 
 			@if (self) {
