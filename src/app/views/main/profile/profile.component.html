@@ -21,17 +21,12 @@
 		@if (self) {
 		<div class="name-div">
 			<mat-form-field subscriptSizing="dynamic" appearance="outline">
-				<mat-label>Nome</mat-label>
-				<input matInput name="firstName" formControlName="firstName" required />
-			</mat-form-field>
-
-			<mat-form-field subscriptSizing="dynamic" appearance="outline">
-				<mat-label>Sobrenome</mat-label>
-				<input matInput name="surName" formControlName="surName" required />
+				<mat-label>Nome completo</mat-label>
+				<input matInput name="name" formControlName="name" required />
 			</mat-form-field>
 		</div>
 		} @else {
-		<p class="name-p">{{user?.firstName}} {{user?.surName}}</p>
+		<p class="name-p">{{user?.name}}</p>
 		}
 
 		@if (self) {

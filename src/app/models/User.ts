@@ -6,8 +6,7 @@ import { Role } from './Role';
 export type User = {
 	id: string;
 	accounts: UserAccount[];
-	firstName: string;
-	surName: string;
+	name: string;
 	role: Role;
 	profilePicture: string | null;
 

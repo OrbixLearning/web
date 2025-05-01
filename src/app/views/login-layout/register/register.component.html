@@ -12,12 +12,8 @@
 <!-- Register Form -->
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
 	<mat-form-field appearance="fill" subscriptSizing="dynamic">
-		<mat-label>Nome</mat-label>
-		<input matInput type="text" name="firsName" formControlName="firstName" />
-	</mat-form-field>
-	<mat-form-field appearance="fill" subscriptSizing="dynamic">
-		<mat-label>Sobrenome</mat-label>
-		<input matInput type="text" name="surName" formControlName="surName" />
+		<mat-label>Nome completo</mat-label>
+		<input matInput type="text" name="name" formControlName="name" />
 	</mat-form-field>
 	<mat-form-field appearance="fill" subscriptSizing="dynamic">
 		<mat-label>Email</mat-label>

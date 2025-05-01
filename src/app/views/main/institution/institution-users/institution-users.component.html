@@ -67,7 +67,7 @@
 		<tr>
 			<td> <p-tableCheckbox [value]="account" /> </td>
 			<td>{{ account.email }}</td>
-			<td>{{ account.user.firstName }} {{account.user.surName}}</td>
+			<td>{{ account.user.name }}</td>
 			<td [pEditableColumn]="account.institutionRole" pEditableColumnField="institutionRole">
 				<p-cellEditor>
 					<ng-template #input>
@@ -90,6 +90,6 @@
 				</button>
 			</td>
 		</tr>
-		
+
 	</ng-template>
 </p-table>

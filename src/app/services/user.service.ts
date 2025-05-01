@@ -20,8 +20,8 @@ export class UserService {
 		return this.http.get<number>(`${this.api}/classrooms-amount/${id}`);
 	}
 
-	update(firstName: string, surName: string): Observable<User> {
-		return this.http.put<User>(this.api, { firstName, surName });
+	update(name: string): Observable<User> {
+		return this.http.put<User>(this.api, { name });
 	}
 
 	updateUserInstitutionRole(id: string, role: InstitutionRoleEnum): Observable<UserAccount> {
@@ -38,16 +38,14 @@ export class UserService {
 
 	createInstitutionalAccount(
 		email: string,
-		firstName: string,
-		surName: string,
+		name: string,
 		password: string,
 		institutionId: string,
 		role: InstitutionRoleEnum,
 	): Observable<UserAccount> {
 		return this.http.post<UserAccount>(this.api, {
 			email,
-			firstName,
-			surName,
+			name,
 			password,
 			institutionId,
 			role,

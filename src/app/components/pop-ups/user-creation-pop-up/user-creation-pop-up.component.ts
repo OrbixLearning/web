@@ -40,8 +40,7 @@ export class UserCreationPopUpComponent {
 	isLoading: boolean = false;
 	form: FormGroup = this.formBuilder.group({
 		email: ['', [Validators.required, Validators.email]],
-		firstName: ['', Validators.required],
-		surName: ['', Validators.required],
+		name: ['', Validators.required],
 		role: [InstitutionRoleEnum.STUDENT, Validators.required],
 		password: ['', Validators.required],
 		passwordConfirmation: ['', Validators.required],
@@ -71,8 +70,7 @@ export class UserCreationPopUpComponent {
 			await lastValueFrom(
 				this.userService.createInstitutionalAccount(
 					this.getFormControl('email').value,
-					this.getFormControl('firstName').value,
-					this.getFormControl('surName').value,
+					this.getFormControl('name').value,
 					this.getFormControl('password').value,
 					this.ctx.institution!.id!,
 					this.getFormControl('role').value,

@@ -74,11 +74,7 @@ export class ProfileComponent {
 		if (this.form.invalid) {
 			return true;
 		}
-		if (
-			this.getFormControl('firstName').value === this.ctx.user?.firstName &&
-			this.getFormControl('surName').value === this.ctx.user?.surName &&
-			this.picture === undefined
-		) {
+		if (this.getFormControl('name').value === this.ctx.user?.name && this.picture === undefined) {
 			return true;
 		}
 		return false;
@@ -116,8 +112,7 @@ export class ProfileComponent {
 
 	resetForm() {
 		this.form = this.formBuilder.group({
-			firstName: [this.user?.firstName, Validators.required],
-			surName: [this.user?.surName, Validators.required],
+			name: [this.user?.name, Validators.required],
 		});
 		this.picture = undefined;
 	}
@@ -144,9 +139,7 @@ export class ProfileComponent {
 	async onSubmit() {
 		if (this.form.valid) {
 			this.isLoading = true;
-			await lastValueFrom(
-				this.service.update(this.getFormControl('firstName').value, this.getFormControl('surName').value),
-			)
+			await lastValueFrom(this.service.update(this.getFormControl('name').value))
 				.then((user: User) => {
 					this.ctx.user = user;
 					this.getUserData();
