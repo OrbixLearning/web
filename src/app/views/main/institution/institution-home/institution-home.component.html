@@ -1,1 +1,5 @@
-<p>institution-home works!</p>
+<div class="institution-home">
+	@for (classroom of ctx.classroomList; track classroom.id) {
+	<o-classroom-card [classroom]="classroom" (cardClick)="goToClassroom($event)" />
+	}
+</div>
