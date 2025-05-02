@@ -47,14 +47,6 @@ export class HeaderComponent {
 		return this.ctx.institution?.logo || 'assets/placeholder/logo.png';
 	}
 
-	get homeUrl(): string {
-		if (this.ctx.institution?.id) {
-			return '/i/' + this.ctx.institution.id;
-		} else {
-			return '/';
-		}
-	}
-
 	get canConfigureInstitution(): boolean {
 		if (!this.ctx.institution?.id || !this.ctx.institutionRoles) {
 			return false;
@@ -63,14 +55,6 @@ export class HeaderComponent {
 			this.ctx.institutionRoles!.includes(InstitutionRoleEnum.ADMIN) ||
 			this.ctx.institutionRoles!.includes(InstitutionRoleEnum.CREATOR)
 		);
-	}
-
-	get settingsUrl(): string {
-		if (this.ctx.institution?.id) {
-			return '/i/' + this.ctx.institution.id + '/settings';
-		} else {
-			return '/settings';
-		}
 	}
 
 	changeInstitution(institution: Institution) {
@@ -82,6 +66,26 @@ export class HeaderComponent {
 		}
 	}
 
-	onNotifications() {}
-	onSettings() {}
+	goToSettings() {
+		this.ctx.clearClassroom();
+		if (this.ctx.institution?.id) {
+			this.router.navigate(['/i/' + this.ctx.institution.id + '/settings']);
+		} else {
+			this.router.navigate(['/settings']);
+		}
+	}
+
+	goToHome() {
+		this.ctx.clearClassroom();
+		if (this.ctx.institution?.id) {
+			this.router.navigate(['/i/' + this.ctx.institution.id]);
+		} else {
+			this.router.navigate(['/']);
+		}
+	}
+
+	goToProfile() {
+		this.ctx.clearClassroom();
+		this.router.navigate(['/profile/' + this.ctx.user?.id]);
+	}
 }

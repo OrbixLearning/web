@@ -53,6 +53,6 @@ export class SidebarComponent {
 
 	goToClassroom(classroom: Classroom) {
 		this.ctx.classroom = classroom;
-		this.router.navigate(['/i/' + this.ctx.institution?.id + '/c/', classroom.id]);
+		this.router.navigate(['/i/' + this.ctx.classroom?.institution.id + '/c/', classroom.id]);
 	}
 }

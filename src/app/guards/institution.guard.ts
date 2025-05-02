@@ -20,6 +20,9 @@ export const institutionGuard: CanActivateFn = async (route, state) => {
 		if (!institution) {
 			throw new Error('Institution not found in list');
 		}
+		if (ctx.institution?.id !== institutionId) {
+			ctx.clearClassroom();
+		}
 		ctx.institution = institution;
 		return true;
 	} catch (e) {

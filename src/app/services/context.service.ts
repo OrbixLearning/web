@@ -44,7 +44,6 @@ export class ContextService {
 			const institution = this.institutionSignal();
 			if (institution && institution.id) {
 				Promise.all([this.loadClassroomList(), this.loadInstitutionRoles()]);
-				this.clearClassroom();
 			} else {
 				this.clearClassroomList();
 				this.clearInstitutionRoles();
