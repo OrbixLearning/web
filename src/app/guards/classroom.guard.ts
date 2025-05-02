@@ -11,16 +11,19 @@ export const classroomGuard: CanActivateFn = async (route, state) => {
 			throw new Error('Classroom ID not found in route parameters');
 		}
 		if (ctx.classroomList === undefined) {
-			await ctx.classroomListLoading;
+			await ctx.loadClassroomList();
 		}
 		if (!ctx.classroomList || ctx.classroomList.length === 0) {
 			throw new Error('Classroom list is empty');
 		}
-		if (!ctx.classroomList.some(i => i.id === classroomId)) {
+		let classroom = ctx.classroomList.find(i => i.id === classroomId);
+		if (!classroom) {
 			throw new Error('Classroom not found in list');
 		}
+		ctx.classroom = classroom;
 		return true;
 	} catch (e) {
+		ctx.clearClassroom();
 		let institutionId = route.params['institutionId'];
 		router.navigateByUrl('/i/' + institutionId);
 		return false;

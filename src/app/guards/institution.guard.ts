@@ -16,11 +16,14 @@ export const institutionGuard: CanActivateFn = async (route, state) => {
 		if (!ctx.institutionList || ctx.institutionList.length === 0) {
 			throw new Error('Institution list is empty');
 		}
-		if (!ctx.institutionList.some(i => i.id === institutionId)) {
+		let institution = ctx.institutionList.find(i => i.id === institutionId);
+		if (!institution) {
 			throw new Error('Institution not found in list');
 		}
+		ctx.institution = institution;
 		return true;
 	} catch (e) {
+		ctx.clearInstitution();
 		router.navigateByUrl('/');
 		return false;
 	}

@@ -21,23 +21,24 @@ export class HeaderComponent {
 	@Output() sidebar: EventEmitter<void> = new EventEmitter<void>();
 
 	institutionId?: string;
+	personalInstitution: Institution = {
+		id: null,
+		name: 'Pessoal',
+		logo: null,
+		primaryColor: null,
+		secondaryColor: null,
+	};
+	selectedInstitution: Institution = this.personalInstitution;
 
 	constructor() {
 		const urlSegments = this.router.url.split('/');
 		this.institutionId = urlSegments.length > 2 ? urlSegments[2] : undefined;
-	}
-
-	ngOnInit() {
-		this.setInstitution();
-	}
-
-	setInstitution() {
-		this.ctx.institution = this.institutions.find(i => i.id === this.institutionId) || this.institutions[0];
+		if (this.institutionId) this.selectedInstitution = this.ctx.institution!;
 	}
 
 	get institutions(): Institution[] {
 		const institutionList = this.ctx.institutionList;
-		let arr: Institution[] = [{ id: null, name: 'Pessoal', logo: null, primaryColor: null, secondaryColor: null }];
+		let arr: Institution[] = [this.personalInstitution];
 		arr.push(...(this.ctx.institutionList || []));
 		return arr;
 	}

@@ -7,7 +7,7 @@
 		<img [src]="logo" alt="Logo" style="max-height: 50px; max-width: 50px; cursor: pointer;"
 			[routerLink]="[homeUrl]" />
 
-		<p-select [options]="institutions" [(ngModel)]="ctx.institution" [checkmark]="true"
+		<p-select [options]="institutions" [(ngModel)]="selectedInstitution" [checkmark]="true"
 			[loading]="institutions.length === 0" optionLabel="name" placeholder="Selecione uma Instituição"
 			class="selector" (ngModelChange)="changeInstitution($event)" />
 

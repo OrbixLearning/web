@@ -16,12 +16,15 @@ export class ContextService {
 	institutionService: InstitutionService = inject(InstitutionService);
 	classroomService: ClassroomService = inject(ClassroomService);
 
+	// These values are populated in guards
 	private userSignal = signal<User | undefined>(undefined);
-	private institutionListSignal = signal<Institution[] | undefined>(undefined);
 	private institutionSignal = signal<Institution | undefined>(undefined);
+	private classroomSignal = signal<Classroom | undefined>(undefined);
+
+	// These values are populated in the context service effects
+	private institutionListSignal = signal<Institution[] | undefined>(undefined);
 	private institutionRolesSignal = signal<InstitutionRoleEnum[] | undefined>(undefined);
 	private classroomListSignal = signal<Classroom[] | undefined>(undefined);
-	private classroomSignal = signal<Classroom | undefined>(undefined);
 
 	public institutionListLoading: boolean = false;
 	public institutionRolesLoading: boolean = false;

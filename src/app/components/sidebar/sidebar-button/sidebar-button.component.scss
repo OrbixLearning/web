@@ -4,7 +4,8 @@
 	width: 100%;
 }
 
-.sidebar-button {
+.sidebar-button,
+.sidebar-button-selected {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -12,10 +13,18 @@
 	height: 60px;
 	border-radius: 4px;
 	cursor: pointer;
+}
+
+.sidebar-button {
 	transition: background-color 0.5s;
 
 	&:hover {
 		background-color: var(--primary-color);
 		color: var(--text-color-light);
 	}
+}
+
+.sidebar-button-selected {
+	background-color: var(--primary-color);
+	color: var(--text-color-light);
 }
