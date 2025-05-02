@@ -4,7 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
 import { Classroom } from '../../models/Classroom';
-import { ClassroomService } from '../../services/classroom.service';
 import { ContextService } from '../../services/context.service';
 import { SidebarButtonComponent } from './sidebar-button/sidebar-button.component';
 
@@ -15,18 +14,10 @@ import { SidebarButtonComponent } from './sidebar-button/sidebar-button.componen
 	styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
-	router: Router = inject(Router);
 	ctx: ContextService = inject(ContextService);
-	service: ClassroomService = inject(ClassroomService);
 
 	get sortedClassrooms(): Classroom[] {
 		if (!this.ctx.classroomList) return [];
 		return this.ctx.classroomList.sort((a, b) => a.name.localeCompare(b.name));
-	}
-
-	goToHome() {}
-
-	goToClassroom(classroom: Classroom) {
-		this.ctx.classroom = classroom;
 	}
 }
