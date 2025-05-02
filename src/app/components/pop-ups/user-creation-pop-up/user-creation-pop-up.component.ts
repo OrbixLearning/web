@@ -32,7 +32,7 @@ import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/succe
 })
 export class UserCreationPopUpComponent {
 	formBuilder: FormBuilder = inject(FormBuilder);
-	userService: UserService = inject(UserService);
+	service: UserService = inject(UserService);
 	dialog: MatDialog = inject(MatDialog);
 	dialogRef: MatDialogRef<UserCreationPopUpComponent> = inject(MatDialogRef);
 	ctx: ContextService = inject(ContextService);
@@ -69,7 +69,7 @@ export class UserCreationPopUpComponent {
 		if (this.form.valid && this.verifyPasswords()) {
 			this.isLoading = true;
 			await lastValueFrom(
-				this.userService.createInstitutionalAccount(
+				this.service.createInstitutionalAccount(
 					this.getFormControl('email').value,
 					this.getFormControl('name').value,
 					this.getFormControl('password').value,

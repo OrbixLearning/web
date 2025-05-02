@@ -1,0 +1,27 @@
+.ccpu-form-div {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 30px;
+	padding: 0 30px;
+	padding-top: 20px;
+
+	div {
+		display: flex;
+		flex-direction: row;
+		gap: 10px;
+		width: 100%;
+		align-items: center;
+	}
+
+	mat-form-field {
+		width: 100%;
+		max-width: 400px;
+	}
+
+	p {
+		font-size: 14px;
+		text-align: center;
+	}
+}

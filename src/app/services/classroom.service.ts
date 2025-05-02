@@ -30,4 +30,8 @@ export class ClassroomService {
 	deleteClassrooms(ids: string[]): Observable<void> {
 		return this.http.put<void>(`${this.api}/delete-classrooms`, { ids });
 	}
+
+	create(institutionId: string, name: string, icon: string): Observable<Classroom> {
+		return this.http.post<Classroom>(this.api, { institutionId, name, icon });
+	}
 }
