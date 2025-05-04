@@ -1,0 +1,49 @@
+.classroom-home {
+	.top-buttons {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 20px;
+	}
+
+	.content {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+
+		.left-content {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+			justify-content: flex-start;
+			align-items: flex-start;
+			gap: 20px;
+
+			mat-form-field {
+				width: 100%;			
+			}
+
+			.roadmaps-div {
+				display: flex;
+				flex-direction: row;
+				width: 100%;
+
+				.roadmaps {
+					display: flex;
+					flex-direction: column;
+					width: 100%;
+					gap: 10px;
+					justify-content: flex-start;
+					align-items: center;
+				}
+			}
+		}
+
+		.right-content {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+		}
+	}
+}

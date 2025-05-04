@@ -82,6 +82,27 @@ export const routes: Routes = [
 										'./views/main/classroom/classroom-settings/classroom-settings.component'
 									).then(m => m.ClassroomSettingsComponent),
 							},
+							{
+								path: 'dashboard',
+								loadComponent: () =>
+									import(
+										'./views/main/classroom/classroom-dashboard/classroom-dashboard.component'
+									).then(m => m.ClassroomDashboardComponent),
+							},
+							{
+								path: 'members',
+								loadComponent: () =>
+									import('./views/main/classroom/classroom-members/classroom-members.component').then(
+										m => m.ClassroomMembersComponent,
+									),
+							},
+							{
+								path: 'documents',
+								loadComponent: () =>
+									import(
+										'./views/main/classroom/classroom-documents/classroom-documents.component'
+									).then(m => m.ClassroomDocumentsComponent),
+							},
 						],
 					},
 				],
