@@ -1,1 +1,4 @@
-<p>syllabus works!</p>
+<div>
+	<p-tree [value]="syllabusComponentTree" [selectionMode]="selectionMode" [(selection)]="selection"
+		(selectionChange)="selectionChange($event)" />
+</div>
