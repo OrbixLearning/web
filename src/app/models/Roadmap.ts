@@ -4,7 +4,7 @@ import { User } from './User';
 
 export type Roadmap = VideoRoadmap | TextRoadmap | QuestionRoadmap | FlashCardRoadmap | AudioRoadmap;
 
-type RoadmapTopClass = {
+type RoadmapBase = {
 	id: string;
 	name: string;
 	syllabus: Syllabus[];
@@ -14,12 +14,12 @@ type RoadmapTopClass = {
 
 export type VideoRoadmap = {
 	videoLinks: string[];
-} & RoadmapTopClass;
+} & RoadmapBase;
 
 export type TextRoadmap = {
 	text: string;
-} & RoadmapTopClass;
+} & RoadmapBase;
 
-export type QuestionRoadmap = {} & RoadmapTopClass;
-export type FlashCardRoadmap = {} & RoadmapTopClass;
-export type AudioRoadmap = {} & RoadmapTopClass;
+export type QuestionRoadmap = {} & RoadmapBase;
+export type FlashCardRoadmap = {} & RoadmapBase;
+export type AudioRoadmap = {} & RoadmapBase;
