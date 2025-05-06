@@ -8,6 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
 import { RoadmapCardComponent } from '../../../../components/roadmap-card/roadmap-card.component';
+import { RoadmapService } from '../../../../services/roadmap.service';
+import { Roadmap } from '../../../../models/Roadmap';
 
 @Component({
 	selector: 'o-classroom-home',
@@ -26,10 +28,27 @@ import { RoadmapCardComponent } from '../../../../components/roadmap-card/roadma
 })
 export class ClassroomHomeComponent {
 	ctx: ContextService = inject(ContextService);
+	roadmapService: RoadmapService = inject(RoadmapService);
 
-	isProfessor: boolean = false;
+	isLoading: boolean = true;
+	isProfessor: boolean = false; // TODO
+	myRoadmaps: Roadmap[] = [];
+	sharedRoadmaps: Roadmap[] = [];
+
+	ngOnInit() {
+		this.getData();
+	}
 
 	get baseUrl() {
 		return '/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id;
+	}
+
+	// get teacherRoadmaps(): Roadmap[] {}
+
+	// get studentRoadmaps(): Roadmap[] {}
+
+	async getData() {
+		this.isLoading = true;
+		// Promise.all
 	}
 }

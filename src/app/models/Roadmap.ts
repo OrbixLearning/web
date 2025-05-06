@@ -1,4 +1,4 @@
-import { Institution } from './Institution';
+import { Classroom } from './Classroom';
 import { Syllabus } from './Syllabus';
 import { User } from './User';
 
@@ -9,7 +9,7 @@ type RoadmapBase = {
 	name: string;
 	syllabus: Syllabus[];
 	user: User;
-	institution: Institution;
+	classroom: Classroom;
 };
 
 export type VideoRoadmap = {

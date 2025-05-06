@@ -4,6 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
 import { Classroom } from '../models/Classroom';
 import { Institution } from '../models/Institution';
+import { Roadmap } from '../models/Roadmap';
 import { User } from '../models/User';
 import { ClassroomService } from './classroom.service';
 import { InstitutionService } from './institution.service';
@@ -20,6 +21,7 @@ export class ContextService {
 	private userSignal = signal<User | undefined>(undefined);
 	private institutionSignal = signal<Institution | undefined>(undefined);
 	private classroomSignal = signal<Classroom | undefined>(undefined);
+	private roadmapSignal = signal<Roadmap | undefined>(undefined);
 
 	// These values are populated in the context service effects
 	private institutionListSignal = signal<Institution[] | undefined>(undefined);
@@ -70,6 +72,9 @@ export class ContextService {
 	get classroom(): Classroom | undefined {
 		return this.classroomSignal();
 	}
+	get roadmap(): Roadmap | undefined {
+		return this.roadmapSignal();
+	}
 
 	// SETTERS
 	set user(value: User | undefined) {
@@ -89,6 +94,9 @@ export class ContextService {
 	}
 	set classroom(value: Classroom | undefined) {
 		this.classroomSignal.set(value ? { ...value } : undefined);
+	}
+	set roadmap(value: Roadmap | undefined) {
+		this.roadmapSignal.set(value ? { ...value } : undefined);
 	}
 
 	// CLEAR
@@ -114,6 +122,9 @@ export class ContextService {
 	}
 	clearClassroom() {
 		this.classroomSignal.set(undefined);
+	}
+	clearRoadmap() {
+		this.roadmapSignal.set(undefined);
 	}
 
 	// LOAD
