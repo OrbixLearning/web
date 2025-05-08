@@ -15,6 +15,7 @@ export class SyllabusComponent {
 
 	@Input() mode: 'readonly' | 'checkbox' | 'selection' | 'click' = 'readonly';
 	@Output() syllabusClicked: EventEmitter<Syllabus> = new EventEmitter<Syllabus>();
+	@Output() syllabusMarked: EventEmitter<Syllabus[]> = new EventEmitter<Syllabus[]>();
 
 	syllabusComponentTree: TreeNode[] = this.buildSyllabusTree();
 	selection?: any;
@@ -56,7 +57,9 @@ export class SyllabusComponent {
 	selectionChange(node: any) {
 		switch (this.mode) {
 			case 'checkbox':
-				this.topicClicked(node.data);
+				let nodeTree = node as TreeNode[];
+				let syllabus: Syllabus[] = nodeTree.map(n => n.data as Syllabus);
+				this.topicMarked(syllabus);
 				break;
 			case 'selection':
 				this.topicSelected(node.data);
@@ -67,8 +70,8 @@ export class SyllabusComponent {
 		}
 	}
 
-	topicMarked(syllabus: Syllabus) {
-		this.syllabusClicked.emit(syllabus);
+	topicMarked(syllabus: Syllabus[]) {
+		this.syllabusMarked.emit(syllabus);
 	}
 
 	topicSelected(syllabus: Syllabus) {

@@ -1,0 +1,28 @@
+<o-pop-up-header title="Criar trilha" />
+
+<mat-stepper #stepper linear>
+
+	<mat-step [stepControl]="forms.at(0)" label="Tópicos">
+		<o-syllabus mode="checkbox" (syllabusMarked)="markSyllabus($event)" />
+		<button mat-button matStepperNext>Próximo</button>
+	</mat-step>
+
+	<mat-step [stepControl]="forms.at(1)" label="Tipo">
+		<button mat-button matStepperPrevious>Voltar</button>
+		<button mat-button matStepperNext>Próximo</button>
+	</mat-step>
+
+	<mat-step [stepControl]="forms.at(2)" label="Personalizar">
+		<button mat-button matStepperPrevious>Voltar</button>
+		<button mat-button matStepperNext>Próximo</button>
+	</mat-step>
+
+	<mat-step label="Confirmar">
+		<p>You are now done.</p>
+		<div>
+			<button mat-button matStepperPrevious>Voltar</button>
+			<button mat-button (click)="createRoadmap()">Criar</button>
+		</div>
+	</mat-step>
+
+</mat-stepper>

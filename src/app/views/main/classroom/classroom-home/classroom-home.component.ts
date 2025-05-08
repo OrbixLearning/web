@@ -1,15 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { ContextService } from '../../../../services/context.service';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
+import { lastValueFrom } from 'rxjs';
+import { RoadmapCreationPopUpComponent } from '../../../../components/pop-ups/roadmap-creation-pop-up/roadmap-creation-pop-up.component';
 import { RoadmapCardComponent } from '../../../../components/roadmap-card/roadmap-card.component';
-import { RoadmapService } from '../../../../services/roadmap.service';
+import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
+import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
 import { Roadmap } from '../../../../models/Roadmap';
+import { ContextService } from '../../../../services/context.service';
+import { RoadmapService } from '../../../../services/roadmap.service';
 
 @Component({
 	selector: 'o-classroom-home',
@@ -29,9 +33,9 @@ import { Roadmap } from '../../../../models/Roadmap';
 export class ClassroomHomeComponent {
 	ctx: ContextService = inject(ContextService);
 	roadmapService: RoadmapService = inject(RoadmapService);
+	dialog: MatDialog = inject(MatDialog);
 
 	isLoading: boolean = true;
-	isProfessor: boolean = false; // TODO
 	myRoadmaps: Roadmap[] = [];
 	sharedRoadmaps: Roadmap[] = [];
 
@@ -39,16 +43,37 @@ export class ClassroomHomeComponent {
 		this.getData();
 	}
 
-	get baseUrl() {
+	get baseUrl(): string {
 		return '/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id;
 	}
 
-	// get teacherRoadmaps(): Roadmap[] {}
+	get teacherRoadmaps(): Roadmap[] {
+		return this.myRoadmaps.filter(roadmap => !this.studentRoadmaps.includes(roadmap));
+	}
 
-	// get studentRoadmaps(): Roadmap[] {}
+	get studentRoadmaps(): Roadmap[] {
+		return this.myRoadmaps.filter(roadmap => roadmap.userInstitutionRole === InstitutionRoleEnum.STUDENT);
+	}
 
 	async getData() {
 		this.isLoading = true;
-		// Promise.all
+		Promise.all([
+			lastValueFrom(this.roadmapService.getUserRoadmapsByInstitution(this.ctx.institution?.id!)),
+			lastValueFrom(this.roadmapService.getClassroomSharedRoadmaps(this.ctx.classroom?.id!)),
+		])
+			.then(res => {
+				this.myRoadmaps = res[0];
+				this.sharedRoadmaps = res[1];
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
+
+	createRoadmap() {
+		this.dialog.open(RoadmapCreationPopUpComponent, {
+			disableClose: true,
+			maxWidth: '1800px',
+		});
 	}
 }

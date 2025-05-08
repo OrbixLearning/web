@@ -2,7 +2,7 @@
 
 	<div class="top-buttons">
 
-		<button mat-raised-button>
+		<button mat-raised-button (click)="createRoadmap()">
 			Criar trilha
 		</button>
 
@@ -14,7 +14,7 @@
 			Membros
 		</button>
 
-		@if(isProfessor) {
+		@if(ctx.isTeacher) {
 		<button mat-raised-button [routerLink]="baseUrl + '/dashboard'">
 			Dashboard
 		</button>
@@ -40,15 +40,22 @@
 			<div class="roadmaps-div">
 
 				<div class="roadmaps">
-					@for (item of [0,1,2,3]; track item) {
-
-					<o-roadmap-card />
+					<h3>Minhas trilhas</h3>
+					@for (roadmap of myRoadmaps; track roadmap.id) {
+					<o-roadmap-card [roadmap]="roadmap" />
 					}
 				</div>
 
 				<div class="roadmaps">
-					@for (item of [0,1,2,3]; track item) {
-					<o-roadmap-card />
+					<h3>Trilhas compartilhadas</h3>
+					<h5>Trilhas de professor</h5>
+					@for (roadmap of teacherRoadmaps; track roadmap.id) {
+					<o-roadmap-card [roadmap]="roadmap" />
+					}
+					<p-divider />
+					<h5>Trilhas de alunos</h5>
+					@for (roadmap of studentRoadmaps; track roadmap.id) {
+					<o-roadmap-card [roadmap]="roadmap" />
 					}
 				</div>
 

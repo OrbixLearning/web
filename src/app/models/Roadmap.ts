@@ -1,3 +1,4 @@
+import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
 import { Classroom } from './Classroom';
 import { Syllabus } from './Syllabus';
 import { User } from './User';
@@ -10,6 +11,7 @@ type RoadmapBase = {
 	syllabus: Syllabus[];
 	user: User;
 	classroom: Classroom;
+	userInstitutionRole: InstitutionRoleEnum;
 };
 
 export type VideoRoadmap = {
