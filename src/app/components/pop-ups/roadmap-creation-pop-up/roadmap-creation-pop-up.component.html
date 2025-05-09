@@ -2,27 +2,48 @@
 
 <mat-stepper #stepper linear>
 
-	<mat-step [stepControl]="forms.at(0)" label="Tópicos">
-		<o-syllabus mode="checkbox" (syllabusMarked)="markSyllabus($event)" />
-		<button mat-button matStepperNext>Próximo</button>
-	</mat-step>
+    <mat-step [stepControl]="forms.at(0)" label="Tópicos">
+        <div>
+            <o-syllabus mode="checkbox" (syllabusMarked)="markSyllabus($event)" />
+        </div>
+        <button mat-button matStepperNext>Próximo</button>
+    </mat-step>
 
-	<mat-step [stepControl]="forms.at(1)" label="Tipo">
-		<button mat-button matStepperPrevious>Voltar</button>
-		<button mat-button matStepperNext>Próximo</button>
-	</mat-step>
+    <mat-step [stepControl]="forms.at(1)" label="Tipo">
+        <div>
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Nome da trilha</mat-label>
+                <input matInput formControlName="name" />
+            </mat-form-field>
+            <p>Selecione o tipo da trilha:</p>
+            <div>
+                <button mat-raised-button (click)="selectType(roadmapTypeEnum.TEXT)"
+                    [class]="roadmapTypeButtonClass(roadmapTypeEnum.TEXT)">TEXTO</button>
+                <button mat-raised-button (click)="selectType(roadmapTypeEnum.AUDIO)"
+                    [class]="roadmapTypeButtonClass(roadmapTypeEnum.AUDIO)">AUDIO</button>
+                <button mat-raised-button (click)="selectType(roadmapTypeEnum.VIDEO)"
+                    [class]="roadmapTypeButtonClass(roadmapTypeEnum.VIDEO)">VIDEO</button>
+                <button mat-raised-button (click)="selectType(roadmapTypeEnum.QUESTION)"
+                    [class]="roadmapTypeButtonClass(roadmapTypeEnum.QUESTION)">QUESTÃO</button>
+                <button mat-raised-button (click)="selectType(roadmapTypeEnum.FLASHCARD)"
+                    [class]="roadmapTypeButtonClass(roadmapTypeEnum.FLASHCARD)">FLASHCARD</button>
+            </div>
+        </div>
+        <button mat-button matStepperPrevious>Voltar</button>
+        <button mat-button matStepperNext>Próximo</button>
+    </mat-step>
 
-	<mat-step [stepControl]="forms.at(2)" label="Personalizar">
-		<button mat-button matStepperPrevious>Voltar</button>
-		<button mat-button matStepperNext>Próximo</button>
-	</mat-step>
+    <mat-step [stepControl]="forms.at(2)" label="Personalizar">
+        <button mat-button matStepperPrevious>Voltar</button>
+        <button mat-button matStepperNext>Próximo</button>
+    </mat-step>
 
-	<mat-step label="Confirmar">
-		<p>You are now done.</p>
-		<div>
-			<button mat-button matStepperPrevious>Voltar</button>
-			<button mat-button (click)="createRoadmap()">Criar</button>
-		</div>
-	</mat-step>
+    <mat-step label="Confirmar">
+        <p>You are now done.</p>
+        <div>
+            <button mat-button matStepperPrevious>Voltar</button>
+            <button mat-button (click)="createRoadmap()">Criar</button>
+        </div>
+    </mat-step>
 
 </mat-stepper>

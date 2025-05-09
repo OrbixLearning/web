@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { lastValueFrom } from 'rxjs';
 import { RoadmapTypeEnum } from '../../../enums/RoadmapType.enum';
@@ -21,6 +22,7 @@ import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 		MatFormFieldModule,
 		ReactiveFormsModule,
 		SyllabusComponent,
+		MatInputModule,
 	],
 	templateUrl: './roadmap-creation-pop-up.component.html',
 	styleUrl: './roadmap-creation-pop-up.component.scss',
@@ -31,6 +33,7 @@ export class RoadmapCreationPopUpComponent {
 	service: RoadmapService = inject(RoadmapService);
 
 	isLoading: boolean = false;
+	roadmapTypeEnum = RoadmapTypeEnum;
 
 	baseLastForm = {
 		language: this.formBuilder.control<string>('pt-BR', Validators.required),
@@ -75,6 +78,10 @@ export class RoadmapCreationPopUpComponent {
 		return this.forms.at(i).get(name) as FormControl;
 	}
 
+	roadmapTypeButtonClass(type: RoadmapTypeEnum): string {
+		return this.getFormControl(1, 'type').value === type ? 'selected-roadmap-type-button' : 'roadmap-type-button';
+	}
+
 	markSyllabus(syllabus: Syllabus[]) {
 		this.getFormControl(0, 'syllabus').setValue(syllabus);
 	}
@@ -99,12 +106,13 @@ export class RoadmapCreationPopUpComponent {
 			case RoadmapTypeEnum.AUDIO:
 				this.setLastFormGroup(this.audioForm);
 				break;
-			case RoadmapTypeEnum.FLASH_CARD:
+			case RoadmapTypeEnum.FLASHCARD:
 				this.setLastFormGroup(this.flashCardForm);
 				break;
 			default:
 				this.setLastFormGroup({});
-				break;
+				this.getFormControl(1, 'type').reset();
+				return;
 		}
 		this.getFormControl(1, 'type').setValue(type);
 	}
@@ -149,7 +157,7 @@ export class RoadmapCreationPopUpComponent {
 						formality: this.getFormControl(2, 'formality').value,
 					};
 					break;
-				case RoadmapTypeEnum.FLASH_CARD:
+				case RoadmapTypeEnum.FLASHCARD:
 					endpoint = 'flashcard';
 					requestBody = {
 						syllabusIds,
@@ -172,9 +180,9 @@ export class RoadmapCreationPopUpComponent {
 
 			await lastValueFrom(this.service.generateRoadmap(requestBody, endpoint))
 				.then((r: Roadmap) => {
+					console.log('Roadmap created successfully', r);
 					if (r) {
 						// TODO: Handle the response
-						console.log('Roadmap created successfully', r);
 					}
 				})
 				.finally(() => {
