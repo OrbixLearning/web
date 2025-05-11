@@ -6,11 +6,13 @@
         <div>
             <o-syllabus mode="checkbox" (syllabusMarked)="markSyllabus($event)" />
         </div>
-        <button mat-button matStepperNext>Próximo</button>
+        <div>
+            <button mat-button matStepperNext>Próximo</button>
+        </div>
     </mat-step>
 
     <mat-step [stepControl]="forms.at(1)" label="Tipo">
-        <div>
+        <form [formGroup]="forms.at(1)">
             <mat-form-field appearance="fill" subscriptSizing="dynamic">
                 <mat-label>Nome da trilha</mat-label>
                 <input matInput formControlName="name" />
@@ -28,14 +30,105 @@
                 <button mat-raised-button (click)="selectType(roadmapTypeEnum.FLASHCARD)"
                     [class]="roadmapTypeButtonClass(roadmapTypeEnum.FLASHCARD)">FLASHCARD</button>
             </div>
+        </form>
+        <div>
+            <button mat-button matStepperPrevious>Voltar</button>
+            <button mat-button matStepperNext>Próximo</button>
         </div>
-        <button mat-button matStepperPrevious>Voltar</button>
-        <button mat-button matStepperNext>Próximo</button>
     </mat-step>
 
     <mat-step [stepControl]="forms.at(2)" label="Personalizar">
-        <button mat-button matStepperPrevious>Voltar</button>
-        <button mat-button matStepperNext>Próximo</button>
+        <form [formGroup]="forms.at(2)">
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Idioma</mat-label>
+                <mat-select formControlName="language">
+                    <mat-option value="pt-BR"> Português </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            @if (getFormControl(1, 'type').value === roadmapTypeEnum.TEXT) {
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Número aproximado de parágrafos</mat-label>
+                <input type="number" matInput formControlName="numberOfParagraphs" />
+            </mat-form-field>
+            <mat-slide-toggle formControlName="useTopics">Texto em tópicos</mat-slide-toggle>
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Formalidade</mat-label>
+                <mat-select formControlName="formality">
+                    <mat-option value="formal"> Formal </mat-option>
+                    <mat-option value="medium"> Mediana </mat-option>
+                    <mat-option value="informal"> Informal </mat-option>
+                </mat-select>
+            </mat-form-field>
+            }
+
+            @else if (getFormControl(1, 'type').value === roadmapTypeEnum.AUDIO) {
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Duração aproximada</mat-label>
+                <input type="number" matInput formControlName="durationInSeconds" />
+            </mat-form-field>
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Formalidade</mat-label>
+                <mat-select formControlName="formality">
+                    <mat-option value="formal"> Formal </mat-option>
+                    <mat-option value="medium"> Mediana </mat-option>
+                    <mat-option value="informal"> Informal </mat-option>
+                </mat-select>
+            </mat-form-field>
+            }
+
+            @else if (getFormControl(1, 'type').value === roadmapTypeEnum.VIDEO) {
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Número de vídeos</mat-label>
+                <input type="number" matInput formControlName="numberOfVideos" />
+            </mat-form-field>
+            }
+
+            @else if (getFormControl(1, 'type').value === roadmapTypeEnum.FLASHCARD) {
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Número de Flash Cards</mat-label>
+                <input type="number" matInput formControlName="numberOfCards" />
+            </mat-form-field>
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Nível</mat-label>
+                <mat-select formControlName="level">
+                    <mat-option [value]="0"> Iniciante </mat-option>
+                    <mat-option [value]="1"> Intermediário </mat-option>
+                    <mat-option [value]="2"> Avançado </mat-option>
+                    <mat-option [value]="3"> Especialista </mat-option>
+                </mat-select>
+            </mat-form-field>
+            }
+
+            @else if (getFormControl(1, 'type').value === roadmapTypeEnum.QUESTION) {
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Número de Questões</mat-label>
+                <input type="number" matInput formControlName="numberOfQuestions" />
+            </mat-form-field>
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Nível</mat-label>
+                <mat-select formControlName="level">
+                    <mat-option [value]="0"> Iniciante </mat-option>
+                    <mat-option [value]="1"> Intermediário </mat-option>
+                    <mat-option [value]="2"> Avançado </mat-option>
+                    <mat-option [value]="3"> Especialista </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Tipos de Questões</mat-label>
+                <mat-select formControlName="questionTypes" multiple>
+                    <mat-option value="multiple-choice"> Múltipla Escolha </mat-option>
+                    <mat-option value="multiple-select"> Múltipla Seleção </mat-option>
+                    <mat-option value="true-false"> Verdadeiro ou Falso </mat-option>
+                    <mat-option value="open-ended"> Aberta </mat-option>
+                </mat-select>
+            </mat-form-field>
+            }
+        </form>
+        <div>
+            <button mat-button matStepperPrevious>Voltar</button>
+            <button mat-button matStepperNext>Próximo</button>
+        </div>
     </mat-step>
 
     <mat-step label="Confirmar">

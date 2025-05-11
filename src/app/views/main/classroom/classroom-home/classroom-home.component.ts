@@ -71,9 +71,16 @@ export class ClassroomHomeComponent {
 	}
 
 	createRoadmap() {
-		this.dialog.open(RoadmapCreationPopUpComponent, {
-			disableClose: true,
-			maxWidth: '1800px',
-		});
+		this.dialog
+			.open(RoadmapCreationPopUpComponent, {
+				disableClose: true,
+				maxWidth: '1800px',
+			})
+			.afterClosed()
+			.subscribe((res: string | undefined) => {
+				if (res) {
+					// TODO: Redirect to the roadmap page
+				}
+			});
 	}
 }

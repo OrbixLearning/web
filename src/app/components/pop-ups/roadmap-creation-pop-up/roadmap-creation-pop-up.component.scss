@@ -1,3 +1,7 @@
 .selected-roadmap-type-button {
-	border: 2x solid var(--color-primary);
+	border: 2x solid var(--primary-color);
+	border-radius: 8px;
+	background-color: var(--primary-color);
+	color: var(--text-color-light);
+	font-weight: 600;
 }

@@ -1,8 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { lastValueFrom } from 'rxjs';
 import { RoadmapTypeEnum } from '../../../enums/RoadmapType.enum';
@@ -12,6 +15,7 @@ import { ContextService } from '../../../services/context.service';
 import { RoadmapService } from '../../../services/roadmap.service';
 import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
+import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/success-pop-up.component';
 
 @Component({
 	selector: 'o-roadmap-creation-pop-up',
@@ -23,6 +27,8 @@ import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 		ReactiveFormsModule,
 		SyllabusComponent,
 		MatInputModule,
+		MatSelectModule,
+		MatSlideToggleModule,
 	],
 	templateUrl: './roadmap-creation-pop-up.component.html',
 	styleUrl: './roadmap-creation-pop-up.component.scss',
@@ -31,6 +37,8 @@ export class RoadmapCreationPopUpComponent {
 	ctx: ContextService = inject(ContextService);
 	formBuilder: FormBuilder = inject(FormBuilder);
 	service: RoadmapService = inject(RoadmapService);
+	dialog: MatDialog = inject(MatDialog);
+	dialogRef: MatDialogRef<RoadmapCreationPopUpComponent> = inject(MatDialogRef<RoadmapCreationPopUpComponent>);
 
 	isLoading: boolean = false;
 	roadmapTypeEnum = RoadmapTypeEnum;
@@ -44,7 +52,7 @@ export class RoadmapCreationPopUpComponent {
 	textForm = {
 		numberOfParagraphs: this.formBuilder.control<number>(5, Validators.required),
 		useTopics: this.formBuilder.control<boolean>(false, Validators.required),
-		formality: this.formBuilder.control<string>('normal', Validators.required),
+		formality: this.formBuilder.control<string>('medium', Validators.required),
 	};
 	questionForm = {
 		numberOfQuestions: this.formBuilder.control<number>(20, Validators.required),
@@ -56,7 +64,7 @@ export class RoadmapCreationPopUpComponent {
 	};
 	audioForm = {
 		durationInSeconds: this.formBuilder.control<number>(3600, Validators.required),
-		formality: this.formBuilder.control<string>('normal', Validators.required),
+		formality: this.formBuilder.control<string>('medium', Validators.required),
 	};
 	flashCardForm = {
 		numberOfCards: this.formBuilder.control<number>(15, Validators.required),
@@ -71,7 +79,7 @@ export class RoadmapCreationPopUpComponent {
 			name: this.formBuilder.control<string>('', Validators.required),
 			type: this.formBuilder.control<RoadmapTypeEnum>(RoadmapTypeEnum.TEXT, Validators.required),
 		}),
-		this.formBuilder.group(this.baseLastForm),
+		this.formBuilder.group({ ...this.baseLastForm, ...this.textForm }),
 	]);
 
 	getFormControl(i: number, name: string): FormControl {
@@ -122,27 +130,25 @@ export class RoadmapCreationPopUpComponent {
 			this.isLoading = true;
 
 			let endpoint: string = '';
-			let requestBody: any = {};
 			let syllabusIds: string[] = [];
 			this.getFormControl(0, 'syllabus').value.forEach((syllabus: Syllabus) => {
 				syllabusIds.push(syllabus.id);
 			});
 			let name: string = this.getFormControl(1, 'name').value;
+			let requestBody: any = { syllabusIds, name, language: this.getFormControl(2, 'language').value };
 
 			switch (this.getFormControl(1, 'type').value) {
 				case RoadmapTypeEnum.VIDEO:
 					endpoint = 'video';
 					requestBody = {
-						syllabusIds,
-						name,
+						...requestBody,
 						numberOfVideos: this.getFormControl(2, 'numberOfVideos').value,
 					};
 					break;
 				case RoadmapTypeEnum.TEXT:
 					endpoint = 'text';
 					requestBody = {
-						syllabusIds,
-						name,
+						...requestBody,
 						numberOfParagraphs: this.getFormControl(2, 'numberOfParagraphs').value,
 						useTopics: this.getFormControl(2, 'useTopics').value,
 						formality: this.getFormControl(2, 'formality').value,
@@ -151,8 +157,7 @@ export class RoadmapCreationPopUpComponent {
 				case RoadmapTypeEnum.AUDIO:
 					endpoint = 'audio';
 					requestBody = {
-						syllabusIds,
-						name,
+						...requestBody,
 						durationInSeconds: this.getFormControl(2, 'durationInSeconds').value,
 						formality: this.getFormControl(2, 'formality').value,
 					};
@@ -160,8 +165,7 @@ export class RoadmapCreationPopUpComponent {
 				case RoadmapTypeEnum.FLASHCARD:
 					endpoint = 'flashcard';
 					requestBody = {
-						syllabusIds,
-						name,
+						...requestBody,
 						numberOfCards: this.getFormControl(2, 'numberOfCards').value,
 						level: this.getFormControl(2, 'level').value,
 					};
@@ -169,8 +173,7 @@ export class RoadmapCreationPopUpComponent {
 				case RoadmapTypeEnum.QUESTION:
 					endpoint = 'question';
 					requestBody = {
-						syllabusIds,
-						name,
+						...requestBody,
 						numberOfQuestions: this.getFormControl(2, 'numberOfQuestions').value,
 						level: this.getFormControl(2, 'level').value,
 						questionTypes: this.getFormControl(2, 'questionTypes').value,
@@ -180,9 +183,20 @@ export class RoadmapCreationPopUpComponent {
 
 			await lastValueFrom(this.service.generateRoadmap(requestBody, endpoint))
 				.then((r: Roadmap) => {
-					console.log('Roadmap created successfully', r);
 					if (r) {
-						// TODO: Handle the response
+						let sucessPopUpData: SuccessPopUpData = {
+							title: 'Trilha criada com sucesso!',
+							message: 'A trilha foi criada com sucesso e está disponível na sua conta.',
+							buttonText: 'Conferir!',
+						};
+						this.dialog
+							.open(SuccessPopUpComponent, {
+								data: sucessPopUpData,
+							})
+							.afterClosed()
+							.subscribe(() => {
+								this.dialogRef.close(r.id);
+							});
 					}
 				})
 				.finally(() => {
