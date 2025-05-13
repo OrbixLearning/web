@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { AudioRoadmap, FlashCardRoadmap, QuestionRoadmap, Roadmap, VideoRoadmap } from '../models/Roadmap';
+import { Roadmap } from '../models/Roadmap';
 
 @Injectable({
 	providedIn: 'root',
@@ -13,8 +13,12 @@ export class RoadmapService {
 
 	// GET
 
+	get(roadmapId: string): Observable<Roadmap> {
+		return this.http.get<Roadmap>(`${this.api}/${roadmapId}`);
+	}
+
 	getUserRoadmapsByInstitution(institutionId: string): Observable<Roadmap[]> {
-		return this.http.get<Roadmap[]>(`${this.api}/${institutionId}`);
+		return this.http.get<Roadmap[]>(`${this.api}/institution/${institutionId}`);
 	}
 
 	getClassroomSharedRoadmaps(classroomId: string): Observable<Roadmap[]> {

@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
 import { lastValueFrom } from 'rxjs';
 import { RoadmapCreationPopUpComponent } from '../../../../components/pop-ups/roadmap-creation-pop-up/roadmap-creation-pop-up.component';
@@ -34,6 +34,7 @@ export class ClassroomHomeComponent {
 	ctx: ContextService = inject(ContextService);
 	roadmapService: RoadmapService = inject(RoadmapService);
 	dialog: MatDialog = inject(MatDialog);
+	router: Router = inject(Router);
 
 	isLoading: boolean = true;
 	myRoadmaps: Roadmap[] = [];
@@ -86,7 +87,8 @@ export class ClassroomHomeComponent {
 	}
 
 	goToRoadmap(roadmap: Roadmap) {
-		console.log('goto');
+		this.ctx.roadmap = roadmap;
+		this.router.navigate(['/i', this.ctx.institution?.id, 'c', this.ctx.classroom?.id, 'r', roadmap.id]);
 	}
 
 	updatedRoadmapSharing(roadmap: Roadmap) {

@@ -8,6 +8,7 @@ import { Roadmap } from '../models/Roadmap';
 import { User } from '../models/User';
 import { ClassroomService } from './classroom.service';
 import { InstitutionService } from './institution.service';
+import { RoadmapService } from './roadmap.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -16,6 +17,7 @@ export class ContextService {
 	http: HttpClient = inject(HttpClient);
 	institutionService: InstitutionService = inject(InstitutionService);
 	classroomService: ClassroomService = inject(ClassroomService);
+	roadmapService: RoadmapService = inject(RoadmapService);
 
 	// These values are populated in guards
 	private userSignal = signal<User | undefined>(undefined);
@@ -49,6 +51,13 @@ export class ContextService {
 			} else {
 				this.clearClassroomList();
 				this.clearInstitutionRoles();
+			}
+		});
+
+		effect(() => {
+			const classroom = this.classroomSignal();
+			if (!classroom || !classroom.id) {
+				this.clearRoadmap();
 			}
 		});
 	}
