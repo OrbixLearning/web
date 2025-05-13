@@ -8,6 +8,7 @@ export type Roadmap = VideoRoadmap | TextRoadmap | QuestionRoadmap | FlashCardRo
 type RoadmapBase = {
 	id: string;
 	name: string;
+	shared: boolean;
 	syllabus: Syllabus[];
 	user: User;
 	classroom: Classroom;

@@ -1,71 +1,74 @@
 <div class="classroom-home">
 
-	<div class="top-buttons">
+    <div class="top-buttons">
 
-		<button mat-raised-button (click)="createRoadmap()">
-			Criar trilha
-		</button>
+        <button mat-raised-button (click)="createRoadmap()">
+            Criar trilha
+        </button>
 
-		<button mat-raised-button [routerLink]="baseUrl + '/documents'">
-			Documentos
-		</button>
+        <button mat-raised-button [routerLink]="baseUrl + '/documents'">
+            Documentos
+        </button>
 
-		<button mat-raised-button [routerLink]="baseUrl + '/members'">
-			Membros
-		</button>
+        <button mat-raised-button [routerLink]="baseUrl + '/members'">
+            Membros
+        </button>
 
-		@if(ctx.isTeacher) {
-		<button mat-raised-button [routerLink]="baseUrl + '/dashboard'">
-			Dashboard
-		</button>
+        @if(ctx.isTeacher) {
+        <button mat-raised-button [routerLink]="baseUrl + '/dashboard'">
+            Dashboard
+        </button>
 
-		<button mat-raised-button [routerLink]="baseUrl + '/settings'">
-			Configurações
-		</button>
-		}
+        <button mat-raised-button [routerLink]="baseUrl + '/settings'">
+            Configurações
+        </button>
+        }
 
-	</div>
+    </div>
 
-	<p-divider />
+    <p-divider />
 
-	<div class="content">
+    <div class="content">
 
-		<div class="left-content">
+        <div class="left-content">
 
-			<mat-form-field appearance="outline">
-				<mat-label>Filtrar</mat-label>
-				<input matInput />
-			</mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Filtrar</mat-label>
+                <input matInput />
+            </mat-form-field>
 
-			<div class="roadmaps-div">
+            <div class="roadmaps-div">
 
-				<div class="roadmaps">
-					<h3>Minhas trilhas</h3>
-					@for (roadmap of myRoadmaps; track roadmap.id) {
-					<o-roadmap-card [roadmap]="roadmap" />
-					}
-				</div>
+                <div class="roadmaps">
+                    <h3>Minhas trilhas</h3>
+                    @for (roadmap of myRoadmaps; track roadmap.id) {
+                    <o-roadmap-card [roadmap]="roadmap" (cardClick)="goToRoadmap(roadmap)"
+                        (sharedChange)="updatedRoadmapSharing(roadmap)" />
+                    }
+                </div>
 
-				<div class="roadmaps">
-					<h3>Trilhas compartilhadas</h3>
-					<h5>Trilhas de professor</h5>
-					@for (roadmap of teacherRoadmaps; track roadmap.id) {
-					<o-roadmap-card [roadmap]="roadmap" />
-					}
-					<p-divider />
-					<h5>Trilhas de alunos</h5>
-					@for (roadmap of studentRoadmaps; track roadmap.id) {
-					<o-roadmap-card [roadmap]="roadmap" />
-					}
-				</div>
+                <div class="roadmaps">
+                    <h3>Trilhas compartilhadas</h3>
+                    <h5>Trilhas de professor</h5>
+                    @for (roadmap of teacherRoadmaps; track roadmap.id) {
+                    <o-roadmap-card [roadmap]="roadmap" (cardClick)="goToRoadmap(roadmap)"
+                        (sharedChange)="updatedRoadmapSharing(roadmap)" />
+                    }
+                    <p-divider />
+                    <h5>Trilhas de alunos</h5>
+                    @for (roadmap of studentRoadmaps; track roadmap.id) {
+                    <o-roadmap-card [roadmap]="roadmap" (cardClick)="goToRoadmap(roadmap)"
+                        (sharedChange)="updatedRoadmapSharing(roadmap)" />
+                    }
+                </div>
 
-			</div>
+            </div>
 
-		</div>
+        </div>
 
-		<div class="right-content">
-			<o-syllabus mode="click" />
-		</div>
+        <div class="right-content">
+            <o-syllabus mode="click" />
+        </div>
 
-	</div>
+    </div>
 </div>

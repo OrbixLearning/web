@@ -48,11 +48,11 @@ export class ClassroomHomeComponent {
 	}
 
 	get teacherRoadmaps(): Roadmap[] {
-		return this.myRoadmaps.filter(roadmap => !this.studentRoadmaps.includes(roadmap));
+		return this.sharedRoadmaps.filter(roadmap => !this.studentRoadmaps.includes(roadmap));
 	}
 
 	get studentRoadmaps(): Roadmap[] {
-		return this.myRoadmaps.filter(roadmap => roadmap.userInstitutionRole === InstitutionRoleEnum.STUDENT);
+		return this.sharedRoadmaps.filter(roadmap => roadmap.userInstitutionRole === InstitutionRoleEnum.STUDENT);
 	}
 
 	async getData() {
@@ -77,10 +77,19 @@ export class ClassroomHomeComponent {
 				maxWidth: '1800px',
 			})
 			.afterClosed()
-			.subscribe((res: string | undefined) => {
+			.subscribe((res: Roadmap | undefined) => {
 				if (res) {
-					// TODO: Redirect to the roadmap page
+					this.myRoadmaps = [res, ...this.myRoadmaps];
+					this.goToRoadmap(res);
 				}
 			});
+	}
+
+	goToRoadmap(roadmap: Roadmap) {
+		console.log('goto');
+	}
+
+	updatedRoadmapSharing(roadmap: Roadmap) {
+		console.log('sharing');
 	}
 }

@@ -195,7 +195,7 @@ export class RoadmapCreationPopUpComponent {
 							})
 							.afterClosed()
 							.subscribe(() => {
-								this.dialogRef.close(r.id);
+								this.dialogRef.close(r);
 							});
 					}
 				})
