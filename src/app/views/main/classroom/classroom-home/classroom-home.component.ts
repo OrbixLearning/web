@@ -91,7 +91,10 @@ export class ClassroomHomeComponent {
 		this.router.navigate(['/i', this.ctx.institution?.id, 'c', this.ctx.classroom?.id, 'r', roadmap.id]);
 	}
 
-	updatedRoadmapSharing(roadmap: Roadmap) {
-		console.log('sharing');
+	async updatedRoadmapSharing(roadmap: Roadmap) {
+		this.isLoading = true;
+		await lastValueFrom(this.roadmapService.updateRoadmapSharing(roadmap.id, roadmap.shared)).finally(() => {
+			this.isLoading = false;
+		});
 	}
 }

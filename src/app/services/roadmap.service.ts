@@ -25,6 +25,12 @@ export class RoadmapService {
 		return this.http.get<Roadmap[]>(`${this.api}/classroom/${classroomId}`);
 	}
 
+	// UPDATE
+
+	updateRoadmapSharing(id: string, share: boolean): Observable<Roadmap> {
+		return this.http.put<Roadmap>(`${this.api}/share`, { id, share });
+	}
+
 	// GENERATION
 
 	generateRoadmap(requestBody: any, endpoint: string): Observable<Roadmap> {
