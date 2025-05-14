@@ -13,7 +13,7 @@ export const roadmapGuard: CanActivateFn = async (route, state) => {
 		if (!roadmapId) {
 			throw new Error('Roadmap ID not found in route parameters');
 		}
-		if (!ctx.roadmap) {
+		if (!ctx.roadmap || ctx.roadmap.id !== roadmapId) {
 			ctx.roadmap = await lastValueFrom(service.get(roadmapId));
 		}
 		return true;

@@ -44,7 +44,7 @@ export class HeaderComponent {
 	}
 
 	get logo(): string {
-		return this.ctx.institution?.logo || 'assets/placeholder/logo.png';
+		return this.ctx.institution?.logo || 'assets/logos/white-logo.png';
 	}
 
 	get canConfigureInstitution(): boolean {

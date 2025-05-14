@@ -17,12 +17,12 @@ export class RoadmapService {
 		return this.http.get<Roadmap>(`${this.api}/${roadmapId}`);
 	}
 
-	getUserRoadmapsByInstitution(institutionId: string): Observable<Roadmap[]> {
-		return this.http.get<Roadmap[]>(`${this.api}/institution/${institutionId}`);
+	getUserRoadmapsByClassroom(classroomId: string): Observable<Roadmap[]> {
+		return this.http.get<Roadmap[]>(`${this.api}/classroom/${classroomId}`);
 	}
 
 	getClassroomSharedRoadmaps(classroomId: string): Observable<Roadmap[]> {
-		return this.http.get<Roadmap[]>(`${this.api}/classroom/${classroomId}`);
+		return this.http.get<Roadmap[]>(`${this.api}/shared/classroom/${classroomId}`);
 	}
 
 	// UPDATE

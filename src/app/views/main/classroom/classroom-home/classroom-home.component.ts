@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
 import { lastValueFrom } from 'rxjs';
 import { RoadmapCreationPopUpComponent } from '../../../../components/pop-ups/roadmap-creation-pop-up/roadmap-creation-pop-up.component';
@@ -35,13 +35,18 @@ export class ClassroomHomeComponent {
 	roadmapService: RoadmapService = inject(RoadmapService);
 	dialog: MatDialog = inject(MatDialog);
 	router: Router = inject(Router);
+	route: ActivatedRoute = inject(ActivatedRoute);
 
 	isLoading: boolean = true;
 	myRoadmaps: Roadmap[] = [];
 	sharedRoadmaps: Roadmap[] = [];
 
 	ngOnInit() {
-		this.getData();
+		// This is used to update the data when the classroomId changes in the URL
+		this.route.params.subscribe(params => {
+			this.resetData();
+			this.getData();
+		});
 	}
 
 	get baseUrl(): string {
@@ -56,10 +61,15 @@ export class ClassroomHomeComponent {
 		return this.sharedRoadmaps.filter(roadmap => roadmap.userInstitutionRole === InstitutionRoleEnum.STUDENT);
 	}
 
+	resetData() {
+		this.myRoadmaps = [];
+		this.sharedRoadmaps = [];
+	}
+
 	async getData() {
 		this.isLoading = true;
 		Promise.all([
-			lastValueFrom(this.roadmapService.getUserRoadmapsByInstitution(this.ctx.institution?.id!)),
+			lastValueFrom(this.roadmapService.getUserRoadmapsByClassroom(this.ctx.classroom?.id!)),
 			lastValueFrom(this.roadmapService.getClassroomSharedRoadmaps(this.ctx.classroom?.id!)),
 		])
 			.then(res => {
