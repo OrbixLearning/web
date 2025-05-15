@@ -74,4 +74,12 @@ export class UserService {
 
 		return this.http.get<Page<UserAccount>>(`${this.api}/institution/${institutionId}`, { params });
 	}
+
+	getClassroomStudents(classroomId: string): Observable<UserAccount[]> {
+		return this.http.get<UserAccount[]>(`${this.api}/classroom/${classroomId}/students`);
+	}
+
+	getClassroomTeachers(classroomId: string): Observable<UserAccount[]> {
+		return this.http.get<UserAccount[]>(`${this.api}/classroom/${classroomId}/teachers`);
+	}
 }

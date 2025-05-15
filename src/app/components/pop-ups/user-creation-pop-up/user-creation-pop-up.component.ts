@@ -74,8 +74,8 @@ export class UserCreationPopUpComponent {
 					this.getFormControl('name').value,
 					this.getFormControl('password').value,
 					this.ctx.institution!.id!,
-					this.getFormControl('idInInstitution').value,
 					this.getFormControl('role').value,
+					this.getFormControl('idInInstitution').value,
 				),
 			)
 				.then((account: UserAccount) => {
