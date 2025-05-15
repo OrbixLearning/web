@@ -8,6 +8,8 @@ import { UserAccount } from '../../../../models/User';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddMemberToClassroomPopUpComponent } from '../../../../components/pop-ups/add-member-to-classroom-pop-up/add-member-to-classroom-pop-up.component';
 
 @Component({
 	selector: 'o-classroom-members',
@@ -19,6 +21,7 @@ export class ClassroomMembersComponent {
 	ctx: ContextService = inject(ContextService);
 	classroomService: ClassroomService = inject(ClassroomService);
 	userService: UserService = inject(UserService);
+	dialog: MatDialog = inject(MatDialog);
 
 	isLoading: boolean = false;
 	students: UserAccount[] = [];
@@ -44,6 +47,17 @@ export class ClassroomMembersComponent {
 			})
 			.finally(() => {
 				this.isLoading = false;
+			});
+	}
+
+	addMember() {
+		this.dialog
+			.open(AddMemberToClassroomPopUpComponent)
+			.afterClosed()
+			.subscribe(r => {
+				if (r) {
+					this.getData();
+				}
 			});
 	}
 }

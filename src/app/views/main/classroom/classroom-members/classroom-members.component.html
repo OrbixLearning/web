@@ -2,53 +2,61 @@
     <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
         <mat-icon>arrow_back</mat-icon>
     </button>
+    @if (ctx.isTeacher) {
+    <button mat-raised-button (click)="addMember()">Adicionar pessoas</button>
+    }
 </header>
 
-<div>
+<div class="classroom-members-div">
+
+    @if (students.length > 0 ) {
     <p-table [value]="students" size="small" [tableStyle]="tableStyle">
         <ng-template #body let-student>
-
             <!-- Body -->
             <tr>
                 <td>
                     <button mat-button [routerLink]="['/profile/' + student.user.id]">
                         @if (student.user.profilePicture) {
-                        <img [src]="student.user.profilePicture" alt="Profile Picture" class="profile-picture">
+                        <img [src]="student.user.profilePicture" alt="Profile Picture" class="profile-picture" />
                         } @else {
                         <mat-icon>account_circle</mat-icon>
                         }
                     </button>
                 </td>
-                <td> {{ student.idInInstitution }} </td>
-                <td> {{ student.user.name }} </td>
-                <td> {{ student.email }} </td>
-                <td> {{ student.institutionRole }} </td>
+                <td>{{ student.idInInstitution }}</td>
+                <td>{{ student.user.name }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.institutionRole }}</td>
             </tr>
-
         </ng-template>
     </p-table>
+    } @else {
+    <p>Não há alunos nesta turma</p>
+    }
 
+    @if (teachers.length > 0) {
     <p-table [value]="teachers" size="small" [tableStyle]="tableStyle">
         <ng-template #body let-teacher>
-
             <!-- Body -->
             <tr>
                 <td>
                     <button mat-button [routerLink]="['/profile/' + teacher.user.id]">
                         @if (teacher.user.profilePicture) {
-                        <img [src]="teacher.user.profilePicture" alt="Profile Picture" class="profile-picture">
+                        <img [src]="teacher.user.profilePicture" alt="Profile Picture" class="profile-picture" />
                         } @else {
                         <mat-icon>account_circle</mat-icon>
                         }
                     </button>
                 </td>
-                <td> {{ teacher.idInInstitution }} </td>
-                <td> {{ teacher.user.name }} </td>
-                <td> {{ teacher.email }} </td>
-                <td> {{ teacher.institutionRole }} </td>
+                <td>{{ teacher.idInInstitution }}</td>
+                <td>{{ teacher.user.name }}</td>
+                <td>{{ teacher.email }}</td>
+                <td>{{ teacher.institutionRole }}</td>
             </tr>
-
         </ng-template>
     </p-table>
+    } @else {
+    <p>Não há professores nesta turma</p>
+    }
 
 </div>
