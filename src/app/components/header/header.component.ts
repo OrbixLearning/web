@@ -7,6 +7,7 @@ import { SelectModule } from 'primeng/select';
 import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
 import { Institution } from '../../models/Institution';
 import { ContextService } from '../../services/context.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
 	selector: 'o-header',
@@ -17,6 +18,7 @@ import { ContextService } from '../../services/context.service';
 export class HeaderComponent {
 	ctx: ContextService = inject(ContextService);
 	router: Router = inject(Router);
+	theme: ThemeService = inject(ThemeService);
 
 	@Output() sidebar: EventEmitter<void> = new EventEmitter<void>();
 
@@ -34,6 +36,10 @@ export class HeaderComponent {
 		const urlSegments = this.router.url.split('/');
 		this.institutionId = urlSegments.length > 2 ? urlSegments[2] : undefined;
 		if (this.institutionId) this.selectedInstitution = this.ctx.institution!;
+	}
+
+	ngOnInit() {
+		this.setThemes();
 	}
 
 	get institutions(): Institution[] {
@@ -57,8 +63,14 @@ export class HeaderComponent {
 		);
 	}
 
+	setThemes() {
+		if (this.ctx.institution?.id) this.theme.setInstitutionTheme(this.ctx.institution);
+		else this.theme.setBaseTheme();
+	}
+
 	changeInstitution(institution: Institution) {
 		this.ctx.institution = institution;
+		this.setThemes();
 		if (institution.id) {
 			this.router.navigate(['/i/' + institution.id]);
 		} else {

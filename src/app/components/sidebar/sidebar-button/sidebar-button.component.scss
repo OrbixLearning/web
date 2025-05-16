@@ -20,11 +20,11 @@
 
 	&:hover {
 		background-color: var(--primary-color);
-		color: var(--text-color-light);
+		color: var(--text-color);
 	}
 }
 
 .sidebar-button-selected {
 	background-color: var(--secondary-color);
-	color: var(--text-color-dark);
+	color: var(--text-color);
 }

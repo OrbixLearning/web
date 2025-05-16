@@ -1,0 +1,11 @@
+@use './../themes/theme-base';
+
+@layer theme {
+	:root {
+		--p-primary-color: var(--primary-color);
+		--p-primary-color-text: var(--text-color);
+		--p-surface-0: var(--background-color);
+		--p-text-color: var(--text-color);
+		--p-focus-ring: 0 0 0 0.2rem rgba(0, 115, 247, 0.3);
+	}
+}
