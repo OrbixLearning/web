@@ -14,6 +14,9 @@ import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
 import { Roadmap } from '../../../../models/Roadmap';
 import { ContextService } from '../../../../services/context.service';
 import { RoadmapService } from '../../../../services/roadmap.service';
+import { Syllabus } from '../../../../models/Syllabus';
+import { FormsModule } from '@angular/forms';
+import { ArrayUtils } from '../../../../utils/Array.utils';
 
 @Component({
 	selector: 'o-classroom-home',
@@ -26,6 +29,7 @@ import { RoadmapService } from '../../../../services/roadmap.service';
 		MatInputModule,
 		SyllabusComponent,
 		RoadmapCardComponent,
+		FormsModule,
 	],
 	templateUrl: './classroom-home.component.html',
 	styleUrl: './classroom-home.component.scss',
@@ -40,6 +44,8 @@ export class ClassroomHomeComponent {
 	isLoading: boolean = true;
 	myRoadmaps: Roadmap[] = [];
 	sharedRoadmaps: Roadmap[] = [];
+	filter: string = '';
+	syllabusFilter: string[] = [];
 
 	ngOnInit() {
 		// This is used to update the data when the classroomId changes in the URL
@@ -61,6 +67,33 @@ export class ClassroomHomeComponent {
 		return this.sharedRoadmaps.filter(roadmap => roadmap.userInstitutionRole === InstitutionRoleEnum.STUDENT);
 	}
 
+	get filteredMyRoadmaps(): Roadmap[] {
+		return this.myRoadmaps.filter(this.filterRoadmap);
+	}
+
+	get filteredStudentRoadmaps(): Roadmap[] {
+		return this.studentRoadmaps.filter(this.filterRoadmap);
+	}
+
+	get filteredTeacherRoadmaps(): Roadmap[] {
+		return this.teacherRoadmaps.filter(this.filterRoadmap);
+	}
+
+	filterRoadmap = (roadmap: Roadmap): boolean => {
+		const filteredBySyllabus =
+			this.syllabusFilter.length === 0 ||
+			ArrayUtils.hasAllItems(
+				roadmap.syllabus.map(r => r.id),
+				this.syllabusFilter,
+			);
+
+		const filteredByName =
+			roadmap.name.toLowerCase().includes(this.filter.toLowerCase()) ||
+			roadmap.user.name.toLowerCase().includes(this.filter.toLowerCase());
+
+		return filteredBySyllabus && filteredByName;
+	};
+
 	resetData() {
 		this.myRoadmaps = [];
 		this.sharedRoadmaps = [];
@@ -79,6 +112,10 @@ export class ClassroomHomeComponent {
 			.finally(() => {
 				this.isLoading = false;
 			});
+	}
+
+	markSyllabus(syllabus: Syllabus[]) {
+		this.syllabusFilter = syllabus.map(s => s.id);
 	}
 
 	createRoadmap() {

@@ -32,16 +32,11 @@
 
         <div class="left-content">
 
-            <mat-form-field appearance="outline">
-                <mat-label>Filtrar</mat-label>
-                <input matInput />
-            </mat-form-field>
-
             <div class="roadmaps-div">
 
                 <div class="roadmaps">
                     <h3>Minhas trilhas</h3>
-                    @for (roadmap of myRoadmaps; track roadmap.id) {
+                    @for (roadmap of filteredMyRoadmaps; track roadmap.id) {
                     <o-roadmap-card [roadmap]="roadmap" (cardClick)="goToRoadmap(roadmap)"
                         (sharedChange)="updatedRoadmapSharing(roadmap)" />
                     }
@@ -50,13 +45,13 @@
                 <div class="roadmaps">
                     <h3>Trilhas compartilhadas</h3>
                     <h5>Trilhas de professor</h5>
-                    @for (roadmap of teacherRoadmaps; track roadmap.id) {
+                    @for (roadmap of filteredTeacherRoadmaps; track roadmap.id) {
                     <o-roadmap-card [roadmap]="roadmap" (cardClick)="goToRoadmap(roadmap)"
                         (sharedChange)="updatedRoadmapSharing(roadmap)" />
                     }
                     <p-divider />
                     <h5>Trilhas de alunos</h5>
-                    @for (roadmap of studentRoadmaps; track roadmap.id) {
+                    @for (roadmap of filteredStudentRoadmaps; track roadmap.id) {
                     <o-roadmap-card [roadmap]="roadmap" (cardClick)="goToRoadmap(roadmap)"
                         (sharedChange)="updatedRoadmapSharing(roadmap)" />
                     }
@@ -67,7 +62,15 @@
         </div>
 
         <div class="right-content">
-            <o-syllabus mode="click" />
+
+            <div class="search-div">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <mat-label>Pesquisar</mat-label>
+                    <input matInput [(ngModel)]="filter" />
+                </mat-form-field>
+            </div>
+
+            <o-syllabus mode="checkbox" (syllabusMarked)="markSyllabus($event)" />
         </div>
 
     </div>
