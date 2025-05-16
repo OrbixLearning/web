@@ -5,12 +5,12 @@
 /* You can add global styles to this file, and also import other style files */
 @layer theme {
 	:root {
-		--primary-color: #030333;
-		--secondary-color: #ffffdd;
-		--tertiary-color: #17a2b8;
-		--background-color: #ffffff;
-		--text-color: #000000;
-		--text-color-light: #ffffff;
+		--primary-color: #0073f7;
+		--secondary-color: #002f5f;
+		--tertiary-color: #061728;
+		--background-color: var(--tertiary-color);
+		--text-color: #fff;
+		--text-color-light: #000;
 		--header-height: 80px;
 		--sidebar-width: 120px;
 

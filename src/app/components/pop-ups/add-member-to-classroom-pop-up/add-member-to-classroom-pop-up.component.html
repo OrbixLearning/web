@@ -1,1 +1,49 @@
-<p>add-member-to-classroom-pop-up works!</p>
+<o-loading [isLoading]="isLoading" />
+
+<o-pop-up-header [title]="'Adicionar membros a turma ' + ctx.classroom?.name" />
+
+<mat-dialog-content>
+
+    <div>
+        <div>
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Filtrar</mat-label>
+                <input type="text" matInput [(ngModel)]="filter" />
+            </mat-form-field>
+            <button mat-icon-button (click)="search()" [disabled]="filter.length === 0">
+                <mat-icon>search</mat-icon>
+            </button>
+        </div>
+
+        <div>
+            @for (userAccount of filteredUsers; track userAccount.id) {
+            <button mat-button [disabled]="isAlreadySelected(userAccount)" (click)="selectUser(userAccount)">
+                <p>{{userAccount.user.name}}</p>
+                <p>{{userAccount.idInInstitution}}</p>
+                <p>{{userAccount.email}}</p>
+                <p>{{userAccount.institutionRole}}</p>
+            </button>
+            } @empty {
+            @if (showMessage) {
+            <p>Nenhum resultado</p>
+            }
+            }
+        </div>
+
+    </div>
+
+    <mat-chip-set>
+        @for (userAccount of selectedUsers; track userAccount.id) {
+        <mat-chip [removable]="true" (removed)="removeUser(userAccount)">{{userAccount.idInInstitution}}
+            {{userAccount.email}} {{userAccount.institutionRole}}
+            <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-chip>
+        }
+    </mat-chip-set>
+
+</mat-dialog-content>
+
+<o-pop-up-buttons cancelButton="Sair" confirmButton="Adicionar" [disable]="isLoading || selectedUsers.length === 0"
+    (confirm)="addUsersToClassroom()" />

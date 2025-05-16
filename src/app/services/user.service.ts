@@ -62,7 +62,7 @@ export class UserService {
 		idInInstitutionFilter: string,
 		emailFilter: string,
 		nameFilter: string,
-		roleFilter: InstitutionRoleEnum,
+		roleFilter?: InstitutionRoleEnum,
 	): Observable<Page<UserAccount>> {
 		let params = new HttpParams()
 			.set('page', page)
@@ -70,9 +70,14 @@ export class UserService {
 			.set('idInInstitution', idInInstitutionFilter)
 			.set('email', emailFilter)
 			.set('name', nameFilter)
-			.set('role', roleFilter);
+			.set('role', roleFilter ? roleFilter : '');
 
 		return this.http.get<Page<UserAccount>>(`${this.api}/institution/${institutionId}`, { params });
+	}
+
+	getUsersToAddToClassroom(classroomId: string, filter?: string): Observable<UserAccount[]> {
+		let params = new HttpParams().set('filter', filter ? filter : '');
+		return this.http.get<UserAccount[]>(`${this.api}/classroom/${classroomId}/add-to-classroom`, { params });
 	}
 
 	getClassroomStudents(classroomId: string): Observable<UserAccount[]> {
@@ -81,5 +86,11 @@ export class UserService {
 
 	getClassroomTeachers(classroomId: string): Observable<UserAccount[]> {
 		return this.http.get<UserAccount[]>(`${this.api}/classroom/${classroomId}/teachers`);
+	}
+
+	addUsersToClassroom(classroomId: string, userAccountsIds: string[]): Observable<{ errorStrings: string[] }> {
+		return this.http.put<{ errorStrings: string[] }>(`${this.api}/classroom/${classroomId}/add-to-classroom`, {
+			userAccountsIds,
+		});
 	}
 }
