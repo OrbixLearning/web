@@ -18,6 +18,7 @@ import { User, UserAccount } from '../../../models/User';
 import { AuthService } from '../../../services/auth.service';
 import { ContextService } from '../../../services/context.service';
 import { UserService } from '../../../services/user.service';
+import { ThemeService } from '../../../services/theme.service';
 
 @Component({
 	selector: 'o-profile',
@@ -42,6 +43,7 @@ export class ProfileComponent {
 	formBuilder: FormBuilder = inject(FormBuilder);
 	router: Router = inject(Router);
 	dialog: MatDialog = inject(MatDialog);
+	theme: ThemeService = inject(ThemeService);
 
 	isLoading: boolean = false;
 	picture?: File;
@@ -132,6 +134,7 @@ export class ProfileComponent {
 
 	async logout() {
 		await lastValueFrom(this.authService.logout()).then(() => {
+			this.theme.setBaseTheme();
 			this.router.navigate(['/login']);
 		});
 	}

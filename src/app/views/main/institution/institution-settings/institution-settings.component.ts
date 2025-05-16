@@ -13,6 +13,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { Institution } from '../../../../models/Institution';
 import { ContextService } from '../../../../services/context.service';
 import { InstitutionService } from '../../../../services/institution.service';
+import { ThemeService } from '../../../../services/theme.service';
 
 @Component({
 	selector: 'o-institution-settings',
@@ -36,6 +37,7 @@ export class InstitutionSettingsComponent {
 	formBuilder: FormBuilder = inject(FormBuilder);
 	service: InstitutionService = inject(InstitutionService);
 	ctx: ContextService = inject(ContextService);
+	theme: ThemeService = inject(ThemeService);
 
 	isLoading: boolean = false;
 	form: FormGroup = this.formBuilder.group({});
@@ -110,6 +112,7 @@ export class InstitutionSettingsComponent {
 				.then((i: Institution) => {
 					this.ctx.institution = i;
 					this.resetForm();
+					this.theme.setInstitutionTheme(this.ctx.institution);
 				})
 				.finally(() => {
 					this.isLoading = false;
