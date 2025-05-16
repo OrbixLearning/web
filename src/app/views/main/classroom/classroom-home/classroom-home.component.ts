@@ -79,6 +79,7 @@ export class ClassroomHomeComponent {
 		return this.teacherRoadmaps.filter(this.filterRoadmap);
 	}
 
+	// TODO: Do a performance test later to see if this the filtering should be async or not
 	filterRoadmap = (roadmap: Roadmap): boolean => {
 		const filteredBySyllabus =
 			this.syllabusFilter.length === 0 ||
