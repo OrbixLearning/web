@@ -19,10 +19,11 @@ import { Page } from '../../../../models/Page';
 import { UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
+import { LoadingComponent } from '../../../../components/loading/loading.component';
 
 @Component({
 	selector: 'o-institution-users',
-	imports: [MatButtonModule, MatIconModule, TableModule, SelectModule, FormsModule, RouterModule],
+	imports: [MatButtonModule, MatIconModule, TableModule, SelectModule, FormsModule, RouterModule, LoadingComponent],
 	templateUrl: './institution-users.component.html',
 	styleUrl: './institution-users.component.scss',
 })

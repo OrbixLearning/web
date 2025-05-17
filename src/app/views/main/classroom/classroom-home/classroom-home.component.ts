@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,15 +8,15 @@ import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
 import { lastValueFrom } from 'rxjs';
+import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { RoadmapCreationPopUpComponent } from '../../../../components/pop-ups/roadmap-creation-pop-up/roadmap-creation-pop-up.component';
 import { RoadmapCardComponent } from '../../../../components/roadmap-card/roadmap-card.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
 import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
 import { Roadmap } from '../../../../models/Roadmap';
+import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
 import { RoadmapService } from '../../../../services/roadmap.service';
-import { Syllabus } from '../../../../models/Syllabus';
-import { FormsModule } from '@angular/forms';
 import { ArrayUtils } from '../../../../utils/Array.utils';
 
 @Component({
@@ -30,6 +31,7 @@ import { ArrayUtils } from '../../../../utils/Array.utils';
 		SyllabusComponent,
 		RoadmapCardComponent,
 		FormsModule,
+		LoadingComponent,
 	],
 	templateUrl: './classroom-home.component.html',
 	styleUrl: './classroom-home.component.scss',

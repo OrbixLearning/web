@@ -1,5 +1,7 @@
 <o-pop-up-header title="Criar trilha" />
 
+<o-loading [isLoading]="isLoading" />
+
 <mat-stepper #stepper linear>
 
     <mat-step [stepControl]="forms.at(0)" label="Tópicos">

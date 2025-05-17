@@ -4,28 +4,28 @@
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-	<div class="ccpu-form-div">
-		<mat-form-field appearance="fill" subscriptSizing="dynamic">
-			<mat-label>Nome</mat-label>
-			<input matInput type="text" name="name" formControlName="name" />
-		</mat-form-field>
+    <div class="ccpu-form-div">
+        <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-label>Nome</mat-label>
+            <input matInput type="text" name="name" formControlName="name" />
+        </mat-form-field>
 
-		<div>
-			<mat-form-field appearance="fill" subscriptSizing="dynamic">
-				<mat-label>Ícone</mat-label>
-				<input matInput type="text" name="icon" formControlName="icon" />
+        <div>
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Ícone</mat-label>
+                <input matInput type="text" name="icon" formControlName="icon" />
 
-			</mat-form-field>
+            </mat-form-field>
 
-			<mat-icon
-				[style]="'font-size: 48px; height: 48px; width: 48px; visibility: ' + (getFormControl('icon').value ? 'visible' : 'hidden')">
-				{{getFormControl('icon').value}}
-			</mat-icon>
-		</div>
+            <mat-icon
+                [style]="'font-size: 48px; height: 48px; width: 48px; visibility: ' + (getFormControl('icon').value ? 'visible' : 'hidden')">
+                {{getFormControl('icon').value}}
+            </mat-icon>
+        </div>
 
-		<p>É possível verificar a lista de ícones em <a href="https://fonts.google.com/icons" target="_blank">Google
-				Icons</a></p>
-	</div>
+        <p>É possível verificar a lista de ícones em <a href="https://fonts.google.com/icons" target="_blank">Google
+                Icons</a></p>
+    </div>
 
-	<o-pop-up-buttons [disable]="isLoading || form.invalid" type="submit" confirmButton="Criar turma" />
+    <o-pop-up-buttons [disable]="isLoading || form.invalid" type="submit" confirmButton="Criar turma" />
 </form>

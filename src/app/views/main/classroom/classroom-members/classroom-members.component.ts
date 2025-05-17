@@ -1,19 +1,20 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { lastValueFrom } from 'rxjs';
+import { LoadingComponent } from '../../../../components/loading/loading.component';
+import { AddMemberToClassroomPopUpComponent } from '../../../../components/pop-ups/add-member-to-classroom-pop-up/add-member-to-classroom-pop-up.component';
 import { UserAccount } from '../../../../models/User';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
-import { MatDialog } from '@angular/material/dialog';
-import { AddMemberToClassroomPopUpComponent } from '../../../../components/pop-ups/add-member-to-classroom-pop-up/add-member-to-classroom-pop-up.component';
 
 @Component({
 	selector: 'o-classroom-members',
-	imports: [TableModule, MatIconModule, MatButtonModule, RouterModule],
+	imports: [TableModule, MatIconModule, MatButtonModule, RouterModule, LoadingComponent],
 	templateUrl: './classroom-members.component.html',
 	styleUrl: './classroom-members.component.scss',
 })

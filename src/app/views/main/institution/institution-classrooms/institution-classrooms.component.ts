@@ -7,6 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { FilterMetadata } from 'primeng/api';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { lastValueFrom } from 'rxjs';
+import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { ClassroomCreationPopUpComponent } from '../../../../components/pop-ups/classroom-creation-pop-up/classroom-creation-pop-up.component';
 import {
 	ConfirmPopUpComponent,
@@ -19,7 +20,7 @@ import { ContextService } from '../../../../services/context.service';
 
 @Component({
 	selector: 'o-institution-classrooms',
-	imports: [MatButtonModule, MatIconModule, TableModule, FormsModule, RouterModule],
+	imports: [MatButtonModule, MatIconModule, TableModule, FormsModule, RouterModule, LoadingComponent],
 	templateUrl: './institution-classrooms.component.html',
 	styleUrl: './institution-classrooms.component.scss',
 })

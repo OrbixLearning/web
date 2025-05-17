@@ -13,6 +13,7 @@ import { Roadmap } from '../../../models/Roadmap';
 import { Syllabus } from '../../../models/Syllabus';
 import { ContextService } from '../../../services/context.service';
 import { RoadmapService } from '../../../services/roadmap.service';
+import { LoadingComponent } from '../../loading/loading.component';
 import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/success-pop-up.component';
@@ -29,6 +30,7 @@ import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/succe
 		MatInputModule,
 		MatSelectModule,
 		MatSlideToggleModule,
+		LoadingComponent,
 	],
 	templateUrl: './roadmap-creation-pop-up.component.html',
 	styleUrl: './roadmap-creation-pop-up.component.scss',
