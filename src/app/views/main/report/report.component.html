@@ -1,0 +1,41 @@
+<o-loading [isLoading]="isLoading" />
+
+<div>
+    <h1>Fale conosco</h1>
+    <div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Título</mat-label>
+                <input type="text" matInput formControlName="title" />
+            </mat-form-field>
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Descrição</mat-label>
+                <textarea matInput formControlName="description" rows="6"></textarea>
+            </mat-form-field>
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Tipo</mat-label>
+                <mat-select formControlName="type">
+                    @for (type of reportTypes; track type) {
+                    <mat-option [value]="type">{{ type }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button type="submit">Enviar</button>
+        </form>
+
+        <div>
+            <h3>Suas mensagens</h3>
+            @for (report of userReports; track report.id) {
+            <mat-card>
+                <mat-card-title>{{report.title}}</mat-card-title>
+                <mat-card-subtitle>{{report.id}}</mat-card-subtitle>
+                <mat-card-subtitle>{{formatDate(report.createdAt)}}</mat-card-subtitle>
+                <mat-card-subtitle>{{report.type}}</mat-card-subtitle>
+                <mat-card-content>
+                    <p>{{report.description}}</p>
+                </mat-card-content>
+            </mat-card>
+            }
+        </div>
+    </div>
+</div>

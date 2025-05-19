@@ -100,4 +100,9 @@ export class HeaderComponent {
 		this.ctx.clearClassroom();
 		this.router.navigate(['/profile/' + this.ctx.user?.id]);
 	}
+
+	goToReport() {
+		this.ctx.clearClassroom();
+		this.router.navigate(['/report']);
+	}
 }

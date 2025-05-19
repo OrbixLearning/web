@@ -30,6 +30,10 @@ export const routes: Routes = [
 					),
 			},
 			{
+				path: 'report',
+				loadComponent: () => import('./views/main/report/report.component').then(m => m.ReportComponent),
+			},
+			{
 				path: 'i/:institutionId',
 				loadComponent: () =>
 					import('./views/main/institution/institution.component').then(m => m.InstitutionComponent),

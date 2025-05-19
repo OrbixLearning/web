@@ -1,11 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
 import { Institution } from '../models/Institution';
-import { Page } from '../models/Page';
-import { UserAccount } from '../models/User';
 
 @Injectable({
 	providedIn: 'root',

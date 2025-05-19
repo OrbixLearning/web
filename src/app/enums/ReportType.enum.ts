@@ -1,0 +1,7 @@
+export enum ReportTypeEnum {
+	PRAISE = 'PRAISE',
+	SUGGESTION = 'SUGGESTION',
+	ERROR = 'ERROR',
+	SUPPORT = 'SUPPORT',
+	OTHER = 'OTHER',
+}
