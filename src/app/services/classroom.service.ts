@@ -38,4 +38,10 @@ export class ClassroomService {
 	removeMember(classroomId: string, userAccountId: string): Observable<Classroom> {
 		return this.http.put<Classroom>(`${this.api}/remove-member`, { classroomId, userAccountId });
 	}
+
+	addUsersToClassroom(classroomId: string, userAccountsIds: string[]): Observable<{ errorStrings: string[] }> {
+		return this.http.put<{ errorStrings: string[] }>(`${this.api}/classroom/${classroomId}/add-to-classroom`, {
+			userAccountsIds,
+		});
+	}
 }

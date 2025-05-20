@@ -57,6 +57,9 @@
                 <td>{{ teacher.user.name }}</td>
                 <td>{{ teacher.email }}</td>
                 <td>{{ teacher.institutionRole }}</td>
+                @if (ctx.isTeacher) {
+                <td><button mat-icon-button (click)="removeMember(teacher)"><mat-icon>close</mat-icon></button></td>
+                }
             </tr>
         </ng-template>
     </p-table>

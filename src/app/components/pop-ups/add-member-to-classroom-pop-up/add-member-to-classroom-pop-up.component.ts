@@ -14,6 +14,7 @@ import { LoadingComponent } from '../../loading/loading.component';
 import { ErrorPopUpComponent, ErrorPopUpData } from '../error-pop-up/error-pop-up.component';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
+import { ClassroomService } from '../../../services/classroom.service';
 
 @Component({
 	selector: 'o-add-member-to-classroom-pop-up',
@@ -36,6 +37,7 @@ export class AddMemberToClassroomPopUpComponent {
 	dialogRef: MatDialogRef<AddMemberToClassroomPopUpComponent> = inject(MatDialogRef);
 	ctx: ContextService = inject(ContextService);
 	userService: UserService = inject(UserService);
+	classroomService: ClassroomService = inject(ClassroomService);
 	dialog: MatDialog = inject(MatDialog);
 
 	isLoading: boolean = false;
@@ -72,7 +74,7 @@ export class AddMemberToClassroomPopUpComponent {
 	async addUsersToClassroom() {
 		this.isLoading = true;
 		await lastValueFrom(
-			this.userService.addUsersToClassroom(
+			this.classroomService.addUsersToClassroom(
 				this.ctx.classroom!.id!,
 				this.selectedUsers.map(u => u.id!),
 			),

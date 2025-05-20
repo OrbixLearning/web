@@ -87,10 +87,4 @@ export class UserService {
 	getClassroomTeachers(classroomId: string): Observable<UserAccount[]> {
 		return this.http.get<UserAccount[]>(`${this.api}/classroom/${classroomId}/teachers`);
 	}
-
-	addUsersToClassroom(classroomId: string, userAccountsIds: string[]): Observable<{ errorStrings: string[] }> {
-		return this.http.put<{ errorStrings: string[] }>(`${this.api}/classroom/${classroomId}/add-to-classroom`, {
-			userAccountsIds,
-		});
-	}
 }
