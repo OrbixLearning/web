@@ -11,6 +11,10 @@ import { UserAccount } from '../../../../models/User';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
+import {
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
+} from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 
 @Component({
 	selector: 'o-classroom-members',
@@ -58,6 +62,29 @@ export class ClassroomMembersComponent {
 			.subscribe(r => {
 				if (r) {
 					this.getData();
+				}
+			});
+	}
+
+	removeMember(user: UserAccount) {
+		let data: ConfirmPopUpData = {
+			title: `Tem certeza que deseja remover ${user.user.name} da turma?`,
+			message: `Você poderá adicionar ${user.user.name} novamente a turma depois, mas seu progresso será perdido.`,
+			confirmButton: 'Remover',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async r => {
+				if (r) {
+					this.isLoading = true;
+					await lastValueFrom(this.classroomService.removeMember(this.ctx.classroom!.id, user.id))
+						.then(() => {
+							this.getData();
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
 				}
 			});
 	}

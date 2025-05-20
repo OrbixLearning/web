@@ -68,14 +68,34 @@
         <!-- Body -->
         <tr>
             <td> <p-tableCheckbox [value]="account" /> </td>
-            <td>{{ account.idInInstitution }}</td>
-            <td>{{ account.email }}</td>
+            <td [pEditableColumn]="account.idInInstitution" pEditableColumnField="idInInstitution">
+                <p-cellEditor>
+                    <ng-template #input>
+                        <input type="text" pInputText [(ngModel)]="account.idInInstitution"
+                            (change)="updateAccount(account)" (keydown.enter)="updateAccount(account)" />
+                    </ng-template>
+                    <ng-template #output>
+                        {{ account.idInInstitution }}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td [pEditableColumn]="account.email" pEditableColumnField="email">
+                <p-cellEditor>
+                    <ng-template #input>
+                        <input type="email" pInputText [(ngModel)]="account.email" (change)="updateAccount(account)"
+                            (keydown.enter)="updateAccount(account)" />
+                    </ng-template>
+                    <ng-template #output>
+                        {{ account.email }}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
             <td>{{ account.user.name }}</td>
             <td [pEditableColumn]="account.institutionRole" pEditableColumnField="institutionRole">
                 <p-cellEditor>
                     <ng-template #input>
                         <p-select [options]="roles" [(ngModel)]="account.institutionRole" [checkmark]="true"
-                            (onChange)="updateInstitutionRole(account.id, $event.value)" />
+                            (onChange)="updateAccount(account)" />
                     </ng-template>
                     <ng-template #output>
                         {{ account.institutionRole }}

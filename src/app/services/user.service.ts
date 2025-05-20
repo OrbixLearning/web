@@ -25,8 +25,8 @@ export class UserService {
 		return this.http.put<User>(this.api, { name });
 	}
 
-	updateUserInstitutionRole(id: string, role: InstitutionRoleEnum): Observable<UserAccount> {
-		return this.http.put<UserAccount>(`${this.api}/institution-role`, { id, role });
+	updateAccount(account: UserAccount): Observable<UserAccount> {
+		return this.http.put<UserAccount>(`${this.api}/account`, account);
 	}
 
 	deleteUserAccounts(ids: string[]): Observable<void> {

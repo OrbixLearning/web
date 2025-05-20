@@ -5,9 +5,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { FilterMetadata } from 'primeng/api';
+import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { lastValueFrom } from 'rxjs';
+import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
@@ -19,11 +21,19 @@ import { Page } from '../../../../models/Page';
 import { UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
-import { LoadingComponent } from '../../../../components/loading/loading.component';
 
 @Component({
 	selector: 'o-institution-users',
-	imports: [MatButtonModule, MatIconModule, TableModule, SelectModule, FormsModule, RouterModule, LoadingComponent],
+	imports: [
+		MatButtonModule,
+		MatIconModule,
+		TableModule,
+		SelectModule,
+		FormsModule,
+		RouterModule,
+		LoadingComponent,
+		InputTextModule,
+	],
 	templateUrl: './institution-users.component.html',
 	styleUrl: './institution-users.component.scss',
 })
@@ -135,10 +145,10 @@ export class InstitutionUsersComponent {
 		this.dialog.open(PasswordResetPopUpComponent, { data: account });
 	}
 
-	async updateInstitutionRole(accountId: string, newRole: InstitutionRoleEnum) {
+	async updateAccount(account: UserAccount) {
 		this.isLoading = true;
 		this.cd.detectChanges();
-		await lastValueFrom(this.service.updateUserInstitutionRole(accountId, newRole))
+		await lastValueFrom(this.service.updateAccount(account))
 			.then(() => {})
 			.catch(async () => {
 				await this.getAccounts();
@@ -146,5 +156,9 @@ export class InstitutionUsersComponent {
 			.finally(() => {
 				this.isLoading = false;
 			});
+	}
+
+	test(s: string) {
+		console.log(s);
 	}
 }

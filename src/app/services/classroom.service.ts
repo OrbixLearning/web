@@ -34,4 +34,8 @@ export class ClassroomService {
 	create(institutionId: string, name: string, icon: string): Observable<Classroom> {
 		return this.http.post<Classroom>(this.api, { institutionId, name, icon });
 	}
+
+	removeMember(classroomId: string, userAccountId: string): Observable<Classroom> {
+		return this.http.put<Classroom>(`${this.api}/remove-member`, { classroomId, userAccountId });
+	}
 }
