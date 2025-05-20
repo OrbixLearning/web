@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { FilterMetadata } from 'primeng/api';
+import { InputTextModule } from 'primeng/inputtext';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
@@ -17,10 +18,20 @@ import { Classroom } from '../../../../models/Classroom';
 import { Page } from '../../../../models/Page';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
+import { PopoverModule } from 'primeng/popover';
 
 @Component({
 	selector: 'o-institution-classrooms',
-	imports: [MatButtonModule, MatIconModule, TableModule, FormsModule, RouterModule, LoadingComponent],
+	imports: [
+		MatButtonModule,
+		MatIconModule,
+		TableModule,
+		FormsModule,
+		RouterModule,
+		LoadingComponent,
+		InputTextModule,
+		PopoverModule,
+	],
 	templateUrl: './institution-classrooms.component.html',
 	styleUrl: './institution-classrooms.component.scss',
 })
@@ -108,5 +119,22 @@ export class InstitutionClassroomsComponent {
 						});
 				}
 			});
+	}
+
+	async updateClassroom(classroom: Classroom) {
+		this.isLoading = true;
+		this.cd.detectChanges();
+		await lastValueFrom(this.service.update(classroom))
+			.then(() => {})
+			.catch(async () => {
+				await this.getClassrooms();
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
+
+	iconChange(classroom: Classroom) {
+		console.log('Icon changed:', classroom.icon);
 	}
 }

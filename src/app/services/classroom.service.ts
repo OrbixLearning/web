@@ -44,4 +44,8 @@ export class ClassroomService {
 			userAccountsIds,
 		});
 	}
+
+	update(classroom: Classroom): Observable<Classroom> {
+		return this.http.put<Classroom>(this.api, classroom);
+	}
 }

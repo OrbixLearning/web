@@ -51,8 +51,30 @@
         <!-- Body -->
         <tr>
             <td> <p-tableCheckbox [value]="classroom" /> </td>
-            <td><mat-icon>{{ classroom.icon }}</mat-icon></td>
-            <td>{{ classroom.name }}</td>
+            <td>
+                <button mat-icon-button (click)="op.toggle($event)">
+                    <mat-icon>{{ classroom.icon }}</mat-icon>
+                </button>
+                <p-popover #op>
+                    <div>
+                        <input type="text" pInputText [(ngModel)]="classroom.icon" (change)="updateClassroom(classroom)"
+                            (keydown.enter)="updateClassroom(classroom)" />
+                        <p>É possível verificar a lista de ícones em <a href="https://fonts.google.com/icons"
+                                target="_blank">Google Icons</a></p>
+                    </div>
+                </p-popover>
+            </td>
+            <td [pEditableColumn]="classroom.name" pEditableColumnField="name">
+                <p-cellEditor>
+                    <ng-template #input>
+                        <input type="text" pInputText [(ngModel)]="classroom.name" (change)="updateClassroom(classroom)"
+                            (keydown.enter)="updateClassroom(classroom)" />
+                    </ng-template>
+                    <ng-template #output>
+                        {{ classroom.name }}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
             <td>{{ classroom.syllabus?.length }}</td>
             <td>
                 <button mat-icon-button [routerLink]="['/i/' + ctx.institution?.id + '/c/' + classroom.id]">

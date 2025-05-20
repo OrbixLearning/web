@@ -157,8 +157,4 @@ export class InstitutionUsersComponent {
 				this.isLoading = false;
 			});
 	}
-
-	test(s: string) {
-		console.log(s);
-	}
 }
