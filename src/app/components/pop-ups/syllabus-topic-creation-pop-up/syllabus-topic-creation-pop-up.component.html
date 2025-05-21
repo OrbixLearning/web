@@ -1,0 +1,33 @@
+<o-pop-up-header title="Adicionar novo tópico na ementa" />
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+        <mat-label>Nome do tópico</mat-label>
+        <input matInput type="text" name="name" formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput name="description" formControlName="description" [rows]="4"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+        <mat-label>Tópico pai</mat-label>
+        <mat-select formControlName="parent" name="parent" (selectionChange)="parentChange()">
+            <mat-option [value]="undefined">Nenhum (tópico raiz)</mat-option>
+            @for (parent of parentSelector; track parent) {
+            <mat-option [value]="parent">{{parent.name}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+
+    @if (showIndex) {
+    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+        <mat-label>Index em {{getFormControl('parent').value.name}}</mat-label>
+        <input matInput type="number" name="index" formControlName="index" />
+    </mat-form-field>
+    }
+
+    <o-pop-up-buttons [disable]="form.invalid" type="submit" confirmButton="Adicionar tópico" />
+</form>

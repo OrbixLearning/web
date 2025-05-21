@@ -118,7 +118,7 @@ export class ClassroomHomeComponent {
 	}
 
 	markSyllabus(syllabus: Syllabus[]) {
-		this.syllabusFilter = syllabus.map(s => s.id);
+		this.syllabusFilter = syllabus.map(s => s.id!);
 	}
 
 	createRoadmap() {

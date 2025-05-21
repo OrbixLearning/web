@@ -45,7 +45,7 @@ export class ClassroomService {
 		});
 	}
 
-	update(classroom: Classroom): Observable<Classroom> {
-		return this.http.put<Classroom>(this.api, classroom);
+	update(classroomId: string, name: string, icon: string): Observable<Classroom> {
+		return this.http.put<Classroom>(this.api, { classroomId, name, icon });
 	}
 }

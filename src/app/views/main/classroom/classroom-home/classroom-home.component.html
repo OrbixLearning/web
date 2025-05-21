@@ -72,7 +72,7 @@
                 </mat-form-field>
             </div>
 
-            <o-syllabus mode="checkbox" (syllabusMarked)="markSyllabus($event)" />
+            <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="checkbox" (syllabusMarked)="markSyllabus($event)" />
         </div>
 
     </div>

@@ -124,8 +124,10 @@ export class InstitutionClassroomsComponent {
 	async updateClassroom(classroom: Classroom) {
 		this.isLoading = true;
 		this.cd.detectChanges();
-		await lastValueFrom(this.service.update(classroom))
-			.then(() => {})
+		await lastValueFrom(this.service.update(classroom.id, classroom.name, classroom.icon))
+			.then(async (c: Classroom) => {
+				await this.ctx.loadClassroomList();
+			})
 			.catch(async () => {
 				await this.getClassrooms();
 			})

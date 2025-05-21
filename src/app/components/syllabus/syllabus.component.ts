@@ -1,8 +1,7 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import { TreeModule } from 'primeng/tree';
 import { Syllabus } from '../../models/Syllabus';
-import { ContextService } from '../../services/context.service';
 
 @Component({
 	selector: 'o-syllabus',
@@ -11,14 +10,17 @@ import { ContextService } from '../../services/context.service';
 	styleUrl: './syllabus.component.scss',
 })
 export class SyllabusComponent {
-	ctx: ContextService = inject(ContextService);
-
+	@Input() syllabus?: Syllabus[];
 	@Input() mode: 'readonly' | 'checkbox' | 'selection' | 'click' = 'readonly';
 	@Output() syllabusClicked: EventEmitter<Syllabus> = new EventEmitter<Syllabus>();
 	@Output() syllabusMarked: EventEmitter<Syllabus[]> = new EventEmitter<Syllabus[]>();
 
 	syllabusComponentTree: TreeNode[] = this.buildSyllabusTree();
 	selection?: any;
+
+	ngOnChanges() {
+		this.syllabusComponentTree = this.buildSyllabusTree();
+	}
 
 	get selectionMode(): 'single' | 'multiple' | 'checkbox' | null | undefined {
 		switch (this.mode) {
@@ -34,15 +36,14 @@ export class SyllabusComponent {
 	}
 
 	buildSyllabusTree(): TreeNode[] {
-		let syllabus: Syllabus[] = this.ctx.classroom?.syllabus!;
-		if (!syllabus) return [];
-		return this.recursiveSyllabusTreeBuildCall(syllabus, 0);
+		if (!this.syllabus) return [];
+		return this.recursiveSyllabusTreeBuildCall(this.syllabus, 0);
 	}
 
 	recursiveSyllabusTreeBuildCall(syllabus: Syllabus[], depth: number): TreeNode[] {
 		return syllabus.map(s => {
 			return {
-				key: s.id,
+				key: s.id!,
 				label: s.name,
 				data: s,
 				leaf: s.topics.length === 0,

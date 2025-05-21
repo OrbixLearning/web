@@ -6,7 +6,7 @@
 
     <mat-step [stepControl]="forms.at(0)" label="Tópicos">
         <div>
-            <o-syllabus mode="checkbox" (syllabusMarked)="markSyllabus($event)" />
+            <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="checkbox" (syllabusMarked)="markSyllabus($event)" />
         </div>
         <div>
             <button mat-button matStepperNext>Próximo</button>

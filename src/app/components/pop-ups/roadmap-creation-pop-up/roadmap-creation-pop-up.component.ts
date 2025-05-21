@@ -134,7 +134,7 @@ export class RoadmapCreationPopUpComponent {
 			let endpoint: string = '';
 			let syllabusIds: string[] = [];
 			this.getFormControl(0, 'syllabus').value.forEach((syllabus: Syllabus) => {
-				syllabusIds.push(syllabus.id);
+				syllabusIds.push(syllabus.id!);
 			});
 			let name: string = this.getFormControl(1, 'name').value;
 			let requestBody: any = { syllabusIds, name, language: this.getFormControl(2, 'language').value };

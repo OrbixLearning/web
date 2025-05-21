@@ -1,60 +1,60 @@
 <div class="institution-settings">
-	@if (isLoading) {
-	<o-loading [isLoading]="isLoading" />
-	}
+    @if (isLoading) {
+    <o-loading [isLoading]="isLoading" />
+    }
 
-	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-div">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-div">
 
-		<p class="title">Configurações da Instituição</p>
+        <p class="title">Configurações da Instituição {{ctx.institution?.name}}</p>
 
-		<mat-form-field subscriptSizing="dynamic" appearance="outline">
-			<mat-label>Nome da Instituição</mat-label>
-			<input matInput name="name" formControlName="name" required />
-		</mat-form-field>
+        <mat-form-field subscriptSizing="dynamic" appearance="outline">
+            <mat-label>Nome da Instituição</mat-label>
+            <input matInput name="name" formControlName="name" required />
+        </mat-form-field>
 
-		<div class="logo-div">
-			<div class="logo-left-div">
-				<p>Logo</p>
-				<p-fileupload mode="basic" chooseLabel="Selecionar" chooseIcon="pi pi-upload" name="logo"
-					accept=".png,.svg" maxFileSize="1000000" (onSelect)="logo = $event.currentFiles[0]" />
-			</div>
-			<img [src]="ctx.institution?.logo" alt="InstitutionLogo">
-		</div>
+        <div class="logo-div">
+            <div class="logo-left-div">
+                <p>Logo</p>
+                <p-fileupload mode="basic" chooseLabel="Selecionar" chooseIcon="pi pi-upload" name="logo"
+                    accept=".png,.svg" maxFileSize="1000000" (onSelect)="logo = $event.currentFiles[0]" />
+            </div>
+            <img [src]="ctx.institution?.logo" alt="InstitutionLogo">
+        </div>
 
-		<div class="color-div">
-			<mat-form-field subscriptSizing="dynamic" appearance="outline">
-				<mat-label>Cor primária</mat-label>
-				<input matInput name="primaryColor" formControlName="primaryColor" [(ngModel)]="primaryColor"
-					required />
-			</mat-form-field>
-			<p-colorpicker [(ngModel)]="primaryColor" formControlName="primaryColor" />
-		</div>
+        <div class="color-div">
+            <mat-form-field subscriptSizing="dynamic" appearance="outline">
+                <mat-label>Cor primária</mat-label>
+                <input matInput name="primaryColor" formControlName="primaryColor" [(ngModel)]="primaryColor"
+                    required />
+            </mat-form-field>
+            <p-colorpicker [(ngModel)]="primaryColor" formControlName="primaryColor" />
+        </div>
 
-		<div class="color-div">
-			<mat-form-field subscriptSizing="dynamic" appearance="outline">
-				<mat-label>Cor secundária</mat-label>
-				<input matInput name="secondaryColor" formControlName="secondaryColor" [(ngModel)]="secondaryColor"
-					required />
-			</mat-form-field>
-			<p-colorpicker [(ngModel)]="secondaryColor" formControlName="secondaryColor" />
-		</div>
+        <div class="color-div">
+            <mat-form-field subscriptSizing="dynamic" appearance="outline">
+                <mat-label>Cor secundária</mat-label>
+                <input matInput name="secondaryColor" formControlName="secondaryColor" [(ngModel)]="secondaryColor"
+                    required />
+            </mat-form-field>
+            <p-colorpicker [(ngModel)]="secondaryColor" formControlName="secondaryColor" />
+        </div>
 
-		<div>
-			<button mat-button type="button" (click)="resetForm()">Cancelar</button>
-			<button mat-raised-button cdkInitialFocus type="submit" class="save-button" [disabled]="disableSaveButton">
-				<mat-icon>save</mat-icon>
-				Salvar
-			</button>
-		</div>
-	</form>
+        <div>
+            <button mat-button type="button" (click)="resetForm()">Cancelar</button>
+            <button mat-raised-button cdkInitialFocus type="submit" class="save-button" [disabled]="disableSaveButton">
+                <mat-icon>save</mat-icon>
+                Salvar
+            </button>
+        </div>
+    </form>
 
-	<div class="buttons-div">
-		<button mat-raised-button [routerLink]="[usersUrl]">
-			Usuários
-		</button>
+    <div class="buttons-div">
+        <button mat-raised-button [routerLink]="[usersUrl]">
+            Usuários
+        </button>
 
-		<button mat-raised-button [routerLink]="[classroomsUrl]">
-			Turmas
-		</button>
-	</div>
+        <button mat-raised-button [routerLink]="[classroomsUrl]">
+            Turmas
+        </button>
+    </div>
 </div>

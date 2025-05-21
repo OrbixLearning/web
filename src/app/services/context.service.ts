@@ -47,7 +47,7 @@ export class ContextService {
 		effect(() => {
 			const institution = this.institutionSignal();
 			if (institution && institution.id) {
-				Promise.all([this.loadClassroomList(), this.loadInstitutionRoles()]);
+				Promise.all([this.loadInstitutionList(), this.loadClassroomList(), this.loadInstitutionRoles()]);
 			} else {
 				this.clearClassroomList();
 				this.clearInstitutionRoles();
@@ -56,9 +56,8 @@ export class ContextService {
 
 		effect(() => {
 			const classroom = this.classroomSignal();
-			if (!classroom || !classroom.id) {
-				this.clearRoadmap();
-			}
+			Promise.all([this.loadClassroomList()]);
+			this.clearRoadmap();
 		});
 	}
 
@@ -145,22 +144,26 @@ export class ContextService {
 		});
 	}
 	async loadInstitutionRoles() {
-		this.institutionRolesLoading = true;
-		await lastValueFrom(this.institutionService.getInstitutionRoles(this.institution!.id!)).then(
-			(roles: InstitutionRoleEnum[]) => {
-				this.institutionRoles = roles;
-				this.institutionRolesLoading = false;
-			},
-		);
+		if (this.institution && this.institution.id) {
+			this.institutionRolesLoading = true;
+			await lastValueFrom(this.institutionService.getInstitutionRoles(this.institution.id)).then(
+				(roles: InstitutionRoleEnum[]) => {
+					this.institutionRoles = roles;
+					this.institutionRolesLoading = false;
+				},
+			);
+		}
 	}
 	async loadClassroomList() {
-		this.classroomListLoading = true;
-		await lastValueFrom(this.classroomService.getUserClassrooms(this.institution!.id!)).then(
-			(classrooms: Classroom[]) => {
-				this.classroomList = classrooms;
-				this.classroomListLoading = false;
-			},
-		);
+		if (this.institution && this.institution.id) {
+			this.classroomListLoading = true;
+			await lastValueFrom(this.classroomService.getUserClassrooms(this.institution.id)).then(
+				(classrooms: Classroom[]) => {
+					this.classroomList = classrooms;
+					this.classroomListLoading = false;
+				},
+			);
+		}
 	}
 
 	// MISC

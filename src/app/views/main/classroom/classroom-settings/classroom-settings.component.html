@@ -1,1 +1,61 @@
-<p>classroom-settings works!</p>
+<o-loading [isLoading]="isLoading" />
+
+<header>
+    <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+</header>
+
+<div class="classroom-settings-div">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <h2>Configurações da Turma {{ctx.classroom?.name}}</h2>
+
+        <mat-form-field subscriptSizing="dynamic" appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input matInput name="name" formControlName="name" required />
+        </mat-form-field>
+
+        <div>
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Ícone</mat-label>
+                <input matInput type="text" name="icon" formControlName="icon" />
+
+            </mat-form-field>
+
+            <mat-icon
+                [style]="'font-size: 48px; height: 48px; width: 48px; visibility: ' + (getFormControl('icon').value ? 'visible' : 'hidden')">
+                {{getFormControl('icon').value}}
+            </mat-icon>
+        </div>
+
+        <p>É possível verificar a lista de ícones em <a href="https://fonts.google.com/icons" target="_blank">Google
+                Icons</a></p>
+
+        <div>
+            <button mat-button type="button" (click)="resetForm()">Cancelar</button>
+            <button mat-raised-button cdkInitialFocus type="submit" class="save-button"
+                [disabled]="disableInfosSaveButton">
+                <mat-icon>save</mat-icon>
+                Salvar
+            </button>
+        </div>
+    </form>
+
+    <p-divider layout="vertical" />
+
+    <div>
+        <h3>Ementa</h3>
+        <div>
+            <button mat-raised-button (click)="addSyllabusTopic()">
+                <mat-icon>add</mat-icon>
+                Adicionar tópico
+            </button>
+            <button mat-raised-button class="save-button" (click)="updateSyllabus()"
+                [disabled]="disableSyllabusSaveButton">
+                <mat-icon>save</mat-icon>
+                Salvar
+            </button>
+        </div>
+        <o-syllabus [syllabus]="syllabus" mode="readonly" />
+    </div>
+</div>

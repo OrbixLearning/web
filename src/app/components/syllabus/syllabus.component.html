@@ -1,4 +1,8 @@
 <div>
-	<p-tree [value]="syllabusComponentTree" [selectionMode]="selectionMode" [(selection)]="selection"
-		(selectionChange)="selectionChange($event)" />
+    @if (syllabus && syllabus.length > 0) {
+    <p-tree [value]="syllabusComponentTree" [selectionMode]="selectionMode" [(selection)]="selection"
+        (selectionChange)="selectionChange($event)" />
+    } @else {
+    <p>Ementa não definida</p>
+    }
 </div>
