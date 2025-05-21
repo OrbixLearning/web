@@ -6,6 +6,5 @@ export type Syllabus = {
 	description: string;
 	topics: Syllabus[];
 
-	parent: Syllabus | null;
 	classroom: Classroom | null;
 };

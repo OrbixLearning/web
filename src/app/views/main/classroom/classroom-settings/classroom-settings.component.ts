@@ -155,10 +155,7 @@ export class ClassroomSettingsComponent {
 			if (!confirmedSyllabusDeletion) return;
 		}
 		this.isLoading = true;
-		let call: Observable<Syllabus[]> = this.hadSyllabus
-			? this.syllabusService.update(this.syllabus!)
-			: this.syllabusService.create(this.ctx.classroom!.id, this.syllabus!);
-		await lastValueFrom(call)
+		await lastValueFrom(this.syllabusService.save(this.ctx.classroom!.id, this.syllabus!))
 			.then(async (syllabus: Syllabus[]) => {
 				this.syllabus = syllabus;
 				this.hadSyllabus = true;
