@@ -11,10 +11,9 @@ import { Syllabus } from '../../models/Syllabus';
 })
 export class SyllabusComponent {
 	@Input() syllabus?: Syllabus[];
-	@Input() mode: 'readonly' | 'checkbox' | 'selection' | 'click' | 'edit' = 'readonly';
+	@Input() mode: 'readonly' | 'checkbox' | 'selection' | 'click' = 'readonly';
 	@Output() syllabusClicked: EventEmitter<Syllabus> = new EventEmitter<Syllabus>();
 	@Output() syllabusMarked: EventEmitter<Syllabus[]> = new EventEmitter<Syllabus[]>();
-	@Output() deleteSyllabus: EventEmitter<Syllabus> = new EventEmitter<Syllabus>();
 
 	syllabusComponentTree: TreeNode[] = this.buildSyllabusTree();
 	selection?: any;
@@ -51,7 +50,6 @@ export class SyllabusComponent {
 				parent: parent,
 				selectable: true,
 				expanded: depth < 2,
-				icon: 'trash',
 				children: this.recursiveSyllabusTreeBuildCall(s.topics, depth + 1),
 			};
 		});

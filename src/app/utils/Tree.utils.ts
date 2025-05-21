@@ -12,4 +12,18 @@ export class TreeUtils {
 			}
 		}
 	}
+
+	static removeFromTree(tree: any[], itemsToRemove: any[], childrenFieldName: string): any[] {
+		let filteredTree = tree.filter(item => !itemsToRemove.includes(item));
+		filteredTree.forEach(item => {
+			if (item[childrenFieldName]) {
+				item[childrenFieldName] = this.removeFromTree(
+					item[childrenFieldName],
+					itemsToRemove,
+					childrenFieldName,
+				);
+			}
+		});
+		return filteredTree;
+	}
 }

@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
-import { lastValueFrom, Observable } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
 	ConfirmPopUpComponent,
@@ -53,6 +53,7 @@ export class ClassroomSettingsComponent {
 	form: FormGroup = this.formBuilder.group({});
 	hadSyllabus: boolean = this.ctx.classroom?.syllabus ? true : false;
 	syllabus: Syllabus[] | undefined = this.ctx.classroom?.syllabus;
+	markedSyllabus: Syllabus[] = [];
 
 	ngOnInit() {
 		this.resetForm();
@@ -139,6 +140,23 @@ export class ClassroomSettingsComponent {
 					this.isLoading = false;
 				});
 		}
+	}
+
+	deleteMarkedSyllabus() {
+		let data: ConfirmPopUpData = {
+			title: 'Tem certeza que deseja excluir os tópicos selecionados?',
+			message: 'Essa ação não pode ser desfeita.',
+			confirmButton: 'Excluir',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async (result: boolean) => {
+				if (result) {
+					this.syllabus = TreeUtils.removeFromTree(this.syllabus!, this.markedSyllabus, 'topics');
+					this.markedSyllabus = [];
+				}
+			});
 	}
 
 	async updateSyllabus() {
