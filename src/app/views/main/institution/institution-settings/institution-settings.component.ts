@@ -7,13 +7,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { ColorPickerModule } from 'primeng/colorpicker';
-import { FileUploadModule } from 'primeng/fileupload';
+import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { Institution } from '../../../../models/Institution';
 import { ContextService } from '../../../../services/context.service';
 import { InstitutionService } from '../../../../services/institution.service';
 import { ThemeService } from '../../../../services/theme.service';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
 	selector: 'o-institution-settings',
@@ -29,6 +30,7 @@ import { ThemeService } from '../../../../services/theme.service';
 		LoadingComponent,
 		RouterModule,
 		FormsModule,
+		DividerModule,
 	],
 	templateUrl: './institution-settings.component.html',
 	styleUrl: './institution-settings.component.scss',
@@ -42,6 +44,7 @@ export class InstitutionSettingsComponent {
 	isLoading: boolean = false;
 	form: FormGroup = this.formBuilder.group({});
 	logo?: File;
+	logoPreview: string | ArrayBuffer | null = null;
 	primaryColor: string = this.ctx.institution?.primaryColor || '#000000';
 	secondaryColor: string = this.ctx.institution?.secondaryColor || '#000000';
 
@@ -79,6 +82,10 @@ export class InstitutionSettingsComponent {
 		return false;
 	}
 
+	get logoUrl(): string {
+		return this.service.getLogoUrl(this.ctx.institution?.id!);
+	}
+
 	resetForm() {
 		this.form = this.formBuilder.group({
 			name: [this.ctx.institution?.name, Validators.required],
@@ -94,19 +101,27 @@ export class InstitutionSettingsComponent {
 		this.logo = undefined;
 	}
 
+	selectLogo(event: FileSelectEvent) {
+		this.logo = event.currentFiles[0];
+		if (this.logo) {
+			const reader = new FileReader();
+			reader.onload = () => {
+				this.logoPreview = reader.result;
+			};
+			reader.readAsDataURL(this.logo);
+		}
+	}
+
 	async onSubmit() {
 		if (this.form.valid) {
 			this.isLoading = true;
-
-			// TODO: Handle logo upload
-			// institution.logo = this.logo;
-
 			await lastValueFrom(
 				this.service.update(
 					this.ctx.institution!.id!,
 					this.getFormControl('name').value,
 					this.getFormControl('primaryColor').value,
 					this.getFormControl('secondaryColor').value,
+					this.logo,
 				),
 			)
 				.then((i: Institution) => {

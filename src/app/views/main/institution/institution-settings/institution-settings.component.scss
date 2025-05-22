@@ -25,29 +25,29 @@
 
 		.logo-div {
 			display: flex;
-			flex-direction: row;
+			flex-direction: column;
 			justify-content: flex-start;
 			align-items: flex-start;
-			gap: 30px;
+			gap: 10px;
 
-			.logo-left-div {
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-				align-items: flex-start;
-				gap: 30px;
-
-				p {
-					font-size: 20px;
-					font-weight: bold;
-				}
+			p {
+				font-size: 20px;
+				font-weight: bold;
 			}
 
-			img {
-				max-height: 150px;
-				max-width: 150px;
-				border-radius: 10px;
-				border: 1px solid #ccc;
+			.logo-subdiv {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
+				gap: 20px;
+
+				img {
+					max-height: 150px;
+					max-width: 150px;
+					border-radius: 10px;
+					border: 1px solid #ccc;
+				}
 			}
 		}
 

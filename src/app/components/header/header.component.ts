@@ -8,6 +8,7 @@ import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
 import { Institution } from '../../models/Institution';
 import { ContextService } from '../../services/context.service';
 import { ThemeService } from '../../services/theme.service';
+import { InstitutionService } from '../../services/institution.service';
 
 @Component({
 	selector: 'o-header',
@@ -19,6 +20,7 @@ export class HeaderComponent {
 	ctx: ContextService = inject(ContextService);
 	router: Router = inject(Router);
 	theme: ThemeService = inject(ThemeService);
+	institutionService: InstitutionService = inject(InstitutionService);
 
 	@Output() sidebar: EventEmitter<void> = new EventEmitter<void>();
 
@@ -50,7 +52,9 @@ export class HeaderComponent {
 	}
 
 	get logo(): string {
-		return this.ctx.institution?.logo || 'assets/logos/white-logo.png';
+		return this.ctx.institution?.id
+			? this.institutionService.getLogoUrl(this.ctx.institution.id)
+			: 'assets/logos/white-logo.png';
 	}
 
 	get canConfigureInstitution(): boolean {
