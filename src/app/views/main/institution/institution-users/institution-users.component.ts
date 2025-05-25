@@ -62,6 +62,10 @@ export class InstitutionUsersComponent {
 		};
 	}
 
+	getProfilePictureUrl(userId: string): string {
+		return this.service.getProfilePictureUrl(userId);
+	}
+
 	async getAccounts(event?: TableLazyLoadEvent) {
 		if (!this.ctx.institution?.id) return;
 

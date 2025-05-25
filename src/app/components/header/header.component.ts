@@ -9,6 +9,7 @@ import { Institution } from '../../models/Institution';
 import { ContextService } from '../../services/context.service';
 import { ThemeService } from '../../services/theme.service';
 import { InstitutionService } from '../../services/institution.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
 	selector: 'o-header',
@@ -21,6 +22,7 @@ export class HeaderComponent {
 	router: Router = inject(Router);
 	theme: ThemeService = inject(ThemeService);
 	institutionService: InstitutionService = inject(InstitutionService);
+	userService: UserService = inject(UserService);
 
 	@Output() sidebar: EventEmitter<void> = new EventEmitter<void>();
 
@@ -64,6 +66,10 @@ export class HeaderComponent {
 			this.ctx.institutionRoles!.includes(InstitutionRoleEnum.ADMIN) ||
 			this.ctx.institutionRoles!.includes(InstitutionRoleEnum.CREATOR)
 		);
+	}
+
+	get profilePictureUrl(): string {
+		return this.userService.getProfilePictureUrl(this.ctx.user!.id);
 	}
 
 	setThemes() {

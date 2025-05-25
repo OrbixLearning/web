@@ -18,11 +18,8 @@
             <tr>
                 <td>
                     <button mat-button [routerLink]="['/profile/' + student.user.id]">
-                        @if (student.user.profilePicture) {
-                        <img [src]="student.user.profilePicture" alt="Profile Picture" class="profile-picture" />
-                        } @else {
-                        <mat-icon>account_circle</mat-icon>
-                        }
+                        <img [src]="getProfilePictureUrl(student.user.id)" alt="Profile Picture"
+                            class="profile-picture" />
                     </button>
                 </td>
                 <td>{{ student.idInInstitution }}</td>
@@ -46,11 +43,8 @@
             <tr>
                 <td>
                     <button mat-button [routerLink]="['/profile/' + teacher.user.id]">
-                        @if (teacher.user.profilePicture) {
-                        <img [src]="teacher.user.profilePicture" alt="Profile Picture" class="profile-picture" />
-                        } @else {
-                        <mat-icon>account_circle</mat-icon>
-                        }
+                        <img [src]="getProfilePictureUrl(teacher.user.id)" alt="Profile Picture"
+                            class="profile-picture" />
                     </button>
                 </td>
                 <td>{{ teacher.idInInstitution }}</td>

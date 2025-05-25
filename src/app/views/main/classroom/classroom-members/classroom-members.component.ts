@@ -40,6 +40,10 @@ export class ClassroomMembersComponent {
 		this.getData();
 	}
 
+	getProfilePictureUrl(userId: string): string {
+		return this.userService.getProfilePictureUrl(userId);
+	}
+
 	async getData() {
 		this.isLoading = true;
 		await Promise.all([
