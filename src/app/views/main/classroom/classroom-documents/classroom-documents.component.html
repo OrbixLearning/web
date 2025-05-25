@@ -1,1 +1,44 @@
-<p>classroom-documents works!</p>
+<o-loading [isLoading]="isLoading" />
+
+<header>
+    <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    @if (ctx.isTeacher) {
+    <button mat-raised-button (click)="uploadDocument()">Adicionar documento</button>
+    }
+</header>
+
+<div class="content">
+    <div class="left-content">
+        @for (document of filteredDocuments; track document.id) {
+        <div>
+            <p>{{document.name}}</p>
+            <p>{{document.extension}}</p>
+            <button mat-icon-button (click)="downloadDocument(document.id, document.name)">
+                <mat-icon>download</mat-icon>
+            </button>
+            @if (ctx.isTeacher) {
+            <button mat-icon-button (click)="renameDocument(document)">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteDocument(document.id)">
+                <mat-icon>delete</mat-icon>
+            </button>
+            }
+        </div>
+        }
+    </div>
+
+    <div class="right-content">
+
+        <div class="search-div">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Pesquisar</mat-label>
+                <input matInput [(ngModel)]="filter" />
+            </mat-form-field>
+        </div>
+
+        <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="checkbox" (syllabusMarked)="markSyllabus($event)" />
+    </div>
+</div>

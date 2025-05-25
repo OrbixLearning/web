@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Document } from '../models/Document';
 
 @Injectable({
 	providedIn: 'root',
@@ -25,5 +26,9 @@ export class DocumentService {
 
 	rename(documentId: string, name: string): Observable<Document> {
 		return this.http.put<Document>(this.api, { documentId, name });
+	}
+
+	delete(documentId: string): Observable<void> {
+		return this.http.delete<void>(`${this.api}/${documentId}`);
 	}
 }

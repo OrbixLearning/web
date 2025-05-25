@@ -1,6 +1,7 @@
 import { Institution } from './Institution';
 import { Syllabus } from './Syllabus';
 import { UserAccount } from './User';
+import { Document } from './Document';
 
 export type Classroom = {
 	id: string;
