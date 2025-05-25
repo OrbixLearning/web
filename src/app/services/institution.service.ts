@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
 import { Institution } from '../models/Institution';
@@ -11,6 +11,7 @@ import { Institution } from '../models/Institution';
 export class InstitutionService {
 	api: string = `${environment.API_URL}/institution`;
 	http: HttpClient = inject(HttpClient);
+	imageCacheBuster: number = 0;
 
 	getUserInstitutions(): Observable<Institution[]> {
 		return this.http.get<Institution[]>(`${this.api}/user`);
@@ -21,7 +22,11 @@ export class InstitutionService {
 	}
 
 	getLogoUrl(institutionId: string): string {
-		return `${this.api}/logo/${institutionId}?v=${Date.now()}`; // Cache busting
+		return `${this.api}/logo/${institutionId}?v=${this.imageCacheBuster}`;
+	}
+
+	private bustImageCache() {
+		this.imageCacheBuster++;
 	}
 
 	update(
@@ -39,6 +44,6 @@ export class InstitutionService {
 		if (logo) {
 			formData.append('logo', logo);
 		}
-		return this.http.put<Institution>(this.api, formData);
+		return this.http.put<Institution>(this.api, formData).pipe(tap(() => this.bustImageCache()));
 	}
 }

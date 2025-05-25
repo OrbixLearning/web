@@ -8,7 +8,6 @@ export type User = {
 	accounts: UserAccount[];
 	name: string;
 	role: Role;
-	profilePicture: string | null;
 
 	createdInstitutions?: Institution[];
 };

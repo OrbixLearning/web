@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
-import { FileUploadModule } from 'primeng/fileupload';
+import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
 import { AccountCardComponent } from '../../../components/account-card/account-card.component';
 import { GameCardComponent } from '../../../components/game-card/game-card.component';
@@ -19,6 +19,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ContextService } from '../../../services/context.service';
 import { UserService } from '../../../services/user.service';
 import { ThemeService } from '../../../services/theme.service';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
 	selector: 'o-profile',
@@ -32,6 +33,7 @@ import { ThemeService } from '../../../services/theme.service';
 		ReactiveFormsModule,
 		AccountCardComponent,
 		GameCardComponent,
+		DividerModule,
 	],
 	templateUrl: './profile.component.html',
 	styleUrl: './profile.component.scss',
@@ -47,6 +49,7 @@ export class ProfileComponent {
 
 	isLoading: boolean = false;
 	picture?: File;
+	picturePreview: string | ArrayBuffer | null = null;
 	form: FormGroup = this.formBuilder.group({});
 	userId?: string;
 	user?: User;
@@ -96,6 +99,10 @@ export class ProfileComponent {
 		return this.user?.createdInstitutions.sort((a, b) => a.name.localeCompare(b.name));
 	}
 
+	get profilePictureUrl(): string {
+		return this.service.getProfilePictureUrl(this.userId!);
+	}
+
 	async getUserData() {
 		if (this.self) {
 			this.user = this.ctx.user;
@@ -110,6 +117,17 @@ export class ProfileComponent {
 				});
 		}
 		this.resetForm();
+	}
+
+	selectProfilePicture(event: FileSelectEvent) {
+		this.picture = event.currentFiles[0];
+		if (this.picture) {
+			const reader = new FileReader();
+			reader.onload = () => {
+				this.picturePreview = reader.result;
+			};
+			reader.readAsDataURL(this.picture);
+		}
 	}
 
 	resetForm() {
@@ -142,7 +160,7 @@ export class ProfileComponent {
 	async onSubmit() {
 		if (this.form.valid) {
 			this.isLoading = true;
-			await lastValueFrom(this.service.update(this.getFormControl('name').value))
+			await lastValueFrom(this.service.update(this.getFormControl('name').value, this.picture))
 				.then((user: User) => {
 					this.ctx.user = user;
 					this.getUserData();

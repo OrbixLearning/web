@@ -4,6 +4,7 @@ import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
 import { Institution } from '../../models/Institution';
 import { UserService } from '../../services/user.service';
 import { LoadingComponent } from '../loading/loading.component';
+import { InstitutionService } from '../../services/institution.service';
 
 @Component({
 	selector: 'o-account-card',
@@ -13,6 +14,7 @@ import { LoadingComponent } from '../loading/loading.component';
 })
 export class AccountCardComponent {
 	service: UserService = inject(UserService);
+	institutionService: InstitutionService = inject(InstitutionService);
 
 	@Input() email?: string;
 	@Input() institution?: Institution | null;
@@ -24,6 +26,10 @@ export class AccountCardComponent {
 
 	ngOnInit() {
 		this.getData();
+	}
+
+	get institutionLogoUrl(): string {
+		return this.institutionService.getLogoUrl(this.institution?.id!);
 	}
 
 	async getData() {

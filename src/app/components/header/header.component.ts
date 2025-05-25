@@ -28,7 +28,6 @@ export class HeaderComponent {
 	personalInstitution: Institution = {
 		id: null,
 		name: 'Pessoal',
-		logo: null,
 		primaryColor: null,
 		secondaryColor: null,
 	};
@@ -36,7 +35,7 @@ export class HeaderComponent {
 
 	constructor() {
 		const urlSegments = this.router.url.split('/');
-		this.institutionId = urlSegments.length > 2 ? urlSegments[2] : undefined;
+		this.institutionId = urlSegments.length > 2 && urlSegments[1] === 'i' ? urlSegments[2] : undefined;
 		if (this.institutionId) this.selectedInstitution = this.ctx.institution!;
 	}
 

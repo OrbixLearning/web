@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
 import { Page } from '../models/Page';
@@ -12,6 +12,7 @@ import { User, UserAccount } from '../models/User';
 export class UserService {
 	api: string = `${environment.API_URL}/user`;
 	http: HttpClient = inject(HttpClient);
+	imageCacheBuster: number = 0;
 
 	get(id: string): Observable<User> {
 		return this.http.get<User>(`${this.api}/${id}`);
@@ -21,8 +22,21 @@ export class UserService {
 		return this.http.get<number>(`${this.api}/classrooms-amount/${id}`);
 	}
 
-	update(name: string): Observable<User> {
-		return this.http.put<User>(this.api, { name });
+	getProfilePictureUrl(userId: string): string {
+		return `${this.api}/profilePicture/${userId}?v=${this.imageCacheBuster}`;
+	}
+
+	private bustImageCache() {
+		this.imageCacheBuster++;
+	}
+
+	update(name: string, profilePicture: File | undefined): Observable<User> {
+		const formData = new FormData();
+		formData.append('name', name);
+		if (profilePicture) {
+			formData.append('profilePicture', profilePicture);
+		}
+		return this.http.put<User>(this.api, formData).pipe(tap(() => this.bustImageCache()));
 	}
 
 	updateAccount(account: UserAccount): Observable<UserAccount> {

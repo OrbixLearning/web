@@ -4,7 +4,6 @@ import { User, UserAccount } from './User';
 export type Institution = {
 	id: string | null; // The personal institution does not have an id
 	name: string;
-	logo: string | null;
 	primaryColor: string | null;
 	secondaryColor: string | null;
 

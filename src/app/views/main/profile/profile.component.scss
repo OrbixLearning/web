@@ -16,24 +16,29 @@
 
 		.picture-div {
 			display: flex;
-			flex-direction: row;
+			flex-direction: column;
 			justify-content: flex-start;
-			align-items: center;
-			gap: 30px;
+			align-items: flex-start;
+			gap: 10px;
 
-			img {
-				max-height: 100px;
-				max-width: 100px;
-				border-radius: 10px;
-				border: 1px solid #ccc;
+			p {
+				font-size: 20px;
+				font-weight: bold;
 			}
 
-			mat-icon {
-				height: 100px;
-				width: 100px;
-				font-size: 100px;
-				border-radius: 10px;
-				border: 1px solid #ccc;
+			.picture-subdiv {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
+				gap: 20px;
+
+				img {
+					max-height: 150px;
+					max-width: 150px;
+					border-radius: 10px;
+					border: 1px solid #ccc;
+				}
 			}
 		}
 
