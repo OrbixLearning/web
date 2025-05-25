@@ -5,6 +5,7 @@ export type Syllabus = {
 	name: string;
 	description: string;
 	topics: Syllabus[];
+	documents: Document[];
 
 	classroom: Classroom | null;
 };

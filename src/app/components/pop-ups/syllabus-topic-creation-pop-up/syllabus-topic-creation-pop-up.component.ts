@@ -89,6 +89,7 @@ export class SyllabusTopicCreationPopUpComponent {
 				name: this.getFormControl('name').value,
 				description: this.getFormControl('description').value,
 				topics: [],
+                documents: [],
 				classroom: null,
 			};
 			const index: number = this.getFormControl('index').value;

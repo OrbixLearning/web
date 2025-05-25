@@ -8,6 +8,7 @@ export type Classroom = {
 	institution: Institution;
 	icon: string;
 	syllabus: Syllabus[];
+	documents: Document[];
 
 	students?: UserAccount[];
 	teachers?: UserAccount[];
