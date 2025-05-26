@@ -19,6 +19,10 @@ import { Syllabus } from '../../../../models/Syllabus';
 import { ArrayUtils } from '../../../../utils/Array.utils';
 import { MatInputModule } from '@angular/material/input';
 import { RenameDocumentPopUpComponent } from '../../../../components/pop-ups/rename-document-pop-up/rename-document-pop-up.component';
+import {
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
+} from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 
 @Component({
 	selector: 'o-classroom-documents',
@@ -50,15 +54,18 @@ export class ClassroomDocumentsComponent {
 
 	// TODO: Do a performance test later to see if this the filtering should be async or not
 	get filteredDocuments(): Document[] {
-		return this.documents.filter(document => {
+		return this.documents.filter(d => {
 			const filteredBySyllabus =
 				this.markedSyllabus.length === 0 ||
+                // TODO: Document's syllabus are empty because of the lazy loading
+                // Solution: Get the complete documents with syllabus
+                !d.syllabus ||
 				ArrayUtils.hasAllItems(
-					document.syllabus.map(r => r.id),
+					d.syllabus.map(r => r.id),
 					this.markedSyllabus,
 				);
 
-			const filteredByName = document.name.toLowerCase().includes(this.filter.toLowerCase());
+			const filteredByName = d.name.toLowerCase().includes(this.filter.toLowerCase());
 
 			return filteredBySyllabus && filteredByName;
 		});
@@ -132,15 +139,27 @@ export class ClassroomDocumentsComponent {
 	}
 
 	async deleteDocument(documentId: string) {
-		this.isLoading = true;
-		await lastValueFrom(this.service.delete(documentId))
-			.then(() => {
-				this.ctx.classroom!.documents = this.ctx.classroom!.documents.filter(
-					document => document.id !== documentId,
-				);
-			})
-			.finally(() => {
-				this.isLoading = false;
+		let data: ConfirmPopUpData = {
+			title: 'Tem certeza que deseja excluir este documento?',
+			message: 'Esta ação não pode ser desfeita.',
+			confirmButton: 'Excluir',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async (confirmed: boolean) => {
+				if (confirmed) {
+					this.isLoading = true;
+					await lastValueFrom(this.service.delete(documentId))
+						.then(() => {
+							this.ctx.classroom!.documents = this.ctx.classroom!.documents.filter(
+								document => document.id !== documentId,
+							);
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				}
 			});
 	}
 }

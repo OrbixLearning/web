@@ -15,7 +15,7 @@
                 <p-divider layout="vertical" />
 
                 @if (!picture) {
-                <p-fileupload mode="basic" chooseLabel="Selecionar" name="logo" [auto]="true" accept=".png,.svg,.jpg"
+                <p-fileupload mode="basic" chooseLabel="Selecionar" name="profilePicture" [auto]="true" accept=".png,.svg,.jpg"
                     maxFileSize="1000000" (onSelect)="selectProfilePicture($event)" />
                 } @else {
                 <img [src]="picturePreview" alt="profilePicturePreview" />

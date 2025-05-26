@@ -1,1 +1,25 @@
-<p>upload-document-pop-up works!</p>
+<o-pop-up-header title="Adicionar documento" />
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div>
+        <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-label>Nome</mat-label>
+            <input matInput type="text" name="name" formControlName="name" />
+        </mat-form-field>
+
+        @if (!getFormControl('file').value) {
+        <p-fileupload mode="basic" chooseLabel="Selecionar" name="document" [auto]="true" maxFileSize="1000000"
+            (onSelect)="selectFile($event)" />
+        } @else {
+        <p>{{getFormControl('file').value}}</p>
+        <button mat-button (click)="removeFile()" type="button">
+            <mat-icon>close</mat-icon>Cancelar
+        </button>
+        }
+    </div>
+
+    <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="checkbox" (syllabusMarked)="markSyllabus($event)" />
+
+    <o-pop-up-buttons [disable]="form.invalid" type="submit" confirmButton="Adicionar documento" />
+</form>

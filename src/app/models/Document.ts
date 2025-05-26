@@ -5,6 +5,6 @@ export type Document = {
 	id: string;
 	name: string;
 	extension: string;
-	syllabus: Syllabus[];
-	classroom: Classroom[];
+	syllabus?: Syllabus[];
+	classroom?: Classroom[];
 };
