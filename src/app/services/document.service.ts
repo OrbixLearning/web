@@ -15,6 +15,10 @@ export class DocumentService {
 		return this.http.get(`${this.api}/${id}`, { responseType: 'blob' });
 	}
 
+	getByClassroom(classroomId: string): Observable<Document[]> {
+		return this.http.get<Document[]>(`${this.api}/classroom/${classroomId}`);
+	}
+
 	uploadFile(name: string, syllabusIds: string[], classroomId: string, file: File): Observable<Document> {
 		let formData = new FormData();
 		formData.append('file', file);

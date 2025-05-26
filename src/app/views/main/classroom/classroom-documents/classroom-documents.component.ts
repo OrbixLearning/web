@@ -48,6 +48,10 @@ export class ClassroomDocumentsComponent {
 	filter: string = '';
 	markedSyllabus: Syllabus[] = [];
 
+	ngOnInit() {
+		this.getData();
+	}
+
 	get documents(): Document[] {
 		return this.ctx.classroom?.documents || [];
 	}
@@ -57,18 +61,27 @@ export class ClassroomDocumentsComponent {
 		return this.documents.filter(d => {
 			const filteredBySyllabus =
 				this.markedSyllabus.length === 0 ||
-                // TODO: Document's syllabus are empty because of the lazy loading
-                // Solution: Get the complete documents with syllabus
-                !d.syllabus ||
-				ArrayUtils.hasAllItems(
-					d.syllabus.map(r => r.id),
-					this.markedSyllabus,
-				);
+				(d.syllabus &&
+					ArrayUtils.hasAllItems(
+						d.syllabus.map(r => r.id),
+						this.markedSyllabus.map(r => r.id),
+					));
 
 			const filteredByName = d.name.toLowerCase().includes(this.filter.toLowerCase());
 
 			return filteredBySyllabus && filteredByName;
 		});
+	}
+
+	async getData() {
+		this.isLoading = true;
+		await lastValueFrom(this.service.getByClassroom(this.ctx.classroom!.id))
+			.then((docs: Document[]) => {
+				this.ctx.classroom!.documents = docs;
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
 	}
 
 	uploadDocument() {
