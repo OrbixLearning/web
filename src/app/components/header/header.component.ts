@@ -33,12 +33,12 @@ export class HeaderComponent {
 		primaryColor: null,
 		secondaryColor: null,
 	};
-	selectedInstitution: Institution = this.personalInstitution;
+	selectedInstitutionId: string | null = this.personalInstitution.id;
 
 	constructor() {
 		const urlSegments = this.router.url.split('/');
 		this.institutionId = urlSegments.length > 2 && urlSegments[1] === 'i' ? urlSegments[2] : undefined;
-		if (this.institutionId) this.selectedInstitution = this.ctx.institution!;
+		if (this.institutionId) this.selectedInstitutionId = this.ctx.institution!.id;
 	}
 
 	ngOnInit() {
@@ -77,11 +77,11 @@ export class HeaderComponent {
 		else this.theme.setBaseTheme();
 	}
 
-	changeInstitution(institution: Institution) {
-		this.ctx.institution = institution;
+	changeInstitution(institutionId: string | null) {
+		this.ctx.institution = this.institutions.find(inst => inst.id === institutionId) || this.personalInstitution;
 		this.setThemes();
-		if (institution.id) {
-			this.router.navigate(['/i/' + institution.id]);
+		if (institutionId) {
+			this.router.navigate(['/i/' + institutionId]);
 		} else {
 			this.router.navigate(['/']);
 		}
