@@ -1,28 +1,28 @@
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
-	UploadDocumentPopUpComponent,
-	UploadDocumentPopUpResponse,
-} from '../../../../components/pop-ups/upload-document-pop-up/upload-document-pop-up.component';
-import { ContextService } from '../../../../services/context.service';
-import { DocumentService } from '../../../../services/document.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
-import { FormsModule } from '@angular/forms';
-import { Document } from '../../../../models/Document';
-import { Syllabus } from '../../../../models/Syllabus';
-import { ArrayUtils } from '../../../../utils/Array.utils';
-import { MatInputModule } from '@angular/material/input';
-import { RenameDocumentPopUpComponent } from '../../../../components/pop-ups/rename-document-pop-up/rename-document-pop-up.component';
-import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import {
+	DocumentPopUpComponent,
+	UploadDocumentPopUpResponse,
+} from '../../../../components/pop-ups/document-pop-up/document-pop-up.component';
+import { SyllabusTagsComponent } from '../../../../components/syllabus-tags/syllabus-tags.component';
+import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
+import { Document } from '../../../../models/Document';
+import { Syllabus } from '../../../../models/Syllabus';
+import { ContextService } from '../../../../services/context.service';
+import { DocumentService } from '../../../../services/document.service';
+import { ArrayUtils } from '../../../../utils/Array.utils';
 
 @Component({
 	selector: 'o-classroom-documents',
@@ -35,6 +35,7 @@ import {
 		SyllabusComponent,
 		FormsModule,
 		MatInputModule,
+		SyllabusTagsComponent,
 	],
 	templateUrl: './classroom-documents.component.html',
 	styleUrl: './classroom-documents.component.scss',
@@ -86,9 +87,9 @@ export class ClassroomDocumentsComponent {
 
 	uploadDocument() {
 		this.dialog
-			.open(UploadDocumentPopUpComponent)
+			.open(DocumentPopUpComponent)
 			.afterClosed()
-			.subscribe(async (response: UploadDocumentPopUpResponse) => {
+			.subscribe(async (response: UploadDocumentPopUpResponse | undefined) => {
 				if (response) {
 					this.isLoading = true;
 					await lastValueFrom(
@@ -129,20 +130,23 @@ export class ClassroomDocumentsComponent {
 			});
 	}
 
-	async renameDocument(document: Document) {
+	async updateDocument(documentParam: Document) {
 		this.dialog
-			.open(RenameDocumentPopUpComponent, {
+			.open(DocumentPopUpComponent, {
 				data: {
-					name: document.name,
+					document: documentParam,
 				},
 			})
 			.afterClosed()
-			.subscribe(async (name: string | undefined) => {
-				if (name) {
+			.subscribe(async (documentResponse: Document | undefined) => {
+				if (documentResponse) {
 					this.isLoading = true;
-					await lastValueFrom(this.service.rename(document.id, name))
-						.then((document: Document) => {
-							this.documents.find(d => d.id === document.id)!.name = document.name;
+					let syllabusIds: string[] = documentResponse.syllabus!.map(s => s.id!);
+					await lastValueFrom(this.service.update(documentResponse.id, documentResponse.name, syllabusIds))
+						.then((documentUpdated: Document) => {
+							let documentInList: Document = this.documents.find(d => d.id === documentUpdated.id)!;
+							documentInList.name = documentUpdated.name;
+							documentInList.syllabus = documentUpdated.syllabus;
 						})
 						.finally(() => {
 							this.isLoading = false;

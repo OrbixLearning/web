@@ -28,8 +28,8 @@ export class DocumentService {
 		return this.http.post<Document>(this.api, formData);
 	}
 
-	rename(documentId: string, name: string): Observable<Document> {
-		return this.http.put<Document>(this.api, { documentId, name });
+	update(documentId: string, name: string, syllabusIds: string[]): Observable<Document> {
+		return this.http.put<Document>(this.api, { documentId, name, syllabusIds });
 	}
 
 	delete(documentId: string): Observable<void> {

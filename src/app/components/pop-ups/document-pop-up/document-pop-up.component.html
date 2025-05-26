@@ -1,4 +1,4 @@
-<o-pop-up-header title="Adicionar documento" />
+<o-pop-up-header [title]="(editMode ? 'Editar' : 'Adicionar') + ' documento'" />
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
@@ -8,6 +8,7 @@
             <input matInput type="text" name="name" formControlName="name" />
         </mat-form-field>
 
+        @if (!editMode) {
         @if (!getFormControl('file').value) {
         <p-fileupload mode="basic" chooseLabel="Selecionar" name="document" [auto]="true" maxFileSize="1000000"
             (onSelect)="selectFile($event)" />
@@ -17,9 +18,12 @@
             <mat-icon>close</mat-icon>Cancelar
         </button>
         }
+        }
     </div>
 
-    <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="checkbox" (syllabusMarked)="markSyllabus($event)" />
+    <o-syllabus [syllabus]="ctx.classroom?.syllabus" [preMarkedSyllabus]="data?.document!.syllabus" mode="checkbox"
+        (syllabusMarked)="markSyllabus($event)" />
 
-    <o-pop-up-buttons [disable]="form.invalid" type="submit" confirmButton="Adicionar documento" />
+    <o-pop-up-buttons [disable]="form.invalid" type="submit"
+        [confirmButton]="(editMode ? 'Editar' : 'Adicionar') + ' documento'" />
 </form>

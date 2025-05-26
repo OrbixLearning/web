@@ -3,14 +3,7 @@
         <p class="m-0">
             Por {{ roadmap.user.name }}
         </p>
-        <div>
-            @for (topic of roadmap.syllabus.slice(0,4); track topic.name) {
-            <p-tag [value]="topic.name" />
-            }
-            @if (roadmap.syllabus.length > 4) {
-            <p-tag [value]="'+' + (roadmap.syllabus.length - 4)" />
-            }
-        </div>
+        <o-syllabus-tags [syllabus]="roadmap.syllabus" />
     </button>
     <p>
         <p-toggleswitch [(ngModel)]="roadmap.shared" (ngModelChange)="sharedChange.emit(roadmap.shared)" />

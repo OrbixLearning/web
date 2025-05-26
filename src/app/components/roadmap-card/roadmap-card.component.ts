@@ -4,10 +4,11 @@ import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { Roadmap } from '../../models/Roadmap';
+import { SyllabusTagsComponent } from '../syllabus-tags/syllabus-tags.component';
 
 @Component({
 	selector: 'o-roadmap-card',
-	imports: [CardModule, TagModule, ToggleSwitchModule, FormsModule],
+	imports: [CardModule, TagModule, ToggleSwitchModule, FormsModule, SyllabusTagsComponent],
 	templateUrl: './roadmap-card.component.html',
 	styleUrl: './roadmap-card.component.scss',
 })

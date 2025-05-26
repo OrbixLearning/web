@@ -11,12 +11,25 @@ import { Syllabus } from '../../models/Syllabus';
 })
 export class SyllabusComponent {
 	@Input() syllabus?: Syllabus[];
+	@Input() preMarkedSyllabus?: Syllabus[];
 	@Input() mode: 'readonly' | 'checkbox' | 'selection' | 'click' = 'readonly';
 	@Output() syllabusClicked: EventEmitter<Syllabus> = new EventEmitter<Syllabus>();
 	@Output() syllabusMarked: EventEmitter<Syllabus[]> = new EventEmitter<Syllabus[]>();
 
 	syllabusComponentTree: TreeNode[] = this.buildSyllabusTree();
-	selection?: any;
+	selection?: TreeNode[];
+
+	ngOnInit() {
+		if (this.preMarkedSyllabus) {
+			this.selection = this.preMarkedSyllabus.map(s => ({
+				key: s.id!,
+				label: s.name,
+				data: s,
+				checked: true,
+				selectable: true,
+			}));
+		}
+	}
 
 	ngOnChanges() {
 		this.syllabusComponentTree = this.buildSyllabusTree();
@@ -73,6 +86,7 @@ export class SyllabusComponent {
 
 	topicMarked(syllabus: Syllabus[]) {
 		this.syllabusMarked.emit(syllabus);
+		console.log(this.selection);
 	}
 
 	topicSelected(syllabus: Syllabus) {

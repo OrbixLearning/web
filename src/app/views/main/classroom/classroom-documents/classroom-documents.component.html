@@ -15,11 +15,12 @@
         <div>
             <p>{{document.name}}</p>
             <p>{{document.extension}}</p>
+            <o-syllabus-tags [syllabus]="document.syllabus || []" />
             <button mat-icon-button (click)="downloadDocument(document.id, document.name)">
                 <mat-icon>download</mat-icon>
             </button>
             @if (ctx.isTeacher) {
-            <button mat-icon-button (click)="renameDocument(document)">
+            <button mat-icon-button (click)="updateDocument(document)">
                 <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button (click)="deleteDocument(document.id)">

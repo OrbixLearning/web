@@ -1,0 +1,8 @@
+<div>
+    @for (topic of syllabus.slice(0,4); track topic.name) {
+    <p-tag [value]="topic.name" />
+    }
+    @if (syllabus.length > 4) {
+    <p-tag [value]="'+' + (syllabus.length - 4)" />
+    }
+</div>
