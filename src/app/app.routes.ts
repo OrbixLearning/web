@@ -113,7 +113,6 @@ export const routes: Routes = [
 								loadComponent: () =>
 									import('./views/main/roadmap/roadmap.component').then(m => m.RoadmapComponent),
 								canActivate: [roadmapGuard],
-								children: [],
 							},
 						],
 					},

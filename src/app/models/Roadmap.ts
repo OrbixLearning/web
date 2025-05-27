@@ -1,4 +1,5 @@
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
+import { RoadmapTypeEnum } from '../enums/RoadmapType.enum';
 import { Classroom } from './Classroom';
 import { Syllabus } from './Syllabus';
 import { User } from './User';
@@ -9,10 +10,12 @@ type RoadmapBase = {
 	id: string;
 	name: string;
 	shared: boolean;
+	validated: boolean;
 	syllabus: Syllabus[];
 	user: User;
 	classroom: Classroom;
 	userInstitutionRole: InstitutionRoleEnum;
+	type: RoadmapTypeEnum;
 };
 
 export type VideoRoadmap = {

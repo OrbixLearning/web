@@ -56,8 +56,11 @@ export class ContextService {
 
 		effect(() => {
 			const classroom = this.classroomSignal();
-			Promise.all([this.loadClassroomList()]);
-			this.clearRoadmap();
+			if (classroom && classroom.id) {
+				Promise.all([this.loadClassroomList()]);
+			} else {
+				this.clearRoadmap();
+			}
 		});
 	}
 

@@ -1,0 +1,17 @@
+.roadmap-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.roadmap-content {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+
+	.roadmap-aichat {
+		background-color: var(--secondary-color);
+	}
+}

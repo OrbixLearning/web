@@ -31,9 +31,19 @@ export class RoadmapService {
 		return this.http.put<Roadmap>(`${this.api}/share`, { id, share });
 	}
 
+	validateRoadmap(id: string, validate: boolean): Observable<Roadmap> {
+		return this.http.put<Roadmap>(`${this.api}/validate`, { id, validate });
+	}
+
 	// GENERATION
 
 	generateRoadmap(requestBody: any, endpoint: string): Observable<Roadmap> {
 		return this.http.post<Roadmap>(`${this.api}/${endpoint}`, requestBody);
+	}
+
+	// DELETE
+
+	delete(roadmapId: string): Observable<void> {
+		return this.http.delete<void>(`${this.api}/${roadmapId}`);
 	}
 }

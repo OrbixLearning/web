@@ -40,7 +40,7 @@
                     <h3>Minhas trilhas</h3>
                     @for (roadmap of filteredMyRoadmaps; track roadmap.id) {
                     <o-roadmap-card [roadmap]="roadmap" (cardClick)="goToRoadmap(roadmap)"
-                        (sharedChange)="updatedRoadmapSharing(roadmap)" />
+                        (sharedChange)="updatedRoadmapSharing(roadmap)" [mine]="true" />
                     }
                 </div>
 

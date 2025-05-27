@@ -2,11 +2,16 @@
     <button mat-button (click)="cardClick.emit()" style="width: auto; height: auto; padding: 0">
         <p class="m-0">
             Por {{ roadmap.user.name }}
+            @if(roadmap.validated) {
+            <mat-icon pTooltip="Trilha validada pelo professor">check</mat-icon>
+            }
         </p>
         <o-syllabus-tags [syllabus]="roadmap.syllabus" />
     </button>
+    @if (mine) {
     <p>
         <p-toggleswitch [(ngModel)]="roadmap.shared" (ngModelChange)="sharedChange.emit(roadmap.shared)" />
         <span class="ml-2">Compartilhada</span>
     </p>
+    }
 </p-card>

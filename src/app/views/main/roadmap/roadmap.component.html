@@ -1,1 +1,62 @@
-<p>roadmap works!</p>
+<o-loading [isLoading]="isLoading" />
+
+<header class="roadmap-header">
+    <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    @if (ctx.roadmap?.validated) {
+    <mat-icon pTooltip="Trilha validada pelo professor">check</mat-icon>
+    } @else if (ctx.isTeacher) {
+    <button mat-raised-button (click)="validateRoadmap()">
+        Validar trilha
+    </button>
+    }
+
+    <button mat-raised-button (click)="toggleMode()">
+        <mat-icon>{{mode === 'view' ? 'visibility' : 'school'}}</mat-icon>
+        Modo {{mode === 'view' ? 'Visualização' : 'Estudo'}}
+    </button>
+
+    @if (mine) {
+    <div>
+        <p-toggleswitch [(ngModel)]="ctx.roadmap!.shared" (ngModelChange)="updatedRoadmapSharing()" />
+        <span>Compartilhada</span>
+    </div>
+
+    <button mat-icon-button (click)="deleteRoadmap()">
+        <mat-icon>delete</mat-icon>
+    </button>
+    }
+</header>
+
+<div class="roadmap-content">
+    <div>
+        @switch (ctx.roadmap!.type) {
+        @case (typeEnum.TEXT) {
+        <o-text-roadmap [roadmap]="roadmapAsText" />
+        }
+        @case (typeEnum.VIDEO) {
+        <o-video-roadmap [roadmap]="roadmapAsVideo" />
+        }
+        @case (typeEnum.AUDIO) {
+        <o-audio-roadmap [roadmap]="roadmapAsAudio" />
+        }
+        @case (typeEnum.FLASHCARD) {
+        <o-flash-card-roadmap [roadmap]="roadmapAsFlashCard" />
+        }
+        @case (typeEnum.QUESTION) {
+        <o-question-roadmap [roadmap]="roadmapAsQuestion" />
+        }
+        }
+    </div>
+
+    @if (mode === 'study') {
+    <div class="roadmap-aichat">
+        <p>Aqui terá um chat com a IA</p>
+        <p>Para ajudar a responder perguntas sobre a trilha</p>
+        <p>e auxiliar no estudo</p>
+        <p>Em breve!</p>
+    </div>
+    }
+</div>
