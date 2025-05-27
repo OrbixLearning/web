@@ -3,7 +3,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 import Lara from '@primeng/themes/lara';
 import { providePrimeNG } from 'primeng/config';
-
+import { provideMarkdown } from 'ngx-markdown';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
 import { authInterceptor } from './interceptors/auth.interceptor';
@@ -14,6 +14,7 @@ export const appConfig: ApplicationConfig = {
 		provideZoneChangeDetection({ eventCoalescing: true }),
 		provideRouter(routes),
 		provideAnimationsAsync(),
+		provideMarkdown(),
 		providePrimeNG({ theme: { preset: Lara } }),
 		provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
 	],

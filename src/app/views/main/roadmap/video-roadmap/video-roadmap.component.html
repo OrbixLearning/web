@@ -1,1 +1,9 @@
-<p>video-roadmap works!</p>
+<div>
+    @for (videoLink of roadmap.videoLinks; track videoLink; let i = $index) {
+    <div>
+        <iframe [src]="videoLink | safeUrl" frameborder="0" allowfullscreen width="560" height="315"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    }
+</div>
