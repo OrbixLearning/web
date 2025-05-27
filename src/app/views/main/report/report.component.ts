@@ -65,7 +65,6 @@ export class ReportComponent {
 	}
 
 	async onSubmit() {
-		console.log(this.form.valid);
 		if (this.form.valid) {
 			this.isLoading = true;
 			await lastValueFrom(

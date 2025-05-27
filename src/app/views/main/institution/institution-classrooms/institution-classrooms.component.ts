@@ -135,8 +135,4 @@ export class InstitutionClassroomsComponent {
 				this.isLoading = false;
 			});
 	}
-
-	iconChange(classroom: Classroom) {
-		console.log('Icon changed:', classroom.icon);
-	}
 }

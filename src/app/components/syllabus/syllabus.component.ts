@@ -86,7 +86,6 @@ export class SyllabusComponent {
 
 	topicMarked(syllabus: Syllabus[]) {
 		this.syllabusMarked.emit(syllabus);
-		console.log(this.selection);
 	}
 
 	topicSelected(syllabus: Syllabus) {
