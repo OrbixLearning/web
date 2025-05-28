@@ -25,6 +25,10 @@ export class RoadmapService {
 		return this.http.get<Roadmap[]>(`${this.api}/shared/classroom/${classroomId}`);
 	}
 
+	getAudioUrl(roadmapId: string): string {
+		return `${this.api}/audio/${roadmapId}`;
+	}
+
 	// UPDATE
 
 	updateRoadmapSharing(id: string, share: boolean): Observable<Roadmap> {
