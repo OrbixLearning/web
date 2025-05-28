@@ -1,1 +1,17 @@
-<p>flash-card-roadmap works!</p>
+<div>
+    @for (flashCard of roadmap.flashCards; track $index; let i = $index) {
+    <mat-card>
+        <mat-card-content>
+            <p>{{ flashCard.front }}</p>
+            @if(opened[i]) {
+            <p>{{ flashCard.back }}</p>
+            }
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button (click)="this.opened[i] = !this.opened[i]">
+                {{ opened[i] ? 'Fechar' : 'Abrir' }}
+            </button>
+        </mat-card-actions>
+    </mat-card>
+    }
+</div>

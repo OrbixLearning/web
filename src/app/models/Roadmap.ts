@@ -26,6 +26,14 @@ export type TextRoadmap = {
 	text: string;
 } & RoadmapBase;
 
+export type FlashCardRoadmap = {
+	flashCards: FlashCard[];
+} & RoadmapBase;
+
 export type QuestionRoadmap = {} & RoadmapBase;
-export type FlashCardRoadmap = {} & RoadmapBase;
 export type AudioRoadmap = {} & RoadmapBase;
+
+export type FlashCard = {
+	front: string;
+	back: string;
+};
