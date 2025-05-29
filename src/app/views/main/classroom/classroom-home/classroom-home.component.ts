@@ -92,7 +92,7 @@ export class ClassroomHomeComponent {
 
 		const filteredByName =
 			roadmap.name.toLowerCase().includes(this.filter.toLowerCase()) ||
-			roadmap.user.name.toLowerCase().includes(this.filter.toLowerCase());
+			roadmap.creator.name.toLowerCase().includes(this.filter.toLowerCase());
 
 		return filteredBySyllabus && filteredByName;
 	};

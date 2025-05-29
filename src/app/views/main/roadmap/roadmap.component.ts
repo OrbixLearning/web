@@ -55,7 +55,7 @@ export class RoadmapComponent {
 	router: Router = inject(Router);
 
 	isLoading: boolean = false;
-	mine: boolean = this.ctx.roadmap?.user.id === this.ctx.user?.id;
+	mine: boolean = this.ctx.roadmap?.creator.id === this.ctx.user?.id;
 	mode: 'view' | 'study' = this.mine || !this.ctx.isTeacher ? 'study' : 'view';
 	typeEnum = RoadmapTypeEnum;
 

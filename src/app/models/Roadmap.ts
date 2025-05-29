@@ -13,7 +13,7 @@ type RoadmapBase = {
 	shared: boolean;
 	validated: boolean;
 	syllabus: Syllabus[];
-	user: User;
+	creator: User;
 	classroom: Classroom;
 	userInstitutionRole: InstitutionRoleEnum;
 	type: RoadmapTypeEnum;
