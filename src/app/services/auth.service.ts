@@ -39,7 +39,7 @@ export class AuthService {
 	}
 
 	resetPassword(token: string, password: string): Observable<any> {
-		return this.http.post(`${this.api}/reset-password`, { token, password });
+		return this.http.put(`${this.api}/reset-password`, { token, password });
 	}
 
 	getGoogleClientId(): Observable<{ clientId: string }> {
@@ -70,10 +70,10 @@ export class AuthService {
 
 	linkAccount(email: string, password: string): Observable<User> {
 		email = email.trim().toLowerCase();
-		return this.http.post<User>(`${this.api}/link/link-account`, { email, password });
+		return this.http.put<User>(`${this.api}/link/link-account`, { email, password });
 	}
 
 	oAuthLinkAccount(code: string, redirectUri: string): Observable<User> {
-		return this.http.post<User>(`${this.api}/link/oauth-link-account`, { code, redirectUri });
+		return this.http.put<User>(`${this.api}/link/oauth-link-account`, { code, redirectUri });
 	}
 }
