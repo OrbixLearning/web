@@ -1,12 +1,25 @@
 import { Component, inject, Input } from '@angular/core';
-import { Question, QuestionRoadmap } from '../../../../models/Roadmap';
-import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
+import { Question, QuestionRoadmap } from '../../../../models/Roadmap';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
 	selector: 'o-question-roadmap',
-	imports: [ReactiveFormsModule, MatButtonModule],
+	imports: [
+		ReactiveFormsModule,
+		MatButtonModule,
+		MatRadioModule,
+		MatCheckboxModule,
+		MatButtonToggleModule,
+		MatFormFieldModule,
+		MatInputModule,
+	],
 	templateUrl: './question-roadmap.component.html',
 	styleUrl: './question-roadmap.component.scss',
 })
@@ -23,8 +36,39 @@ export class QuestionRoadmapComponent {
 	});
 	result?: string;
 
+	get answersControl(): FormControl {
+		return this.form.get('answers') as FormControl;
+	}
+
 	ngOnInit() {
 		this.question = this.roadmap.questions[this.index];
+	}
+
+	markedCheckbox(option: string) {
+		const currentAnswers = this.form.value.answers || [];
+		if (currentAnswers.includes(option)) {
+			this.form.patchValue({
+				answers: currentAnswers.filter((answer: string) => answer !== option),
+			});
+		} else {
+			this.form.patchValue({
+				answers: [...currentAnswers, option],
+			});
+		}
+	}
+
+	updateOpenEndedAnswer(event: Event) {
+		const input = event.target as HTMLInputElement;
+		const answer = input.value.trim();
+		if (answer) {
+			this.form.patchValue({
+				answers: [answer],
+			});
+		} else {
+			this.form.patchValue({
+				answers: [''],
+			});
+		}
 	}
 
 	verifyAnswer() {
@@ -33,17 +77,13 @@ export class QuestionRoadmapComponent {
 			const correctAnswers = this.question!.answers;
 
 			if (userAnswers.length !== correctAnswers.length) {
-				this.result = 'Incorrect! Please try again.';
+				this.result = 'Errado!';
 				return;
 			}
 
 			const isCorrect = userAnswers.every((answer: string) => correctAnswers.includes(answer));
 
-			if (isCorrect) {
-				this.result = 'Correct!';
-			} else {
-				this.result = 'Incorrect! Please try again.';
-			}
+			this.result = isCorrect ? 'Acertou!' : 'Errado!';
 		}
 	}
 

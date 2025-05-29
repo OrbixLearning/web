@@ -4,18 +4,37 @@
     </div>
     <form [formGroup]="form" (ngSubmit)="verifyAnswer()">
         @switch (question?.type) {
+
         @case (questionTypeEnum.MULTIPLE_CHOICE) {
-
+        <mat-radio-group formControlName="answers">
+            @for (option of question?.options; track option) {
+            <mat-radio-button [value]="[option]">{{option}}</mat-radio-button>
+            }
+        </mat-radio-group>
         }
+
         @case (questionTypeEnum.MULTIPLE_SELECTION) {
-
+        @for (option of question?.options; track option) {
+        <mat-checkbox (change)="markedCheckbox(option)">{{option}}</mat-checkbox>
         }
+        }
+
         @case (questionTypeEnum.TRUE_FALSE) {
-
+        <mat-button-toggle-group formControlName="answers">
+            <mat-button-toggle [value]="['true']">Verdadeiro</mat-button-toggle>
+            <mat-button-toggle [value]="['false']">Falso</mat-button-toggle>
+        </mat-button-toggle-group>
         }
+
         @case (questionTypeEnum.OPEN_ENDED) {
-
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Resposta</mat-label>
+            <textarea matInput rows="5" [value]="answersControl.value?.[0] || ''"
+                (input)="updateOpenEndedAnswer($event)" formControlName="answers">
+            </textarea>
+        </mat-form-field>
         }
+
         }
 
         @if (result) {
@@ -24,5 +43,11 @@
 
         <button mat-raised-button [disabled]="form.invalid" type="submit">Verificar resposta</button>
     </form>
-    <div></div>
+
+    <div>
+        @if (index >= 0) {
+        <button mat-button (click)="previousQuestion()"> Anterior </button>
+        }
+        @if (index < (roadmap.questions.length - 1)) { <button mat-button (click)="nextQuestion()"> Próxima </button> }
+    </div>
 </div>
