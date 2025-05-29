@@ -119,10 +119,10 @@
             <mat-form-field appearance="fill" subscriptSizing="dynamic">
                 <mat-label>Tipos de Questões</mat-label>
                 <mat-select formControlName="questionTypes" multiple>
-                    <mat-option value="multiple-choice"> Múltipla Escolha </mat-option>
-                    <mat-option value="multiple-select"> Múltipla Seleção </mat-option>
-                    <mat-option value="true-false"> Verdadeiro ou Falso </mat-option>
-                    <mat-option value="open-ended"> Aberta </mat-option>
+                    <mat-option [value]="questionTypeEnum.MULTIPLE_CHOICE"> Múltipla Escolha </mat-option>
+                    <mat-option [value]="questionTypeEnum.MULTIPLE_SELECTION"> Múltipla Seleção </mat-option>
+                    <mat-option [value]="questionTypeEnum.TRUE_FALSE"> Verdadeiro ou Falso </mat-option>
+                    <mat-option [value]="questionTypeEnum.OPEN_ENDED"> Aberta </mat-option>
                 </mat-select>
             </mat-form-field>
             }

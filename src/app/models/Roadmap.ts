@@ -1,4 +1,5 @@
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
+import { QuestionTypeEnum } from '../enums/QuestionType.enum';
 import { RoadmapTypeEnum } from '../enums/RoadmapType.enum';
 import { Classroom } from './Classroom';
 import { Syllabus } from './Syllabus';
@@ -30,10 +31,20 @@ export type FlashCardRoadmap = {
 	flashCards: FlashCard[];
 } & RoadmapBase;
 
-export type QuestionRoadmap = {} & RoadmapBase;
+export type QuestionRoadmap = {
+	questions: Question[];
+} & RoadmapBase;
+
 export type AudioRoadmap = {} & RoadmapBase;
 
 export type FlashCard = {
 	front: string;
 	back: string;
+};
+
+export type Question = {
+	statement: string;
+	options: string[];
+	answers: string[];
+	type: QuestionTypeEnum;
 };

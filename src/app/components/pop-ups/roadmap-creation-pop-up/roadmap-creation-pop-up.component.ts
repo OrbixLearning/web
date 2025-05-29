@@ -17,6 +17,7 @@ import { LoadingComponent } from '../../loading/loading.component';
 import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/success-pop-up.component';
+import { QuestionTypeEnum } from '../../../enums/QuestionType.enum';
 
 @Component({
 	selector: 'o-roadmap-creation-pop-up',
@@ -44,6 +45,7 @@ export class RoadmapCreationPopUpComponent {
 
 	isLoading: boolean = false;
 	roadmapTypeEnum = RoadmapTypeEnum;
+	questionTypeEnum = QuestionTypeEnum;
 
 	baseLastForm = {
 		language: this.formBuilder.control<string>('pt-BR', Validators.required),
@@ -60,7 +62,12 @@ export class RoadmapCreationPopUpComponent {
 		numberOfQuestions: this.formBuilder.control<number>(20, Validators.required),
 		level: this.formBuilder.control<number>(0),
 		questionTypes: this.formBuilder.control<string[]>(
-			['multiple-choice', 'multiple-select', 'true-false', 'open-ended'],
+			[
+				this.questionTypeEnum.MULTIPLE_CHOICE,
+				this.questionTypeEnum.MULTIPLE_SELECTION,
+				this.questionTypeEnum.TRUE_FALSE,
+				this.questionTypeEnum.OPEN_ENDED,
+			],
 			Validators.required,
 		),
 	};

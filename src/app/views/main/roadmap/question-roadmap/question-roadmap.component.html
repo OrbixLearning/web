@@ -1,1 +1,28 @@
-<p>question-roadmap works!</p>
+<div>
+    <div>
+        <p>{{question?.statement}}</p>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="verifyAnswer()">
+        @switch (question?.type) {
+        @case (questionTypeEnum.MULTIPLE_CHOICE) {
+
+        }
+        @case (questionTypeEnum.MULTIPLE_SELECTION) {
+
+        }
+        @case (questionTypeEnum.TRUE_FALSE) {
+
+        }
+        @case (questionTypeEnum.OPEN_ENDED) {
+
+        }
+        }
+
+        @if (result) {
+        <p>{{result}}</p>
+        }
+
+        <button mat-raised-button [disabled]="form.invalid" type="submit">Verificar resposta</button>
+    </form>
+    <div></div>
+</div>
