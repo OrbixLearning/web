@@ -1,5 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
-import { AudioRoadmap } from '../../../../models/Roadmap';
+import { AudioRoadmapStudy } from '../../../../models/RoadmapStudy';
 import { RoadmapService } from '../../../../services/roadmap.service';
 
 @Component({
@@ -9,11 +9,11 @@ import { RoadmapService } from '../../../../services/roadmap.service';
 	styleUrl: './audio-roadmap.component.scss',
 })
 export class AudioRoadmapComponent {
-	@Input() roadmap!: AudioRoadmap;
+	@Input() roadmapStudy!: AudioRoadmapStudy;
 
 	service: RoadmapService = inject(RoadmapService);
 
 	get audioUrl(): string {
-		return this.service.getAudioUrl(this.roadmap.id);
+		return this.service.getAudioUrl(this.roadmapStudy.roadmap.id);
 	}
 }

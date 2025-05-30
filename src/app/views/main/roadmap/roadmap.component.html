@@ -5,7 +5,7 @@
         <mat-icon>arrow_back</mat-icon>
     </button>
 
-    @if (ctx.roadmap?.validated) {
+    @if (ctx.roadmapStudy?.roadmap?.validated) {
     <mat-icon pTooltip="Trilha validada pelo professor">check</mat-icon>
     } @else if (ctx.isTeacher) {
     <button mat-raised-button (click)="validateRoadmap()">
@@ -20,7 +20,7 @@
 
     @if (mine) {
     <div>
-        <p-toggleswitch [(ngModel)]="ctx.roadmap!.shared" (ngModelChange)="updatedRoadmapSharing()" />
+        <p-toggleswitch [(ngModel)]="ctx.roadmapStudy!.roadmap!.shared" (ngModelChange)="updatedRoadmapSharing()" />
         <span>Compartilhada</span>
     </div>
 
@@ -32,21 +32,21 @@
 
 <div class="roadmap-content">
     <div>
-        @switch (ctx.roadmap!.type) {
+        @switch (ctx.roadmapStudy!.roadmap!.type) {
         @case (typeEnum.TEXT) {
-        <o-text-roadmap [roadmap]="roadmapAsText" />
+        <o-text-roadmap [roadmapStudy]="roadmapStudyAsText" />
         }
         @case (typeEnum.VIDEO) {
-        <o-video-roadmap [roadmap]="roadmapAsVideo" />
+        <o-video-roadmap [roadmapStudy]="roadmapStudyAsVideo" />
         }
         @case (typeEnum.AUDIO) {
-        <o-audio-roadmap [roadmap]="roadmapAsAudio" />
+        <o-audio-roadmap [roadmapStudy]="roadmapStudyAsAudio" />
         }
         @case (typeEnum.FLASHCARD) {
-        <o-flash-card-roadmap [roadmap]="roadmapAsFlashCard" />
+        <o-flash-card-roadmap [roadmapStudy]="roadmapStudyAsFlashCard" />
         }
         @case (typeEnum.QUESTION) {
-        <o-question-roadmap [roadmap]="roadmapAsQuestion" />
+        <o-question-roadmap [roadmapStudy]="roadmapStudyAsQuestion" />
         }
         }
     </div>

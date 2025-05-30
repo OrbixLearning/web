@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
-import { lastValueFrom } from 'rxjs';
+import { last, lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { RoadmapCreationPopUpComponent } from '../../../../components/pop-ups/roadmap-creation-pop-up/roadmap-creation-pop-up.component';
 import { RoadmapCardComponent } from '../../../../components/roadmap-card/roadmap-card.component';
@@ -18,6 +18,7 @@ import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
 import { RoadmapService } from '../../../../services/roadmap.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
+import { RoadmapStudyService } from '../../../../services/roadmap-study.service';
 
 @Component({
 	selector: 'o-classroom-home',
@@ -39,6 +40,7 @@ import { ArrayUtils } from '../../../../utils/Array.utils';
 export class ClassroomHomeComponent {
 	ctx: ContextService = inject(ContextService);
 	roadmapService: RoadmapService = inject(RoadmapService);
+	roadmapStudyService: RoadmapStudyService = inject(RoadmapStudyService);
 	dialog: MatDialog = inject(MatDialog);
 	router: Router = inject(Router);
 	route: ActivatedRoute = inject(ActivatedRoute);
@@ -137,7 +139,6 @@ export class ClassroomHomeComponent {
 	}
 
 	goToRoadmap(roadmap: Roadmap) {
-		this.ctx.roadmap = roadmap;
 		this.router.navigate(['/i', this.ctx.institution?.id, 'c', this.ctx.classroom?.id, 'r', roadmap.id]);
 	}
 

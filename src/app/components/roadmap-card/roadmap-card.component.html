@@ -1,7 +1,7 @@
 <p-card [header]="roadmap.name">
     <button mat-button (click)="cardClick.emit()" style="width: auto; height: auto; padding: 0">
         <p class="m-0">
-            Por {{ roadmap.user.name }}
+            Por {{ roadmap.creator.name }}
             @if(roadmap.validated) {
             <mat-icon pTooltip="Trilha validada pelo professor">check</mat-icon>
             }

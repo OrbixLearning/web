@@ -1,28 +1,28 @@
 import { Component, inject } from '@angular/core';
-import { ContextService } from '../../../services/context.service';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
-import { RoadmapService } from '../../../services/roadmap.service';
-import { LoadingComponent } from '../../../components/loading/loading.component';
-import { lastValueFrom, share } from 'rxjs';
-import {
-	AudioRoadmap,
-	FlashCardRoadmap,
-	QuestionRoadmap,
-	Roadmap,
-	TextRoadmap,
-	VideoRoadmap,
-} from '../../../models/Roadmap';
-import { TooltipModule } from 'primeng/tooltip';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
-import { FormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { TooltipModule } from 'primeng/tooltip';
+import { lastValueFrom } from 'rxjs';
+import { LoadingComponent } from '../../../components/loading/loading.component';
 import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { RoadmapTypeEnum } from '../../../enums/RoadmapType.enum';
+import { Roadmap } from '../../../models/Roadmap';
+import {
+	AudioRoadmapStudy,
+	FlashCardRoadmapStudy,
+	QuestionRoadmapStudy,
+	TextRoadmapStudy,
+	VideoRoadmapStudy,
+} from '../../../models/RoadmapStudy';
+import { ContextService } from '../../../services/context.service';
+import { RoadmapService } from '../../../services/roadmap.service';
 import { AudioRoadmapComponent } from './audio-roadmap/audio-roadmap.component';
 import { FlashCardRoadmapComponent } from './flash-card-roadmap/flash-card-roadmap.component';
 import { QuestionRoadmapComponent } from './question-roadmap/question-roadmap.component';
@@ -55,28 +55,28 @@ export class RoadmapComponent {
 	router: Router = inject(Router);
 
 	isLoading: boolean = false;
-	mine: boolean = this.ctx.roadmap?.creator.id === this.ctx.user?.id;
+	mine: boolean = this.ctx.roadmapStudy?.roadmap.creator.id === this.ctx.user?.id;
 	mode: 'view' | 'study' = this.mine || !this.ctx.isTeacher ? 'study' : 'view';
 	typeEnum = RoadmapTypeEnum;
 
-	get roadmapAsAudio(): AudioRoadmap {
-		return this.ctx.roadmap as AudioRoadmap;
+	get roadmapStudyAsAudio(): AudioRoadmapStudy {
+		return this.ctx.roadmapStudy as AudioRoadmapStudy;
 	}
 
-	get roadmapAsFlashCard(): FlashCardRoadmap {
-		return this.ctx.roadmap as FlashCardRoadmap;
+	get roadmapStudyAsFlashCard(): FlashCardRoadmapStudy {
+		return this.ctx.roadmapStudy as FlashCardRoadmapStudy;
 	}
 
-	get roadmapAsQuestion(): QuestionRoadmap {
-		return this.ctx.roadmap as QuestionRoadmap;
+	get roadmapStudyAsQuestion(): QuestionRoadmapStudy {
+		return this.ctx.roadmapStudy as QuestionRoadmapStudy;
 	}
 
-	get roadmapAsText(): TextRoadmap {
-		return this.ctx.roadmap as TextRoadmap;
+	get roadmapStudyAsText(): TextRoadmapStudy {
+		return this.ctx.roadmapStudy as TextRoadmapStudy;
 	}
 
-	get roadmapAsVideo(): VideoRoadmap {
-		return this.ctx.roadmap as VideoRoadmap;
+	get roadmapStudyAsVideo(): VideoRoadmapStudy {
+		return this.ctx.roadmapStudy as VideoRoadmapStudy;
 	}
 
 	toggleMode() {
@@ -89,9 +89,9 @@ export class RoadmapComponent {
 
 	async validateRoadmap() {
 		this.isLoading = true;
-		await lastValueFrom(this.service.validateRoadmap(this.ctx.roadmap!.id, true))
+		await lastValueFrom(this.service.validateRoadmap(this.ctx.roadmapStudy!.roadmap.id, true))
 			.then((roadmap: Roadmap) => {
-				this.ctx.roadmap = roadmap;
+				this.ctx.roadmapStudy!.roadmap = roadmap;
 			})
 			.finally(() => {
 				this.isLoading = false;
@@ -100,11 +100,11 @@ export class RoadmapComponent {
 
 	async updatedRoadmapSharing() {
 		this.isLoading = true;
-		await lastValueFrom(this.service.updateRoadmapSharing(this.ctx.roadmap!.id, this.ctx.roadmap!.shared)).finally(
-			() => {
-				this.isLoading = false;
-			},
-		);
+		await lastValueFrom(
+			this.service.updateRoadmapSharing(this.ctx.roadmapStudy!.roadmap.id, this.ctx.roadmapStudy!.roadmap.shared),
+		).finally(() => {
+			this.isLoading = false;
+		});
 	}
 
 	async deleteRoadmap() {
@@ -119,7 +119,7 @@ export class RoadmapComponent {
 			.subscribe(async result => {
 				if (result) {
 					this.isLoading = true;
-					await lastValueFrom(this.service.delete(this.ctx.roadmap!.id))
+					await lastValueFrom(this.service.delete(this.ctx.roadmapStudy!.roadmap.id))
 						.then(() => {
 							this.router.navigateByUrl(`/i/${this.ctx.institution?.id}/c/${this.ctx.classroom?.id}`);
 						})

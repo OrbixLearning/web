@@ -1,13 +1,14 @@
 import { Component, inject, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
 import { Question, QuestionRoadmap } from '../../../../models/Roadmap';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { QuestionRoadmapStudy } from '../../../../models/RoadmapStudy';
 
 @Component({
 	selector: 'o-question-roadmap',
@@ -24,11 +25,12 @@ import { MatInputModule } from '@angular/material/input';
 	styleUrl: './question-roadmap.component.scss',
 })
 export class QuestionRoadmapComponent {
-	@Input() roadmap!: QuestionRoadmap;
+	@Input() roadmapStudy!: QuestionRoadmapStudy;
 
 	formBuilder: FormBuilder = inject(FormBuilder);
 
 	index: number = 0;
+	questions: Question[] = [];
 	question?: Question;
 	questionTypeEnum = QuestionTypeEnum;
 	form: FormGroup = this.formBuilder.group({
@@ -41,7 +43,8 @@ export class QuestionRoadmapComponent {
 	}
 
 	ngOnInit() {
-		this.question = this.roadmap.questions[this.index];
+		this.questions = (this.roadmapStudy.roadmap as QuestionRoadmap).questions;
+		this.question = this.questions[this.index];
 	}
 
 	markedCheckbox(option: string) {
@@ -88,11 +91,11 @@ export class QuestionRoadmapComponent {
 	}
 
 	nextQuestion() {
-		if (this.index < this.roadmap.questions.length - 1) {
+		if (this.index < this.questions.length - 1) {
 			this.form.reset();
 			this.result = undefined;
 			this.index++;
-			this.question = this.roadmap.questions[this.index];
+			this.question = this.questions[this.index];
 		}
 	}
 
@@ -101,7 +104,7 @@ export class QuestionRoadmapComponent {
 			this.form.reset();
 			this.result = undefined;
 			this.index--;
-			this.question = this.roadmap.questions[this.index];
+			this.question = this.questions[this.index];
 		}
 	}
 }

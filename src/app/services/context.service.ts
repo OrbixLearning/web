@@ -9,6 +9,7 @@ import { User } from '../models/User';
 import { ClassroomService } from './classroom.service';
 import { InstitutionService } from './institution.service';
 import { RoadmapService } from './roadmap.service';
+import { RoadmapStudy } from '../models/RoadmapStudy';
 
 @Injectable({
 	providedIn: 'root',
@@ -23,7 +24,7 @@ export class ContextService {
 	private userSignal = signal<User | undefined>(undefined);
 	private institutionSignal = signal<Institution | undefined>(undefined);
 	private classroomSignal = signal<Classroom | undefined>(undefined);
-	private roadmapSignal = signal<Roadmap | undefined>(undefined);
+	private roadmapStudySignal = signal<RoadmapStudy | undefined>(undefined);
 
 	// These values are populated in the context service effects
 	private institutionListSignal = signal<Institution[] | undefined>(undefined);
@@ -59,7 +60,7 @@ export class ContextService {
 			if (classroom && classroom.id) {
 				Promise.all([this.loadClassroomList()]);
 			} else {
-				this.clearRoadmap();
+				this.clearRoadmapStudy();
 			}
 		});
 	}
@@ -83,8 +84,8 @@ export class ContextService {
 	get classroom(): Classroom | undefined {
 		return this.classroomSignal();
 	}
-	get roadmap(): Roadmap | undefined {
-		return this.roadmapSignal();
+	get roadmapStudy(): RoadmapStudy | undefined {
+		return this.roadmapStudySignal();
 	}
 
 	// SETTERS
@@ -106,8 +107,8 @@ export class ContextService {
 	set classroom(value: Classroom | undefined) {
 		this.classroomSignal.set(value ? { ...value } : undefined);
 	}
-	set roadmap(value: Roadmap | undefined) {
-		this.roadmapSignal.set(value ? { ...value } : undefined);
+	set roadmapStudy(value: RoadmapStudy | undefined) {
+		this.roadmapStudySignal.set(value ? { ...value } : undefined);
 	}
 
 	// CLEAR
@@ -134,8 +135,8 @@ export class ContextService {
 	clearClassroom() {
 		this.classroomSignal.set(undefined);
 	}
-	clearRoadmap() {
-		this.roadmapSignal.set(undefined);
+	clearRoadmapStudy() {
+		this.roadmapStudySignal.set(undefined);
 	}
 
 	// LOAD

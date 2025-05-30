@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { VideoRoadmap } from '../../../../models/Roadmap';
+import { VideoRoadmapStudy } from '../../../../models/RoadmapStudy';
 import { SafeUrlPipe } from '../../../../pipes/safe-url.pipe';
 
 @Component({
@@ -9,5 +10,11 @@ import { SafeUrlPipe } from '../../../../pipes/safe-url.pipe';
 	styleUrl: './video-roadmap.component.scss',
 })
 export class VideoRoadmapComponent {
-	@Input() roadmap!: VideoRoadmap;
+	@Input() roadmapStudy!: VideoRoadmapStudy;
+
+	videoLinks: string[] = [];
+
+	ngOnInit() {
+		this.videoLinks = (this.roadmapStudy.roadmap as VideoRoadmap).videoLinks;
+	}
 }

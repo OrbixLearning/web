@@ -13,10 +13,6 @@ export class RoadmapService {
 
 	// GET
 
-	get(roadmapId: string): Observable<Roadmap> {
-		return this.http.get<Roadmap>(`${this.api}/${roadmapId}`);
-	}
-
 	getUserRoadmapsByClassroom(classroomId: string): Observable<Roadmap[]> {
 		return this.http.get<Roadmap[]>(`${this.api}/classroom/${classroomId}`);
 	}

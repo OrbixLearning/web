@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { FlashCard, FlashCardRoadmap } from '../../../../models/Roadmap';
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { FlashCard, FlashCardRoadmap } from '../../../../models/Roadmap';
+import { FlashCardRoadmapStudy } from '../../../../models/RoadmapStudy';
 
 @Component({
 	selector: 'o-flash-card-roadmap',
@@ -10,11 +11,13 @@ import { MatButtonModule } from '@angular/material/button';
 	styleUrl: './flash-card-roadmap.component.scss',
 })
 export class FlashCardRoadmapComponent {
-	@Input() roadmap!: FlashCardRoadmap;
+	@Input() roadmapStudy!: FlashCardRoadmapStudy;
 
+	flashCards: FlashCard[] = [];
 	opened: boolean[] = [];
 
 	ngOnInit() {
-		this.opened = this.roadmap.flashCards.map(() => false);
+		this.flashCards = (this.roadmapStudy.roadmap as FlashCardRoadmap).flashCards;
+		this.opened = this.flashCards.map(() => false);
 	}
 }
