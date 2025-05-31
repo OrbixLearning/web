@@ -19,7 +19,7 @@
                 <p-divider layout="vertical" />
                 @if (!logo) {
                 <p-fileupload mode="basic" chooseLabel="Selecionar" name="logo" [auto]="true" accept=".png,.svg"
-                    maxFileSize="1000000" (onSelect)="selectLogo($event)" />
+                    [maxFileSize]="MAX_IMAGE_SIZE" (onSelect)="selectLogo($event)" />
                 } @else {
                 <img [src]="logoPreview" alt="LogoPreview" />
                 <button mat-button (click)="logo = undefined" type="button"><mat-icon>close</mat-icon>Cancelar</button>

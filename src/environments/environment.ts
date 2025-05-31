@@ -3,4 +3,6 @@ export const environment = {
 	API_URL: '',
 	OAUTH_REDIRECT_URI: '',
 	ACCOUNT_LINK_REDIRECT_URI: '',
+	MAX_PDF_SIZE: 100000000, // 100 MB
+	MAX_IMAGE_SIZE: 10000000, // 10 MB
 };

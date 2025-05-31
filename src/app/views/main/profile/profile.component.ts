@@ -20,6 +20,7 @@ import { ContextService } from '../../../services/context.service';
 import { UserService } from '../../../services/user.service';
 import { ThemeService } from '../../../services/theme.service';
 import { DividerModule } from 'primeng/divider';
+import { environment } from '../../../../environments/environment';
 
 @Component({
 	selector: 'o-profile',
@@ -54,6 +55,7 @@ export class ProfileComponent {
 	userId?: string;
 	user?: User;
 	creatorEnum: InstitutionRoleEnum = InstitutionRoleEnum.CREATOR;
+	readonly MAX_IMAGE_SIZE: number = environment.MAX_IMAGE_SIZE;
 
 	constructor() {
 		const urlSegments = this.router.url.split('/');

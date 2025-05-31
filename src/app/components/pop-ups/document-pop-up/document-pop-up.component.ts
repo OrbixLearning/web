@@ -12,6 +12,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ContextService } from '../../../services/context.service';
 import { Syllabus } from '../../../models/Syllabus';
 import { Document } from '../../../models/Document';
+import { environment } from '../../../../environments/environment';
 
 export type UploadDocumentPopUpResponse = {
 	name: string;
@@ -47,6 +48,7 @@ export class DocumentPopUpComponent {
 		syllabus: this.formBuilder.control<Syllabus[]>([]),
 	});
 	editMode: boolean = this.data?.document !== undefined;
+	readonly MAX_PDF_SIZE: number = environment.MAX_PDF_SIZE;
 
 	ngOnInit() {
 		if (this.editMode) {

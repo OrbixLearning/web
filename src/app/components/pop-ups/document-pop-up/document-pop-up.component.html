@@ -10,7 +10,7 @@
 
         @if (!editMode) {
         @if (!getFormControl('file').value) {
-        <p-fileupload mode="basic" chooseLabel="Selecionar" name="document" [auto]="true" maxFileSize="1000000"
+        <p-fileupload mode="basic" chooseLabel="Selecionar" name="document" [auto]="true" [maxFileSize]="MAX_PDF_SIZE"
             (onSelect)="selectFile($event)" />
         } @else {
         <p>{{getFormControl('file').value}}</p>

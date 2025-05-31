@@ -15,6 +15,7 @@ import { ContextService } from '../../../../services/context.service';
 import { InstitutionService } from '../../../../services/institution.service';
 import { ThemeService } from '../../../../services/theme.service';
 import { DividerModule } from 'primeng/divider';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
 	selector: 'o-institution-settings',
@@ -47,6 +48,7 @@ export class InstitutionSettingsComponent {
 	logoPreview: string | ArrayBuffer | null = null;
 	primaryColor: string = this.ctx.institution?.primaryColor || '#000000';
 	secondaryColor: string = this.ctx.institution?.secondaryColor || '#000000';
+	readonly MAX_IMAGE_SIZE: number = environment.MAX_IMAGE_SIZE;
 
 	ngOnInit() {
 		this.resetForm();

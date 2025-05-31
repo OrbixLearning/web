@@ -15,8 +15,8 @@
                 <p-divider layout="vertical" />
 
                 @if (!picture) {
-                <p-fileupload mode="basic" chooseLabel="Selecionar" name="profilePicture" [auto]="true" accept=".png,.svg,.jpg"
-                    maxFileSize="1000000" (onSelect)="selectProfilePicture($event)" />
+                <p-fileupload mode="basic" chooseLabel="Selecionar" name="profilePicture" [auto]="true"
+                    accept=".png,.svg,.jpg" [maxFileSize]="MAX_IMAGE_SIZE" (onSelect)="selectProfilePicture($event)" />
                 } @else {
                 <img [src]="picturePreview" alt="profilePicturePreview" />
                 <button mat-button (click)="picture = undefined" type="button">
