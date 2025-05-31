@@ -5,6 +5,8 @@
         <mat-icon>arrow_back</mat-icon>
     </button>
 
+    <mat-icon>{{ctx.roadmapStudy?.roadmap?.icon}}</mat-icon>
+
     @if (ctx.roadmapStudy?.roadmap?.validated) {
     <mat-icon pTooltip="Trilha validada pelo professor">check</mat-icon>
     } @else if (ctx.isTeacher) {

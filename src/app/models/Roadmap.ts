@@ -10,6 +10,7 @@ export type Roadmap = VideoRoadmap | TextRoadmap | QuestionRoadmap | FlashCardRo
 type RoadmapBase = {
 	id: string;
 	name: string;
+	icon: string;
 	shared: boolean;
 	validated: boolean;
 	syllabus: Syllabus[];

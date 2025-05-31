@@ -1,5 +1,7 @@
+<o-loading [isLoading]="isLoading" />
+
 <header>
-    <button mat-icon-button>
+    <button mat-icon-button (click)="downloadPdf()">
         <mat-icon>download</mat-icon>
     </button>
 </header>

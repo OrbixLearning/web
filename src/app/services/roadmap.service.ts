@@ -25,6 +25,10 @@ export class RoadmapService {
 		return `${this.api}/audio/${roadmapId}`;
 	}
 
+	downloadPdf(roadmapId: string): Observable<Blob> {
+		return this.http.get(`${this.api}/pdf/${roadmapId}`, { responseType: 'blob' });
+	}
+
 	// UPDATE
 
 	updateRoadmapSharing(id: string, share: boolean): Observable<Roadmap> {

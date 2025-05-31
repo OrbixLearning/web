@@ -1,4 +1,5 @@
 <p-card [header]="roadmap.name">
+    <mat-icon>{{roadmap.icon}}</mat-icon>
     <button mat-button (click)="cardClick.emit()" style="width: auto; height: auto; padding: 0">
         <p class="m-0">
             Por {{ roadmap.creator.name }}

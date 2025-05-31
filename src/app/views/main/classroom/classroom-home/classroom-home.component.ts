@@ -144,8 +144,14 @@ export class ClassroomHomeComponent {
 
 	async updatedRoadmapSharing(roadmap: Roadmap) {
 		this.isLoading = true;
-		await lastValueFrom(this.roadmapService.updateRoadmapSharing(roadmap.id, roadmap.shared)).finally(() => {
-			this.isLoading = false;
-		});
+		await lastValueFrom(this.roadmapService.updateRoadmapSharing(roadmap.id, roadmap.shared))
+			.then(() => {
+				if (roadmap.id === this.ctx.roadmapStudy?.roadmap?.id) {
+					this.ctx.roadmapStudy!.roadmap = roadmap;
+				}
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
 	}
 }
