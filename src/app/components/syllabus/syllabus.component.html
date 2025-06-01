@@ -1,4 +1,11 @@
 <div>
+    @if (presets && presets.length > 0) {
+    @for (preset of presets; track preset.name) {
+    <p-button [label]="preset.name" (click)="loadPreset(preset)" />
+    }
+    <p-button label="Limpar seleção" (click)="clearSelection()" />
+    }
+    
     @if (syllabus && syllabus.length > 0) {
     <p-tree [value]="syllabusComponentTree" [selectionMode]="selectionMode" [(selection)]="selection"
         (selectionChange)="selectionChange($event)" />

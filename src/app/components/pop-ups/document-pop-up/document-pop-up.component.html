@@ -22,7 +22,7 @@
     </div>
 
     <o-syllabus [syllabus]="ctx.classroom?.syllabus" [preMarkedSyllabus]="data?.document!.syllabus" mode="checkbox"
-        (syllabusMarked)="markSyllabus($event)" />
+        (syllabusMarked)="markSyllabus($event)" [presets]="ctx.classroom?.presets" />
 
     <o-pop-up-buttons [disable]="form.invalid" type="submit"
         [confirmButton]="(editMode ? 'Editar' : 'Adicionar') + ' documento'" />

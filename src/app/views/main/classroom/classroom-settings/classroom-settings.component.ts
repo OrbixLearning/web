@@ -19,12 +19,18 @@ import {
 	SyllabusTopicCreationPopUpResult,
 } from '../../../../components/pop-ups/syllabus-topic-creation-pop-up/syllabus-topic-creation-pop-up.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
-import { Classroom } from '../../../../models/Classroom';
+import { Classroom, SyllabusPreset } from '../../../../models/Classroom';
 import { Syllabus } from '../../../../models/Syllabus';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { SyllabusService } from '../../../../services/syllabus.service';
 import { TreeUtils } from '../../../../utils/Tree.utils';
+import {
+	SyllabusPresetCreationPopUpComponent,
+	SyllabusPresetCreationPopUpData,
+	SyllabusPresetCreationPopUpResult,
+} from '../../../../components/pop-ups/syllabus-preset-creation-pop-up/syllabus-preset-creation-pop-up.component';
+import { SyllabusPresetDeletionPopUpComponent } from '../../../../components/pop-ups/syllabus-preset-deletion-pop-up/syllabus-preset-deletion-pop-up.component';
 
 @Component({
 	selector: 'o-classroom-settings',
@@ -53,6 +59,7 @@ export class ClassroomSettingsComponent {
 	form: FormGroup = this.formBuilder.group({});
 	hadSyllabus: boolean = this.ctx.classroom?.syllabus ? true : false;
 	syllabus: Syllabus[] | undefined = this.ctx.classroom?.syllabus;
+	presets: SyllabusPreset[] | undefined = this.ctx.classroom?.presets;
 	markedSyllabus: Syllabus[] = [];
 
 	ngOnInit() {
@@ -111,6 +118,39 @@ export class ClassroomSettingsComponent {
 					}
 					this.syllabus = [...this.syllabus!]; // Trigger change detection
 				}
+			});
+	}
+
+	addSyllabusPreset() {
+		let data: SyllabusPresetCreationPopUpData = {
+			syllabus: this.syllabus || [],
+		};
+		this.dialog
+			.open(SyllabusPresetCreationPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async (result: SyllabusPresetCreationPopUpResult | undefined) => {
+				if (result) {
+					let preset: SyllabusPreset = {
+						name: result.name,
+						syllabusIds: result.syllabus.map(s => s.id!),
+					};
+					this.presets?.push(preset);
+					this.isLoading = true;
+					await lastValueFrom(this.service.updatePresets(this.presets!, this.ctx.classroom!.id)).finally(
+						() => {
+							this.isLoading = false;
+						},
+					);
+				}
+			});
+	}
+
+	deleteSyllabusPreset() {
+		this.dialog
+			.open(SyllabusPresetDeletionPopUpComponent)
+			.afterClosed()
+			.subscribe(() => {
+				this.presets = this.ctx.classroom?.presets;
 			});
 	}
 

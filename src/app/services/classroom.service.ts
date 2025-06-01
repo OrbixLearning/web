@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Classroom } from '../models/Classroom';
+import { Classroom, SyllabusPreset } from '../models/Classroom';
 import { Page } from '../models/Page';
 
 @Injectable({
@@ -47,5 +47,9 @@ export class ClassroomService {
 
 	update(classroomId: string, name: string, icon: string): Observable<Classroom> {
 		return this.http.put<Classroom>(this.api, { classroomId, name, icon });
+	}
+
+	updatePresets(presets: SyllabusPreset[], classroomId: string): Observable<Classroom> {
+		return this.http.put<Classroom>(`${this.api}/presets`, { presets, classroomId });
 	}
 }

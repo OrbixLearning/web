@@ -1,13 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { Syllabus } from '../../../models/Syllabus';
-import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
-import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ContextService } from '../../../services/context.service';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { Syllabus } from '../../../models/Syllabus';
+import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
+import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 
 export type SyllabusTopicCreationPopUpData = {
 	syllabus?: Syllabus[];
@@ -39,7 +38,6 @@ export class SyllabusTopicCreationPopUpComponent {
 	dialogRef: MatDialogRef<SyllabusTopicCreationPopUpComponent> = inject(
 		MatDialogRef<SyllabusTopicCreationPopUpComponent>,
 	);
-	ctx: ContextService = inject(ContextService);
 
 	form: FormGroup = this.formBuilder.group({
 		name: ['', Validators.required],
@@ -89,7 +87,7 @@ export class SyllabusTopicCreationPopUpComponent {
 				name: this.getFormControl('name').value,
 				description: this.getFormControl('description').value,
 				topics: [],
-                documents: [],
+				documents: [],
 				classroom: null,
 			};
 			const index: number = this.getFormControl('index').value;

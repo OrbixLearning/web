@@ -50,6 +50,14 @@
                 <mat-icon>add</mat-icon>
                 Adicionar tópico
             </button>
+            <button mat-raised-button (click)="addSyllabusPreset()">
+                <mat-icon>checklist</mat-icon>
+                Adicionar grupo de tópicos
+            </button>
+            <button mat-raised-button (click)="deleteSyllabusPreset()">
+                <mat-icon>delete</mat-icon>
+                Excluir grupo de tópicos
+            </button>
             <button mat-raised-button class="delete-button" (click)="deleteMarkedSyllabus()"
                 [disabled]="markedSyllabus.length === 0">
                 <mat-icon>delete</mat-icon>
@@ -61,6 +69,7 @@
                 Salvar
             </button>
         </div>
-        <o-syllabus [syllabus]="syllabus" mode="checkbox" (syllabusMarked)="markedSyllabus = $event" />
+        <o-syllabus [syllabus]="syllabus" mode="checkbox" (syllabusMarked)="markedSyllabus = $event"
+            [presets]="presets" />
     </div>
 </div>

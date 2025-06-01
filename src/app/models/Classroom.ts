@@ -10,7 +10,13 @@ export type Classroom = {
 	icon: string;
 	syllabus: Syllabus[];
 	documents: Document[];
+	presets: SyllabusPreset[];
 
 	students?: UserAccount[];
 	teachers?: UserAccount[];
+};
+
+export type SyllabusPreset = {
+	name: string;
+	syllabusIds: string[];
 };

@@ -2,10 +2,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import { TreeModule } from 'primeng/tree';
 import { Syllabus } from '../../models/Syllabus';
+import { SyllabusPreset } from '../../models/Classroom';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
 	selector: 'o-syllabus',
-	imports: [TreeModule],
+	imports: [TreeModule, ButtonModule],
 	templateUrl: './syllabus.component.html',
 	styleUrl: './syllabus.component.scss',
 })
@@ -13,6 +15,7 @@ export class SyllabusComponent {
 	@Input() syllabus?: Syllabus[];
 	@Input() preMarkedSyllabus?: Syllabus[];
 	@Input() mode: 'readonly' | 'checkbox' | 'selection' | 'click' = 'readonly';
+	@Input() presets?: SyllabusPreset[];
 	@Output() syllabusClicked: EventEmitter<Syllabus> = new EventEmitter<Syllabus>();
 	@Output() syllabusMarked: EventEmitter<Syllabus[]> = new EventEmitter<Syllabus[]>();
 
@@ -53,7 +56,7 @@ export class SyllabusComponent {
 		return this.recursiveSyllabusTreeBuildCall(this.syllabus, 0);
 	}
 
-	recursiveSyllabusTreeBuildCall(syllabus: Syllabus[], depth: number): TreeNode[] {
+	recursiveSyllabusTreeBuildCall(syllabus: Syllabus[], depth: number, preset?: string[]): TreeNode[] {
 		return syllabus.map(s => {
 			return {
 				key: s.id!,
@@ -66,6 +69,37 @@ export class SyllabusComponent {
 				children: this.recursiveSyllabusTreeBuildCall(s.topics, depth + 1),
 			};
 		});
+	}
+
+	loadPreset(preset: SyllabusPreset) {
+		this.selection = [];
+		this.addNodestoSelectionRecursively(preset.syllabusIds, this.syllabus || []);
+		this.selectionChange(this.selection);
+	}
+
+	addNodestoSelectionRecursively(ids: string[], syllabus: Syllabus[]) {
+		syllabus.forEach(s => {
+			if (ids.includes(s.id!)) {
+				this.selection = [
+					...(this.selection || []),
+					{
+						key: s.id!,
+						label: s.name,
+						data: s,
+						checked: true,
+						selectable: true,
+					},
+				];
+			}
+			if (s.topics.length > 0) {
+				this.addNodestoSelectionRecursively(ids, s.topics);
+			}
+		});
+	}
+
+	clearSelection() {
+		this.selection = [];
+		this.selectionChange(this.selection);
 	}
 
 	selectionChange(node: any) {
