@@ -39,8 +39,18 @@ export class UserService {
 		return this.http.put<User>(this.api, formData).pipe(tap(() => this.bustImageCache()));
 	}
 
-	updateAccount(account: UserAccount): Observable<UserAccount> {
-		return this.http.put<UserAccount>(`${this.api}/account`, account);
+	updateAccount(
+		id: string,
+		email: string,
+		idInInstitution: string,
+		institutionRole: InstitutionRoleEnum,
+	): Observable<UserAccount> {
+		return this.http.put<UserAccount>(`${this.api}/account`, {
+			id,
+			email,
+			idInInstitution,
+			institutionRole,
+		});
 	}
 
 	deleteUserAccounts(ids: string[]): Observable<void> {

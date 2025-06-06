@@ -152,7 +152,14 @@ export class InstitutionUsersComponent {
 	async updateAccount(account: UserAccount) {
 		this.isLoading = true;
 		this.cd.detectChanges();
-		await lastValueFrom(this.service.updateAccount(account))
+		await lastValueFrom(
+			this.service.updateAccount(
+				account.id,
+				account.email,
+				account.idInInstitution || '',
+				account.institutionRole!,
+			),
+		)
 			.then(() => {})
 			.catch(async () => {
 				await this.getAccounts();
