@@ -18,6 +18,7 @@ import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/success-pop-up.component';
 import { QuestionTypeEnum } from '../../../enums/QuestionType.enum';
+import { AudioVoiceEnum } from '../../../enums/AudioVoice.enum';
 
 @Component({
 	selector: 'o-roadmap-creation-pop-up',
@@ -46,6 +47,7 @@ export class RoadmapCreationPopUpComponent {
 	isLoading: boolean = false;
 	roadmapTypeEnum = RoadmapTypeEnum;
 	questionTypeEnum = QuestionTypeEnum;
+	audioVoiceEnum = AudioVoiceEnum;
 
 	baseLastForm = {
 		language: this.formBuilder.control<string>('pt-BR', Validators.required),
@@ -74,6 +76,7 @@ export class RoadmapCreationPopUpComponent {
 	audioForm = {
 		durationInSeconds: this.formBuilder.control<number>(3600, Validators.required),
 		formality: this.formBuilder.control<string>('medium', Validators.required),
+		voice: this.formBuilder.control<AudioVoiceEnum>(this.audioVoiceEnum.ALLOY, Validators.required),
 	};
 	flashCardForm = {
 		numberOfCards: this.formBuilder.control<number>(15, Validators.required),
@@ -169,6 +172,7 @@ export class RoadmapCreationPopUpComponent {
 						...requestBody,
 						durationInSeconds: this.getFormControl(2, 'durationInSeconds').value,
 						formality: this.getFormControl(2, 'formality').value,
+						voice: this.getFormControl(2, 'voice').value,
 					};
 					break;
 				case RoadmapTypeEnum.FLASHCARD:

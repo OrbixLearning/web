@@ -78,6 +78,20 @@
                     <mat-option value="informal"> Informal </mat-option>
                 </mat-select>
             </mat-form-field>
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Voz</mat-label>
+                <mat-select formControlName="voice">
+                    <mat-option [value]="audioVoiceEnum.ALLOY"> Alloy </mat-option>
+                    <mat-option [value]="audioVoiceEnum.ECHO"> Echo </mat-option>
+                    <mat-option [value]="audioVoiceEnum.FABLE"> Fable </mat-option>
+                    <mat-option [value]="audioVoiceEnum.ONYX"> Onyx </mat-option>
+                    <mat-option [value]="audioVoiceEnum.NOVA"> Nova </mat-option>
+                    <mat-option [value]="audioVoiceEnum.SHIMMER"> Shimmer </mat-option>
+                    <mat-option [value]="audioVoiceEnum.SAGE"> Sage </mat-option>
+                    <mat-option [value]="audioVoiceEnum.CORAL"> Coral </mat-option>
+                    <mat-option [value]="audioVoiceEnum.ASH"> Ash </mat-option>
+                </mat-select>
+            </mat-form-field>
             }
 
             @else if (getFormControl(1, 'type').value === roadmapTypeEnum.VIDEO) {
