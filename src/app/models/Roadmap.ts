@@ -21,7 +21,7 @@ type RoadmapBase = {
 };
 
 export type VideoRoadmap = {
-	videoLinks: string[];
+	videos: VideoDetails[];
 } & RoadmapBase;
 
 export type TextRoadmap = {
@@ -48,4 +48,11 @@ export type Question = {
 	options: string[];
 	answers: string[];
 	type: QuestionTypeEnum;
+};
+
+export type VideoDetails = {
+	name: string;
+	description: string;
+	author: string;
+	url: string;
 };

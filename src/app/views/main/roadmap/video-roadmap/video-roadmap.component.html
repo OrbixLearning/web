@@ -1,9 +1,13 @@
 <div>
-    @for (videoLink of videoLinks; track videoLink; let i = $index) {
+    @for (video of videos; track video; let i = $index) {
     <div>
-        <iframe [src]="videoLink | safeUrl" frameborder="0" allowfullscreen width="560" height="315"
+        <h4>{{video.name}}</h4>
+        <iframe [src]="video.url | safeUrl" frameborder="0" allowfullscreen width="560" height="315"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <p>Por: {{video.author}}</p>
+        <p>{{video.description}}</p>
+        <p-divider />
     </div>
     }
 </div>
