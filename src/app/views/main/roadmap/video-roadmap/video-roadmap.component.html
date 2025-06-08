@@ -2,7 +2,7 @@
     @for (video of videos; track video; let i = $index) {
     <div>
         <h4>{{video.name}}</h4>
-        <iframe [src]="video.url | safeUrl" frameborder="0" allowfullscreen width="560" height="315"
+        <iframe [src]="getUrl(video.videoId) | safeUrl" frameborder="0" allowfullscreen width="560" height="315"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"></iframe>
         <p>Por: {{video.author}}</p>

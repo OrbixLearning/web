@@ -18,4 +18,8 @@ export class VideoRoadmapComponent {
 	ngOnInit() {
 		this.videos = (this.roadmapStudy.roadmap as VideoRoadmap).videos;
 	}
+
+	getUrl(videoId: string): string {
+		return `https://www.youtube.com/embed/${videoId}`;
+	}
 }

@@ -54,5 +54,5 @@ export type VideoDetails = {
 	name: string;
 	description: string;
 	author: string;
-	url: string;
+	videoId: string;
 };
