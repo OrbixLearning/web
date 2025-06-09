@@ -1,6 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { AudioRoadmapStudy } from '../../../../models/RoadmapStudy';
 import { RoadmapService } from '../../../../services/roadmap.service';
+import { AudioRoadmap } from '../../../../models/Roadmap';
 
 @Component({
 	selector: 'o-audio-roadmap',
@@ -13,7 +14,15 @@ export class AudioRoadmapComponent {
 
 	service: RoadmapService = inject(RoadmapService);
 
-	get audioUrl(): string {
-		return this.service.getAudioUrl(this.roadmapStudy.roadmap.id);
+	numberOfAudios: number = 0;
+	iterableAudios: number[] = [];
+
+	ngOnInit() {
+		this.numberOfAudios = (this.roadmapStudy.roadmap as AudioRoadmap).numberOfAudios;
+		this.iterableAudios = Array.from({ length: this.numberOfAudios }, (_, i) => i);
+	}
+
+	getAudioUrl(number: number): string {
+		return this.service.getAudioUrl(this.roadmapStudy.roadmap.id, number);
 	}
 }

@@ -36,7 +36,9 @@ export type QuestionRoadmap = {
 	questions: Question[];
 } & RoadmapBase;
 
-export type AudioRoadmap = {} & RoadmapBase;
+export type AudioRoadmap = {
+	numberOfAudios: number;
+} & RoadmapBase;
 
 export type FlashCard = {
 	front: string;

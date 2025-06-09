@@ -21,8 +21,8 @@ export class RoadmapService {
 		return this.http.get<Roadmap[]>(`${this.api}/shared/classroom/${classroomId}`);
 	}
 
-	getAudioUrl(roadmapId: string): string {
-		return `${this.api}/audio/${roadmapId}`;
+	getAudioUrl(roadmapId: string, number: number): string {
+		return `${this.api}/audio/${roadmapId}/${number}`;
 	}
 
 	downloadPdf(roadmapId: string): Observable<Blob> {
