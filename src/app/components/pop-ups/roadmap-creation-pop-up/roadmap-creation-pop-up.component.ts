@@ -74,7 +74,7 @@ export class RoadmapCreationPopUpComponent {
 		),
 	};
 	audioForm = {
-		durationInSeconds: this.formBuilder.control<number>(3600, Validators.required),
+		durationInSeconds: this.formBuilder.control<number>(90, Validators.required),
 		formality: this.formBuilder.control<string>('medium', Validators.required),
 		voice: this.formBuilder.control<AudioVoiceEnum>(this.audioVoiceEnum.ALLOY, Validators.required),
 	};

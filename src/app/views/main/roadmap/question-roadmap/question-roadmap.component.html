@@ -45,7 +45,7 @@
     </form>
 
     <div>
-        @if (index >= 0) {
+        @if (index > 0) {
         <button mat-button (click)="previousQuestion()"> Anterior </button>
         }
         @if (index < (questions.length - 1)) { <button mat-button (click)="nextQuestion()"> Próxima </button> }
