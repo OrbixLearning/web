@@ -9,16 +9,16 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
 import { last, lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
-import { RoadmapCreationPopUpComponent } from '../../../../components/pop-ups/roadmap-creation-pop-up/roadmap-creation-pop-up.component';
-import { RoadmapCardComponent } from '../../../../components/roadmap-card/roadmap-card.component';
+import { RoadmapCreationPopUpComponent } from '../../../../components/pop-ups/learning-path-creation-pop-up/learning-path-creation-pop-up.component';
+import { RoadmapCardComponent } from '../../../../components/learning-path-card/learning-path-card.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
 import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
-import { Roadmap } from '../../../../models/Roadmap';
+import { Roadmap } from '../../../../models/LearningPath';
 import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
-import { RoadmapService } from '../../../../services/roadmap.service';
+import { RoadmapService } from '../../../../services/learning-path.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
-import { RoadmapStudyService } from '../../../../services/roadmap-study.service';
+import { RoadmapStudyService } from '../../../../services/learning-path-study.service';
 
 @Component({
 	selector: 'o-classroom-home',
