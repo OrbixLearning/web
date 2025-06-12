@@ -109,7 +109,7 @@ export class RoadmapComponent {
 
 	async deleteRoadmap() {
 		let data: ConfirmPopUpData = {
-			title: 'Tem certeza que deseja excluir esta trilha?',
+			title: 'Tem certeza que deseja excluir esta rota de aprendizagem?',
 			message: 'Esta ação não poderá ser desfeita.',
 			confirmButton: 'Excluir',
 		};

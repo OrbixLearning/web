@@ -198,8 +198,8 @@ export class RoadmapCreationPopUpComponent {
 				.then((r: Roadmap) => {
 					if (r) {
 						let sucessPopUpData: SuccessPopUpData = {
-							title: 'Trilha criada com sucesso!',
-							message: 'A trilha foi criada com sucesso e está disponível na sua conta.',
+							title: 'Rota criada com sucesso!',
+							message: 'A rota foi criada com sucesso e está disponível na sua conta.',
 							buttonText: 'Conferir!',
 						};
 						this.dialog

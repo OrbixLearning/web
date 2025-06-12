@@ -1,4 +1,4 @@
-<o-pop-up-header title="Criar trilha" />
+<o-pop-up-header title="Criar rota de aprendizagem" />
 
 <o-loading [isLoading]="isLoading" />
 
@@ -17,10 +17,10 @@
     <mat-step [stepControl]="forms.at(1)" label="Tipo">
         <form [formGroup]="forms.at(1)">
             <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Nome da trilha</mat-label>
+                <mat-label>Nome da rota</mat-label>
                 <input matInput formControlName="name" />
             </mat-form-field>
-            <p>Selecione o tipo da trilha:</p>
+            <p>Selecione o tipo da rota:</p>
             <div>
                 <button mat-raised-button (click)="selectType(roadmapTypeEnum.TEXT)"
                     [class]="roadmapTypeButtonClass(roadmapTypeEnum.TEXT)">TEXTO</button>

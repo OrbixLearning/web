@@ -8,10 +8,10 @@
     <mat-icon>{{ctx.roadmapStudy?.roadmap?.icon}}</mat-icon>
 
     @if (ctx.roadmapStudy?.roadmap?.validated) {
-    <mat-icon pTooltip="Trilha validada pelo professor">check</mat-icon>
+    <mat-icon pTooltip="Rota validada pelo professor">check</mat-icon>
     } @else if (ctx.isTeacher) {
     <button mat-raised-button (click)="validateRoadmap()">
-        Validar trilha
+        Validar rota
     </button>
     }
 
@@ -56,7 +56,7 @@
     @if (mode === 'study') {
     <div class="roadmap-aichat">
         <p>Aqui terá um chat com a IA</p>
-        <p>Para ajudar a responder perguntas sobre a trilha</p>
+        <p>Para ajudar a responder perguntas sobre a rota</p>
         <p>e auxiliar no estudo</p>
         <p>Em breve!</p>
     </div>

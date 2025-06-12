@@ -5,7 +5,7 @@
     <div class="top-buttons">
 
         <button mat-raised-button (click)="createRoadmap()">
-            Criar trilha
+            Criar rota de aprendizagem
         </button>
 
         <button mat-raised-button [routerLink]="baseUrl + '/documents'">
@@ -37,7 +37,7 @@
             <div class="roadmaps-div">
 
                 <div class="roadmaps">
-                    <h3>Minhas trilhas</h3>
+                    <h3>Minhas rotas</h3>
                     @for (roadmap of filteredMyRoadmaps; track roadmap.id) {
                     <o-roadmap-card [roadmap]="roadmap" (cardClick)="goToRoadmap(roadmap)"
                         (sharedChange)="updatedRoadmapSharing(roadmap)" [mine]="true" />
@@ -45,14 +45,14 @@
                 </div>
 
                 <div class="roadmaps">
-                    <h3>Trilhas compartilhadas</h3>
-                    <h5>Trilhas de professor</h5>
+                    <h3>Rotas compartilhadas</h3>
+                    <h5>Rotas de professor</h5>
                     @for (roadmap of filteredTeacherRoadmaps; track roadmap.id) {
                     <o-roadmap-card [roadmap]="roadmap" (cardClick)="goToRoadmap(roadmap)"
                         (sharedChange)="updatedRoadmapSharing(roadmap)" />
                     }
                     <p-divider />
-                    <h5>Trilhas de alunos</h5>
+                    <h5>Rotas de alunos</h5>
                     @for (roadmap of filteredStudentRoadmaps; track roadmap.id) {
                     <o-roadmap-card [roadmap]="roadmap" (cardClick)="goToRoadmap(roadmap)"
                         (sharedChange)="updatedRoadmapSharing(roadmap)" />
