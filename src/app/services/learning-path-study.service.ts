@@ -2,16 +2,16 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RoadmapStudy } from '../models/LearningPathStudy';
+import { LearningPathStudy } from '../models/LearningPathStudy';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class RoadmapStudyService {
-	api: string = `${environment.API_URL}/roadmap-study`;
+export class LearningPathStudyService {
+	api: string = `${environment.API_URL}/learning-path-study`;
 	http: HttpClient = inject(HttpClient);
 
-	get(roadmapId: string): Observable<RoadmapStudy> {
-		return this.http.get<RoadmapStudy>(`${this.api}/${roadmapId}`);
+	get(learningPathId: string): Observable<LearningPathStudy> {
+		return this.http.get<LearningPathStudy>(`${this.api}/${learningPathId}`);
 	}
 }

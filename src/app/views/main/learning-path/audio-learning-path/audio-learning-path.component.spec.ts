@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AudioRoadmapComponent } from './audio-learning-path.component';
+import { AudioLearningPathComponent } from './audio-learning-path.component';
 
-describe('AudioRoadmapComponent', () => {
-	let component: AudioRoadmapComponent;
-	let fixture: ComponentFixture<AudioRoadmapComponent>;
+describe('AudioLearningPathComponent', () => {
+	let component: AudioLearningPathComponent;
+	let fixture: ComponentFixture<AudioLearningPathComponent>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [AudioRoadmapComponent],
+			imports: [AudioLearningPathComponent],
 		}).compileComponents();
 
-		fixture = TestBed.createComponent(AudioRoadmapComponent);
+		fixture = TestBed.createComponent(AudioLearningPathComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

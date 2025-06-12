@@ -22,16 +22,16 @@
             </mat-form-field>
             <p>Selecione o tipo da rota:</p>
             <div>
-                <button mat-raised-button (click)="selectType(roadmapTypeEnum.TEXT)"
-                    [class]="roadmapTypeButtonClass(roadmapTypeEnum.TEXT)">TEXTO</button>
-                <button mat-raised-button (click)="selectType(roadmapTypeEnum.AUDIO)"
-                    [class]="roadmapTypeButtonClass(roadmapTypeEnum.AUDIO)">AUDIO</button>
-                <button mat-raised-button (click)="selectType(roadmapTypeEnum.VIDEO)"
-                    [class]="roadmapTypeButtonClass(roadmapTypeEnum.VIDEO)">VIDEO</button>
-                <button mat-raised-button (click)="selectType(roadmapTypeEnum.QUESTION)"
-                    [class]="roadmapTypeButtonClass(roadmapTypeEnum.QUESTION)">QUESTÃO</button>
-                <button mat-raised-button (click)="selectType(roadmapTypeEnum.FLASHCARD)"
-                    [class]="roadmapTypeButtonClass(roadmapTypeEnum.FLASHCARD)">FLASHCARD</button>
+                <button mat-raised-button (click)="selectType(learningPathTypeEnum.TEXT)"
+                    [class]="learningPathTypeButtonClass(learningPathTypeEnum.TEXT)">TEXTO</button>
+                <button mat-raised-button (click)="selectType(learningPathTypeEnum.AUDIO)"
+                    [class]="learningPathTypeButtonClass(learningPathTypeEnum.AUDIO)">AUDIO</button>
+                <button mat-raised-button (click)="selectType(learningPathTypeEnum.VIDEO)"
+                    [class]="learningPathTypeButtonClass(learningPathTypeEnum.VIDEO)">VIDEO</button>
+                <button mat-raised-button (click)="selectType(learningPathTypeEnum.QUESTION)"
+                    [class]="learningPathTypeButtonClass(learningPathTypeEnum.QUESTION)">QUESTÃO</button>
+                <button mat-raised-button (click)="selectType(learningPathTypeEnum.FLASHCARD)"
+                    [class]="learningPathTypeButtonClass(learningPathTypeEnum.FLASHCARD)">FLASHCARD</button>
             </div>
         </form>
         <div>
@@ -49,7 +49,7 @@
                 </mat-select>
             </mat-form-field>
 
-            @if (getFormControl(1, 'type').value === roadmapTypeEnum.TEXT) {
+            @if (getFormControl(1, 'type').value === learningPathTypeEnum.TEXT) {
             <mat-form-field appearance="fill" subscriptSizing="dynamic">
                 <mat-label>Número aproximado de parágrafos</mat-label>
                 <input type="number" matInput formControlName="numberOfParagraphs" />
@@ -65,7 +65,7 @@
             </mat-form-field>
             }
 
-            @else if (getFormControl(1, 'type').value === roadmapTypeEnum.AUDIO) {
+            @else if (getFormControl(1, 'type').value === learningPathTypeEnum.AUDIO) {
             <mat-form-field appearance="fill" subscriptSizing="dynamic">
                 <mat-label>Duração aproximada em segundos</mat-label>
                 <input type="number" matInput formControlName="durationInSeconds" />
@@ -94,14 +94,14 @@
             </mat-form-field>
             }
 
-            @else if (getFormControl(1, 'type').value === roadmapTypeEnum.VIDEO) {
+            @else if (getFormControl(1, 'type').value === learningPathTypeEnum.VIDEO) {
             <mat-form-field appearance="fill" subscriptSizing="dynamic">
                 <mat-label>Número de vídeos</mat-label>
                 <input type="number" matInput formControlName="numberOfVideos" />
             </mat-form-field>
             }
 
-            @else if (getFormControl(1, 'type').value === roadmapTypeEnum.FLASHCARD) {
+            @else if (getFormControl(1, 'type').value === learningPathTypeEnum.FLASHCARD) {
             <mat-form-field appearance="fill" subscriptSizing="dynamic">
                 <mat-label>Número de Flash Cards</mat-label>
                 <input type="number" matInput formControlName="numberOfCards" />
@@ -117,7 +117,7 @@
             </mat-form-field>
             }
 
-            @else if (getFormControl(1, 'type').value === roadmapTypeEnum.QUESTION) {
+            @else if (getFormControl(1, 'type').value === learningPathTypeEnum.QUESTION) {
             <mat-form-field appearance="fill" subscriptSizing="dynamic">
                 <mat-label>Número de Questões</mat-label>
                 <input type="number" matInput formControlName="numberOfQuestions" />
@@ -152,7 +152,7 @@
         <p>You are now done.</p>
         <div>
             <button mat-button matStepperPrevious>Voltar</button>
-            <button mat-button (click)="createRoadmap()">Criar</button>
+            <button mat-button (click)="createLearningPath()">Criar</button>
         </div>
     </mat-step>
 

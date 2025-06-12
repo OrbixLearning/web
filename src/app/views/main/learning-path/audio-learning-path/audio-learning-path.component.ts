@@ -1,28 +1,28 @@
 import { Component, inject, Input } from '@angular/core';
-import { AudioRoadmapStudy } from '../../../../models/LearningPathStudy';
-import { RoadmapService } from '../../../../services/learning-path.service';
-import { AudioRoadmap } from '../../../../models/LearningPath';
+import { AudioLearningPathStudy } from '../../../../models/LearningPathStudy';
+import { LearningPathService } from '../../../../services/learning-path.service';
+import { AudioLearningPath } from '../../../../models/LearningPath';
 
 @Component({
-	selector: 'o-audio-roadmap',
+	selector: 'o-audio-learning-path',
 	imports: [],
 	templateUrl: './audio-learning-path.component.html',
 	styleUrl: './audio-learning-path.component.scss',
 })
-export class AudioRoadmapComponent {
-	@Input() roadmapStudy!: AudioRoadmapStudy;
+export class AudioLearningPathComponent {
+	@Input() learningPathStudy!: AudioLearningPathStudy;
 
-	service: RoadmapService = inject(RoadmapService);
+	service: LearningPathService = inject(LearningPathService);
 
 	numberOfAudios: number = 0;
 	iterableAudios: number[] = [];
 
 	ngOnInit() {
-		this.numberOfAudios = (this.roadmapStudy.roadmap as AudioRoadmap).numberOfAudios;
+		this.numberOfAudios = (this.learningPathStudy.learningPath as AudioLearningPath).numberOfAudios;
 		this.iterableAudios = Array.from({ length: this.numberOfAudios }, (_, i) => i);
 	}
 
 	getAudioUrl(number: number): string {
-		return this.service.getAudioUrl(this.roadmapStudy.roadmap.id, number);
+		return this.service.getAudioUrl(this.learningPathStudy.learningPath.id, number);
 	}
 }

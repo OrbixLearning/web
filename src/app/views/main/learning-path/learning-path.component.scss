@@ -1,17 +1,17 @@
-.roadmap-header {
+.learning-path-header {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
 }
 
-.roadmap-content {
+.learning-path-content {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: flex-start;
 
-	.roadmap-aichat {
+	.learning-path-aichat {
 		background-color: var(--secondary-color);
 	}
 }

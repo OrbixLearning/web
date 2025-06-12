@@ -4,12 +4,12 @@ import { lastValueFrom } from 'rxjs';
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
 import { Classroom } from '../models/Classroom';
 import { Institution } from '../models/Institution';
-import { Roadmap } from '../models/LearningPath';
+import { LearningPath } from '../models/LearningPath';
 import { User } from '../models/User';
 import { ClassroomService } from './classroom.service';
 import { InstitutionService } from './institution.service';
-import { RoadmapService } from './learning-path.service';
-import { RoadmapStudy } from '../models/LearningPathStudy';
+import { LearningPathService } from './learning-path.service';
+import { LearningPathStudy } from '../models/LearningPathStudy';
 
 @Injectable({
 	providedIn: 'root',
@@ -18,13 +18,13 @@ export class ContextService {
 	http: HttpClient = inject(HttpClient);
 	institutionService: InstitutionService = inject(InstitutionService);
 	classroomService: ClassroomService = inject(ClassroomService);
-	roadmapService: RoadmapService = inject(RoadmapService);
+	learningPathService: LearningPathService = inject(LearningPathService);
 
 	// These values are populated in guards
 	private userSignal = signal<User | undefined>(undefined);
 	private institutionSignal = signal<Institution | undefined>(undefined);
 	private classroomSignal = signal<Classroom | undefined>(undefined);
-	private roadmapStudySignal = signal<RoadmapStudy | undefined>(undefined);
+	private learningPathStudySignal = signal<LearningPathStudy | undefined>(undefined);
 
 	// These values are populated in the context service effects
 	private institutionListSignal = signal<Institution[] | undefined>(undefined);
@@ -60,7 +60,7 @@ export class ContextService {
 			if (classroom && classroom.id) {
 				Promise.all([this.loadClassroomList()]);
 			} else {
-				this.clearRoadmapStudy();
+				this.clearLearningPathStudy();
 			}
 		});
 	}
@@ -84,8 +84,8 @@ export class ContextService {
 	get classroom(): Classroom | undefined {
 		return this.classroomSignal();
 	}
-	get roadmapStudy(): RoadmapStudy | undefined {
-		return this.roadmapStudySignal();
+	get learningPathStudy(): LearningPathStudy | undefined {
+		return this.learningPathStudySignal();
 	}
 
 	// SETTERS
@@ -107,8 +107,8 @@ export class ContextService {
 	set classroom(value: Classroom | undefined) {
 		this.classroomSignal.set(value ? { ...value } : undefined);
 	}
-	set roadmapStudy(value: RoadmapStudy | undefined) {
-		this.roadmapStudySignal.set(value ? { ...value } : undefined);
+	set learningPathStudy(value: LearningPathStudy | undefined) {
+		this.learningPathStudySignal.set(value ? { ...value } : undefined);
 	}
 
 	// CLEAR
@@ -135,8 +135,8 @@ export class ContextService {
 	clearClassroom() {
 		this.classroomSignal.set(undefined);
 	}
-	clearRoadmapStudy() {
-		this.roadmapStudySignal.set(undefined);
+	clearLearningPathStudy() {
+		this.learningPathStudySignal.set(undefined);
 	}
 
 	// LOAD

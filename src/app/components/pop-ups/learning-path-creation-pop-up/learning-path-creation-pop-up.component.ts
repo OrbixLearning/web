@@ -8,11 +8,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { lastValueFrom } from 'rxjs';
-import { RoadmapTypeEnum } from '../../../enums/LearningPathType.enum';
-import { Roadmap } from '../../../models/LearningPath';
+import { LearningPathTypeEnum } from '../../../enums/LearningPathType.enum';
+import { LearningPath } from '../../../models/LearningPath';
 import { Syllabus } from '../../../models/Syllabus';
 import { ContextService } from '../../../services/context.service';
-import { RoadmapService } from '../../../services/learning-path.service';
+import { LearningPathService } from '../../../services/learning-path.service';
 import { LoadingComponent } from '../../loading/loading.component';
 import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
@@ -21,7 +21,7 @@ import { QuestionTypeEnum } from '../../../enums/QuestionType.enum';
 import { AudioVoiceEnum } from '../../../enums/AudioVoice.enum';
 
 @Component({
-	selector: 'o-roadmap-creation-pop-up',
+	selector: 'o-learning-path-creation-pop-up',
 	imports: [
 		PopUpHeaderComponent,
 		MatStepperModule,
@@ -37,15 +37,17 @@ import { AudioVoiceEnum } from '../../../enums/AudioVoice.enum';
 	templateUrl: './learning-path-creation-pop-up.component.html',
 	styleUrl: './learning-path-creation-pop-up.component.scss',
 })
-export class RoadmapCreationPopUpComponent {
+export class LearningPathCreationPopUpComponent {
 	ctx: ContextService = inject(ContextService);
 	formBuilder: FormBuilder = inject(FormBuilder);
-	service: RoadmapService = inject(RoadmapService);
+	service: LearningPathService = inject(LearningPathService);
 	dialog: MatDialog = inject(MatDialog);
-	dialogRef: MatDialogRef<RoadmapCreationPopUpComponent> = inject(MatDialogRef<RoadmapCreationPopUpComponent>);
+	dialogRef: MatDialogRef<LearningPathCreationPopUpComponent> = inject(
+		MatDialogRef<LearningPathCreationPopUpComponent>,
+	);
 
 	isLoading: boolean = false;
-	roadmapTypeEnum = RoadmapTypeEnum;
+	learningPathTypeEnum = LearningPathTypeEnum;
 	questionTypeEnum = QuestionTypeEnum;
 	audioVoiceEnum = AudioVoiceEnum;
 
@@ -89,7 +91,7 @@ export class RoadmapCreationPopUpComponent {
 		}),
 		this.formBuilder.group({
 			name: this.formBuilder.control<string>('', Validators.required),
-			type: this.formBuilder.control<RoadmapTypeEnum>(RoadmapTypeEnum.TEXT, Validators.required),
+			type: this.formBuilder.control<LearningPathTypeEnum>(LearningPathTypeEnum.TEXT, Validators.required),
 		}),
 		this.formBuilder.group({ ...this.baseLastForm, ...this.textForm }),
 	]);
@@ -98,8 +100,8 @@ export class RoadmapCreationPopUpComponent {
 		return this.forms.at(i).get(name) as FormControl;
 	}
 
-	roadmapTypeButtonClass(type: RoadmapTypeEnum): string {
-		return this.getFormControl(1, 'type').value === type ? 'selected-roadmap-type-button' : 'roadmap-type-button';
+	learningPathTypeButtonClass(type: LearningPathTypeEnum): string {
+		return this.getFormControl(1, 'type').value === type ? 'selected-learning-path-type-button' : 'learning-path-type-button';
 	}
 
 	markSyllabus(syllabus: Syllabus[]) {
@@ -112,21 +114,21 @@ export class RoadmapCreationPopUpComponent {
 		this.forms.push(this.formBuilder.group(completeGroupObject));
 	}
 
-	selectType(type: RoadmapTypeEnum) {
+	selectType(type: LearningPathTypeEnum) {
 		switch (type) {
-			case RoadmapTypeEnum.VIDEO:
+			case LearningPathTypeEnum.VIDEO:
 				this.setLastFormGroup(this.videoForm);
 				break;
-			case RoadmapTypeEnum.TEXT:
+			case LearningPathTypeEnum.TEXT:
 				this.setLastFormGroup(this.textForm);
 				break;
-			case RoadmapTypeEnum.QUESTION:
+			case LearningPathTypeEnum.QUESTION:
 				this.setLastFormGroup(this.questionForm);
 				break;
-			case RoadmapTypeEnum.AUDIO:
+			case LearningPathTypeEnum.AUDIO:
 				this.setLastFormGroup(this.audioForm);
 				break;
-			case RoadmapTypeEnum.FLASHCARD:
+			case LearningPathTypeEnum.FLASHCARD:
 				this.setLastFormGroup(this.flashCardForm);
 				break;
 			default:
@@ -137,7 +139,7 @@ export class RoadmapCreationPopUpComponent {
 		this.getFormControl(1, 'type').setValue(type);
 	}
 
-	async createRoadmap() {
+	async createLearningPath() {
 		if (this.forms.valid) {
 			this.isLoading = true;
 
@@ -150,14 +152,14 @@ export class RoadmapCreationPopUpComponent {
 			let requestBody: any = { syllabusIds, name, language: this.getFormControl(2, 'language').value };
 
 			switch (this.getFormControl(1, 'type').value) {
-				case RoadmapTypeEnum.VIDEO:
+				case LearningPathTypeEnum.VIDEO:
 					endpoint = 'video';
 					requestBody = {
 						...requestBody,
 						numberOfVideos: this.getFormControl(2, 'numberOfVideos').value,
 					};
 					break;
-				case RoadmapTypeEnum.TEXT:
+				case LearningPathTypeEnum.TEXT:
 					endpoint = 'text';
 					requestBody = {
 						...requestBody,
@@ -166,7 +168,7 @@ export class RoadmapCreationPopUpComponent {
 						formality: this.getFormControl(2, 'formality').value,
 					};
 					break;
-				case RoadmapTypeEnum.AUDIO:
+				case LearningPathTypeEnum.AUDIO:
 					endpoint = 'audio';
 					requestBody = {
 						...requestBody,
@@ -175,7 +177,7 @@ export class RoadmapCreationPopUpComponent {
 						voice: this.getFormControl(2, 'voice').value,
 					};
 					break;
-				case RoadmapTypeEnum.FLASHCARD:
+				case LearningPathTypeEnum.FLASHCARD:
 					endpoint = 'flashcard';
 					requestBody = {
 						...requestBody,
@@ -183,7 +185,7 @@ export class RoadmapCreationPopUpComponent {
 						level: this.getFormControl(2, 'level').value,
 					};
 					break;
-				case RoadmapTypeEnum.QUESTION:
+				case LearningPathTypeEnum.QUESTION:
 					endpoint = 'question';
 					requestBody = {
 						...requestBody,
@@ -194,8 +196,8 @@ export class RoadmapCreationPopUpComponent {
 					break;
 			}
 
-			await lastValueFrom(this.service.generateRoadmap(requestBody, endpoint))
-				.then((r: Roadmap) => {
+			await lastValueFrom(this.service.generateLearningPath(requestBody, endpoint))
+				.then((r: LearningPath) => {
 					if (r) {
 						let sucessPopUpData: SuccessPopUpData = {
 							title: 'Rota criada com sucesso!',

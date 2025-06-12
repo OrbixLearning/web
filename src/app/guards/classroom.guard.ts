@@ -21,7 +21,7 @@ export const classroomGuard: CanActivateFn = async (route, state) => {
 			throw new Error('Classroom not found in list');
 		}
 		if (ctx.classroom?.id !== classroomId) {
-			ctx.clearRoadmapStudy();
+			ctx.clearLearningPathStudy();
 		}
 		ctx.classroom = classroom;
 		return true;

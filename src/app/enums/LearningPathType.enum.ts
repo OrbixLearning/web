@@ -1,4 +1,4 @@
-export enum RoadmapTypeEnum {
+export enum LearningPathTypeEnum {
 	TEXT = 'TEXT',
 	VIDEO = 'VIDEO',
 	AUDIO = 'AUDIO',

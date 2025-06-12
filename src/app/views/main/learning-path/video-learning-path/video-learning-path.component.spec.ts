@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VideoRoadmapComponent } from './video-learning-path.component';
+import { VideoLearningPathComponent } from './video-learning-path.component';
 
-describe('VideoRoadmapComponent', () => {
-	let component: VideoRoadmapComponent;
-	let fixture: ComponentFixture<VideoRoadmapComponent>;
+describe('VideoLearningPathComponent', () => {
+	let component: VideoLearningPathComponent;
+	let fixture: ComponentFixture<VideoLearningPathComponent>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [VideoRoadmapComponent],
+			imports: [VideoLearningPathComponent],
 		}).compileComponents();
 
-		fixture = TestBed.createComponent(VideoRoadmapComponent);
+		fixture = TestBed.createComponent(VideoLearningPathComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

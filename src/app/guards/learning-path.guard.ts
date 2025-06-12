@@ -1,25 +1,24 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { ContextService } from '../services/context.service';
-import { RoadmapService } from '../services/learning-path.service';
 import { lastValueFrom } from 'rxjs';
-import { RoadmapStudyService } from '../services/learning-path-study.service';
+import { ContextService } from '../services/context.service';
+import { LearningPathStudyService } from '../services/learning-path-study.service';
 
-export const roadmapGuard: CanActivateFn = async (route, state) => {
+export const learningPathGuard: CanActivateFn = async (route, state) => {
 	const router = inject(Router);
-	let roadmapId = route.params['roadmapId'];
+	let learningPathId = route.params['learningPathId'];
 	const ctx = inject(ContextService);
-	const service = inject(RoadmapStudyService);
+	const service = inject(LearningPathStudyService);
 	try {
-		if (!roadmapId) {
-			throw new Error('Roadmap ID not found in route parameters');
+		if (!learningPathId) {
+			throw new Error('Learning path ID not found in route parameters');
 		}
-		if (!ctx.roadmapStudy || ctx.roadmapStudy.roadmap.id !== roadmapId) {
-			ctx.roadmapStudy = await lastValueFrom(service.get(roadmapId));
+		if (!ctx.learningPathStudy || ctx.learningPathStudy.learningPath.id !== learningPathId) {
+			ctx.learningPathStudy = await lastValueFrom(service.get(learningPathId));
 		}
 		return true;
 	} catch (e) {
-		ctx.clearRoadmapStudy();
+		ctx.clearLearningPathStudy();
 		let institutionId = route.params['institutionId'];
 		let classroomId = route.params['classroomId'];
 		router.navigateByUrl('/i/' + institutionId + '/c/' + classroomId);

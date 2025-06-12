@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TextRoadmapComponent } from './text-learning-path.component';
+import { TextLearningPathComponent } from './text-learning-path.component';
 
-describe('TextRoadmapComponent', () => {
-	let component: TextRoadmapComponent;
-	let fixture: ComponentFixture<TextRoadmapComponent>;
+describe('TextLearningPathComponent', () => {
+	let component: TextLearningPathComponent;
+	let fixture: ComponentFixture<TextLearningPathComponent>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [TextRoadmapComponent],
+			imports: [TextLearningPathComponent],
 		}).compileComponents();
 
-		fixture = TestBed.createComponent(TextRoadmapComponent);
+		fixture = TestBed.createComponent(TextLearningPathComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

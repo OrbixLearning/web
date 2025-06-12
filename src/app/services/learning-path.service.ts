@@ -2,52 +2,52 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Roadmap } from '../models/LearningPath';
+import { LearningPath } from '../models/LearningPath';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class RoadmapService {
-	api: string = `${environment.API_URL}/roadmap`;
+export class LearningPathService {
+	api: string = `${environment.API_URL}/learning-path`;
 	http: HttpClient = inject(HttpClient);
 
 	// GET
 
-	getUserRoadmapsByClassroom(classroomId: string): Observable<Roadmap[]> {
-		return this.http.get<Roadmap[]>(`${this.api}/classroom/${classroomId}`);
+	getUserLearningPathsByClassroom(classroomId: string): Observable<LearningPath[]> {
+		return this.http.get<LearningPath[]>(`${this.api}/classroom/${classroomId}`);
 	}
 
-	getClassroomSharedRoadmaps(classroomId: string): Observable<Roadmap[]> {
-		return this.http.get<Roadmap[]>(`${this.api}/shared/classroom/${classroomId}`);
+	getClassroomSharedLearningPaths(classroomId: string): Observable<LearningPath[]> {
+		return this.http.get<LearningPath[]>(`${this.api}/shared/classroom/${classroomId}`);
 	}
 
-	getAudioUrl(roadmapId: string, number: number): string {
-		return `${this.api}/audio/${roadmapId}/${number}`;
+	getAudioUrl(learningPathId: string, number: number): string {
+		return `${this.api}/audio/${learningPathId}/${number}`;
 	}
 
-	downloadPdf(roadmapId: string): Observable<Blob> {
-		return this.http.get(`${this.api}/pdf/${roadmapId}`, { responseType: 'blob' });
+	downloadPdf(learningPathId: string): Observable<Blob> {
+		return this.http.get(`${this.api}/pdf/${learningPathId}`, { responseType: 'blob' });
 	}
 
 	// UPDATE
 
-	updateRoadmapSharing(id: string, share: boolean): Observable<Roadmap> {
-		return this.http.put<Roadmap>(`${this.api}/share`, { id, share });
+	updateLearningPathSharing(id: string, share: boolean): Observable<LearningPath> {
+		return this.http.put<LearningPath>(`${this.api}/share`, { id, share });
 	}
 
-	validateRoadmap(id: string, validate: boolean): Observable<Roadmap> {
-		return this.http.put<Roadmap>(`${this.api}/validate`, { id, validate });
+	validateLearningPath(id: string, validate: boolean): Observable<LearningPath> {
+		return this.http.put<LearningPath>(`${this.api}/validate`, { id, validate });
 	}
 
 	// GENERATION
 
-	generateRoadmap(requestBody: any, endpoint: string): Observable<Roadmap> {
-		return this.http.post<Roadmap>(`${this.api}/${endpoint}`, requestBody);
+	generateLearningPath(requestBody: any, endpoint: string): Observable<LearningPath> {
+		return this.http.post<LearningPath>(`${this.api}/${endpoint}`, requestBody);
 	}
 
 	// DELETE
 
-	delete(roadmapId: string): Observable<void> {
-		return this.http.delete<void>(`${this.api}/${roadmapId}`);
+	delete(learningPathId: string): Observable<void> {
+		return this.http.delete<void>(`${this.api}/${learningPathId}`);
 	}
 }

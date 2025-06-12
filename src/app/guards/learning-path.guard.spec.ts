@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { CanActivateFn } from '@angular/router';
 
-import { roadmapGuard } from './learning-path.guard';
+import { learningPathGuard } from './learning-path.guard';
 
-describe('roadmapGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => roadmapGuard(...guardParameters));
+describe('learningPathGuard', () => {
+	const executeGuard: CanActivateFn = (...guardParameters) =>
+		TestBed.runInInjectionContext(() => learningPathGuard(...guardParameters));
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-  });
+	beforeEach(() => {
+		TestBed.configureTestingModule({});
+	});
 
-  it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
-  });
+	it('should be created', () => {
+		expect(executeGuard).toBeTruthy();
+	});
 });

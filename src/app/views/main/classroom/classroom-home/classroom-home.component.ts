@@ -9,16 +9,16 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
 import { last, lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
-import { RoadmapCreationPopUpComponent } from '../../../../components/pop-ups/learning-path-creation-pop-up/learning-path-creation-pop-up.component';
-import { RoadmapCardComponent } from '../../../../components/learning-path-card/learning-path-card.component';
+import { LearningPathCreationPopUpComponent } from '../../../../components/pop-ups/learning-path-creation-pop-up/learning-path-creation-pop-up.component';
+import { LearningPathCardComponent } from '../../../../components/learning-path-card/learning-path-card.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
 import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
-import { Roadmap } from '../../../../models/LearningPath';
+import { LearningPath } from '../../../../models/LearningPath';
 import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
-import { RoadmapService } from '../../../../services/learning-path.service';
+import { LearningPathService } from '../../../../services/learning-path.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
-import { RoadmapStudyService } from '../../../../services/learning-path-study.service';
+import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 
 @Component({
 	selector: 'o-classroom-home',
@@ -30,7 +30,7 @@ import { RoadmapStudyService } from '../../../../services/learning-path-study.se
 		MatFormFieldModule,
 		MatInputModule,
 		SyllabusComponent,
-		RoadmapCardComponent,
+		LearningPathCardComponent,
 		FormsModule,
 		LoadingComponent,
 	],
@@ -39,15 +39,15 @@ import { RoadmapStudyService } from '../../../../services/learning-path-study.se
 })
 export class ClassroomHomeComponent {
 	ctx: ContextService = inject(ContextService);
-	roadmapService: RoadmapService = inject(RoadmapService);
-	roadmapStudyService: RoadmapStudyService = inject(RoadmapStudyService);
+	learningPathService: LearningPathService = inject(LearningPathService);
+	learningPathStudyService: LearningPathStudyService = inject(LearningPathStudyService);
 	dialog: MatDialog = inject(MatDialog);
 	router: Router = inject(Router);
 	route: ActivatedRoute = inject(ActivatedRoute);
 
 	isLoading: boolean = true;
-	myRoadmaps: Roadmap[] = [];
-	sharedRoadmaps: Roadmap[] = [];
+	myLearningPaths: LearningPath[] = [];
+	sharedLearningPaths: LearningPath[] = [];
 	filter: string = '';
 	syllabusFilter: string[] = [];
 
@@ -63,56 +63,58 @@ export class ClassroomHomeComponent {
 		return '/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id;
 	}
 
-	get teacherRoadmaps(): Roadmap[] {
-		return this.sharedRoadmaps.filter(roadmap => !this.studentRoadmaps.includes(roadmap));
+	get teacherLearningPaths(): LearningPath[] {
+		return this.sharedLearningPaths.filter(learningPath => !this.studentLearningPaths.includes(learningPath));
 	}
 
-	get studentRoadmaps(): Roadmap[] {
-		return this.sharedRoadmaps.filter(roadmap => roadmap.userInstitutionRole === InstitutionRoleEnum.STUDENT);
+	get studentLearningPaths(): LearningPath[] {
+		return this.sharedLearningPaths.filter(
+			learningPath => learningPath.userInstitutionRole === InstitutionRoleEnum.STUDENT,
+		);
 	}
 
-	get filteredMyRoadmaps(): Roadmap[] {
-		return this.myRoadmaps.filter(this.filterRoadmap);
+	get filteredMyLearningPaths(): LearningPath[] {
+		return this.myLearningPaths.filter(this.filterLearningPath);
 	}
 
-	get filteredStudentRoadmaps(): Roadmap[] {
-		return this.studentRoadmaps.filter(this.filterRoadmap);
+	get filteredStudentLearningPaths(): LearningPath[] {
+		return this.studentLearningPaths.filter(this.filterLearningPath);
 	}
 
-	get filteredTeacherRoadmaps(): Roadmap[] {
-		return this.teacherRoadmaps.filter(this.filterRoadmap);
+	get filteredTeacherLearningPaths(): LearningPath[] {
+		return this.teacherLearningPaths.filter(this.filterLearningPath);
 	}
 
 	// TODO: Do a performance test later to see if this the filtering should be async or not
-	filterRoadmap = (roadmap: Roadmap): boolean => {
+	filterLearningPath = (learningPath: LearningPath): boolean => {
 		const filteredBySyllabus =
 			this.syllabusFilter.length === 0 ||
 			ArrayUtils.hasAllItems(
-				roadmap.syllabus.map(r => r.id),
+				learningPath.syllabus.map(r => r.id),
 				this.syllabusFilter,
 			);
 
 		const filteredByName =
-			roadmap.name.toLowerCase().includes(this.filter.toLowerCase()) ||
-			roadmap.creator.name.toLowerCase().includes(this.filter.toLowerCase());
+			learningPath.name.toLowerCase().includes(this.filter.toLowerCase()) ||
+			learningPath.creator.name.toLowerCase().includes(this.filter.toLowerCase());
 
 		return filteredBySyllabus && filteredByName;
 	};
 
 	resetData() {
-		this.myRoadmaps = [];
-		this.sharedRoadmaps = [];
+		this.myLearningPaths = [];
+		this.sharedLearningPaths = [];
 	}
 
 	async getData() {
 		this.isLoading = true;
 		Promise.all([
-			lastValueFrom(this.roadmapService.getUserRoadmapsByClassroom(this.ctx.classroom?.id!)),
-			lastValueFrom(this.roadmapService.getClassroomSharedRoadmaps(this.ctx.classroom?.id!)),
+			lastValueFrom(this.learningPathService.getUserLearningPathsByClassroom(this.ctx.classroom?.id!)),
+			lastValueFrom(this.learningPathService.getClassroomSharedLearningPaths(this.ctx.classroom?.id!)),
 		])
 			.then(res => {
-				this.myRoadmaps = res[0];
-				this.sharedRoadmaps = res[1];
+				this.myLearningPaths = res[0];
+				this.sharedLearningPaths = res[1];
 			})
 			.finally(() => {
 				this.isLoading = false;
@@ -123,31 +125,31 @@ export class ClassroomHomeComponent {
 		this.syllabusFilter = syllabus.map(s => s.id!);
 	}
 
-	createRoadmap() {
+	createLearningPath() {
 		this.dialog
-			.open(RoadmapCreationPopUpComponent, {
+			.open(LearningPathCreationPopUpComponent, {
 				disableClose: true,
 				maxWidth: '1800px',
 			})
 			.afterClosed()
-			.subscribe((res: Roadmap | undefined) => {
+			.subscribe((res: LearningPath | undefined) => {
 				if (res) {
-					this.myRoadmaps = [res, ...this.myRoadmaps];
-					this.goToRoadmap(res);
+					this.myLearningPaths = [res, ...this.myLearningPaths];
+					this.goToLearningPath(res);
 				}
 			});
 	}
 
-	goToRoadmap(roadmap: Roadmap) {
-		this.router.navigate(['/i', this.ctx.institution?.id, 'c', this.ctx.classroom?.id, 'r', roadmap.id]);
+	goToLearningPath(learningPath: LearningPath) {
+		this.router.navigate(['/i', this.ctx.institution?.id, 'c', this.ctx.classroom?.id, 'lp', learningPath.id]);
 	}
 
-	async updatedRoadmapSharing(roadmap: Roadmap) {
+	async updatedLearningPathSharing(learningPath: LearningPath) {
 		this.isLoading = true;
-		await lastValueFrom(this.roadmapService.updateRoadmapSharing(roadmap.id, roadmap.shared))
+		await lastValueFrom(this.learningPathService.updateLearningPathSharing(learningPath.id, learningPath.shared))
 			.then(() => {
-				if (roadmap.id === this.ctx.roadmapStudy?.roadmap?.id) {
-					this.ctx.roadmapStudy!.roadmap = roadmap;
+				if (learningPath.id === this.ctx.learningPathStudy?.learningPath?.id) {
+					this.ctx.learningPathStudy!.learningPath = learningPath;
 				}
 			})
 			.finally(() => {

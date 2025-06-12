@@ -1,25 +1,25 @@
-import { Roadmap } from './LearningPath';
+import { LearningPath } from './LearningPath';
 import { User } from './User';
 
-export type RoadmapStudy =
-	| VideoRoadmapStudy
-	| TextRoadmapStudy
-	| QuestionRoadmapStudy
-	| FlashCardRoadmapStudy
-	| AudioRoadmapStudy;
+export type LearningPathStudy =
+	| VideoLearningPathStudy
+	| TextLearningPathStudy
+	| QuestionLearningPathStudy
+	| FlashCardLearningPathStudy
+	| AudioLearningPathStudy;
 
-type RoadmapStudyBase = {
+type LearningPathStudyBase = {
 	id: string;
-	roadmap: Roadmap;
+	learningPath: LearningPath;
 	user: User;
 };
 
-export type VideoRoadmapStudy = {} & RoadmapStudyBase;
+export type VideoLearningPathStudy = {} & LearningPathStudyBase;
 
-export type TextRoadmapStudy = {} & RoadmapStudyBase;
+export type TextLearningPathStudy = {} & LearningPathStudyBase;
 
-export type FlashCardRoadmapStudy = {} & RoadmapStudyBase;
+export type FlashCardLearningPathStudy = {} & LearningPathStudyBase;
 
-export type QuestionRoadmapStudy = {} & RoadmapStudyBase;
+export type QuestionLearningPathStudy = {} & LearningPathStudyBase;
 
-export type AudioRoadmapStudy = {} & RoadmapStudyBase;
+export type AudioLearningPathStudy = {} & LearningPathStudyBase;

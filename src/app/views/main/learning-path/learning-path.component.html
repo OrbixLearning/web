@@ -1,16 +1,16 @@
 <o-loading [isLoading]="isLoading" />
 
-<header class="roadmap-header">
+<header class="learning-path-header">
     <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
         <mat-icon>arrow_back</mat-icon>
     </button>
 
-    <mat-icon>{{ctx.roadmapStudy?.roadmap?.icon}}</mat-icon>
+    <mat-icon>{{ctx.learningPathStudy?.learningPath?.icon}}</mat-icon>
 
-    @if (ctx.roadmapStudy?.roadmap?.validated) {
+    @if (ctx.learningPathStudy?.learningPath?.validated) {
     <mat-icon pTooltip="Rota validada pelo professor">check</mat-icon>
     } @else if (ctx.isTeacher) {
-    <button mat-raised-button (click)="validateRoadmap()">
+    <button mat-raised-button (click)="validateLearningPath()">
         Validar rota
     </button>
     }
@@ -22,39 +22,40 @@
 
     @if (mine) {
     <div>
-        <p-toggleswitch [(ngModel)]="ctx.roadmapStudy!.roadmap!.shared" (ngModelChange)="updatedRoadmapSharing()" />
+        <p-toggleswitch [(ngModel)]="ctx.learningPathStudy!.learningPath!.shared"
+            (ngModelChange)="updatedLearningPathSharing()" />
         <span>Compartilhada</span>
     </div>
 
-    <button mat-icon-button (click)="deleteRoadmap()">
+    <button mat-icon-button (click)="deleteLearningPath()">
         <mat-icon>delete</mat-icon>
     </button>
     }
 </header>
 
-<div class="roadmap-content">
+<div class="learning-path-content">
     <div>
-        @switch (ctx.roadmapStudy!.roadmap!.type) {
+        @switch (ctx.learningPathStudy!.learningPath!.type) {
         @case (typeEnum.TEXT) {
-        <o-text-roadmap [roadmapStudy]="roadmapStudyAsText" />
+        <o-text-learning-path [learningPathStudy]="learningPathStudyAsText" />
         }
         @case (typeEnum.VIDEO) {
-        <o-video-roadmap [roadmapStudy]="roadmapStudyAsVideo" />
+        <o-video-learning-path [learningPathStudy]="learningPathStudyAsVideo" />
         }
         @case (typeEnum.AUDIO) {
-        <o-audio-roadmap [roadmapStudy]="roadmapStudyAsAudio" />
+        <o-audio-learning-path [learningPathStudy]="learningPathStudyAsAudio" />
         }
         @case (typeEnum.FLASHCARD) {
-        <o-flash-card-roadmap [roadmapStudy]="roadmapStudyAsFlashCard" />
+        <o-flash-card-learning-path [learningPathStudy]="learningPathStudyAsFlashCard" />
         }
         @case (typeEnum.QUESTION) {
-        <o-question-roadmap [roadmapStudy]="roadmapStudyAsQuestion" />
+        <o-question-learning-path [learningPathStudy]="learningPathStudyAsQuestion" />
         }
         }
     </div>
 
     @if (mode === 'study') {
-    <div class="roadmap-aichat">
+    <div class="learning-path-aichat">
         <p>Aqui terá um chat com a IA</p>
         <p>Para ajudar a responder perguntas sobre a rota</p>
         <p>e auxiliar no estudo</p>

@@ -7,11 +7,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
-import { Question, QuestionRoadmap } from '../../../../models/LearningPath';
-import { QuestionRoadmapStudy } from '../../../../models/LearningPathStudy';
+import { Question, QuestionLearningPath } from '../../../../models/LearningPath';
+import { QuestionLearningPathStudy } from '../../../../models/LearningPathStudy';
 
 @Component({
-	selector: 'o-question-roadmap',
+	selector: 'o-question-learning-path',
 	imports: [
 		ReactiveFormsModule,
 		MatButtonModule,
@@ -24,8 +24,8 @@ import { QuestionRoadmapStudy } from '../../../../models/LearningPathStudy';
 	templateUrl: './question-learning-path.component.html',
 	styleUrl: './question-learning-path.component.scss',
 })
-export class QuestionRoadmapComponent {
-	@Input() roadmapStudy!: QuestionRoadmapStudy;
+export class QuestionLearningPathComponent {
+	@Input() learningPathStudy!: QuestionLearningPathStudy;
 
 	formBuilder: FormBuilder = inject(FormBuilder);
 
@@ -43,7 +43,7 @@ export class QuestionRoadmapComponent {
 	}
 
 	ngOnInit() {
-		this.questions = (this.roadmapStudy.roadmap as QuestionRoadmap).questions;
+		this.questions = (this.learningPathStudy.learningPath as QuestionLearningPath).questions;
 		this.question = this.questions[this.index];
 	}
 

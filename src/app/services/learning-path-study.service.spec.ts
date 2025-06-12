@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RoadmapStudyService } from './learning-path-study.service';
+import { LearningPathStudyService } from './learning-path-study.service';
 
-describe('RoadmapStudyService', () => {
-	let service: RoadmapStudyService;
+describe('LearningPathStudyService', () => {
+	let service: LearningPathStudyService;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({});
-		service = TestBed.inject(RoadmapStudyService);
+		service = TestBed.inject(LearningPathStudyService);
 	});
 
 	it('should be created', () => {

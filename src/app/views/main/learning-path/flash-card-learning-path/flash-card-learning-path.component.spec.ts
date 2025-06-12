@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FlashCardRoadmapComponent } from './flash-card-learning-path.component';
+import { FlashCardLearningPathComponent } from './flash-card-learning-path.component';
 
-describe('FlashCardRoadmapComponent', () => {
-	let component: FlashCardRoadmapComponent;
-	let fixture: ComponentFixture<FlashCardRoadmapComponent>;
+describe('FlashCardLearningPathComponent', () => {
+	let component: FlashCardLearningPathComponent;
+	let fixture: ComponentFixture<FlashCardLearningPathComponent>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [FlashCardRoadmapComponent],
+			imports: [FlashCardLearningPathComponent],
 		}).compileComponents();
 
-		fixture = TestBed.createComponent(FlashCardRoadmapComponent);
+		fixture = TestBed.createComponent(FlashCardLearningPathComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

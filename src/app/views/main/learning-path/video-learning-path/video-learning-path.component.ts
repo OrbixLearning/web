@@ -1,22 +1,22 @@
 import { Component, Input } from '@angular/core';
-import { VideoDetails, VideoRoadmap } from '../../../../models/LearningPath';
-import { VideoRoadmapStudy } from '../../../../models/LearningPathStudy';
+import { VideoDetails, VideoLearningPath } from '../../../../models/LearningPath';
+import { VideoLearningPathStudy } from '../../../../models/LearningPathStudy';
 import { SafeUrlPipe } from '../../../../pipes/safe-url.pipe';
 import { DividerModule } from 'primeng/divider';
 
 @Component({
-	selector: 'o-video-roadmap',
+	selector: 'o-video-learning-path',
 	imports: [SafeUrlPipe, DividerModule],
 	templateUrl: './video-learning-path.component.html',
 	styleUrl: './video-learning-path.component.scss',
 })
-export class VideoRoadmapComponent {
-	@Input() roadmapStudy!: VideoRoadmapStudy;
+export class VideoLearningPathComponent {
+	@Input() learningPathStudy!: VideoLearningPathStudy;
 
 	videos: VideoDetails[] = [];
 
 	ngOnInit() {
-		this.videos = (this.roadmapStudy.roadmap as VideoRoadmap).videos;
+		this.videos = (this.learningPathStudy.learningPath as VideoLearningPath).videos;
 	}
 
 	getUrl(videoId: string): string {

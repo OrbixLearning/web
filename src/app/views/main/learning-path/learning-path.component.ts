@@ -12,25 +12,25 @@ import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
-import { RoadmapTypeEnum } from '../../../enums/LearningPathType.enum';
-import { Roadmap } from '../../../models/LearningPath';
+import { LearningPathTypeEnum } from '../../../enums/LearningPathType.enum';
+import { LearningPath } from '../../../models/LearningPath';
 import {
-	AudioRoadmapStudy,
-	FlashCardRoadmapStudy,
-	QuestionRoadmapStudy,
-	TextRoadmapStudy,
-	VideoRoadmapStudy,
+	AudioLearningPathStudy,
+	FlashCardLearningPathStudy,
+	QuestionLearningPathStudy,
+	TextLearningPathStudy,
+	VideoLearningPathStudy,
 } from '../../../models/LearningPathStudy';
 import { ContextService } from '../../../services/context.service';
-import { RoadmapService } from '../../../services/learning-path.service';
-import { AudioRoadmapComponent } from './audio-learning-path/audio-learning-path.component';
-import { FlashCardRoadmapComponent } from './flash-card-learning-path/flash-card-learning-path.component';
-import { QuestionRoadmapComponent } from './question-learning-path/question-learning-path.component';
-import { TextRoadmapComponent } from './text-learning-path/text-learning-path.component';
-import { VideoRoadmapComponent } from './video-learning-path/video-learning-path.component';
+import { LearningPathService } from '../../../services/learning-path.service';
+import { AudioLearningPathComponent } from './audio-learning-path/audio-learning-path.component';
+import { FlashCardLearningPathComponent } from './flash-card-learning-path/flash-card-learning-path.component';
+import { QuestionLearningPathComponent } from './question-learning-path/question-learning-path.component';
+import { TextLearningPathComponent } from './text-learning-path/text-learning-path.component';
+import { VideoLearningPathComponent } from './video-learning-path/video-learning-path.component';
 
 @Component({
-	selector: 'o-roadmap',
+	selector: 'o-learning-path',
 	imports: [
 		MatButtonModule,
 		MatIconModule,
@@ -39,44 +39,44 @@ import { VideoRoadmapComponent } from './video-learning-path/video-learning-path
 		TooltipModule,
 		ToggleSwitchModule,
 		FormsModule,
-		AudioRoadmapComponent,
-		FlashCardRoadmapComponent,
-		QuestionRoadmapComponent,
-		TextRoadmapComponent,
-		VideoRoadmapComponent,
+		AudioLearningPathComponent,
+		FlashCardLearningPathComponent,
+		QuestionLearningPathComponent,
+		TextLearningPathComponent,
+		VideoLearningPathComponent,
 	],
 	templateUrl: './learning-path.component.html',
 	styleUrl: './learning-path.component.scss',
 })
-export class RoadmapComponent {
+export class LearningPathComponent {
 	ctx: ContextService = inject(ContextService);
-	service: RoadmapService = inject(RoadmapService);
+	service: LearningPathService = inject(LearningPathService);
 	dialog: MatDialog = inject(MatDialog);
 	router: Router = inject(Router);
 
 	isLoading: boolean = false;
-	mine: boolean = this.ctx.roadmapStudy?.roadmap.creator.id === this.ctx.user?.id;
+	mine: boolean = this.ctx.learningPathStudy?.learningPath.creator.id === this.ctx.user?.id;
 	mode: 'view' | 'study' = this.mine || !this.ctx.isTeacher ? 'study' : 'view';
-	typeEnum = RoadmapTypeEnum;
+	typeEnum = LearningPathTypeEnum;
 
-	get roadmapStudyAsAudio(): AudioRoadmapStudy {
-		return this.ctx.roadmapStudy as AudioRoadmapStudy;
+	get learningPathStudyAsAudio(): AudioLearningPathStudy {
+		return this.ctx.learningPathStudy as AudioLearningPathStudy;
 	}
 
-	get roadmapStudyAsFlashCard(): FlashCardRoadmapStudy {
-		return this.ctx.roadmapStudy as FlashCardRoadmapStudy;
+	get learningPathStudyAsFlashCard(): FlashCardLearningPathStudy {
+		return this.ctx.learningPathStudy as FlashCardLearningPathStudy;
 	}
 
-	get roadmapStudyAsQuestion(): QuestionRoadmapStudy {
-		return this.ctx.roadmapStudy as QuestionRoadmapStudy;
+	get learningPathStudyAsQuestion(): QuestionLearningPathStudy {
+		return this.ctx.learningPathStudy as QuestionLearningPathStudy;
 	}
 
-	get roadmapStudyAsText(): TextRoadmapStudy {
-		return this.ctx.roadmapStudy as TextRoadmapStudy;
+	get learningPathStudyAsText(): TextLearningPathStudy {
+		return this.ctx.learningPathStudy as TextLearningPathStudy;
 	}
 
-	get roadmapStudyAsVideo(): VideoRoadmapStudy {
-		return this.ctx.roadmapStudy as VideoRoadmapStudy;
+	get learningPathStudyAsVideo(): VideoLearningPathStudy {
+		return this.ctx.learningPathStudy as VideoLearningPathStudy;
 	}
 
 	toggleMode() {
@@ -87,27 +87,30 @@ export class RoadmapComponent {
 		}
 	}
 
-	async validateRoadmap() {
+	async validateLearningPath() {
 		this.isLoading = true;
-		await lastValueFrom(this.service.validateRoadmap(this.ctx.roadmapStudy!.roadmap.id, true))
-			.then((roadmap: Roadmap) => {
-				this.ctx.roadmapStudy!.roadmap = roadmap;
+		await lastValueFrom(this.service.validateLearningPath(this.ctx.learningPathStudy!.learningPath.id, true))
+			.then((learningPath: LearningPath) => {
+				this.ctx.learningPathStudy!.learningPath = learningPath;
 			})
 			.finally(() => {
 				this.isLoading = false;
 			});
 	}
 
-	async updatedRoadmapSharing() {
+	async updatedLearningPathSharing() {
 		this.isLoading = true;
 		await lastValueFrom(
-			this.service.updateRoadmapSharing(this.ctx.roadmapStudy!.roadmap.id, this.ctx.roadmapStudy!.roadmap.shared),
+			this.service.updateLearningPathSharing(
+				this.ctx.learningPathStudy!.learningPath.id,
+				this.ctx.learningPathStudy!.learningPath.shared,
+			),
 		).finally(() => {
 			this.isLoading = false;
 		});
 	}
 
-	async deleteRoadmap() {
+	async deleteLearningPath() {
 		let data: ConfirmPopUpData = {
 			title: 'Tem certeza que deseja excluir esta rota de aprendizagem?',
 			message: 'Esta ação não poderá ser desfeita.',
@@ -119,7 +122,7 @@ export class RoadmapComponent {
 			.subscribe(async result => {
 				if (result) {
 					this.isLoading = true;
-					await lastValueFrom(this.service.delete(this.ctx.roadmapStudy!.roadmap.id))
+					await lastValueFrom(this.service.delete(this.ctx.learningPathStudy!.learningPath.id))
 						.then(() => {
 							this.router.navigateByUrl(`/i/${this.ctx.institution?.id}/c/${this.ctx.classroom?.id}`);
 						})

@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 import { classroomGuard } from './guards/classroom.guard';
 import { institutionGuard } from './guards/institution.guard';
-import { roadmapGuard } from './guards/learning-path.guard';
+import { learningPathGuard } from './guards/learning-path.guard';
 
 export const routes: Routes = [
 	{
@@ -109,12 +109,12 @@ export const routes: Routes = [
 									).then(m => m.ClassroomDocumentsComponent),
 							},
 							{
-								path: 'r/:roadmapId',
+								path: 'lp/:learningPathId',
 								loadComponent: () =>
 									import('./views/main/learning-path/learning-path.component').then(
-										m => m.RoadmapComponent,
+										m => m.LearningPathComponent,
 									),
-								canActivate: [roadmapGuard],
+								canActivate: [learningPathGuard],
 							},
 						],
 					},

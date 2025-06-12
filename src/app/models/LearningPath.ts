@@ -1,13 +1,18 @@
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
 import { QuestionTypeEnum } from '../enums/QuestionType.enum';
-import { RoadmapTypeEnum } from '../enums/LearningPathType.enum';
+import { LearningPathTypeEnum } from '../enums/LearningPathType.enum';
 import { Classroom } from './Classroom';
 import { Syllabus } from './Syllabus';
 import { User } from './User';
 
-export type Roadmap = VideoRoadmap | TextRoadmap | QuestionRoadmap | FlashCardRoadmap | AudioRoadmap;
+export type LearningPath =
+	| VideoLearningPath
+	| TextLearningPath
+	| QuestionLearningPath
+	| FlashCardLearningPath
+	| AudioLearningPath;
 
-type RoadmapBase = {
+type LearningPathBase = {
 	id: string;
 	name: string;
 	icon: string;
@@ -17,28 +22,28 @@ type RoadmapBase = {
 	creator: User;
 	classroom: Classroom;
 	userInstitutionRole: InstitutionRoleEnum;
-	type: RoadmapTypeEnum;
+	type: LearningPathTypeEnum;
 };
 
-export type VideoRoadmap = {
+export type VideoLearningPath = {
 	videos: VideoDetails[];
-} & RoadmapBase;
+} & LearningPathBase;
 
-export type TextRoadmap = {
+export type TextLearningPath = {
 	text: string;
-} & RoadmapBase;
+} & LearningPathBase;
 
-export type FlashCardRoadmap = {
+export type FlashCardLearningPath = {
 	flashCards: FlashCard[];
-} & RoadmapBase;
+} & LearningPathBase;
 
-export type QuestionRoadmap = {
+export type QuestionLearningPath = {
 	questions: Question[];
-} & RoadmapBase;
+} & LearningPathBase;
 
-export type AudioRoadmap = {
+export type AudioLearningPath = {
 	numberOfAudios: number;
-} & RoadmapBase;
+} & LearningPathBase;
 
 export type FlashCard = {
 	front: string;
