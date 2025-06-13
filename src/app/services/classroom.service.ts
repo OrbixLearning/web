@@ -52,4 +52,11 @@ export class ClassroomService {
 	updatePresets(presets: SyllabusPreset[], classroomId: string): Observable<Classroom> {
 		return this.http.put<Classroom>(`${this.api}/presets`, { presets, classroomId });
 	}
+
+	uploadSyllabusDocument(classroomId: string, file: File): Observable<Classroom> {
+		const formData = new FormData();
+		formData.append('classroomId', classroomId);
+		formData.append('file', file);
+		return this.http.put<Classroom>(`${this.api}/syllabus-document`, formData);
+	}
 }
