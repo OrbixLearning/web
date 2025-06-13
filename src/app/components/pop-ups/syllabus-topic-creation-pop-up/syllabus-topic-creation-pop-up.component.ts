@@ -71,7 +71,7 @@ export class SyllabusTopicCreationPopUpComponent {
 
 	parentChange() {
 		const parent: Syllabus | undefined = this.getFormControl('parent').value;
-		if (parent && parent.topics.length !== 0) {
+		if (parent && parent.topics && parent.topics.length !== 0) {
 			this.getFormControl('index').setValue(parent.topics.length);
 			this.showIndex = true;
 		} else {

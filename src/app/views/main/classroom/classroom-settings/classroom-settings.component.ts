@@ -7,12 +7,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
+import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import {
+	SyllabusPresetCreationPopUpComponent,
+	SyllabusPresetCreationPopUpData,
+	SyllabusPresetCreationPopUpResult,
+} from '../../../../components/pop-ups/syllabus-preset-creation-pop-up/syllabus-preset-creation-pop-up.component';
+import { SyllabusPresetDeletionPopUpComponent } from '../../../../components/pop-ups/syllabus-preset-deletion-pop-up/syllabus-preset-deletion-pop-up.component';
 import {
 	SyllabusTopicCreationPopUpComponent,
 	SyllabusTopicCreationPopUpData,
@@ -25,14 +33,6 @@ import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { SyllabusService } from '../../../../services/syllabus.service';
 import { TreeUtils } from '../../../../utils/Tree.utils';
-import {
-	SyllabusPresetCreationPopUpComponent,
-	SyllabusPresetCreationPopUpData,
-	SyllabusPresetCreationPopUpResult,
-} from '../../../../components/pop-ups/syllabus-preset-creation-pop-up/syllabus-preset-creation-pop-up.component';
-import { SyllabusPresetDeletionPopUpComponent } from '../../../../components/pop-ups/syllabus-preset-deletion-pop-up/syllabus-preset-deletion-pop-up.component';
-import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
-import { environment } from '../../../../../environments/environment';
 
 @Component({
 	selector: 'o-classroom-settings',
@@ -253,9 +253,7 @@ export class ClassroomSettingsComponent {
 		await lastValueFrom(this.service.uploadSyllabusDocument(this.ctx.classroom!.id, this.syllabusDocument!))
 			.then((c: Classroom) => {
 				this.ctx.classroom = c;
-				this.syllabus = c.syllabus;
-				// TODO: This change detection is not working
-				this.syllabus = [...this.syllabus!]; // Trigger change detection
+				this.syllabus = c.syllabus; // Trigger change detection
 			})
 			.finally(() => {
 				this.isLoading = false;

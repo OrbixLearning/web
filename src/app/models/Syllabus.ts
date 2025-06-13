@@ -4,7 +4,7 @@ export type Syllabus = {
 	id: string | null; // null if creating a new syllabus
 	name: string;
 	description: string;
-	topics: Syllabus[];
+	topics: Syllabus[] | null;
 	documents: Document[];
 
 	classroom: Classroom | null;

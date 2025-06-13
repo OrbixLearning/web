@@ -56,14 +56,14 @@ export class SyllabusComponent {
 		return this.recursiveSyllabusTreeBuildCall(this.syllabus, 0);
 	}
 
-	recursiveSyllabusTreeBuildCall(syllabus: Syllabus[], depth: number, preset?: string[]): TreeNode[] {
+	recursiveSyllabusTreeBuildCall(syllabus: Syllabus[] | null, depth: number, preset?: string[]): TreeNode[] {
+		if (!syllabus) return [];
 		return syllabus.map(s => {
 			return {
 				key: s.id!,
 				label: s.name,
 				data: s,
-				leaf: s.topics.length === 0,
-				parent: parent,
+				leaf: s.topics ? s.topics.length === 0 : true,
 				selectable: true,
 				expanded: depth < 2,
 				children: this.recursiveSyllabusTreeBuildCall(s.topics, depth + 1),
@@ -91,7 +91,7 @@ export class SyllabusComponent {
 					},
 				];
 			}
-			if (s.topics.length > 0) {
+			if (s.topics && s.topics.length > 0) {
 				this.addNodestoSelectionRecursively(ids, s.topics);
 			}
 		});
