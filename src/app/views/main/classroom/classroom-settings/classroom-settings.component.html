@@ -39,6 +39,29 @@
                 Salvar
             </button>
         </div>
+
+        <p-divider />
+
+        <div>
+            @if (!syllabusDocument) {
+            <p-fileupload mode="basic" chooseLabel="Definição Curricular" name="logo" [auto]="true" accept=".pdf"
+                [maxFileSize]="MAX_FILE_SIZE" (onSelect)="selectSyllabusDocument($event)" />
+            } @else {
+            <p>{{syllabusDocument.name}}</p>
+            <button mat-raised-button type="button" (click)="syllabusDocument = undefined">Cancelar</button>
+            <button mat-raised-button type="button" (click)="uploadSyllabusDocument()">
+                <mat-icon>upload</mat-icon>
+                Enviar definição curricular
+            </button>
+            }
+            @if (ctx.classroom?.hasSyllabusDocument) {
+            <button mat-raised-button type="button" (click)="deleteSyllabusDocument()">
+                <mat-icon>delete</mat-icon>
+                Excluir definição curricular
+            </button>
+            }
+
+        </div>
     </form>
 
     <p-divider layout="vertical" />

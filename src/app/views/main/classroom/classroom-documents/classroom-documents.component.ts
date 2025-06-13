@@ -23,6 +23,9 @@ import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
 import { DocumentService } from '../../../../services/document.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
+import { ClassroomService } from '../../../../services/classroom.service';
+import { download } from '../../../../utils/Download.util';
+import { Classroom } from '../../../../models/Classroom';
 
 @Component({
 	selector: 'o-classroom-documents',
@@ -43,6 +46,7 @@ import { ArrayUtils } from '../../../../utils/Array.utils';
 export class ClassroomDocumentsComponent {
 	ctx: ContextService = inject(ContextService);
 	service: DocumentService = inject(DocumentService);
+	classroomService: ClassroomService = inject(ClassroomService);
 	dialog: MatDialog = inject(MatDialog);
 
 	isLoading: boolean = false;
@@ -118,12 +122,7 @@ export class ClassroomDocumentsComponent {
 		this.isLoading = true;
 		await lastValueFrom(this.service.getFile(documentId))
 			.then((blob: Blob) => {
-				const url = window.URL.createObjectURL(blob);
-				const a = document.createElement('a');
-				a.href = url;
-				a.download = documentName;
-				a.click();
-				window.URL.revokeObjectURL(url);
+				download(blob, documentName);
 			})
 			.finally(() => {
 				this.isLoading = false;
@@ -172,6 +171,41 @@ export class ClassroomDocumentsComponent {
 							this.ctx.classroom!.documents = this.ctx.classroom!.documents.filter(
 								document => document.id !== documentId,
 							);
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				}
+			});
+	}
+
+	async downloadSyllabusDocument() {
+		this.isLoading = true;
+		const documentName = 'Definição Curricular - ' + this.ctx.classroom!.name;
+		await lastValueFrom(this.classroomService.getSyllabusDocument(this.ctx.classroom!.id, documentName))
+			.then((blob: Blob) => {
+				download(blob, documentName + '.pdf');
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
+
+	async deleteSyllabusDocument() {
+		let data: ConfirmPopUpData = {
+			title: 'Tem certeza que deseja excluir este documento?',
+			message: 'A ementa não será desfeita.',
+			confirmButton: 'Excluir',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async (confirmed: boolean) => {
+				if (confirmed) {
+					this.isLoading = true;
+					await lastValueFrom(this.classroomService.deleteSyllabusDocument(this.ctx.classroom!.id))
+						.then((c: Classroom) => {
+							this.ctx.classroom = c;
 						})
 						.finally(() => {
 							this.isLoading = false;

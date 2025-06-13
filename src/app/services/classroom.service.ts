@@ -59,4 +59,12 @@ export class ClassroomService {
 		formData.append('file', file);
 		return this.http.put<Classroom>(`${this.api}/syllabus-document`, formData);
 	}
+
+	getSyllabusDocument(classroomId: string, documentName: string): Observable<Blob> {
+		return this.http.get(`${this.api}/${classroomId}/${documentName}`, { responseType: 'blob' });
+	}
+
+	deleteSyllabusDocument(classroomId: string): Observable<Classroom> {
+		return this.http.delete<Classroom>(`${this.api}/syllabus-document/${classroomId}`);
+	}
 }

@@ -31,6 +31,8 @@ import {
 	SyllabusPresetCreationPopUpResult,
 } from '../../../../components/pop-ups/syllabus-preset-creation-pop-up/syllabus-preset-creation-pop-up.component';
 import { SyllabusPresetDeletionPopUpComponent } from '../../../../components/pop-ups/syllabus-preset-deletion-pop-up/syllabus-preset-deletion-pop-up.component';
+import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
 	selector: 'o-classroom-settings',
@@ -44,6 +46,7 @@ import { SyllabusPresetDeletionPopUpComponent } from '../../../../components/pop
 		MatIconModule,
 		RouterModule,
 		DividerModule,
+		FileUploadModule,
 	],
 	templateUrl: './classroom-settings.component.html',
 	styleUrl: './classroom-settings.component.scss',
@@ -61,6 +64,8 @@ export class ClassroomSettingsComponent {
 	syllabus: Syllabus[] | undefined = this.ctx.classroom?.syllabus;
 	presets: SyllabusPreset[] | undefined = this.ctx.classroom?.presets;
 	markedSyllabus: Syllabus[] = [];
+	MAX_FILE_SIZE: number = environment.MAX_PDF_SIZE;
+	syllabusDocument?: File;
 
 	ngOnInit() {
 		this.resetForm();
@@ -221,6 +226,62 @@ export class ClassroomSettingsComponent {
 			})
 			.finally(() => {
 				this.isLoading = false;
+			});
+	}
+
+	selectSyllabusDocument(event: FileSelectEvent) {
+		this.syllabusDocument = event.currentFiles[0];
+	}
+
+	async uploadSyllabusDocument() {
+		if (this.ctx.classroom?.syllabus && this.ctx.classroom?.syllabus.length > 0) {
+			const data: ConfirmPopUpData = {
+				title: 'Tem certeza que deseja alterar a definição curricular?',
+				message: 'A ementa atual será substituída.',
+				confirmButton: 'Confirmar',
+				cancelButton: 'Cancelar',
+			};
+			let confirmed: boolean = false;
+			await lastValueFrom(this.dialog.open(ConfirmPopUpComponent, { data }).afterClosed()).then(
+				(result: boolean) => {
+					confirmed = result;
+				},
+			);
+			if (!confirmed) return;
+		}
+		this.isLoading = true;
+		await lastValueFrom(this.service.uploadSyllabusDocument(this.ctx.classroom!.id, this.syllabusDocument!))
+			.then((c: Classroom) => {
+				this.ctx.classroom = c;
+				this.syllabus = c.syllabus;
+				// TODO: This change detection is not working
+				this.syllabus = [...this.syllabus!]; // Trigger change detection
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
+
+	async deleteSyllabusDocument() {
+		let data: ConfirmPopUpData = {
+			title: 'Tem certeza que deseja excluir este documento?',
+			message: 'A ementa não será desfeita.',
+			confirmButton: 'Excluir',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async (confirmed: boolean) => {
+				if (confirmed) {
+					this.isLoading = true;
+					await lastValueFrom(this.service.deleteSyllabusDocument(this.ctx.classroom!.id))
+						.then((c: Classroom) => {
+							this.ctx.classroom = c;
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				}
 			});
 	}
 }
