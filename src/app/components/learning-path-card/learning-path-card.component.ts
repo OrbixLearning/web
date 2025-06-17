@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
-import { LearningPath } from '../../models/LearningPath';
+import { LearningPath } from '../../models/LearningPath/LearningPath';
 import { SyllabusTagsComponent } from '../syllabus-tags/syllabus-tags.component';
 import { MatIconModule } from '@angular/material/icon';
 import { TooltipModule } from 'primeng/tooltip';

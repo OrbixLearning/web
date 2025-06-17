@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
-import { AudioLearningPathStudy } from '../../../../models/LearningPathStudy';
+import { AudioLearningPath } from '../../../../models/LearningPath/LearningPath';
+import { AudioLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { LearningPathService } from '../../../../services/learning-path.service';
-import { AudioLearningPath } from '../../../../models/LearningPath';
 
 @Component({
 	selector: 'o-audio-learning-path',

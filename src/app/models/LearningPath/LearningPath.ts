@@ -1,9 +1,12 @@
-import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
-import { QuestionTypeEnum } from '../enums/QuestionType.enum';
-import { LearningPathTypeEnum } from '../enums/LearningPathType.enum';
-import { Classroom } from './Classroom';
-import { Syllabus } from './Syllabus';
-import { User } from './User';
+import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
+import { LearningPathTypeEnum } from '../../enums/LearningPathType.enum';
+import { Classroom } from '../Classroom';
+import { Syllabus } from '../Syllabus';
+import { User } from '../User';
+import { FlashCard } from './FlashCard';
+import { LearningPathGeneration } from './LearningPathGeneration';
+import { Question } from './Question';
+import { VideoDetails } from './VideoDetails';
 
 export type LearningPath =
 	| VideoLearningPath
@@ -16,6 +19,7 @@ type LearningPathBase = {
 	id: string;
 	name: string;
 	icon: string;
+	language: string;
 	shared: boolean;
 	validated: boolean;
 	syllabus: Syllabus[];
@@ -23,6 +27,7 @@ type LearningPathBase = {
 	classroom: Classroom;
 	userInstitutionRole: InstitutionRoleEnum;
 	type: LearningPathTypeEnum;
+	generation: LearningPathGeneration;
 };
 
 export type VideoLearningPath = {
@@ -44,22 +49,3 @@ export type QuestionLearningPath = {
 export type AudioLearningPath = {
 	numberOfAudios: number;
 } & LearningPathBase;
-
-export type FlashCard = {
-	front: string;
-	back: string;
-};
-
-export type Question = {
-	statement: string;
-	options: string[];
-	answers: string[];
-	type: QuestionTypeEnum;
-};
-
-export type VideoDetails = {
-	name: string;
-	description: string;
-	author: string;
-	videoId: string;
-};

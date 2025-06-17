@@ -7,8 +7,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
-import { Question, QuestionLearningPath } from '../../../../models/LearningPath';
-import { QuestionLearningPathStudy } from '../../../../models/LearningPathStudy';
+import { QuestionLearningPath } from '../../../../models/LearningPath/LearningPath';
+import { QuestionLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
+import { Question } from '../../../../models/LearningPath/Question';
 
 @Component({
 	selector: 'o-question-learning-path',

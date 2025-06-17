@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { FlashCard, FlashCardLearningPath } from '../../../../models/LearningPath';
-import { FlashCardLearningPathStudy } from '../../../../models/LearningPathStudy';
+import { FlashCard } from '../../../../models/LearningPath/FlashCard';
+import { FlashCardLearningPath } from '../../../../models/LearningPath/LearningPath';
+import { FlashCardLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 
 @Component({
 	selector: 'o-flash-card-learning-path',

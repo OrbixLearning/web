@@ -13,14 +13,14 @@ import {
 	ConfirmPopUpData,
 } from '../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { LearningPathTypeEnum } from '../../../enums/LearningPathType.enum';
-import { LearningPath } from '../../../models/LearningPath';
+import { LearningPath } from '../../../models/LearningPath/LearningPath';
 import {
 	AudioLearningPathStudy,
 	FlashCardLearningPathStudy,
 	QuestionLearningPathStudy,
 	TextLearningPathStudy,
 	VideoLearningPathStudy,
-} from '../../../models/LearningPathStudy';
+} from '../../../models/LearningPath/LearningPathStudy';
 import { ContextService } from '../../../services/context.service';
 import { LearningPathService } from '../../../services/learning-path.service';
 import { AudioLearningPathComponent } from './audio-learning-path/audio-learning-path.component';

@@ -1,12 +1,12 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MarkdownModule, MarkdownService } from 'ngx-markdown';
-import { TextLearningPath } from '../../../../models/LearningPath';
-import { TextLearningPathStudy } from '../../../../models/LearningPathStudy';
-import { LearningPathService } from '../../../../services/learning-path.service';
-import { LoadingComponent } from '../../../../components/loading/loading.component';
+import { MarkdownModule } from 'ngx-markdown';
 import { lastValueFrom } from 'rxjs';
+import { LoadingComponent } from '../../../../components/loading/loading.component';
+import { TextLearningPath } from '../../../../models/LearningPath/LearningPath';
+import { TextLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
+import { LearningPathService } from '../../../../services/learning-path.service';
 
 @Component({
 	selector: 'o-text-learning-path',

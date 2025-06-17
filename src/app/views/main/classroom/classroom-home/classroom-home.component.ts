@@ -13,7 +13,7 @@ import { LearningPathCreationPopUpComponent } from '../../../../components/pop-u
 import { LearningPathCardComponent } from '../../../../components/learning-path-card/learning-path-card.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
 import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
-import { LearningPath } from '../../../../models/LearningPath';
+import { LearningPath } from '../../../../models/LearningPath/LearningPath';
 import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
 import { LearningPathService } from '../../../../services/learning-path.service';

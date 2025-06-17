@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { VideoDetails, VideoLearningPath } from '../../../../models/LearningPath';
-import { VideoLearningPathStudy } from '../../../../models/LearningPathStudy';
-import { SafeUrlPipe } from '../../../../pipes/safe-url.pipe';
 import { DividerModule } from 'primeng/divider';
+import { VideoLearningPath } from '../../../../models/LearningPath/LearningPath';
+import { VideoLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
+import { VideoDetails } from '../../../../models/LearningPath/VideoDetails';
+import { SafeUrlPipe } from '../../../../pipes/safe-url.pipe';
 
 @Component({
 	selector: 'o-video-learning-path',

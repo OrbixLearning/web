@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { LearningPath } from '../models/LearningPath';
+import { LearningPath } from '../models/LearningPath/LearningPath';
+import { GenerateLearningPathRequest } from '../models/LearningPath/LearningPathGeneration';
 
 @Injectable({
 	providedIn: 'root',
@@ -41,7 +42,7 @@ export class LearningPathService {
 
 	// GENERATION
 
-	generateLearningPath(requestBody: any, endpoint: string): Observable<LearningPath> {
+	generateLearningPath(requestBody: GenerateLearningPathRequest, endpoint: string): Observable<LearningPath> {
 		return this.http.post<LearningPath>(`${this.api}/${endpoint}`, requestBody);
 	}
 
