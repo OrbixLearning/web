@@ -44,7 +44,7 @@ export class QuestionLearningPathComponent {
 	}
 
 	ngOnInit() {
-		this.questions = (this.learningPathStudy.learningPath as QuestionLearningPath).questions;
+		this.questions = (this.learningPathStudy.learningPath as QuestionLearningPath).questions!;
 		this.question = this.questions[this.index];
 	}
 

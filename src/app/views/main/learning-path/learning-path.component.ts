@@ -28,6 +28,7 @@ import { FlashCardLearningPathComponent } from './flash-card-learning-path/flash
 import { QuestionLearningPathComponent } from './question-learning-path/question-learning-path.component';
 import { TextLearningPathComponent } from './text-learning-path/text-learning-path.component';
 import { VideoLearningPathComponent } from './video-learning-path/video-learning-path.component';
+import { LearningPathGenerationStatusEnum } from '../../../enums/LearningPathGenerationStatus.enum';
 
 @Component({
 	selector: 'o-learning-path',
@@ -58,6 +59,11 @@ export class LearningPathComponent {
 	mine: boolean = this.ctx.learningPathStudy?.learningPath.creator.id === this.ctx.user?.id;
 	mode: 'view' | 'study' = this.mine || !this.ctx.isTeacher ? 'study' : 'view';
 	typeEnum = LearningPathTypeEnum;
+	generationStatusEnum = LearningPathGenerationStatusEnum;
+
+	get generationStatus(): LearningPathGenerationStatusEnum | undefined {
+		return this.ctx.learningPathStudy?.learningPath.generation.status;
+	}
 
 	get learningPathStudyAsAudio(): AudioLearningPathStudy {
 		return this.ctx.learningPathStudy as AudioLearningPathStudy;

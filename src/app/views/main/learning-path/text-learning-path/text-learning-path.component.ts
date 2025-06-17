@@ -23,7 +23,7 @@ export class TextLearningPathComponent {
 	isLoading: boolean = false;
 
 	ngOnInit() {
-		this.text = (this.learningPathStudy.learningPath as TextLearningPath).text;
+		this.text = (this.learningPathStudy.learningPath as TextLearningPath).text!;
 	}
 
 	async downloadPdf() {

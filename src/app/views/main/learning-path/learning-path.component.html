@@ -34,6 +34,12 @@
 </header>
 
 <div class="learning-path-content">
+    @if (generationStatus === generationStatusEnum.GENERATING) {
+
+    <p>A rota de aprendizagem está sendo gerada</p>
+
+    } @else if (generationStatus === generationStatusEnum.GENERATED) {
+
     <div>
         @switch (ctx.learningPathStudy!.learningPath!.type) {
         @case (typeEnum.TEXT) {
@@ -53,6 +59,12 @@
         }
         }
     </div>
+
+    } @else if(generationStatus === generationStatusEnum.FAILED) {
+
+    <p>Ocorreu um erro na geração da rota de aprendizagem</p>
+
+    }
 
     @if (mode === 'study') {
     <div class="learning-path-aichat">

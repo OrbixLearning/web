@@ -18,7 +18,7 @@ export class AudioLearningPathComponent {
 	iterableAudios: number[] = [];
 
 	ngOnInit() {
-		this.numberOfAudios = (this.learningPathStudy.learningPath as AudioLearningPath).numberOfAudios;
+		this.numberOfAudios = (this.learningPathStudy.learningPath as AudioLearningPath).numberOfAudios!;
 		this.iterableAudios = Array.from({ length: this.numberOfAudios }, (_, i) => i);
 	}
 

@@ -31,21 +31,21 @@ type LearningPathBase = {
 };
 
 export type VideoLearningPath = {
-	videos: VideoDetails[];
+	videos: VideoDetails[] | null;
 } & LearningPathBase;
 
 export type TextLearningPath = {
-	text: string;
+	text: string | null;
 } & LearningPathBase;
 
 export type FlashCardLearningPath = {
-	flashCards: FlashCard[];
+	flashCards: FlashCard[] | null;
 } & LearningPathBase;
 
 export type QuestionLearningPath = {
-	questions: Question[];
+	questions: Question[] | null;
 } & LearningPathBase;
 
 export type AudioLearningPath = {
-	numberOfAudios: number;
+	numberOfAudios: number | null;
 } & LearningPathBase;

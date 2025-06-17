@@ -17,7 +17,7 @@ export class VideoLearningPathComponent {
 	videos: VideoDetails[] = [];
 
 	ngOnInit() {
-		this.videos = (this.learningPathStudy.learningPath as VideoLearningPath).videos;
+		this.videos = (this.learningPathStudy.learningPath as VideoLearningPath).videos!;
 	}
 
 	getUrl(videoId: string): string {

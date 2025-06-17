@@ -18,7 +18,7 @@ export class FlashCardLearningPathComponent {
 	opened: boolean[] = [];
 
 	ngOnInit() {
-		this.flashCards = (this.learningPathStudy.learningPath as FlashCardLearningPath).flashCards;
+		this.flashCards = (this.learningPathStudy.learningPath as FlashCardLearningPath).flashCards!;
 		this.opened = this.flashCards.map(() => false);
 	}
 }
