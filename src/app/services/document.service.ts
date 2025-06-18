@@ -32,6 +32,10 @@ export class DocumentService {
 		return this.http.put<Document>(this.api, { documentId, name, syllabusIds });
 	}
 
+	recallAI(id: string): Observable<Document> {
+		return this.http.put<Document>(`${this.api}/recall-ai`, { id });
+	}
+
 	delete(documentId: string): Observable<void> {
 		return this.http.delete<void>(`${this.api}/${documentId}`);
 	}

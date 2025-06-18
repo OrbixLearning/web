@@ -83,6 +83,7 @@ export class DocumentPopUpComponent {
 					id: this.data!.document.id,
 					name: this.getFormControl('name').value,
 					extension: this.data!.document.extension,
+					aiStatus: this.data!.document.aiStatus,
 					syllabus: this.getFormControl('syllabus').value,
 					classroom: this.data!.document.classroom,
 				};

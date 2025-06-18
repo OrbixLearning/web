@@ -26,6 +26,7 @@ import { ArrayUtils } from '../../../../utils/Array.utils';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { download } from '../../../../utils/Download.util';
 import { Classroom } from '../../../../models/Classroom';
+import { DocumentAIUploadStatusEnum } from '../../../../enums/DocumentAIUploadStatus.enum';
 
 @Component({
 	selector: 'o-classroom-documents',
@@ -52,6 +53,7 @@ export class ClassroomDocumentsComponent {
 	isLoading: boolean = false;
 	filter: string = '';
 	markedSyllabus: Syllabus[] = [];
+	documentAIUploadStatusEnum = DocumentAIUploadStatusEnum;
 
 	ngOnInit() {
 		this.getData();
@@ -176,6 +178,17 @@ export class ClassroomDocumentsComponent {
 							this.isLoading = false;
 						});
 				}
+			});
+	}
+
+	async recallDocumentAI(document: Document) {
+		this.isLoading = true;
+		await lastValueFrom(this.service.recallAI(document.id))
+			.then(async () => {
+				await this.getData();
+			})
+			.finally(() => {
+				this.isLoading = false;
 			});
 	}
 

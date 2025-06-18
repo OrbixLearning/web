@@ -39,6 +39,17 @@
             <button mat-icon-button (click)="deleteDocument(document.id)">
                 <mat-icon>delete</mat-icon>
             </button>
+            @if (document.aiStatus === documentAIUploadStatusEnum.FAILED) {
+            <div>
+                <p>Ocorreu um erro ao alimentar a IA com este documento</p>
+                <button mat-button (click)="recallDocumentAI(document)">Tentar novamente</button>
+            </div>
+            } @else if (document.aiStatus === documentAIUploadStatusEnum.UPLOADING) {
+            <div>
+                <p>Adicionando documento à IA...</p>
+                <o-loading [isLoading]="true" [local]="true" size="30px" />
+            </div>
+            }
             }
         </div>
         }
