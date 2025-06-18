@@ -93,27 +93,61 @@ export class LearningPathComponent {
 		}
 	}
 
-	async validateLearningPath() {
-		this.isLoading = true;
-		await lastValueFrom(this.service.validateLearningPath(this.ctx.learningPathStudy!.learningPath.id, true))
-			.then((learningPath: LearningPath) => {
-				this.ctx.learningPathStudy!.learningPath = learningPath;
-			})
-			.finally(() => {
-				this.isLoading = false;
+	async validateLearningPath(valid: boolean) {
+		const data: ConfirmPopUpData = {
+			title: `Tem certeza que deseja ${valid ? 'validar' : 'invalidar'} a rota de aprendizagem "${
+				this.ctx.learningPathStudy?.learningPath.name
+			}"?`,
+			message: `Você poderá ${valid ? 'invalidar' : 'validar'} a rota de aprendizagem posteriormente.`,
+			confirmButton: valid ? 'Validar' : 'Invalidar',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async (confirmed: boolean) => {
+				if (confirmed) {
+					this.isLoading = true;
+					await lastValueFrom(
+						this.service.validateLearningPath(this.ctx.learningPathStudy!.learningPath.id, valid),
+					)
+						.then((learningPath: LearningPath) => {
+							this.ctx.learningPathStudy!.learningPath = learningPath;
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				}
 			});
 	}
 
 	async updatedLearningPathSharing() {
-		this.isLoading = true;
-		await lastValueFrom(
-			this.service.updateLearningPathSharing(
-				this.ctx.learningPathStudy!.learningPath.id,
-				this.ctx.learningPathStudy!.learningPath.shared,
-			),
-		).finally(() => {
-			this.isLoading = false;
-		});
+		const data: ConfirmPopUpData = {
+			title: `Tem certeza que deseja ${
+				this.ctx.learningPathStudy?.learningPath.shared ? 'compartilhar a' : 'remover o compartilhamento da'
+			} rota de aprendizagem "${this.ctx.learningPathStudy?.learningPath.name}"?`,
+			message: `Você poderá alterar essa configuração posteriormente.`,
+			confirmButton: this.ctx.learningPathStudy?.learningPath.shared
+				? 'Compartilhar'
+				: 'Remover compartilhamento',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async (confirmed: boolean) => {
+				if (confirmed) {
+					this.isLoading = true;
+					await lastValueFrom(
+						this.service.updateLearningPathSharing(
+							this.ctx.learningPathStudy!.learningPath.id,
+							this.ctx.learningPathStudy!.learningPath.shared,
+						),
+					).finally(() => {
+						this.isLoading = false;
+					});
+				} else {
+					this.ctx.learningPathStudy!.learningPath.shared = !this.ctx.learningPathStudy!.learningPath.shared;
+				}
+			});
 	}
 
 	async deleteLearningPath() {

@@ -20,6 +20,10 @@ import { LearningPathService } from '../../../../services/learning-path.service'
 import { ArrayUtils } from '../../../../utils/Array.utils';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathGenerationStatusEnum } from '../../../../enums/LearningPathGenerationStatus.enum';
+import {
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
+} from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 
 @Component({
 	selector: 'o-classroom-home',
@@ -158,15 +162,33 @@ export class ClassroomHomeComponent {
 	}
 
 	async updatedLearningPathSharing(learningPath: LearningPath) {
-		this.isLoading = true;
-		await lastValueFrom(this.learningPathService.updateLearningPathSharing(learningPath.id, learningPath.shared))
-			.then(() => {
-				if (learningPath.id === this.ctx.learningPathStudy?.learningPath?.id) {
-					this.ctx.learningPathStudy!.learningPath = learningPath;
+		const data: ConfirmPopUpData = {
+			title: `Tem certeza que deseja ${
+				learningPath.shared ? 'compartilhar a' : 'remover o compartilhamento da'
+			} rota de aprendizagem "${learningPath.name}"?`,
+			message: `Você poderá alterar essa configuração posteriormente.`,
+			confirmButton: learningPath.shared ? 'Compartilhar' : 'Remover compartilhamento',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async (confirmed: boolean) => {
+				if (confirmed) {
+					this.isLoading = true;
+					await lastValueFrom(
+						this.learningPathService.updateLearningPathSharing(learningPath.id, learningPath.shared),
+					)
+						.then(() => {
+							if (learningPath.id === this.ctx.learningPathStudy?.learningPath?.id) {
+								this.ctx.learningPathStudy!.learningPath = learningPath;
+							}
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				} else {
+					learningPath.shared = !learningPath.shared;
 				}
-			})
-			.finally(() => {
-				this.isLoading = false;
 			});
 	}
 

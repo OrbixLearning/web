@@ -9,9 +9,10 @@
 
     @if (ctx.learningPathStudy?.learningPath?.validated) {
     <mat-icon pTooltip="Rota validada pelo professor">check</mat-icon>
-    } @else if (ctx.isTeacher) {
-    <button mat-raised-button (click)="validateLearningPath()">
-        Validar rota
+    }
+    @if (ctx.isTeacher) {
+    <button mat-raised-button (click)="validateLearningPath(!ctx.learningPathStudy?.learningPath?.validated)">
+        {{ctx.learningPathStudy?.learningPath?.validated ? "Invalidar rota" : "Validar rota"}}
     </button>
     }
 
