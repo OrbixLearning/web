@@ -211,9 +211,9 @@ export class LearningPathCreationPopUpComponent {
 				.then((r: LearningPath) => {
 					if (r) {
 						let sucessPopUpData: SuccessPopUpData = {
-							title: 'Rota criada com sucesso!',
-							message: 'A rota foi criada com sucesso e está disponível na sua conta.',
-							buttonText: 'Conferir!',
+							title: 'Sua Rota de Aprendizagem está sendo criada!',
+							message: 'Você pode conferir o progresso na página da turma.',
+							buttonText: 'OK',
 						};
 						this.dialog
 							.open(SuccessPopUpComponent, {

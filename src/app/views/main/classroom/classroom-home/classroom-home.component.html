@@ -38,7 +38,16 @@
 
                 <div class="learning-paths">
                     <h3>Minhas rotas</h3>
-                    @for (learningPath of filteredMyLearningPaths; track learningPath.id) {
+                    @if (filteredMyNotGeneratedLearningPaths.length > 0) {
+                    <h5>Rotas em geração</h5>
+                    @for (learningPath of filteredMyNotGeneratedLearningPaths; track learningPath.id) {
+                    <o-learning-path-card [learningPath]="learningPath"
+                        (regenerate)="regenerateLearningPath(learningPath)" [mine]="true" />
+                    }
+                    <p-divider />
+                    <h5>Rotas geradas</h5>
+                    }
+                    @for (learningPath of filteredMyGeneratedLearningPaths; track learningPath.id) {
                     <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
                         (sharedChange)="updatedLearningPathSharing(learningPath)" [mine]="true" />
                     }

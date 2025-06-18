@@ -19,6 +19,7 @@ import { ContextService } from '../../../../services/context.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
+import { LearningPathGenerationStatusEnum } from '../../../../enums/LearningPathGenerationStatus.enum';
 
 @Component({
 	selector: 'o-classroom-home',
@@ -54,7 +55,6 @@ export class ClassroomHomeComponent {
 	ngOnInit() {
 		// This is used to update the data when the classroomId changes in the URL
 		this.route.params.subscribe(params => {
-			this.resetData();
 			this.getData();
 		});
 	}
@@ -63,6 +63,7 @@ export class ClassroomHomeComponent {
 		return '/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id;
 	}
 
+	// TODO: Study the best and more performant way to filter the learning paths (maybe backend filtering)
 	get teacherLearningPaths(): LearningPath[] {
 		return this.sharedLearningPaths.filter(learningPath => !this.studentLearningPaths.includes(learningPath));
 	}
@@ -75,6 +76,18 @@ export class ClassroomHomeComponent {
 
 	get filteredMyLearningPaths(): LearningPath[] {
 		return this.myLearningPaths.filter(this.filterLearningPath);
+	}
+
+	get filteredMyGeneratedLearningPaths(): LearningPath[] {
+		return this.filteredMyLearningPaths.filter(
+			learningPath => learningPath.generation.status === LearningPathGenerationStatusEnum.GENERATED,
+		);
+	}
+
+	get filteredMyNotGeneratedLearningPaths(): LearningPath[] {
+		return this.filteredMyLearningPaths.filter(
+			learningPath => learningPath.generation.status !== LearningPathGenerationStatusEnum.GENERATED,
+		);
 	}
 
 	get filteredStudentLearningPaths(): LearningPath[] {
@@ -108,6 +121,7 @@ export class ClassroomHomeComponent {
 
 	async getData() {
 		this.isLoading = true;
+		this.resetData();
 		Promise.all([
 			lastValueFrom(this.learningPathService.getUserLearningPathsByClassroom(this.ctx.classroom?.id!)),
 			lastValueFrom(this.learningPathService.getClassroomSharedLearningPaths(this.ctx.classroom?.id!)),
@@ -135,7 +149,6 @@ export class ClassroomHomeComponent {
 			.subscribe((res: LearningPath | undefined) => {
 				if (res) {
 					this.myLearningPaths = [res, ...this.myLearningPaths];
-					this.goToLearningPath(res);
 				}
 			});
 	}
@@ -151,6 +164,17 @@ export class ClassroomHomeComponent {
 				if (learningPath.id === this.ctx.learningPathStudy?.learningPath?.id) {
 					this.ctx.learningPathStudy!.learningPath = learningPath;
 				}
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
+
+	async regenerateLearningPath(learningPath: LearningPath) {
+		this.isLoading = true;
+		await lastValueFrom(this.learningPathService.regenerateLearningPath(learningPath.id))
+			.then(async () => {
+				await this.getData();
 			})
 			.finally(() => {
 				this.isLoading = false;

@@ -46,6 +46,10 @@ export class LearningPathService {
 		return this.http.post<LearningPath>(`${this.api}/${endpoint}`, requestBody);
 	}
 
+	regenerateLearningPath(id: string): Observable<LearningPath> {
+		return this.http.put<LearningPath>(`${this.api}/regenerate`, { id });
+	}
+
 	// DELETE
 
 	delete(learningPathId: string): Observable<void> {
