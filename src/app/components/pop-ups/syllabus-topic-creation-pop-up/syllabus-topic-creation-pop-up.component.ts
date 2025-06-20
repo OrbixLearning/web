@@ -41,7 +41,6 @@ export class SyllabusTopicCreationPopUpComponent {
 
 	form: FormGroup = this.formBuilder.group({
 		name: ['', Validators.required],
-		description: [''],
 		parent: this.formBuilder.control<Syllabus | undefined>(undefined),
 		index: [this.data.syllabus ? this.data.syllabus.length : 0, Validators.required],
 	});
@@ -85,7 +84,6 @@ export class SyllabusTopicCreationPopUpComponent {
 			const topic: Syllabus = {
 				id: null,
 				name: this.getFormControl('name').value,
-				description: this.getFormControl('description').value,
 				topics: [],
 				documents: [],
 				classroom: null,
