@@ -18,7 +18,6 @@ export type LearningPath =
 type LearningPathBase = {
 	id: string;
 	name: string;
-	icon: string;
 	language: string;
 	shared: boolean;
 	validated: boolean;

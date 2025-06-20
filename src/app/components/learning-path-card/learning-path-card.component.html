@@ -1,5 +1,4 @@
 <p-card [header]="learningPath.name">
-    <mat-icon>{{learningPath.icon}}</mat-icon>
     @if (generated) {
     <button mat-button (click)="cardClick.emit()" style="width: auto; height: auto; padding: 0">
         <p class="m-0">
