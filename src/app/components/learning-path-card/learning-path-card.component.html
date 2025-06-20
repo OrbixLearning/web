@@ -28,6 +28,7 @@
     <div>
         <mat-icon>error</mat-icon>
         <p>Ocorreu um erro ao gerar sua rota</p>
+        <p style="color:red">{{learningPath.generation.errorMessage}}</p>
         <button mat-button (click)="regenerate.emit()">Gerar novamente</button>
     </div>
     }
