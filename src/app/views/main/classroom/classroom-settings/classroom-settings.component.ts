@@ -254,6 +254,7 @@ export class ClassroomSettingsComponent {
 			.then((c: Classroom) => {
 				this.ctx.classroom = c;
 				this.syllabus = c.syllabus; // Trigger change detection
+				this.syllabusDocument = undefined;
 			})
 			.finally(() => {
 				this.isLoading = false;
