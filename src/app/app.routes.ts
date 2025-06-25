@@ -4,6 +4,7 @@ import { classroomGuard } from './guards/classroom.guard';
 import { institutionGuard } from './guards/institution.guard';
 import { learningPathStudyGuard } from './guards/learning-path-study.guard';
 import { institutionAdminGuard } from './guards/institution-admin.guard';
+import { classroomTeacherGuard } from './guards/classroom-teacher.guard';
 
 export const routes: Routes = [
 	{
@@ -90,6 +91,7 @@ export const routes: Routes = [
 									import(
 										'./views/main/classroom/classroom-settings/classroom-settings.component'
 									).then(m => m.ClassroomSettingsComponent),
+								canActivate: [classroomTeacherGuard],
 							},
 							{
 								path: 'dashboard',
@@ -97,6 +99,7 @@ export const routes: Routes = [
 									import(
 										'./views/main/classroom/classroom-dashboard/classroom-dashboard.component'
 									).then(m => m.ClassroomDashboardComponent),
+								canActivate: [classroomTeacherGuard],
 							},
 							{
 								path: 'members',
