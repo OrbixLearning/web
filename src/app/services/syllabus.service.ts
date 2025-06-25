@@ -12,6 +12,6 @@ export class SyllabusService {
 	http: HttpClient = inject(HttpClient);
 
 	save(classroomId: string, syllabusList: Syllabus[]): Observable<Syllabus[]> {
-		return this.http.post<Syllabus[]>(this.api, { classroomId, syllabusList });
+		return this.http.post<Syllabus[]>(`${this.api}/${classroomId}`, { syllabusList });
 	}
 }

@@ -33,7 +33,7 @@ export class DocumentService {
 	}
 
 	recallAI(id: string): Observable<Document> {
-		return this.http.put<Document>(`${this.api}/recall-ai`, { id });
+		return this.http.put<Document>(`${this.api}/recall-ai/${id}`, {});
 	}
 
 	delete(documentId: string): Observable<void> {

@@ -141,7 +141,7 @@ export class ClassroomSettingsComponent {
 					};
 					this.presets?.push(preset);
 					this.isLoading = true;
-					await lastValueFrom(this.service.updatePresets(this.presets!, this.ctx.classroom!.id)).finally(
+					await lastValueFrom(this.service.updatePresets(this.ctx.classroom!.id, this.presets!)).finally(
 						() => {
 							this.isLoading = false;
 						},

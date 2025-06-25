@@ -45,8 +45,7 @@ export class UserService {
 		idInInstitution: string,
 		institutionRole: InstitutionRoleEnum,
 	): Observable<UserAccount> {
-		return this.http.put<UserAccount>(`${this.api}/account`, {
-			id,
+		return this.http.put<UserAccount>(`${this.api}/account/${id}`, {
 			email,
 			idInInstitution,
 			institutionRole,
@@ -58,7 +57,7 @@ export class UserService {
 	}
 
 	resetUserAccountPassword(id: string, password: string): Observable<void> {
-		return this.http.put<void>(`${this.api}/account-password-reset`, { id, password });
+		return this.http.put<void>(`${this.api}/account-password-reset/${id}`, { password });
 	}
 
 	createInstitutionalAccount(

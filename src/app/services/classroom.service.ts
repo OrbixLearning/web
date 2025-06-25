@@ -32,25 +32,25 @@ export class ClassroomService {
 	}
 
 	create(institutionId: string, name: string, icon: string): Observable<Classroom> {
-		return this.http.post<Classroom>(this.api, { institutionId, name, icon });
+		return this.http.post<Classroom>(`${this.api}/${institutionId}`, { name, icon });
 	}
 
 	removeMember(classroomId: string, userAccountId: string): Observable<Classroom> {
-		return this.http.put<Classroom>(`${this.api}/remove-member`, { classroomId, userAccountId });
+		return this.http.put<Classroom>(`${this.api}/${classroomId}/remove-member/${userAccountId}`, {});
 	}
 
 	addUsersToClassroom(classroomId: string, userAccountsIds: string[]): Observable<{ errorStrings: string[] }> {
-		return this.http.put<{ errorStrings: string[] }>(`${this.api}/classroom/${classroomId}/add-to-classroom`, {
+		return this.http.put<{ errorStrings: string[] }>(`${this.api}/add-to-classroom/${classroomId}`, {
 			userAccountsIds,
 		});
 	}
 
 	update(classroomId: string, name: string, icon: string): Observable<Classroom> {
-		return this.http.put<Classroom>(this.api, { classroomId, name, icon });
+		return this.http.put<Classroom>(`${this.api}/${classroomId}`, { name, icon });
 	}
 
-	updatePresets(presets: SyllabusPreset[], classroomId: string): Observable<Classroom> {
-		return this.http.put<Classroom>(`${this.api}/presets`, { presets, classroomId });
+	updatePresets(classroomId: string, presets: SyllabusPreset[]): Observable<Classroom> {
+		return this.http.put<Classroom>(`${this.api}/presets/${classroomId}`, { presets });
 	}
 
 	uploadSyllabusDocument(classroomId: string, file: File): Observable<Classroom> {

@@ -33,11 +33,11 @@ export class LearningPathService {
 	// UPDATE
 
 	updateLearningPathSharing(id: string, share: boolean): Observable<LearningPath> {
-		return this.http.put<LearningPath>(`${this.api}/share`, { id, share });
+		return this.http.put<LearningPath>(`${this.api}/share/${id}`, { share });
 	}
 
 	validateLearningPath(id: string, validate: boolean): Observable<LearningPath> {
-		return this.http.put<LearningPath>(`${this.api}/validate`, { id, validate });
+		return this.http.put<LearningPath>(`${this.api}/validate/${id}`, { validate });
 	}
 
 	// GENERATION
@@ -47,7 +47,7 @@ export class LearningPathService {
 	}
 
 	regenerateLearningPath(id: string): Observable<LearningPath> {
-		return this.http.put<LearningPath>(`${this.api}/regenerate`, { id });
+		return this.http.put<LearningPath>(`${this.api}/regenerate/${id}`, {});
 	}
 
 	// DELETE

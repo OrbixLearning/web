@@ -24,7 +24,7 @@ export class SyllabusPresetDeletionPopUpComponent {
 
 	async deletePreset(preset: SyllabusPreset) {
 		this.presets = this.presets.filter(p => p !== preset);
-		await lastValueFrom(this.classroomService.updatePresets(this.presets, this.ctx.classroom!.id))
+		await lastValueFrom(this.classroomService.updatePresets(this.ctx.classroom!.id, this.presets))
 			.then((c: Classroom) => {
 				this.ctx.classroom = c;
 			})
