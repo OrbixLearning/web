@@ -69,6 +69,7 @@ export class HeaderComponent {
 	}
 
 	get profilePictureUrl(): string {
+		if (!this.ctx.user) return '';
 		return this.userService.getProfilePictureUrl(this.ctx.user!.id);
 	}
 

@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { CanActivateFn } from '@angular/router';
 
-import { learningPathGuard } from './learning-path.guard';
+import { learningPathStudyGuard } from './learning-path-study.guard';
 
-describe('learningPathGuard', () => {
+describe('learningPathStudyGuard', () => {
 	const executeGuard: CanActivateFn = (...guardParameters) =>
-		TestBed.runInInjectionContext(() => learningPathGuard(...guardParameters));
+		TestBed.runInInjectionContext(() => learningPathStudyGuard(...guardParameters));
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({});

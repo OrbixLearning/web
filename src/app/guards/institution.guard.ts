@@ -1,10 +1,11 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { ContextService } from '../services/context.service';
+import { getParamFromRouteTree } from '../utils/guard.utils';
 
 export const institutionGuard: CanActivateFn = async (route, state) => {
 	const router = inject(Router);
-	let institutionId = route.params['institutionId'];
+	const institutionId = getParamFromRouteTree(route, 'institutionId');
 	const ctx = inject(ContextService);
 	try {
 		if (!institutionId) {

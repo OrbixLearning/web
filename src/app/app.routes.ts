@@ -2,7 +2,8 @@ import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 import { classroomGuard } from './guards/classroom.guard';
 import { institutionGuard } from './guards/institution.guard';
-import { learningPathGuard } from './guards/learning-path.guard';
+import { learningPathStudyGuard } from './guards/learning-path-study.guard';
+import { institutionAdminGuard } from './guards/institution-admin.guard';
 
 export const routes: Routes = [
 	{
@@ -52,6 +53,7 @@ export const routes: Routes = [
 							import('./views/main/institution/institution-settings/institution-settings.component').then(
 								m => m.InstitutionSettingsComponent,
 							),
+						canActivate: [institutionAdminGuard],
 					},
 					{
 						path: 'users',
@@ -59,6 +61,7 @@ export const routes: Routes = [
 							import('./views/main/institution/institution-users/institution-users.component').then(
 								m => m.InstitutionUsersComponent,
 							),
+						canActivate: [institutionAdminGuard],
 					},
 					{
 						path: 'classrooms',
@@ -66,6 +69,7 @@ export const routes: Routes = [
 							import(
 								'./views/main/institution/institution-classrooms/institution-classrooms.component'
 							).then(m => m.InstitutionClassroomsComponent),
+						canActivate: [institutionAdminGuard],
 					},
 					{
 						path: 'c/:classroomId',
@@ -114,7 +118,7 @@ export const routes: Routes = [
 									import('./views/main/learning-path/learning-path.component').then(
 										m => m.LearningPathComponent,
 									),
-								canActivate: [learningPathGuard],
+								canActivate: [learningPathStudyGuard],
 							},
 						],
 					},

@@ -1,13 +1,14 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
+import { LearningPathGenerationStatusEnum } from '../enums/LearningPathGenerationStatus.enum';
 import { ContextService } from '../services/context.service';
 import { LearningPathStudyService } from '../services/learning-path-study.service';
-import { LearningPathGenerationStatusEnum } from '../enums/LearningPathGenerationStatus.enum';
+import { getParamFromRouteTree } from '../utils/guard.utils';
 
-export const learningPathGuard: CanActivateFn = async (route, state) => {
+export const learningPathStudyGuard: CanActivateFn = async (route, state) => {
 	const router = inject(Router);
-	let learningPathId = route.params['learningPathId'];
+	const learningPathId = getParamFromRouteTree(route, 'learningPathId');
 	const ctx = inject(ContextService);
 	const service = inject(LearningPathStudyService);
 	try {
@@ -24,8 +25,8 @@ export const learningPathGuard: CanActivateFn = async (route, state) => {
 		return true;
 	} catch (e) {
 		ctx.clearLearningPathStudy();
-		let institutionId = route.params['institutionId'];
-		let classroomId = route.params['classroomId'];
+		const institutionId = getParamFromRouteTree(route, 'institutionId');
+		const classroomId = getParamFromRouteTree(route, 'classroomId');
 		router.navigateByUrl('/i/' + institutionId + '/c/' + classroomId);
 		return false;
 	}
