@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
 import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
@@ -47,6 +47,7 @@ export class ProfileComponent {
 	router: Router = inject(Router);
 	dialog: MatDialog = inject(MatDialog);
 	theme: ThemeService = inject(ThemeService);
+	route: ActivatedRoute = inject(ActivatedRoute);
 
 	isLoading: boolean = false;
 	picture?: File;
@@ -57,13 +58,13 @@ export class ProfileComponent {
 	creatorEnum: InstitutionRoleEnum = InstitutionRoleEnum.CREATOR;
 	readonly MAX_IMAGE_SIZE: number = environment.MAX_IMAGE_SIZE;
 
-	constructor() {
-		const urlSegments = this.router.url.split('/');
-		this.userId = urlSegments.length > 2 ? urlSegments[2] : undefined;
-	}
-
 	ngOnInit() {
-		this.getUserData();
+		// This is used to update the data when the userId changes in the URL
+		this.route.params.subscribe(params => {
+			const urlSegments = this.router.url.split('/');
+			this.userId = urlSegments.length > 2 ? urlSegments[2] : undefined;
+			this.getUserData();
+		});
 	}
 
 	getFormControl(name: string): FormControl {
