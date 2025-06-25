@@ -18,8 +18,8 @@ export class UserService {
 		return this.http.get<User>(`${this.api}/${id}`);
 	}
 
-	getAmountOfClassroomsInInstitution(id: string): Observable<number> {
-		return this.http.get<number>(`${this.api}/classrooms-amount/${id}`);
+	getAmountOfClassroomsInInstitutionByUserAccount(userAccountId: string, institutionId: string): Observable<number> {
+		return this.http.get<number>(`${this.api}/${userAccountId}/classrooms-amount/${institutionId}`);
 	}
 
 	getProfilePictureUrl(userId: string): string {

@@ -54,7 +54,7 @@
             <p>Emails</p>
 
             @for (account of sortedAccounts; track account.id) {
-            <o-account-card [email]="account.email" [institution]="account.institution"
+            <o-account-card [userAccountId]="account.id" [email]="account.email" [institution]="account.institution"
                 [institutionRole]="account.institutionRole" [idInInstitution]="account.idInInstitution" />
             }
 

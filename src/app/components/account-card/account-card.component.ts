@@ -2,9 +2,9 @@ import { Component, inject, Input } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
 import { Institution } from '../../models/Institution';
+import { InstitutionService } from '../../services/institution.service';
 import { UserService } from '../../services/user.service';
 import { LoadingComponent } from '../loading/loading.component';
-import { InstitutionService } from '../../services/institution.service';
 
 @Component({
 	selector: 'o-account-card',
@@ -16,6 +16,7 @@ export class AccountCardComponent {
 	service: UserService = inject(UserService);
 	institutionService: InstitutionService = inject(InstitutionService);
 
+	@Input() userAccountId?: string;
 	@Input() email?: string;
 	@Input() institution?: Institution | null;
 	@Input() institutionRole?: InstitutionRoleEnum | null;
@@ -33,9 +34,11 @@ export class AccountCardComponent {
 	}
 
 	async getData() {
-		if (this.institution?.id) {
+		if (this.institution?.id && this.userAccountId) {
 			this.isLoading = true;
-			await lastValueFrom(this.service.getAmountOfClassroomsInInstitution(this.institution.id))
+			await lastValueFrom(
+				this.service.getAmountOfClassroomsInInstitutionByUserAccount(this.userAccountId, this.institution.id),
+			)
 				.then(amount => {
 					this.amountOfClassrooms = amount;
 				})
