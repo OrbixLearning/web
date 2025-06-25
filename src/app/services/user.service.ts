@@ -61,18 +61,17 @@ export class UserService {
 	}
 
 	createInstitutionalAccount(
+		institutionId: string,
 		email: string,
 		name: string,
 		password: string,
-		institutionId: string,
 		role: InstitutionRoleEnum,
 		idInInstitution: string,
 	): Observable<UserAccount> {
-		return this.http.post<UserAccount>(this.api, {
+		return this.http.post<UserAccount>(`${this.api}/${institutionId}`, {
 			email,
 			name,
 			password,
-			institutionId,
 			role,
 			idInInstitution,
 		});

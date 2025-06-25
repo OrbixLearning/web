@@ -13,7 +13,7 @@ export class ReportService {
 	http: HttpClient = inject(HttpClient);
 
 	getUserReports(): Observable<Report[]> {
-		return this.http.get<Report[]>(`${this.api}/user`);
+		return this.http.get<Report[]>(this.api);
 	}
 
 	create(title: string, description: string, type: ReportTypeEnum): Observable<Report> {
