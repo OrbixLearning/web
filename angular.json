@@ -1,10 +1,10 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "cli": {
-    "cache": {
-      "enabled": false
-    }
-  },
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"cli": {
+		"cache": {
+			"enabled": false
+		}
+	},
 	"version": 1,
 	"newProjectRoot": "projects",
 	"projects": {
@@ -71,6 +71,18 @@
 								}
 							]
 						},
+
+						"doc": {
+							"optimization": false,
+							"extractLicenses": false,
+							"sourceMap": true,
+							"fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.doc.ts"
+								}
+							]
+						},
 						"dev": {
 							"optimization": false,
 							"extractLicenses": false,
@@ -93,6 +105,9 @@
 						},
 						"hom": {
 							"buildTarget": "web:build:hom"
+						},
+						"doc": {
+							"buildTarget": "web:build:doc"
 						},
 						"dev": {
 							"buildTarget": "web:build:dev"
