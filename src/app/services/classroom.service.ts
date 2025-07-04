@@ -61,7 +61,7 @@ export class ClassroomService {
 	}
 
 	getSyllabusDocument(classroomId: string, documentName: string): Observable<Blob> {
-		return this.http.get(`${this.api}/${classroomId}/${documentName}`, { responseType: 'blob' });
+		return this.http.get(`${this.api}/syllabus-document/${classroomId}/${documentName}`, { responseType: 'blob' });
 	}
 
 	deleteSyllabusDocument(classroomId: string): Observable<Classroom> {
