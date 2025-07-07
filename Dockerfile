@@ -22,6 +22,8 @@ RUN npm run build -- --configuration=$CONFIG
 
 FROM nginx:latest
 
+ARG CONFIG=doc
+
 COPY --from=builder /app/dist/web /usr/share/nginx/html
 
 COPY devops/$CONFIG/nginx.conf /etc/nginx/conf.d/default.conf
