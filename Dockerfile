@@ -24,4 +24,4 @@ FROM nginx:latest
 
 COPY --from=builder /app/dist/web /usr/share/nginx/html
 
-COPY devops/nginx.conf /etc/nginx/conf.d/default.conf
+COPY devops/$CONFIG/nginx.conf /etc/nginx/conf.d/default.conf
