@@ -22,8 +22,12 @@ export class UserService {
 		return this.http.get<number>(`${this.api}/${userAccountId}/classrooms-amount/${institutionId}`);
 	}
 
-	getProfilePictureUrl(userId: string): string {
-		return `${this.api}/profilePicture/${userId}?v=${this.imageCacheBuster}`;
+	getProfilePictureUrl(user: User): string {
+		if (!user.profilePictureUrl) {
+			return `${this.api}/profilePicture/${user.id}?v=${this.imageCacheBuster}`;
+		} else {
+			return user.profilePictureUrl + `?v=${this.imageCacheBuster}`;
+		}
 	}
 
 	private bustImageCache() {

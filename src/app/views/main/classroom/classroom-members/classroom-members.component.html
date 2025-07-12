@@ -18,7 +18,7 @@
             <tr>
                 <td>
                     <button mat-button [routerLink]="['/profile/' + student.user.id]">
-                        <img [src]="getProfilePictureUrl(student.user.id)" alt="Profile Picture"
+                        <img [src]="getProfilePictureUrl(student.user)" alt="Profile Picture"
                             class="profile-picture" />
                     </button>
                 </td>
@@ -43,7 +43,7 @@
             <tr>
                 <td>
                     <button mat-button [routerLink]="['/profile/' + teacher.user.id]">
-                        <img [src]="getProfilePictureUrl(teacher.user.id)" alt="Profile Picture"
+                        <img [src]="getProfilePictureUrl(teacher.user)" alt="Profile Picture"
                             class="profile-picture" />
                     </button>
                 </td>

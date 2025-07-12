@@ -103,7 +103,7 @@ export class ProfileComponent {
 	}
 
 	get profilePictureUrl(): string {
-		return this.service.getProfilePictureUrl(this.userId!);
+		return this.service.getProfilePictureUrl(this.user!);
 	}
 
 	async getUserData() {

@@ -7,7 +7,7 @@ import { TableModule } from 'primeng/table';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { AddMemberToClassroomPopUpComponent } from '../../../../components/pop-ups/add-member-to-classroom-pop-up/add-member-to-classroom-pop-up.component';
-import { UserAccount } from '../../../../models/User';
+import { User, UserAccount } from '../../../../models/User';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
@@ -40,8 +40,8 @@ export class ClassroomMembersComponent {
 		this.getData();
 	}
 
-	getProfilePictureUrl(userId: string): string {
-		return this.userService.getProfilePictureUrl(userId);
+	getProfilePictureUrl(user: User): string {
+		return this.userService.getProfilePictureUrl(user);
 	}
 
 	async getData() {

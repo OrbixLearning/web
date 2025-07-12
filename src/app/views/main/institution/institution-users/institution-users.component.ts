@@ -18,7 +18,7 @@ import { PasswordResetPopUpComponent } from '../../../../components/pop-ups/pass
 import { UserCreationPopUpComponent } from '../../../../components/pop-ups/user-creation-pop-up/user-creation-pop-up.component';
 import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
 import { Page } from '../../../../models/Page';
-import { UserAccount } from '../../../../models/User';
+import { User, UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
 
@@ -62,8 +62,8 @@ export class InstitutionUsersComponent {
 		};
 	}
 
-	getProfilePictureUrl(userId: string): string {
-		return this.service.getProfilePictureUrl(userId);
+	getProfilePictureUrl(user: User): string {
+		return this.service.getProfilePictureUrl(user);
 	}
 
 	async getAccounts(event?: TableLazyLoadEvent) {
