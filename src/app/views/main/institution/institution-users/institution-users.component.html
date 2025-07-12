@@ -103,7 +103,10 @@
                 </p-cellEditor>
             </td>
             <td>
-                <button mat-raised-button (click)="resetPassword(account)" style="height: 30px">
+                <!-- TODO: This feature is temporarily disabled. Enable it when card #24 is done -->
+                <button mat-raised-button (click)="resetPassword(account)" style="height: 30px" [disabled]="true"
+                    style="pointer-events: auto"
+                    pTooltip="Esta funcionalidade está temporariamente desativada. Contate o administrador do sistema para redefinir a senha.">
                     Redefinir senha
                 </button>
             </td>

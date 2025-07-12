@@ -8,6 +8,7 @@ import { FilterMetadata } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
@@ -33,6 +34,7 @@ import { UserService } from '../../../../services/user.service';
 		RouterModule,
 		LoadingComponent,
 		InputTextModule,
+		TooltipModule,
 	],
 	templateUrl: './institution-users.component.html',
 	styleUrl: './institution-users.component.scss',

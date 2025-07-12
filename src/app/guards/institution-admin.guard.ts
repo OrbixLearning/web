@@ -8,7 +8,7 @@ export const institutionAdminGuard: CanActivateFn = async (route, state) => {
 	const router = inject(Router);
 	const ctx = inject(ContextService);
 	try {
-		if (!ctx.institutionRoles === undefined) {
+		if (ctx.institutionRoles === undefined) {
 			await ctx.loadInstitutionRoles();
 		}
 
