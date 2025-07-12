@@ -19,11 +19,18 @@ export class DocumentService {
 		return this.http.get<Document[]>(`${this.api}/classroom/${classroomId}`);
 	}
 
-	uploadFile(name: string, syllabusIds: string[], classroomId: string, file: File): Observable<Document> {
+	uploadFile(
+		name: string,
+		syllabusIds: string[],
+		classroomId: string,
+		feedAi: boolean,
+		file: File,
+	): Observable<Document> {
 		let formData = new FormData();
 		formData.append('file', file);
 		formData.append('name', name);
 		formData.append('classroomId', classroomId);
+		formData.append('feedAi', String(feedAi));
 		syllabusIds.forEach(id => formData.append('syllabusIds', id));
 		return this.http.post<Document>(this.api, formData);
 	}

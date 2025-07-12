@@ -103,6 +103,7 @@ export class ClassroomDocumentsComponent {
 							response.name,
 							response.syllabusIds,
 							this.ctx.classroom!.id,
+                            response.feedAi,
 							response.file,
 						),
 					)

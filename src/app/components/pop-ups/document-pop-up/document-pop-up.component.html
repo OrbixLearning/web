@@ -24,6 +24,12 @@
     <o-syllabus [syllabus]="ctx.classroom?.syllabus" [preMarkedSyllabus]="data?.document!.syllabus" mode="checkbox"
         (syllabusMarked)="markSyllabus($event)" [presets]="ctx.classroom?.presets" />
 
+    <!-- TODO: This feature is temporarily disabled. Enable it when card #15 is done -->
+    <mat-checkbox style="pointer-events: auto" formControlName="feedAi" [disabled]="true"
+        pTooltip="Esta funcionalidade está temporariamente desativada.">
+        Treinar IA
+    </mat-checkbox>
+
     <o-pop-up-buttons [disable]="form.invalid" type="submit"
         [confirmButton]="(editMode ? 'Editar' : 'Adicionar') + ' documento'" />
 </form>

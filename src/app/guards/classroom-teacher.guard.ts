@@ -8,7 +8,7 @@ export const classroomTeacherGuard: CanActivateFn = async (route, state) => {
 	const router = inject(Router);
 	const ctx = inject(ContextService);
 	try {
-		if (!ctx.institutionRoles === undefined) {
+		if (ctx.institutionRoles === undefined) {
 			await ctx.loadInstitutionRoles();
 		}
 
@@ -19,7 +19,8 @@ export const classroomTeacherGuard: CanActivateFn = async (route, state) => {
 		);
 	} catch (e) {
 		const institutionId = getParamFromRouteTree(route, 'institutionId');
-		router.navigateByUrl('/i/' + institutionId);
+		const classroomId = getParamFromRouteTree(route, 'classroomId');
+		router.navigateByUrl('/i/' + institutionId + '/c/' + classroomId);
 		return false;
 	}
 };

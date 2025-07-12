@@ -1,22 +1,26 @@
 import { Component, inject } from '@angular/core';
-import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
-import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
-import { SyllabusComponent } from '../../syllabus/syllabus.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ContextService } from '../../../services/context.service';
-import { Syllabus } from '../../../models/Syllabus';
-import { Document } from '../../../models/Document';
+import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
+import { TooltipModule } from 'primeng/tooltip';
 import { environment } from '../../../../environments/environment';
+import { DocumentAIUploadStatusEnum } from '../../../enums/DocumentAIUploadStatus.enum';
+import { Document } from '../../../models/Document';
+import { Syllabus } from '../../../models/Syllabus';
+import { ContextService } from '../../../services/context.service';
+import { SyllabusComponent } from '../../syllabus/syllabus.component';
+import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
+import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 
 export type UploadDocumentPopUpResponse = {
 	name: string;
 	syllabusIds: string[];
+	feedAi: boolean;
 	file: File;
 };
 
@@ -32,6 +36,8 @@ export type UploadDocumentPopUpResponse = {
 		MatButtonModule,
 		MatIconModule,
 		MatInputModule,
+		MatCheckboxModule,
+		TooltipModule,
 	],
 	templateUrl: './document-pop-up.component.html',
 	styleUrl: './document-pop-up.component.scss',
@@ -46,6 +52,7 @@ export class DocumentPopUpComponent {
 		name: ['', Validators.required],
 		file: this.formBuilder.control<File | undefined>(undefined, Validators.required),
 		syllabus: this.formBuilder.control<Syllabus[]>([]),
+		feedAi: this.formBuilder.control<boolean>(false),
 	});
 	editMode: boolean = this.data?.document !== undefined;
 	readonly MAX_PDF_SIZE: number = environment.MAX_PDF_SIZE;
@@ -55,7 +62,13 @@ export class DocumentPopUpComponent {
 			this.getFormControl('name').setValue(this.data!.document.name);
 			this.getFormControl('file').setValidators([]);
 			this.getFormControl('syllabus').setValue(this.data!.document.syllabus || []);
+			this.getFormControl('feedAi').setValue(
+				this.data!.document.aiStatus !== DocumentAIUploadStatusEnum.NOT_UPLOADED,
+			);
 		}
+
+		// TODO: This feature is temporarily disabled. Enable it when card #15 is done
+		this.getFormControl('feedAi').disable();
 	}
 
 	getFormControl(name: string): FormControl {
@@ -91,6 +104,7 @@ export class DocumentPopUpComponent {
 				response = {
 					name: this.getFormControl('name').value,
 					syllabusIds: (this.getFormControl('syllabus').value as Syllabus[]).map(s => s.id!),
+					feedAi: this.getFormControl('feedAi').value,
 					file: this.getFormControl('file').value,
 				};
 			}

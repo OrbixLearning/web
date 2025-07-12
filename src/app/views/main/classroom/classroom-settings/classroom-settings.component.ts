@@ -61,8 +61,12 @@ export class ClassroomSettingsComponent {
 	isLoading: boolean = false;
 	form: FormGroup = this.formBuilder.group({});
 	hadSyllabus: boolean = this.ctx.classroom?.syllabus ? true : false;
-	syllabus: Syllabus[] | undefined = this.ctx.classroom?.syllabus;
-	presets: SyllabusPreset[] | undefined = this.ctx.classroom?.presets;
+	syllabus: Syllabus[] | undefined = this.ctx.classroom?.syllabus
+		? Object.assign([], this.ctx.classroom?.syllabus)
+		: undefined;
+	presets: SyllabusPreset[] | undefined = this.ctx.classroom?.presets
+		? Object.assign([], this.ctx.classroom?.presets)
+		: undefined;
 	markedSyllabus: Syllabus[] = [];
 	MAX_FILE_SIZE: number = environment.MAX_PDF_SIZE;
 	syllabusDocument?: File;
@@ -93,6 +97,9 @@ export class ClassroomSettingsComponent {
 
 	get disableSyllabusSaveButton(): boolean {
 		if (this.isLoading) {
+			return true;
+		}
+		if (!this.syllabus || this.syllabus.length === 0) {
 			return true;
 		}
 		if (!this.hadSyllabus && !this.syllabus) {
