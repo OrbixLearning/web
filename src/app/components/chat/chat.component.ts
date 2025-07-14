@@ -1,16 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { ContextService } from '../../services/context.service';
-import { AIChatMessage } from '../../models/AIChatMessage';
-import { AIChatService } from '../../services/aichat.service';
-import { lastValueFrom } from 'rxjs';
-import { LoadingComponent } from '../loading/loading.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MarkdownModule } from 'ngx-markdown';
+import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute } from '@angular/router';
+import { MarkdownModule } from 'ngx-markdown';
+import { lastValueFrom } from 'rxjs';
+import { AIChatMessage } from '../../models/AIChatMessage';
+import { AIChatService } from '../../services/aichat.service';
+import { ContextService } from '../../services/context.service';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
 	selector: 'o-chat',

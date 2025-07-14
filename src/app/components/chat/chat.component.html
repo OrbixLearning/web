@@ -6,15 +6,18 @@
         <div class="messages">
             @for (message of messages; track message.content) {
             @if (message.userMessage) {
-            <p>{{message.content}}</p>
+            <div class="user-message-div">
+                <p class=" user-message">{{message.content}}</p>
+            </div>
             } @else {
-            <markdown>{{message.content}}</markdown>
+            <div class="assistant-message-div">
+                <markdown class="assistant-message">{{message.content}}</markdown>
+            </div>
             }
             }
-
         </div>
         @if (isSending) {
-        <p>Pensando...</p>
+        <p class="thinking">Pensando...</p>
         }
         } @else {
         <div class="empty-chat">
@@ -29,7 +32,7 @@
         <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <input matInput [(ngModel)]="input" placeholder="Escrever..." [disabled]="isSending" />
         </mat-form-field>
-        <button mat-icon-button (click)="sendMessage()" [disabled]="isInputEmpty || isSending">
+        <button mat-icon-button (click)="sendMessage()" [disabled]="isInputEmpty || isSending" type="submit">
             <mat-icon>{{isSending ? 'stop' : 'send'}}</mat-icon>
         </button>
     </div>
