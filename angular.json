@@ -61,9 +61,19 @@
 							]
 						},
 						"hom": {
-							"optimization": false,
-							"extractLicenses": false,
-							"sourceMap": true,
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "150MB",
+									"maximumError": "500MB"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "4MB",
+									"maximumError": "8MB"
+								}
+							],
+							"outputHashing": "all",
 							"fileReplacements": [
 								{
 									"replace": "src/environments/environment.ts",
