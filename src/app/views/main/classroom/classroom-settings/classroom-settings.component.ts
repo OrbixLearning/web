@@ -243,7 +243,7 @@ export class ClassroomSettingsComponent {
 	async uploadSyllabusDocument() {
 		if (this.ctx.classroom?.syllabus && this.ctx.classroom?.syllabus.length > 0) {
 			const data: ConfirmPopUpData = {
-				title: 'Tem certeza que deseja alterar a definição curricular?',
+				title: 'Tem certeza que deseja alterar a ementa?',
 				message: 'A ementa atual será substituída.',
 				confirmButton: 'Confirmar',
 				cancelButton: 'Cancelar',

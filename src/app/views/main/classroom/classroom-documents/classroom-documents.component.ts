@@ -103,7 +103,7 @@ export class ClassroomDocumentsComponent {
 							response.name,
 							response.syllabusIds,
 							this.ctx.classroom!.id,
-                            response.feedAi,
+							response.feedAi,
 							response.file,
 						),
 					)
@@ -195,7 +195,7 @@ export class ClassroomDocumentsComponent {
 
 	async downloadSyllabusDocument() {
 		this.isLoading = true;
-		const documentName = 'Definição Curricular - ' + this.ctx.classroom!.name;
+		const documentName = 'Ementa - ' + this.ctx.classroom!.name;
 		await lastValueFrom(this.classroomService.getSyllabusDocument(this.ctx.classroom!.id, documentName))
 			.then((blob: Blob) => {
 				download(blob, documentName + '.pdf');
