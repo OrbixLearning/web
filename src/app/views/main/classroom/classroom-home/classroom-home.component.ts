@@ -24,6 +24,8 @@ import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { PopoverModule } from 'primeng/popover';
+import { ChatComponent } from '../../../../components/chat/chat.component';
 
 @Component({
 	selector: 'o-classroom-home',
@@ -38,6 +40,8 @@ import {
 		LearningPathCardComponent,
 		FormsModule,
 		LoadingComponent,
+		PopoverModule,
+		ChatComponent,
 	],
 	templateUrl: './classroom-home.component.html',
 	styleUrl: './classroom-home.component.scss',

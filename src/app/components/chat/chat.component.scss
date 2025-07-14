@@ -1,0 +1,16 @@
+.chat-main {
+	.messages-wrapper {
+		.messages {
+			display: flex;
+			flex-direction: column-reverse;
+			gap: 10px;
+			width: 100%;
+		}
+
+		.empty-chat {
+		}
+	}
+
+	.chat-input {
+	}
+}

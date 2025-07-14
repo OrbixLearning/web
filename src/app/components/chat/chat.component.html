@@ -1,0 +1,36 @@
+<o-loading [isLoading]="isLoading" />
+
+<div class="chat-main">
+    <div class="messages-wrapper">
+        @if (messages.length > 0) {
+        <div class="messages">
+            @for (message of messages; track message.content) {
+            @if (message.userMessage) {
+            <p>{{message.content}}</p>
+            } @else {
+            <markdown>{{message.content}}</markdown>
+            }
+            }
+
+        </div>
+        @if (isSending) {
+        <p>Pensando...</p>
+        }
+        } @else {
+        <div class="empty-chat">
+            <h1>Este é seu chat com a IA da Orbix.</h1>
+            <h3>Essa IA sabe todo o conteúdo desta turma e pode te ajudar a estudar da maneira mais eficiente e
+                confiável!</h3>
+        </div>
+        }
+    </div>
+
+    <div class="chat-input">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <input matInput [(ngModel)]="input" placeholder="Escrever..." [disabled]="isSending" />
+        </mat-form-field>
+        <button mat-icon-button (click)="sendMessage()" [disabled]="isInputEmpty || isSending">
+            <mat-icon>{{isSending ? 'stop' : 'send'}}</mat-icon>
+        </button>
+    </div>
+</div>
