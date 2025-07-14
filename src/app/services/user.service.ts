@@ -72,7 +72,7 @@ export class UserService {
 		role: InstitutionRoleEnum,
 		idInInstitution: string,
 	): Observable<UserAccount> {
-		return this.http.post<UserAccount>(`${this.api}/${institutionId}`, {
+		return this.http.post<UserAccount>(`${this.api}/institution/${institutionId}`, {
 			email,
 			name,
 			password,
