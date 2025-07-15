@@ -52,7 +52,7 @@ export class DocumentPopUpComponent {
 		name: ['', Validators.required],
 		file: this.formBuilder.control<File | undefined>(undefined, Validators.required),
 		syllabus: this.formBuilder.control<Syllabus[]>([]),
-		feedAi: this.formBuilder.control<boolean>(false),
+		feedAi: this.formBuilder.control<boolean>(true),
 	});
 	editMode: boolean = this.data?.document !== undefined;
 	readonly MAX_PDF_SIZE: number = environment.MAX_PDF_SIZE;
@@ -66,9 +66,6 @@ export class DocumentPopUpComponent {
 				this.data!.document.aiStatus !== DocumentAIUploadStatusEnum.NOT_UPLOADED,
 			);
 		}
-
-		// TODO: This feature is temporarily disabled. Enable it when card #15 is done
-		this.getFormControl('feedAi').disable();
 	}
 
 	getFormControl(name: string): FormControl {
