@@ -9,6 +9,7 @@ import { Router, RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { AuthService } from '../../../services/auth.service';
+import { SecurityUtils } from '../../../utils/Security.utils';
 
 @Component({
 	selector: 'o-register',
@@ -47,6 +48,11 @@ export class RegisterComponent {
 
 	verifyPasswords(): boolean {
 		const password = this.getFormControl('password').value;
+		if (!SecurityUtils.isPasswordStrong(password)) {
+			this.error =
+				'A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.';
+			return false;
+		}
 		const passwordConfirmation = this.getFormControl('passwordConfirmation').value;
 		if (password !== passwordConfirmation) {
 			this.error = 'As senhas não coincidem';
