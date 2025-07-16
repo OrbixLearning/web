@@ -14,7 +14,7 @@ import { ButtonModule } from 'primeng/button';
 export class SyllabusComponent {
 	@Input() syllabus?: Syllabus[];
 	@Input() preMarkedSyllabus?: Syllabus[];
-	@Input() mode: 'readonly' | 'checkbox' | 'selection' | 'click' = 'readonly';
+	@Input() mode: 'view' | 'filter' | 'edit' | 'select' = 'view';
 	@Input() presets?: SyllabusPreset[];
 	@Output() syllabusClicked: EventEmitter<Syllabus> = new EventEmitter<Syllabus>();
 	@Output() syllabusMarked: EventEmitter<Syllabus[]> = new EventEmitter<Syllabus[]>();
@@ -39,16 +39,10 @@ export class SyllabusComponent {
 	}
 
 	get selectionMode(): 'single' | 'multiple' | 'checkbox' | undefined {
-		switch (this.mode) {
-			case 'checkbox':
-				return 'checkbox';
-			case 'selection':
-				return 'multiple';
-			case 'click':
-				return 'single';
-			default:
-				return undefined;
+		if (this.mode === 'view') {
+			return undefined;
 		}
+		return 'checkbox';
 	}
 
 	buildSyllabusTree(): TreeNode[] {
@@ -103,18 +97,10 @@ export class SyllabusComponent {
 	}
 
 	selectionChange(node: any) {
-		switch (this.mode) {
-			case 'checkbox':
-				let nodeTree = node as TreeNode[];
-				let syllabus: Syllabus[] = nodeTree.map(n => n.data as Syllabus);
-				this.topicMarked(syllabus);
-				break;
-			case 'selection':
-				this.topicSelected(node.data);
-				break;
-			case 'click':
-				this.topicClicked(node.data);
-				break;
+		if (this.mode !== 'view') {
+			let nodeTree = node as TreeNode[];
+			let syllabus: Syllabus[] = nodeTree.map(n => n.data as Syllabus);
+			this.topicMarked(syllabus);
 		}
 	}
 

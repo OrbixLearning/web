@@ -7,7 +7,7 @@
         <input matInput type="text" name="name" formControlName="name" />
     </mat-form-field>
 
-    <o-syllabus [syllabus]="data.syllabus" (syllabusMarked)="markSyllabus($event)" mode="checkbox" />
+    <o-syllabus [syllabus]="data.syllabus" (syllabusMarked)="markSyllabus($event)" mode="select" />
 
     <o-pop-up-buttons [disable]="form.invalid" type="submit" confirmButton="Adicionar grupo de tópicos" />
 </form>

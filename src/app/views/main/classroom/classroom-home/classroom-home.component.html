@@ -49,7 +49,7 @@
                 <button mat-raised-button (click)="syllabuspo.toggle($event)">Ementa
                     ({{syllabusFilter.length}})</button>
                 <p-popover #syllabuspo>
-                    <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="checkbox"
+                    <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter"
                         (syllabusMarked)="markSyllabus($event)" [presets]="ctx.classroom?.presets" />
                 </p-popover>
             </div>

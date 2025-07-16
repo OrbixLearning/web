@@ -21,7 +21,7 @@
         }
     </div>
 
-    <o-syllabus [syllabus]="ctx.classroom?.syllabus" [preMarkedSyllabus]="data?.document!.syllabus" mode="checkbox"
+    <o-syllabus [syllabus]="ctx.classroom?.syllabus" [preMarkedSyllabus]="data?.document!.syllabus" mode="select"
         (syllabusMarked)="markSyllabus($event)" [presets]="ctx.classroom?.presets" />
 
     <mat-checkbox formControlName="feedAi">

@@ -14,4 +14,8 @@ export class SyllabusService {
 	save(classroomId: string, syllabusList: Syllabus[]): Observable<Syllabus[]> {
 		return this.http.post<Syllabus[]>(`${this.api}/${classroomId}`, { syllabusList });
 	}
+
+	rename(syllabusId: string, name: string): Observable<Syllabus> {
+		return this.http.put<Syllabus>(`${this.api}/${syllabusId}`, { name });
+	}
 }

@@ -108,6 +108,34 @@ export class ClassroomSettingsComponent {
 		return false;
 	}
 
+	resetForm() {
+		this.form = this.formBuilder.group({
+			name: [this.ctx.classroom?.name, Validators.required],
+			icon: [this.ctx.classroom?.icon, Validators.required],
+		});
+	}
+
+	async onSubmit() {
+		if (this.form.valid) {
+			this.isLoading = true;
+			await lastValueFrom(
+				this.service.update(
+					this.ctx.classroom!.id,
+					this.getFormControl('name').value,
+					this.getFormControl('icon').value,
+				),
+			)
+				.then(async (c: Classroom) => {
+					await this.ctx.loadClassroomList().then(() => {
+						this.ctx.classroom = c;
+					});
+				})
+				.finally(() => {
+					this.isLoading = false;
+				});
+		}
+	}
+
 	addSyllabusTopic() {
 		let data: SyllabusTopicCreationPopUpData = {
 			syllabus: this.syllabus,
@@ -117,7 +145,7 @@ export class ClassroomSettingsComponent {
 				data,
 			})
 			.afterClosed()
-			.subscribe((result: SyllabusTopicCreationPopUpResult | undefined) => {
+			.subscribe(async (result: SyllabusTopicCreationPopUpResult | undefined) => {
 				if (result) {
 					let topic: Syllabus = result.topic;
 					let parent: Syllabus | undefined = result.parent;
@@ -128,7 +156,7 @@ export class ClassroomSettingsComponent {
 					} else {
 						this.syllabus!.splice(index, 0, topic);
 					}
-					this.syllabus = [...this.syllabus!]; // Trigger change detection
+					await this.updateSyllabus();
 				}
 			});
 	}
@@ -166,34 +194,6 @@ export class ClassroomSettingsComponent {
 			});
 	}
 
-	resetForm() {
-		this.form = this.formBuilder.group({
-			name: [this.ctx.classroom?.name, Validators.required],
-			icon: [this.ctx.classroom?.icon, Validators.required],
-		});
-	}
-
-	async onSubmit() {
-		if (this.form.valid) {
-			this.isLoading = true;
-			await lastValueFrom(
-				this.service.update(
-					this.ctx.classroom!.id,
-					this.getFormControl('name').value,
-					this.getFormControl('icon').value,
-				),
-			)
-				.then(async (c: Classroom) => {
-					await this.ctx.loadClassroomList().then(() => {
-						this.ctx.classroom = c;
-					});
-				})
-				.finally(() => {
-					this.isLoading = false;
-				});
-		}
-	}
-
 	deleteMarkedSyllabus() {
 		let data: ConfirmPopUpData = {
 			title: 'Tem certeza que deseja excluir os tópicos selecionados?',
@@ -207,23 +207,12 @@ export class ClassroomSettingsComponent {
 				if (result) {
 					this.syllabus = TreeUtils.removeFromTree(this.syllabus!, this.markedSyllabus, 'topics');
 					this.markedSyllabus = [];
+					await this.updateSyllabus();
 				}
 			});
 	}
 
 	async updateSyllabus() {
-		if (!this.syllabus) {
-			let confirmedSyllabusDeletion = false;
-			let data: ConfirmPopUpData = {
-				title: 'Tem certeza que deseja excluir a ementa?',
-				message: 'Essa ação não pode ser desfeita.',
-				confirmButton: 'Excluir',
-			};
-			await lastValueFrom(this.dialog.open(ConfirmPopUpComponent, { data }).afterClosed()).then(r => {
-				confirmedSyllabusDeletion = r;
-			});
-			if (!confirmedSyllabusDeletion) return;
-		}
 		this.isLoading = true;
 		await lastValueFrom(this.syllabusService.save(this.ctx.classroom!.id, this.syllabus!))
 			.then(async (syllabus: Syllabus[]) => {
