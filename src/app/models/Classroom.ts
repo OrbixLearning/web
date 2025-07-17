@@ -11,7 +11,6 @@ export type Classroom = {
 	syllabus: Syllabus[];
 	documents: Document[];
 	presets: SyllabusPreset[];
-	hasSyllabusDocument: boolean;
 
 	students?: UserAccount[];
 	teachers?: UserAccount[];

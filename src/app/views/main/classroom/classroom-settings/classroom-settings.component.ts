@@ -256,27 +256,4 @@ export class ClassroomSettingsComponent {
 				this.isLoading = false;
 			});
 	}
-
-	async deleteSyllabusDocument() {
-		let data: ConfirmPopUpData = {
-			title: 'Tem certeza que deseja excluir este documento?',
-			message: 'A ementa não será desfeita.',
-			confirmButton: 'Excluir',
-		};
-		this.dialog
-			.open(ConfirmPopUpComponent, { data })
-			.afterClosed()
-			.subscribe(async (confirmed: boolean) => {
-				if (confirmed) {
-					this.isLoading = true;
-					await lastValueFrom(this.service.deleteSyllabusDocument(this.ctx.classroom!.id))
-						.then((c: Classroom) => {
-							this.ctx.classroom = c;
-						})
-						.finally(() => {
-							this.isLoading = false;
-						});
-				}
-			});
-	}
 }

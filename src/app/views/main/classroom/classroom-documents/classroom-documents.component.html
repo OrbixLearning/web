@@ -7,19 +7,6 @@
     @if (ctx.isTeacher) {
     <button mat-raised-button (click)="uploadDocument()">Adicionar documento</button>
     }
-    @if (ctx.classroom?.hasSyllabusDocument) {
-    <div>
-        <p>Documento de ementa</p>
-        <button mat-icon-button (click)="downloadSyllabusDocument()">
-            <mat-icon>download</mat-icon>
-        </button>
-        @if (ctx.isTeacher) {
-        <button mat-icon-button (click)="deleteSyllabusDocument()">
-            <mat-icon>delete</mat-icon>
-        </button>
-        }
-    </div>
-    }
 </header>
 
 <div class="content">

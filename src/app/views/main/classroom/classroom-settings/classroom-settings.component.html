@@ -39,29 +39,6 @@
                 Salvar
             </button>
         </div>
-
-        <p-divider />
-
-        <div>
-            @if (!syllabusDocument) {
-            <p-fileupload mode="basic" chooseLabel="Documento de ementa" name="logo" [auto]="true" accept=".pdf"
-                [maxFileSize]="MAX_FILE_SIZE" (onSelect)="selectSyllabusDocument($event)" />
-            } @else {
-            <p>{{syllabusDocument.name}}</p>
-            <button mat-raised-button type="button" (click)="syllabusDocument = undefined">Cancelar</button>
-            <button mat-raised-button type="button" (click)="uploadSyllabusDocument()">
-                <mat-icon>upload</mat-icon>
-                Enviar documento de ementa
-            </button>
-            }
-            @if (ctx.classroom?.hasSyllabusDocument) {
-            <button mat-raised-button type="button" (click)="deleteSyllabusDocument()">
-                <mat-icon>delete</mat-icon>
-                Excluir documento de ementa
-            </button>
-            }
-
-        </div>
     </form>
 
     <p-divider layout="vertical" />
@@ -87,6 +64,23 @@
                 Excluir grupo de tópicos
             </button>
         </div>
+
         <o-syllabus [syllabus]="syllabus" mode="edit" (syllabusMarked)="markedSyllabus = $event" [presets]="presets" />
+
+        @if (!syllabus || syllabus.length === 0) {
+        <div>
+            @if (!syllabusDocument) {
+            <p-fileupload mode="basic" chooseLabel="Criar ementar a partir de um documento" name="logo" [auto]="true"
+                accept=".pdf" [maxFileSize]="MAX_FILE_SIZE" (onSelect)="selectSyllabusDocument($event)" />
+            } @else {
+            <p>{{syllabusDocument.name}}</p>
+            <button mat-raised-button type="button" (click)="syllabusDocument = undefined">Cancelar</button>
+            <button mat-raised-button type="button" (click)="uploadSyllabusDocument()">
+                <mat-icon>upload</mat-icon>
+                Criar ementa com esse documento
+            </button>
+            }
+        </div>
+        }
     </div>
 </div>
