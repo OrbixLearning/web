@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TreeNode } from 'primeng/api';
-import { TreeModule } from 'primeng/tree';
-import { Syllabus } from '../../models/Syllabus';
-import { SyllabusPreset } from '../../models/Classroom';
 import { ButtonModule } from 'primeng/button';
+import { TreeModule } from 'primeng/tree';
+import { SyllabusPreset } from '../../models/Classroom';
+import { Syllabus } from '../../models/Syllabus';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'o-syllabus',
-	imports: [TreeModule, ButtonModule],
+	imports: [TreeModule, ButtonModule, MatButtonModule, MatIconModule],
 	templateUrl: './syllabus.component.html',
 	styleUrl: './syllabus.component.scss',
 })
@@ -17,6 +19,8 @@ export class SyllabusComponent {
 	@Input() mode: 'view' | 'filter' | 'edit' | 'select' = 'view';
 	@Input() presets?: SyllabusPreset[];
 	@Output() syllabusMarked: EventEmitter<Syllabus[]> = new EventEmitter<Syllabus[]>();
+	@Output() editSyllabus: EventEmitter<Syllabus> = new EventEmitter<Syllabus>();
+	@Output() deleteSyllabus: EventEmitter<Syllabus> = new EventEmitter<Syllabus>();
 
 	syllabusComponentTree: TreeNode[] = this.buildSyllabusTree();
 	selection?: TreeNode[];
@@ -29,6 +33,7 @@ export class SyllabusComponent {
 				data: s,
 				checked: true,
 				selectable: true,
+				type: this.mode,
 			}));
 		}
 	}
@@ -38,7 +43,7 @@ export class SyllabusComponent {
 	}
 
 	get selectionMode(): 'single' | 'multiple' | 'checkbox' | undefined {
-		if (this.mode === 'view') {
+		if (this.mode === 'view' || this.mode === 'edit') {
 			return undefined;
 		}
 		return 'checkbox';
@@ -58,6 +63,7 @@ export class SyllabusComponent {
 				data: s,
 				leaf: s.topics ? s.topics.length === 0 : true,
 				selectable: true,
+				type: this.mode,
 				expanded: depth < 2,
 				children: this.recursiveSyllabusTreeBuildCall(s.topics, depth + 1),
 			};
@@ -66,11 +72,11 @@ export class SyllabusComponent {
 
 	loadPreset(preset: SyllabusPreset) {
 		this.selection = [];
-		this.addNodestoSelectionRecursively(preset.syllabusIds, this.syllabus || []);
+		this.addNodesToSelectionRecursively(preset.syllabusIds, this.syllabus || []);
 		this.selectionChange(this.selection);
 	}
 
-	addNodestoSelectionRecursively(ids: string[], syllabus: Syllabus[]) {
+	addNodesToSelectionRecursively(ids: string[], syllabus: Syllabus[]) {
 		syllabus.forEach(s => {
 			if (ids.includes(s.id!)) {
 				this.selection = [
@@ -81,11 +87,12 @@ export class SyllabusComponent {
 						data: s,
 						checked: true,
 						selectable: true,
+						type: this.mode,
 					},
 				];
 			}
 			if (s.topics && s.topics.length > 0) {
-				this.addNodestoSelectionRecursively(ids, s.topics);
+				this.addNodesToSelectionRecursively(ids, s.topics);
 			}
 		});
 	}

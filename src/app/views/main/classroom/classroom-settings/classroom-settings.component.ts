@@ -33,6 +33,7 @@ import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { SyllabusService } from '../../../../services/syllabus.service';
 import { TreeUtils } from '../../../../utils/Tree.utils';
+import { EditSyllabusTopicPopUpComponent } from '../../../../components/pop-ups/edit-syllabus-topic-pop-up/edit-syllabus-topic-pop-up.component';
 
 @Component({
 	selector: 'o-classroom-settings',
@@ -67,7 +68,6 @@ export class ClassroomSettingsComponent {
 	presets: SyllabusPreset[] | undefined = this.ctx.classroom?.presets
 		? Object.assign([], this.ctx.classroom?.presets)
 		: undefined;
-	markedSyllabus: Syllabus[] = [];
 	MAX_FILE_SIZE: number = environment.MAX_PDF_SIZE;
 	syllabusDocument?: File;
 
@@ -185,18 +185,31 @@ export class ClassroomSettingsComponent {
 			});
 	}
 
-	deleteSyllabusPreset() {
+	editSyllabus(s: Syllabus) {
 		this.dialog
-			.open(SyllabusPresetDeletionPopUpComponent)
+			.open(EditSyllabusTopicPopUpComponent, {
+				data: s.name,
+			})
 			.afterClosed()
-			.subscribe(() => {
-				this.presets = this.ctx.classroom?.presets;
+			.subscribe(async (result: string | undefined) => {
+				if (result) {
+					this.isLoading = true;
+					await lastValueFrom(this.syllabusService.rename(s.id!, result))
+						.then(() => {
+							let oldSyllabus: Syllabus = TreeUtils.findItemById(this.syllabus!, s.id!, 'id', 'topics')!;
+							oldSyllabus.name = result;
+							this.syllabus = [...this.syllabus!]; // Trigger change detection
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				}
 			});
 	}
 
-	deleteMarkedSyllabus() {
+	deleteSyllabus(s: Syllabus) {
 		let data: ConfirmPopUpData = {
-			title: 'Tem certeza que deseja excluir os tópicos selecionados?',
+			title: `Tem certeza que deseja excluir ${s.name} e seus subtópicos?`,
 			message: 'Essa ação não pode ser desfeita.',
 			confirmButton: 'Excluir',
 		};
@@ -205,10 +218,18 @@ export class ClassroomSettingsComponent {
 			.afterClosed()
 			.subscribe(async (result: boolean) => {
 				if (result) {
-					this.syllabus = TreeUtils.removeFromTree(this.syllabus!, this.markedSyllabus, 'topics');
-					this.markedSyllabus = [];
+					this.syllabus = TreeUtils.removeFromTree(this.syllabus!, [s], 'topics');
 					await this.updateSyllabus();
 				}
+			});
+	}
+
+	deleteSyllabusPreset() {
+		this.dialog
+			.open(SyllabusPresetDeletionPopUpComponent)
+			.afterClosed()
+			.subscribe(() => {
+				this.presets = this.ctx.classroom?.presets;
 			});
 	}
 

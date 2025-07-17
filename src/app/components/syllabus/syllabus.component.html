@@ -8,7 +8,19 @@
 
     @if (syllabus && syllabus.length > 0) {
     <p-tree [value]="syllabusComponentTree" [selectionMode]="selectionMode" [(selection)]="selection"
-        (selectionChange)="selectionChange($event)" />
+        (selectionChange)="selectionChange($event)">
+        <ng-template let-node pTemplate="edit">
+            <div style="display: flex; align-items: center; gap: 10px">
+                <span>{{node.label}}</span>
+                <button mat-icon-button (click)="editSyllabus.emit(node.data)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteSyllabus.emit(node.data)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </ng-template>
+    </p-tree>
     } @else {
     <p>Ementa não definida</p>
     }

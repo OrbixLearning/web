@@ -1,0 +1,10 @@
+<o-pop-up-header [title]="'Renomear ' + data" />
+
+<div>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Nome</mat-label>
+        <input matInput [(ngModel)]="name" />
+    </mat-form-field>
+</div>
+
+<o-pop-up-buttons [disable]="!name || name.length === 0" (confirm)="confirm()" confirmButton="Renomear" />

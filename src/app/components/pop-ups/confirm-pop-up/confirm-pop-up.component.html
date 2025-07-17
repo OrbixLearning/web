@@ -6,8 +6,5 @@
 <h3>{{data.message}}</h3>
 }
 
-<div>
-	<button mat-raised-button [mat-dialog-close]="false">{{data.cancelButton ? data.cancelButton : 'Cancelar'}}</button>
-	<button mat-raised-button [mat-dialog-close]="true">{{data.confirmButton ? data.confirmButton :
-		'Confirmar'}}</button>
-</div>
+<o-pop-up-buttons (confirm)="dialogRef.close(true)" [cancelButton]="data.cancelButton ? data.cancelButton : 'Cancelar'"
+    [confirmButton]="data.confirmButton ? data.confirmButton : 'Confirmar'" />
