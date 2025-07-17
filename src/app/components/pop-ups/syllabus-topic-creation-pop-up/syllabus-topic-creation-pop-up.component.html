@@ -19,7 +19,7 @@
 
     @if (showIndex) {
     <mat-form-field appearance="fill" subscriptSizing="dynamic">
-        <mat-label>Index em {{getFormControl('parent').value.name}}</mat-label>
+        <mat-label>Index em {{getFormControl('parent').value?.name || "Raiz"}}</mat-label>
         <input matInput type="number" name="index" formControlName="index" />
     </mat-form-field>
     }

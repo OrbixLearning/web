@@ -44,7 +44,8 @@ export class SyllabusTopicCreationPopUpComponent {
 		parent: this.formBuilder.control<Syllabus | undefined>(undefined),
 		index: [this.data.syllabus ? this.data.syllabus.length : 0, Validators.required],
 	});
-	showIndex: boolean = false;
+	showIndex: boolean =
+		this.data.syllabus !== undefined && this.data.syllabus !== null && this.data.syllabus.length > 0;
 
 	get parentSelector(): Syllabus[] {
 		if (!this.data.syllabus) {
@@ -69,9 +70,12 @@ export class SyllabusTopicCreationPopUpComponent {
 	}
 
 	parentChange() {
-		const parent: Syllabus | undefined = this.getFormControl('parent').value;
-		if (parent && parent.topics && parent.topics.length !== 0) {
-			this.getFormControl('index').setValue(parent.topics.length);
+		const brothers: Syllabus[] | undefined | null =
+			this.getFormControl('parent').value?.topics || this.data.syllabus;
+		const hasBrothers: boolean = brothers !== undefined && brothers !== null && brothers.length > 0;
+
+		if (hasBrothers) {
+			this.getFormControl('index').setValue(this.data.syllabus!.length);
 			this.showIndex = true;
 		} else {
 			this.getFormControl('index').setValue(0);
