@@ -16,7 +16,6 @@ export class SyllabusComponent {
 	@Input() preMarkedSyllabus?: Syllabus[];
 	@Input() mode: 'view' | 'filter' | 'edit' | 'select' = 'view';
 	@Input() presets?: SyllabusPreset[];
-	@Output() syllabusClicked: EventEmitter<Syllabus> = new EventEmitter<Syllabus>();
 	@Output() syllabusMarked: EventEmitter<Syllabus[]> = new EventEmitter<Syllabus[]>();
 
 	syllabusComponentTree: TreeNode[] = this.buildSyllabusTree();
@@ -50,7 +49,7 @@ export class SyllabusComponent {
 		return this.recursiveSyllabusTreeBuildCall(this.syllabus, 0);
 	}
 
-	recursiveSyllabusTreeBuildCall(syllabus: Syllabus[] | null, depth: number, preset?: string[]): TreeNode[] {
+	recursiveSyllabusTreeBuildCall(syllabus: Syllabus[] | null, depth: number): TreeNode[] {
 		if (!syllabus) return [];
 		return syllabus.map(s => {
 			return {
@@ -106,16 +105,5 @@ export class SyllabusComponent {
 
 	topicMarked(syllabus: Syllabus[]) {
 		this.syllabusMarked.emit(syllabus);
-	}
-
-	topicSelected(syllabus: Syllabus) {
-		this.syllabusClicked.emit(syllabus);
-	}
-
-	topicClicked(syllabus: Syllabus) {
-		setTimeout(() => {
-			this.selection = undefined;
-		});
-		this.syllabusClicked.emit(syllabus);
 	}
 }

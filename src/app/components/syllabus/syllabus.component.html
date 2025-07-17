@@ -5,7 +5,7 @@
     }
     <p-button label="Limpar seleção" (click)="clearSelection()" />
     }
-    
+
     @if (syllabus && syllabus.length > 0) {
     <p-tree [value]="syllabusComponentTree" [selectionMode]="selectionMode" [(selection)]="selection"
         (selectionChange)="selectionChange($event)" />
