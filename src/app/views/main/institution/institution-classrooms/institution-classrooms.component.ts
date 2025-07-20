@@ -110,7 +110,8 @@ export class InstitutionClassroomsComponent {
 					this.isLoading = true;
 					this.cd.detectChanges();
 					await lastValueFrom(this.service.deleteClassrooms(this.selectedClassrooms.map(u => u.id)))
-						.then(() => {
+						.then(async () => {
+							await this.ctx.loadClassroomList();
 							this.selectedClassrooms = [];
 							this.getClassrooms();
 						})
