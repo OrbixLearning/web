@@ -94,14 +94,6 @@ export const routes: Routes = [
 								canActivate: [classroomTeacherGuard],
 							},
 							{
-								path: 'dashboard',
-								loadComponent: () =>
-									import(
-										'./views/main/classroom/classroom-dashboard/classroom-dashboard.component'
-									).then(m => m.ClassroomDashboardComponent),
-								canActivate: [classroomTeacherGuard],
-							},
-							{
 								path: 'members',
 								loadComponent: () =>
 									import('./views/main/classroom/classroom-members/classroom-members.component').then(
@@ -122,6 +114,37 @@ export const routes: Routes = [
 										m => m.LearningPathComponent,
 									),
 								canActivate: [learningPathStudyGuard],
+							},
+							{
+								path: 'dashboard',
+								loadComponent: () =>
+									import(
+										'./views/main/classroom/classroom-dashboard/classroom-dashboard.component'
+									).then(m => m.ClassroomDashboardComponent),
+								canActivate: [classroomTeacherGuard],
+								children: [
+									{
+										path: '',
+										loadComponent: () =>
+											import(
+												'./views/main/classroom/classroom-dashboard/home-dashboard/home-dashboard.component'
+											).then(m => m.HomeDashboardComponent),
+									},
+									{
+										path: 'syllabus/:syllabusId',
+										loadComponent: () =>
+											import(
+												'./views/main/classroom/classroom-dashboard/syllabus-dashboard/syllabus-dashboard.component'
+											).then(m => m.SyllabusDashboardComponent),
+									},
+									{
+										path: 'student/:studentId',
+										loadComponent: () =>
+											import(
+												'./views/main/classroom/classroom-dashboard/student-dashboard/student-dashboard.component'
+											).then(m => m.StudentDashboardComponent),
+									},
+								],
 							},
 						],
 					},

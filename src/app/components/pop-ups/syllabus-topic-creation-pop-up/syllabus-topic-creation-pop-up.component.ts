@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { Syllabus } from '../../../models/Syllabus';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
+import { TreeUtils } from '../../../utils/Tree.utils';
 
 export type SyllabusTopicCreationPopUpData = {
 	syllabus?: Syllabus[];
@@ -51,22 +52,11 @@ export class SyllabusTopicCreationPopUpComponent {
 		if (!this.data.syllabus) {
 			return [];
 		}
-		return this.getSyllabusList(this.data.syllabus!);
+		return TreeUtils.flattenTree(this.data.syllabus!, 'topics');
 	}
 
 	getFormControl(name: string): FormControl {
 		return this.form.get(name) as FormControl;
-	}
-
-	getSyllabusList(syllabus: Syllabus[]): Syllabus[] {
-		let list: Syllabus[] = [];
-		syllabus.forEach(topic => {
-			list.push(topic);
-			if (topic.topics) {
-				list = list.concat(this.getSyllabusList(topic.topics));
-			}
-		});
-		return list;
 	}
 
 	parentChange() {

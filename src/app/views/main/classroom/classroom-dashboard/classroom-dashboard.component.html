@@ -1,11 +1,1 @@
-<o-loading [isLoading]="isLoading" />
-
-<header>
-    <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-</header>
-
-<div class="classroom-settings-div">
-    <h2>Dashboard da Turma {{ctx.classroom?.name}}</h2>
-</div>
+<router-outlet />

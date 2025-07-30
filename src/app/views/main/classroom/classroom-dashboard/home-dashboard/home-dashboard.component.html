@@ -1,0 +1,25 @@
+<o-loading [isLoading]="isLoading" />
+
+<header>
+    <button mat-icon-button [routerLink]="[classroomBaseUrl]">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+</header>
+
+<div class="classroom-dashboard-div">
+    <div>
+        <h2>Dashboard da Turma {{ctx.classroom?.name}}</h2>
+        @for (syllabus of flatSyllabus; track syllabus.id) {
+        <button mat-raised-button [routerLink]="[classroomBaseUrl + '/dashboard/syllabus/' + syllabus.id]">
+            {{syllabus.name}}
+        </button>
+        }
+    </div>
+
+    <div>
+        @for (student of students; track student.id) {
+        <button mat-raised-button
+            [routerLink]="[classroomBaseUrl + '/dashboard/student/' + student.id]">{{student.user.name}}</button>
+        }
+    </div>
+</div>

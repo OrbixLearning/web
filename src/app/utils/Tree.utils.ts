@@ -26,4 +26,15 @@ export class TreeUtils {
 		});
 		return filteredTree;
 	}
+
+	static flattenTree(tree: any[], childrenFieldName: string): any[] {
+		let flatList: any[] = [];
+		tree.forEach(item => {
+			flatList.push(item);
+			if (item[childrenFieldName]) {
+				flatList = flatList.concat(this.flattenTree(item[childrenFieldName], childrenFieldName));
+			}
+		});
+		return flatList;
+	}
 }
