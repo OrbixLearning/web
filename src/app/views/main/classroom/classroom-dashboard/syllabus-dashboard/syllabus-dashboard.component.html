@@ -1,1 +1,34 @@
-<p>syllabus-dashboard works!</p>
+<o-loading [isLoading]="isLoading" />
+
+<header>
+    <button mat-icon-button [routerLink]="[dashboardBaseUrl]">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+</header>
+
+<div class="syllabus-dashboard-div">
+    <div class="left-div">
+        <h2>Dashboard do tópico {{syllabus?.name}}</h2>
+        <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-label>Data de Início</mat-label>
+            <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate" disabled>
+            <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker disabled="false"></mat-datepicker>
+        </mat-form-field>
+        @if (count > 0) {
+        <div class="card">
+            <p-chart type="line" [data]="chartData" [options]="chartOptions" />
+        </div>
+        } @else {
+        <p>Não há registros nesse tópico a partir de {{formatDateView(startDate)}}</p>
+        }
+    </div>
+
+    <div class="right-div">
+        @for (item of ranking; track $index) {
+        <button mat-raised-button [routerLink]="[dashboardBaseUrl + '/student/' + item.student.id]">
+            {{$index + 1}}. {{item.student.user.name}} -- {{item.value}}
+        </button>
+        }
+    </div>
+</div>

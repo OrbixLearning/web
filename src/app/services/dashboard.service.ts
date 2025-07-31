@@ -28,8 +28,7 @@ export class DashboardService {
 		startDate: string,
 		endDate?: string,
 	): Observable<ClassroomScoreHistoryBySyllabus[]> {
-		let params = new HttpParams();
-		params.set('startDate', startDate);
+		let params = new HttpParams().set('startDate', startDate);
 		if (endDate) params = params.set('endDate', endDate);
 		return this.http.get<ClassroomScoreHistoryBySyllabus[]>(`${this.api}/history/${syllabusId}`, { params });
 	}

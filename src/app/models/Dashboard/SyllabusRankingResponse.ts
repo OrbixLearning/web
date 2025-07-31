@@ -1,7 +1,7 @@
-import { User } from '../User';
+import { UserAccount } from '../User';
 
 export type SyllabusRanking = {
-	student: User;
+	student: UserAccount;
 	value: number;
 	comment: string;
 	update: Date;

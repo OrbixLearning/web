@@ -1,0 +1,24 @@
+.syllabus-dashboard-div {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+
+	.left-div {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		gap: 20px;
+	}
+
+	.right-div {
+		width: 30%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		gap: 20px;
+	}
+}
