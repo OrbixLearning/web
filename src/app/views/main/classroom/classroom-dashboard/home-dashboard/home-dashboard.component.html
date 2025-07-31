@@ -7,19 +7,53 @@
 </header>
 
 <div class="classroom-dashboard-div">
-    <div>
+    <div class="left-div">
         <h2>Dashboard da Turma {{ctx.classroom?.name}}</h2>
         @for (syllabus of flatSyllabus; track syllabus.id) {
         <button mat-raised-button [routerLink]="[classroomBaseUrl + '/dashboard/syllabus/' + syllabus.id]">
-            {{syllabus.name}}
+            <div>
+                <h3>{{syllabus.name}}</h3>
+                @if (getSyllabusScore(syllabus.id!)?.count) {
+                <div>
+                    <p>Média:</p>
+                    <p-progressbar [value]="getSyllabusScore(syllabus.id!)?.average">
+                        <ng-template #content let-value>
+                            <span>{{value}}</span>
+                        </ng-template>
+                    </p-progressbar>
+                </div>
+                <div>
+                    <div>
+                        <p>Min:</p>
+                        <p-progressbar [value]="getSyllabusScore(syllabus.id!)?.min">
+                            <ng-template #content let-value>
+                                <span>{{value}}</span>
+                            </ng-template>
+                        </p-progressbar>
+                    </div>
+                    <div>
+                        <p>Max:</p>
+                        <p-progressbar [value]="getSyllabusScore(syllabus.id!)?.max">
+                            <ng-template #content let-value>
+                                <span>{{value}}</span>
+                            </ng-template>
+                        </p-progressbar>
+                    </div>
+                    <p>Quantidade: {{getSyllabusScore(syllabus.id!)?.count}}</p>
+                </div>
+                } @else {
+                <p>Nenhuma nota registrada</p>
+                }
+            </div>
         </button>
         }
     </div>
 
-    <div>
+    <div class="right-div">
         @for (student of students; track student.id) {
-        <button mat-raised-button
-            [routerLink]="[classroomBaseUrl + '/dashboard/student/' + student.id]">{{student.user.name}}</button>
+        <button mat-raised-button [routerLink]="[classroomBaseUrl + '/dashboard/student/' + student.id]">
+            {{student.user.name}}
+        </button>
         }
     </div>
 </div>

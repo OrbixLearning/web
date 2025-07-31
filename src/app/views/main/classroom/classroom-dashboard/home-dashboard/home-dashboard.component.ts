@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { ProgressBarModule } from 'primeng/progressbar';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../../components/loading/loading.component';
 import { ClassroomCurrentScore } from '../../../../../models/Dashboard/ClassroomCurrentScore';
@@ -14,7 +15,7 @@ import { TreeUtils } from '../../../../../utils/Tree.utils';
 
 @Component({
 	selector: 'o-home-dashboard',
-	imports: [LoadingComponent, MatButtonModule, MatIconModule, RouterModule],
+	imports: [LoadingComponent, MatButtonModule, MatIconModule, RouterModule, ProgressBarModule],
 	templateUrl: './home-dashboard.component.html',
 	styleUrl: './home-dashboard.component.scss',
 })
