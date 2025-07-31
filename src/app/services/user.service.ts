@@ -18,6 +18,10 @@ export class UserService {
 		return this.http.get<User>(`${this.api}/${id}`);
 	}
 
+	getAccount(id: string): Observable<UserAccount> {
+		return this.http.get<UserAccount>(`${this.api}/account/${id}`);
+	}
+
 	getAmountOfClassroomsInInstitutionByUserAccount(userAccountId: string, institutionId: string): Observable<number> {
 		return this.http.get<number>(`${this.api}/${userAccountId}/classrooms-amount/${institutionId}`);
 	}

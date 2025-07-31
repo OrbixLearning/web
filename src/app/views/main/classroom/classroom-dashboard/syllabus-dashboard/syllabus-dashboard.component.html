@@ -11,7 +11,8 @@
         <h2>Dashboard do tópico {{syllabus?.name}}</h2>
         <mat-form-field appearance="fill" subscriptSizing="dynamic">
             <mat-label>Data de Início</mat-label>
-            <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate" disabled>
+            <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate"
+                (ngModelChange)="getData(syllabus!.id!)" disabled>
             <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #startDatePicker disabled="false"></mat-datepicker>
         </mat-form-field>

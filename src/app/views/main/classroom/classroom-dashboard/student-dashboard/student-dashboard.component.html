@@ -1,1 +1,42 @@
-<p>student-dashboard works!</p>
+<o-loading [isLoading]="isLoading" />
+
+<header>
+    <button mat-icon-button [routerLink]="[dashboardBaseUrl]">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+</header>
+
+<div class="student-dashboard-div">
+    <h2>Dashboard do aluno {{studentAccount?.user?.name}} ({{studentAccount?.idInInstitution}})</h2>
+    <img [src]="profilePictureUrl" alt="profilePicture" />
+
+    <p-accordion value="0" [multiple]="true">
+        @for (syllabus of flatSyllabus; track syllabus.id) {
+        <p-accordion-panel [value]="$index">
+            <p-accordion-header>
+                <span>
+                    <p>{{syllabus.name}}</p>
+                    <p-progressbar [value]="getSyllabusScore(syllabus.id!)?.value || 0">
+                        <ng-template #content let-value>
+                            <span>{{value || 0}}</span>
+                        </ng-template>
+                    </p-progressbar>
+                </span>
+            </p-accordion-header>
+            <p-accordion-content>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                    ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim id est
+                    laborum.
+                </p>
+            </p-accordion-content>
+        </p-accordion-panel>
+        }
+    </p-accordion>
+</div>
