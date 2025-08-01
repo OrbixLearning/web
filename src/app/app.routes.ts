@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { classroomTeacherGuard } from './guards/classroom-teacher.guard';
 import { classroomGuard } from './guards/classroom.guard';
+import { institutionAdminGuard } from './guards/institution-admin.guard';
 import { institutionGuard } from './guards/institution.guard';
 import { learningPathStudyGuard } from './guards/learning-path-study.guard';
-import { institutionAdminGuard } from './guards/institution-admin.guard';
-import { classroomTeacherGuard } from './guards/classroom-teacher.guard';
 
 export const routes: Routes = [
 	{
@@ -15,10 +15,6 @@ export const routes: Routes = [
 			{
 				path: '',
 				loadComponent: () => import('./views/main/home/home.component').then(m => m.HomeComponent),
-			},
-			{
-				path: 'settings',
-				loadComponent: () => import('./views/main/settings/settings.component').then(m => m.SettingsComponent),
 			},
 			{
 				path: 'profile/:userId',
