@@ -10,7 +10,7 @@ import { ColorPickerModule } from 'primeng/colorpicker';
 import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
-import { Institution } from '../../../../models/Institution';
+import { Institution, InstitutionStyle } from '../../../../models/Institution';
 import { ContextService } from '../../../../services/context.service';
 import { InstitutionService } from '../../../../services/institution.service';
 import { ThemeService } from '../../../../services/theme.service';
@@ -46,8 +46,7 @@ export class InstitutionSettingsComponent {
 	form: FormGroup = this.formBuilder.group({});
 	logo?: File;
 	logoPreview: string | ArrayBuffer | null = null;
-	primaryColor: string = this.ctx.institution?.primaryColor || '#000000';
-	secondaryColor: string = this.ctx.institution?.secondaryColor || '#000000';
+	style: InstitutionStyle = this.ctx.institution?.style!;
 	readonly MAX_IMAGE_SIZE: number = environment.MAX_IMAGE_SIZE;
 
 	ngOnInit() {
@@ -75,8 +74,11 @@ export class InstitutionSettingsComponent {
 		}
 		if (
 			this.getFormControl('name').value === this.ctx.institution?.name &&
-			this.getFormControl('primaryColor').value === this.ctx.institution?.primaryColor &&
-			this.getFormControl('secondaryColor').value === this.ctx.institution?.secondaryColor &&
+			this.getFormControl('primaryColor').value === this.style.primaryColor &&
+			this.getFormControl('secondaryColor').value === this.style.secondaryColor &&
+			this.getFormControl('backgroundColor').value === this.style.backgroundColor &&
+			this.getFormControl('textColor').value === this.style.textColor &&
+			this.getFormControl('theme').value === this.style.theme &&
 			this.logo === undefined
 		) {
 			return true;
@@ -92,13 +94,22 @@ export class InstitutionSettingsComponent {
 		this.form = this.formBuilder.group({
 			name: [this.ctx.institution?.name, Validators.required],
 			primaryColor: [
-				this.ctx.institution?.primaryColor,
+				this.ctx.institution?.style!.primaryColor,
 				[Validators.required, Validators.pattern(/^#([0-9A-F]{3}|[0-9A-F]{6})$/i)],
 			],
 			secondaryColor: [
-				this.ctx.institution?.secondaryColor,
+				this.ctx.institution?.style!.secondaryColor,
 				[Validators.required, Validators.pattern(/^#([0-9A-F]{3}|[0-9A-F]{6})$/i)],
 			],
+			backgroundColor: [
+				this.ctx.institution?.style!.backgroundColor,
+				[Validators.required, Validators.pattern(/^#([0-9A-F]{3}|[0-9A-F]{6})$/i)],
+			],
+			textColor: [
+				this.ctx.institution?.style!.textColor,
+				[Validators.required, Validators.pattern(/^#([0-9A-F]{3}|[0-9A-F]{6})$/i)],
+			],
+			theme: [this.ctx.institution?.style!.theme, Validators.required],
 		});
 		this.logo = undefined;
 	}
@@ -121,13 +132,17 @@ export class InstitutionSettingsComponent {
 				this.service.update(
 					this.ctx.institution!.id!,
 					this.getFormControl('name').value,
+					this.logo,
 					this.getFormControl('primaryColor').value,
 					this.getFormControl('secondaryColor').value,
-					this.logo,
+					this.getFormControl('backgroundColor').value,
+					this.getFormControl('textColor').value,
+					this.getFormControl('theme').value,
 				),
 			)
 				.then((i: Institution) => {
 					this.ctx.institution = i;
+					this.style = i.style!;
 					this.resetForm();
 					this.theme.setInstitutionTheme(this.ctx.institution);
 				})

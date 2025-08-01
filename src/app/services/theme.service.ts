@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Institution } from '../models/Institution';
+import { Institution, InstitutionStyle } from '../models/Institution';
 
 @Injectable({
 	providedIn: 'root',
@@ -20,10 +20,13 @@ export class ThemeService {
 		}
 	}
 
-	private buildCssClass(themeClass: string, institution: Institution): string {
+	private buildCssClass(themeClass: string, style: InstitutionStyle): string {
 		return `.${themeClass} {
-        ${institution.primaryColor ? `--primary-color: ${institution.primaryColor};` : ''}
-        ${institution.secondaryColor ? `--secondary-color: ${institution.secondaryColor};` : ''}
+        ${style.primaryColor ? `--primary-color: ${style.primaryColor};` : ''}
+        ${style.secondaryColor ? `--secondary-color: ${style.secondaryColor};` : ''}
+        ${style.backgroundColor ? `--background-color: ${style.backgroundColor};` : ''}
+        ${style.textColor ? `--text-color: ${style.textColor};` : ''}
+        ${style.theme ? `--theme: ${style.theme};` : ''}
         }`;
 	}
 
@@ -35,7 +38,7 @@ export class ThemeService {
 
 		const styleEl = document.createElement('style');
 		styleEl.id = this.themeStyleElementId;
-		styleEl.innerText = this.buildCssClass(themeClass, institution);
+		styleEl.innerText = this.buildCssClass(themeClass, institution.style!);
 		document.head.appendChild(styleEl);
 	}
 

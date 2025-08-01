@@ -42,7 +42,7 @@
 
 		.thinking {
 			font-size: 16px;
-			color: rgba($color: #fff, $alpha: 0.3);
+			color: rgba($color: var(--text-color), $alpha: 0.3);
 		}
 
 		.empty-chat {

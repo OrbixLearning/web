@@ -1,5 +1,5 @@
 .loading {
-	background-color: rgba(0, 0, 0, 0.75);
+	background-color: rgba(var(--background-color), 0.5);
 	top: 0;
 	left: 0;
 	z-index: 1000;

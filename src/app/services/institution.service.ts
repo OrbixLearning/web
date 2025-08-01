@@ -32,15 +32,21 @@ export class InstitutionService {
 	update(
 		id: string,
 		name: string,
+		logo: File | undefined,
 		primaryColor: string,
 		secondaryColor: string,
-		logo: File | undefined,
+		backgroundColor: string,
+		textColor: string,
+		theme: string,
 	): Observable<Institution> {
 		const formData = new FormData();
 		formData.append('id', id);
 		formData.append('name', name);
 		formData.append('primaryColor', primaryColor);
 		formData.append('secondaryColor', secondaryColor);
+		formData.append('backgroundColor', backgroundColor);
+		formData.append('textColor', textColor);
+		formData.append('theme', theme);
 		if (logo) {
 			formData.append('logo', logo);
 		}

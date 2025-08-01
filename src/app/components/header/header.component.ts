@@ -30,8 +30,7 @@ export class HeaderComponent {
 	personalInstitution: Institution = {
 		id: null,
 		name: 'Pessoal',
-		primaryColor: null,
-		secondaryColor: null,
+		style: null,
 	};
 	selectedInstitutionId: string | null = this.personalInstitution.id;
 
