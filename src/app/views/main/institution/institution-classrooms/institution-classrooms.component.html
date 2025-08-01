@@ -77,7 +77,7 @@
                     </ng-template>
                 </p-cellEditor>
             </td>
-            <td>{{ classroom.syllabus?.length }}</td>
+            <td>{{ classroom.syllabus?.length > 0 ? "Sim" : "Não"}}</td>
             <td>
                 <button mat-icon-button [routerLink]="['/i/' + ctx.institution?.id + '/c/' + classroom.id]">
                     <mat-icon>{{ classroom.icon }}</mat-icon>
