@@ -33,21 +33,15 @@ export class DashboardService {
 		return this.http.get<ClassroomScoreHistoryBySyllabus[]>(`${this.api}/history/${syllabusId}`, { params });
 	}
 
-	getStudentScoreHistoryBySyllabus(
-		syllabusId: string,
-		userId: string,
-		startDate: string,
-		endDate?: string,
-	): Observable<StudentScoreHistoryBySyllabus[]> {
-		let params = new HttpParams();
-		params = params.set('startDate', startDate);
-		if (endDate) params = params.set('endDate', endDate);
-		return this.http.get<StudentScoreHistoryBySyllabus[]>(`${this.api}/history/${syllabusId}/${userId}`, {
-			params,
-		});
+	getStudentScoreHistoryBySyllabus(syllabusId: string, userId: string): Observable<StudentScoreHistoryBySyllabus[]> {
+		return this.http.get<StudentScoreHistoryBySyllabus[]>(`${this.api}/history/${syllabusId}/${userId}`);
 	}
 
 	getRankingBySyllabus(syllabusId: string): Observable<SyllabusRanking[]> {
 		return this.http.get<SyllabusRanking[]>(`${this.api}/ranking/${syllabusId}`);
+	}
+
+	forceClassroomScoresUpdate(classroomId: string): Observable<any> {
+		return this.http.put(`${this.api}/force-update/${classroomId}`, {});
 	}
 }

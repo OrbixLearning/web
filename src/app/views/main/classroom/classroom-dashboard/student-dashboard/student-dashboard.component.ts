@@ -11,12 +11,23 @@ import { lastValueFrom } from 'rxjs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UserAccount } from '../../../../../models/User';
 import { LoadingComponent } from '../../../../../components/loading/loading.component';
-import { AccordionModule } from 'primeng/accordion';
+import { AccordionModule, AccordionTabOpenEvent } from 'primeng/accordion';
 import { ProgressBar } from 'primeng/progressbar';
+import { ChartModule } from 'primeng/chart';
+import { StudentScoreHistoryBySyllabus } from '../../../../../models/Dashboard/StudentScoreHistoryBySyllabus';
+import { DateUtils } from '../../../../../utils/Date.util';
 
 @Component({
 	selector: 'o-student-dashboard',
-	imports: [MatButtonModule, MatIconModule, RouterModule, LoadingComponent, AccordionModule, ProgressBar],
+	imports: [
+		MatButtonModule,
+		MatIconModule,
+		RouterModule,
+		LoadingComponent,
+		AccordionModule,
+		ProgressBar,
+		ChartModule,
+	],
 	templateUrl: './student-dashboard.component.html',
 	styleUrl: './student-dashboard.component.scss',
 })
@@ -28,8 +39,9 @@ export class StudentDashboardComponent {
 
 	isLoading = false;
 	flatSyllabus: Syllabus[] = TreeUtils.flattenTree(this.ctx.classroom?.syllabus || [], 'topics');
-	studentCurrentScores: StudentCurrentScore[] = [];
+	currentScores: Map<string, StudentCurrentScore> = new Map<string, StudentCurrentScore>();
 	studentAccount: UserAccount | undefined;
+	histories: Map<string, StudentScoreHistoryBySyllabus[]> = new Map<string, StudentScoreHistoryBySyllabus[]>();
 
 	get dashboardBaseUrl() {
 		return '/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id + '/dashboard';
@@ -57,14 +69,48 @@ export class StudentDashboardComponent {
 		])
 			.then(([account, scores]) => {
 				this.studentAccount = account;
-				this.studentCurrentScores = scores;
+				scores.forEach(score => {
+					this.currentScores.set(score.syllabus.id!, score);
+				});
 			})
 			.finally(() => {
 				this.isLoading = false;
 			});
 	}
 
-	getSyllabusScore(syllabusId: string): StudentCurrentScore | undefined {
-		return this.studentCurrentScores.find(score => score.syllabus.id === syllabusId);
+	getSyllabusHistory(event: AccordionTabOpenEvent) {
+		const syllabusId = this.flatSyllabus[event.index].id!;
+		lastValueFrom(this.service.getStudentScoreHistoryBySyllabus(syllabusId, this.studentAccount?.id!)).then(
+			histories => {
+				this.histories.set(syllabusId, histories);
+			},
+		);
+	}
+
+	getChartData(history: StudentScoreHistoryBySyllabus[]) {
+		return {
+			labels: history.map(item => this.formatDateView(item.update)),
+			datasets: [
+				{
+					label: 'Pontuação média',
+					data: history.map(item => item.value),
+					fill: false,
+					borderColor: '#42A5F5',
+					tension: 0.1,
+				},
+			],
+		};
+	}
+
+	getChartOptions() {
+		return {};
+	}
+
+	formatDateView(date: Date): string {
+		return DateUtils.format(date, 'DD/MM/YYYY');
+	}
+
+	formatDateISO(date: Date): string {
+		return DateUtils.format(date, 'YYYY-MM-DDThh:mm:ss');
 	}
 }

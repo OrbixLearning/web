@@ -12,6 +12,11 @@ import { ContextService } from '../../../../../services/context.service';
 import { DashboardService } from '../../../../../services/dashboard.service';
 import { UserService } from '../../../../../services/user.service';
 import { TreeUtils } from '../../../../../utils/Tree.utils';
+import {
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
+} from '../../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
 	selector: 'o-home-dashboard',
@@ -23,6 +28,7 @@ export class HomeDashboardComponent {
 	ctx: ContextService = inject(ContextService);
 	service: DashboardService = inject(DashboardService);
 	userService: UserService = inject(UserService);
+	dialog: MatDialog = inject(MatDialog);
 
 	isLoading = false;
 	students: UserAccount[] = [];
@@ -54,5 +60,30 @@ export class HomeDashboardComponent {
 
 	getSyllabusScore(syllabusId: string): ClassroomCurrentScore | undefined {
 		return this.classroomCurrentScores.find(score => score.syllabus.id === syllabusId);
+	}
+
+	forceUpdateScores() {
+		const data: ConfirmPopUpData = {
+			title: 'Essa ação pode demorar alguns minutos!',
+			message: 'Você tem certeza que deseja forçar a atualização das notas?',
+			confirmButton: 'Sim, forçar atualização',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, {
+				data,
+			})
+			.afterClosed()
+			.subscribe(async confirmed => {
+				if (confirmed) {
+					this.isLoading = true;
+					await lastValueFrom(this.service.forceClassroomScoresUpdate(this.ctx.classroom?.id!))
+						.then(async () => {
+							await this.getData();
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				}
+			});
 	}
 }

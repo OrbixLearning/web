@@ -17,7 +17,7 @@
             <mat-datepicker #startDatePicker disabled="false"></mat-datepicker>
         </mat-form-field>
         @if (count > 0) {
-        <div class="card">
+        <div>
             <p-chart type="line" [data]="chartData" [options]="chartOptions" />
         </div>
         } @else {

@@ -95,7 +95,7 @@ export class SyllabusDashboardComponent {
 
 	setChartData() {
 		this.chartData = {
-			labels: this.scoreHistory.map(item => item.date),
+			labels: this.scoreHistory.map(item => this.formatDateView(item.date)),
 			datasets: [
 				{
 					label: 'Pontuação média',
