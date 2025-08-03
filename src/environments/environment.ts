@@ -1,6 +1,7 @@
 export const environment = {
 	ENV: '',
 	API_URL: '',
+	PASSWORD_RESET_REDIRECT_URI: '',
 	OAUTH_REDIRECT_URI: '',
 	ACCOUNT_LINK_REDIRECT_URI: '',
 	MAX_PDF_SIZE: 100000000, // 100 MB
