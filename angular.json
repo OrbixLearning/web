@@ -81,7 +81,6 @@
 								}
 							]
 						},
-
 						"doc": {
 							"optimization": false,
 							"extractLicenses": false,
@@ -103,6 +102,17 @@
 									"with": "src/environments/environment.dev.ts"
 								}
 							]
+						},
+						"uiux": {
+							"optimization": false,
+							"extractLicenses": false,
+							"sourceMap": true,
+							"fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.uiux.ts"
+								}
+							]
 						}
 					},
 					"defaultConfiguration": "dev"
@@ -121,6 +131,9 @@
 						},
 						"dev": {
 							"buildTarget": "web:build:dev"
+						},
+						"uiux": {
+							"buildTarget": "web:build:uiux"
 						}
 					},
 					"defaultConfiguration": "dev"
