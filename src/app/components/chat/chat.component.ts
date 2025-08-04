@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +11,7 @@ import { AIChatMessage } from '../../models/AIChatMessage';
 import { AIChatService } from '../../services/aichat.service';
 import { ContextService } from '../../services/context.service';
 import { LoadingComponent } from '../loading/loading.component';
+import { LearningPath } from '../../models/LearningPath/LearningPath';
 
 @Component({
 	selector: 'o-chat',
@@ -30,6 +31,9 @@ export class ChatComponent {
 	ctx: ContextService = inject(ContextService);
 	service: AIChatService = inject(AIChatService);
 	route: ActivatedRoute = inject(ActivatedRoute);
+
+	@Input() learningPaths: LearningPath[] = [];
+	@Output() removeLearningPath: EventEmitter<LearningPath> = new EventEmitter<LearningPath>();
 
 	messages: AIChatMessage[] = [];
 	input: string = '';
@@ -82,7 +86,8 @@ export class ChatComponent {
 			userMessage: true,
 		};
 		this.messages.unshift(aiChatMessage);
-		await lastValueFrom(this.service.chat(this.ctx.classroom!.id, this.input))
+		const learningPathIds = this.learningPaths.map(lp => lp.id!) || [];
+		await lastValueFrom(this.service.chat(this.ctx.classroom!.id, this.input, learningPathIds))
 			.then(data => {
 				this.messages.unshift(data);
 				this.input = '';

@@ -9,6 +9,11 @@
         </p>
         <o-syllabus-tags [syllabus]="learningPath.syllabus" />
     </button>
+    @if (!inChat) {
+    <button mat-icon-button (click)="addToChat.emit()" pTooltip="Adicionar ao chat">
+        <mat-icon>chat_bubble</mat-icon>
+    </button>
+    }
     @if (mine) {
     <p>
         <p-toggleswitch [(ngModel)]="learningPath.shared" (ngModelChange)="sharedChange.emit(learningPath.shared)" />

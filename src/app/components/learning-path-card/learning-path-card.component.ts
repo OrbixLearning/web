@@ -30,9 +30,11 @@ import { MatButtonModule } from '@angular/material/button';
 export class LearningPathCardComponent {
 	@Input() learningPath!: LearningPath;
 	@Input() mine: boolean = false;
+	@Input() inChat: boolean = false;
 	@Output() cardClick: EventEmitter<void> = new EventEmitter<void>();
 	@Output() sharedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() regenerate: EventEmitter<void> = new EventEmitter<void>();
+	@Output() addToChat: EventEmitter<void> = new EventEmitter<void>();
 
 	generated: boolean = false;
 	generating: boolean = false;

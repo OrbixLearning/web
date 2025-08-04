@@ -59,6 +59,7 @@ export class ClassroomHomeComponent {
 	sharedLearningPaths: LearningPath[] = [];
 	filter: string = '';
 	syllabusFilter: string[] = [];
+	learningPathsInChat: LearningPath[] = [];
 
 	ngOnInit() {
 		// This is used to update the data when the classroomId changes in the URL
@@ -205,5 +206,19 @@ export class ClassroomHomeComponent {
 			.finally(() => {
 				this.isLoading = false;
 			});
+	}
+
+	isLearningPathIdInChat(learningPathId: string): boolean {
+		return this.learningPathsInChat.map(lp => lp.id).includes(learningPathId);
+	}
+
+	addLearningPathToChat(learningPath: LearningPath) {
+		this.learningPathsInChat.push(learningPath);
+	}
+
+	removeLearningPathFromChat(learningPath: LearningPath) {
+		this.learningPathsInChat = this.learningPathsInChat.filter(
+			learningPathInChat => learningPathInChat.id !== learningPath.id,
+		);
 	}
 }

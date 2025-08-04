@@ -16,7 +16,7 @@ export class AIChatService {
 		return this.http.get<AIChatMessage[]>(`${this.api}/${classroomId}`, { params });
 	}
 
-	chat(classroomId: string, message: string): Observable<AIChatMessage> {
-		return this.http.post<AIChatMessage>(`${this.api}/${classroomId}`, { message });
+	chat(classroomId: string, message: string, learningPathsIds: string[]): Observable<AIChatMessage> {
+		return this.http.post<AIChatMessage>(`${this.api}/${classroomId}`, { message, learningPathsIds });
 	}
 }

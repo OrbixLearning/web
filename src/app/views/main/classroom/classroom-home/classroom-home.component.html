@@ -34,7 +34,8 @@
 
         <div class="left-content">
 
-            <o-chat style="width: 100%" />
+            <o-chat style="width: 100%" [learningPaths]="learningPathsInChat"
+                (removeLearningPath)="removeLearningPathFromChat($event)" />
 
         </div>
 
@@ -71,6 +72,8 @@
                     }
                     @for (learningPath of filteredMyGeneratedLearningPaths; track learningPath.id) {
                     <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
+                        [inChat]="isLearningPathIdInChat(learningPath.id)"
+                        (addToChat)="addLearningPathToChat(learningPath)"
                         (sharedChange)="updatedLearningPathSharing(learningPath)" [mine]="true" />
                     }
                 </div>
@@ -80,12 +83,16 @@
                     <h5>Rotas de professor</h5>
                     @for (learningPath of filteredTeacherLearningPaths; track learningPath.id) {
                     <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
+                        [inChat]="isLearningPathIdInChat(learningPath.id)"
+                        (addToChat)="addLearningPathToChat(learningPath)"
                         (sharedChange)="updatedLearningPathSharing(learningPath)" />
                     }
                     <p-divider />
                     <h5>Rotas de alunos</h5>
                     @for (learningPath of filteredStudentLearningPaths; track learningPath.id) {
                     <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
+                        [inChat]="isLearningPathIdInChat(learningPath.id)"
+                        (addToChat)="addLearningPathToChat(learningPath)"
                         (sharedChange)="updatedLearningPathSharing(learningPath)" />
                     }
                 </div>

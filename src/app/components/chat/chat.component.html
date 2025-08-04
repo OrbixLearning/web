@@ -28,6 +28,18 @@
         }
     </div>
 
+    @if (learningPaths.length > 0) {
+    <div class="learning-paths">
+        @for (learningPath of learningPaths; track learningPath.id) {
+        <div class="learning-path">
+            <p>{{learningPath.name}}</p>
+            <button (click)="removeLearningPath.emit(learningPath)"
+                [disabled]="isSending"><mat-icon>close</mat-icon></button>
+        </div>
+        }
+    </div>
+    }
+
     <div class="chat-input">
         <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <input matInput [(ngModel)]="input" placeholder="Escrever..." [disabled]="isSending" />

@@ -57,6 +57,23 @@
 		}
 	}
 
+	.learning-paths {
+		display: flex;
+		flex-direction: row;
+		gap: 10px;
+		overflow-x: auto;
+
+		.learning-path {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: 5px;
+			border: 1px solid #e0e0e0;
+			border-radius: 8px;
+			padding: 0 3px;
+		}
+	}
+
 	.chat-input {
 		width: 100%;
 		display: flex;
