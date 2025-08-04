@@ -7,15 +7,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { DividerModule } from 'primeng/divider';
 import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { Institution, InstitutionStyle } from '../../../../models/Institution';
 import { ContextService } from '../../../../services/context.service';
 import { InstitutionService } from '../../../../services/institution.service';
 import { ThemeService } from '../../../../services/theme.service';
-import { DividerModule } from 'primeng/divider';
-import { environment } from '../../../../../environments/environment';
 
 @Component({
 	selector: 'o-institution-settings',
@@ -46,7 +46,7 @@ export class InstitutionSettingsComponent {
 	form: FormGroup = this.formBuilder.group({});
 	logo?: File;
 	logoPreview: string | ArrayBuffer | null = null;
-	style: InstitutionStyle = this.ctx.institution?.style!;
+	initialStyle: InstitutionStyle = this.ctx.institution?.style!;
 	readonly MAX_IMAGE_SIZE: number = environment.MAX_IMAGE_SIZE;
 
 	ngOnInit() {
@@ -72,13 +72,15 @@ export class InstitutionSettingsComponent {
 		if (this.form.invalid) {
 			return true;
 		}
+		console.log("this.getFormControl('primaryColor').value", this.getFormControl('primaryColor').value);
+		console.log('this.style.primaryColor', this.initialStyle.primaryColor);
 		if (
 			this.getFormControl('name').value === this.ctx.institution?.name &&
-			this.getFormControl('primaryColor').value === this.style.primaryColor &&
-			this.getFormControl('secondaryColor').value === this.style.secondaryColor &&
-			this.getFormControl('backgroundColor').value === this.style.backgroundColor &&
-			this.getFormControl('textColor').value === this.style.textColor &&
-			this.getFormControl('theme').value === this.style.theme &&
+			this.getFormControl('primaryColor').value === this.initialStyle.primaryColor &&
+			this.getFormControl('secondaryColor').value === this.initialStyle.secondaryColor &&
+			this.getFormControl('backgroundColor').value === this.initialStyle.backgroundColor &&
+			this.getFormControl('textColor').value === this.initialStyle.textColor &&
+			this.getFormControl('theme').value === this.initialStyle.theme &&
 			this.logo === undefined
 		) {
 			return true;
@@ -142,7 +144,7 @@ export class InstitutionSettingsComponent {
 			)
 				.then((i: Institution) => {
 					this.ctx.institution = i;
-					this.style = i.style!;
+					this.initialStyle = i.style!;
 					this.resetForm();
 					this.theme.setInstitutionTheme(this.ctx.institution);
 				})
