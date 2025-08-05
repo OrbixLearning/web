@@ -29,6 +29,7 @@ import { QuestionLearningPathComponent } from './question-learning-path/question
 import { TextLearningPathComponent } from './text-learning-path/text-learning-path.component';
 import { VideoLearningPathComponent } from './video-learning-path/video-learning-path.component';
 import { LearningPathGenerationStatusEnum } from '../../../enums/LearningPathGenerationStatus.enum';
+import { ChatComponent } from '../../../components/chat/chat.component';
 
 @Component({
 	selector: 'o-learning-path',
@@ -45,6 +46,7 @@ import { LearningPathGenerationStatusEnum } from '../../../enums/LearningPathGen
 		QuestionLearningPathComponent,
 		TextLearningPathComponent,
 		VideoLearningPathComponent,
+        ChatComponent
 	],
 	templateUrl: './learning-path.component.html',
 	styleUrl: './learning-path.component.scss',

@@ -33,6 +33,7 @@ export class ChatComponent {
 	route: ActivatedRoute = inject(ActivatedRoute);
 
 	@Input() learningPaths: LearningPath[] = [];
+	@Input() showLearningPaths: boolean = true;
 	@Output() removeLearningPath: EventEmitter<LearningPath> = new EventEmitter<LearningPath>();
 
 	messages: AIChatMessage[] = [];

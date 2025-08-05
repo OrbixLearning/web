@@ -28,7 +28,7 @@
         }
     </div>
 
-    @if (learningPaths.length > 0) {
+    @if (learningPaths.length > 0 && showLearningPaths) {
     <div class="learning-paths">
         @for (learningPath of learningPaths; track learningPath.id) {
         <div class="learning-path">
