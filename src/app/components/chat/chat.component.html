@@ -1,6 +1,15 @@
 <o-loading [isLoading]="isLoading" />
 
 <div class="chat-main">
+    @if (messages && messages.length > 0) {
+    <div class="clear-button-div">
+        <button mat-icon-button class="clear-button" (click)="clear()" pTooltip="Limpar chat"
+            [disabled]="isSending || isLoading">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    }
+
     <div class="messages-wrapper">
         @if (messages.length > 0) {
         <div class="messages">

@@ -8,6 +8,16 @@
 	gap: 20px;
 	width: 100%;
 
+	.clear-button-div {
+		width: 100%;
+		display: flex;
+		justify-content: flex-start;
+
+		.clear-button {
+			position: absolute;
+		}
+	}
+
 	.messages-wrapper {
 		width: 100%;
 		height: 60vh;

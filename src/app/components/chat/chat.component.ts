@@ -12,6 +12,9 @@ import { AIChatService } from '../../services/aichat.service';
 import { ContextService } from '../../services/context.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { LearningPath } from '../../models/LearningPath/LearningPath';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmPopUpComponent, ConfirmPopUpData } from '../pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
 	selector: 'o-chat',
@@ -23,6 +26,7 @@ import { LearningPath } from '../../models/LearningPath/LearningPath';
 		MatFormFieldModule,
 		MatIconModule,
 		MarkdownModule,
+		TooltipModule,
 	],
 	templateUrl: './chat.component.html',
 	styleUrl: './chat.component.scss',
@@ -31,6 +35,7 @@ export class ChatComponent {
 	ctx: ContextService = inject(ContextService);
 	service: AIChatService = inject(AIChatService);
 	route: ActivatedRoute = inject(ActivatedRoute);
+	dialog: MatDialog = inject(MatDialog);
 
 	@Input() learningPaths: LearningPath[] = [];
 	@Input() showLearningPaths: boolean = true;
@@ -96,6 +101,31 @@ export class ChatComponent {
 			})
 			.catch(() => {
 				this.error = true;
+			});
+	}
+
+	clear() {
+		const data: ConfirmPopUpData = {
+			title: 'Tem certeza que deseja limpar o chat?',
+			message: 'Essa ação não pode ser desfeita.',
+			confirmButton: 'Limpar',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, {
+				data,
+			})
+			.afterClosed()
+			.subscribe(async confirmed => {
+				if (confirmed) {
+					this.isLoading = true;
+					await lastValueFrom(this.service.clear(this.ctx.classroom!.id))
+						.then(() => {
+							this.reset();
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				}
 			});
 	}
 }

@@ -19,4 +19,8 @@ export class AIChatService {
 	chat(classroomId: string, message: string, learningPathsIds: string[]): Observable<AIChatMessage> {
 		return this.http.post<AIChatMessage>(`${this.api}/${classroomId}`, { message, learningPathsIds });
 	}
+
+	clear(classroomId: string): Observable<void> {
+		return this.http.delete<void>(`${this.api}/${classroomId}/clear`);
+	}
 }
