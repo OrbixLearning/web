@@ -26,7 +26,8 @@
         <span>Compartilhada</span>
     </div>
 
-    <button mat-icon-button (click)="deleteLearningPath()">
+    <!-- TODO: Deleting learning paths is currently disabled (issue #22)-->
+    <button mat-icon-button (click)="deleteLearningPath()" [disabled]="true">
         <mat-icon>delete</mat-icon>
     </button>
     }
