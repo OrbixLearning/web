@@ -11,6 +11,7 @@ import { LearningPathService } from '../../../../services/learning-path.service'
 })
 export class AudioLearningPathComponent {
 	@Input() learningPathStudy!: AudioLearningPathStudy;
+	@Input() mode: 'view' | 'study' = 'view';
 
 	service: LearningPathService = inject(LearningPathService);
 

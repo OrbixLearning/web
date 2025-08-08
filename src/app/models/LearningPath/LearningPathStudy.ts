@@ -18,7 +18,9 @@ export type VideoLearningPathStudy = {} & LearningPathStudyBase;
 
 export type TextLearningPathStudy = {} & LearningPathStudyBase;
 
-export type FlashCardLearningPathStudy = {} & LearningPathStudyBase;
+export type FlashCardLearningPathStudy = {
+	cardsOrder: number[];
+} & LearningPathStudyBase;
 
 export type QuestionLearningPathStudy = {} & LearningPathStudyBase;
 

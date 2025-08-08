@@ -27,6 +27,7 @@ import { Question } from '../../../../models/LearningPath/Question';
 })
 export class QuestionLearningPathComponent {
 	@Input() learningPathStudy!: QuestionLearningPathStudy;
+	@Input() mode: 'view' | 'study' = 'view';
 
 	formBuilder: FormBuilder = inject(FormBuilder);
 

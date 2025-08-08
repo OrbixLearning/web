@@ -13,6 +13,7 @@ import { SafeUrlPipe } from '../../../../pipes/safe-url.pipe';
 })
 export class VideoLearningPathComponent {
 	@Input() learningPathStudy!: VideoLearningPathStudy;
+	@Input() mode: 'view' | 'study' = 'view';
 
 	videos: VideoDetails[] = [];
 

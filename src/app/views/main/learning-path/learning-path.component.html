@@ -40,27 +40,27 @@
 
     } @else if (generationStatus === generationStatusEnum.GENERATED) {
 
-    <div>
+    <div class="left">
         @switch (ctx.learningPathStudy!.learningPath!.type) {
         @case (typeEnum.TEXT) {
-        <o-text-learning-path [learningPathStudy]="learningPathStudyAsText" />
+        <o-text-learning-path [learningPathStudy]="learningPathStudyAsText" [mode]="mode" />
         }
         @case (typeEnum.VIDEO) {
-        <o-video-learning-path [learningPathStudy]="learningPathStudyAsVideo" />
+        <o-video-learning-path [learningPathStudy]="learningPathStudyAsVideo" [mode]="mode" />
         }
         @case (typeEnum.AUDIO) {
-        <o-audio-learning-path [learningPathStudy]="learningPathStudyAsAudio" />
+        <o-audio-learning-path [learningPathStudy]="learningPathStudyAsAudio" [mode]="mode" />
         }
         @case (typeEnum.FLASHCARD) {
-        <o-flash-card-learning-path [learningPathStudy]="learningPathStudyAsFlashCard" />
+        <o-flash-card-learning-path [learningPathStudy]="learningPathStudyAsFlashCard" [mode]="mode" />
         }
         @case (typeEnum.QUESTION) {
-        <o-question-learning-path [learningPathStudy]="learningPathStudyAsQuestion" />
+        <o-question-learning-path [learningPathStudy]="learningPathStudyAsQuestion" [mode]="mode" />
         }
         }
     </div>
 
-    <div>
+    <div class="right">
         <o-chat [learningPaths]="[ctx.learningPathStudy!.learningPath]" [showLearningPaths]="false" />
     </div>
 

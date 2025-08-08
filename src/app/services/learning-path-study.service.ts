@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LearningPathStudy } from '../models/LearningPath/LearningPathStudy';
+import { FlashCardLearningPathStudy, LearningPathStudy } from '../models/LearningPath/LearningPathStudy';
 
 @Injectable({
 	providedIn: 'root',
@@ -13,5 +13,9 @@ export class LearningPathStudyService {
 
 	get(learningPathId: string): Observable<LearningPathStudy> {
 		return this.http.get<LearningPathStudy>(`${this.api}/${learningPathId}`);
+	}
+
+	shuffle(learningPathId: string): Observable<FlashCardLearningPathStudy> {
+		return this.http.put<FlashCardLearningPathStudy>(`${this.api}/${learningPathId}/shuffle`, {});
 	}
 }

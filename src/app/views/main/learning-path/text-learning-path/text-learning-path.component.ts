@@ -16,6 +16,7 @@ import { LearningPathService } from '../../../../services/learning-path.service'
 })
 export class TextLearningPathComponent {
 	@Input() learningPathStudy!: TextLearningPathStudy;
+	@Input() mode: 'view' | 'study' = 'view';
 
 	service: LearningPathService = inject(LearningPathService);
 
