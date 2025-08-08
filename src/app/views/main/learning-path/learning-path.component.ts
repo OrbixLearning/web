@@ -7,11 +7,13 @@ import { Router, RouterModule } from '@angular/router';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
+import { ChatComponent } from '../../../components/chat/chat.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { LearningPathGenerationStatusEnum } from '../../../enums/LearningPathGenerationStatus.enum';
 import { LearningPathTypeEnum } from '../../../enums/LearningPathType.enum';
 import { LearningPath } from '../../../models/LearningPath/LearningPath';
 import {
@@ -28,8 +30,6 @@ import { FlashCardLearningPathComponent } from './flash-card-learning-path/flash
 import { QuestionLearningPathComponent } from './question-learning-path/question-learning-path.component';
 import { TextLearningPathComponent } from './text-learning-path/text-learning-path.component';
 import { VideoLearningPathComponent } from './video-learning-path/video-learning-path.component';
-import { LearningPathGenerationStatusEnum } from '../../../enums/LearningPathGenerationStatus.enum';
-import { ChatComponent } from '../../../components/chat/chat.component';
 
 @Component({
 	selector: 'o-learning-path',
@@ -46,7 +46,7 @@ import { ChatComponent } from '../../../components/chat/chat.component';
 		QuestionLearningPathComponent,
 		TextLearningPathComponent,
 		VideoLearningPathComponent,
-        ChatComponent
+		ChatComponent,
 	],
 	templateUrl: './learning-path.component.html',
 	styleUrl: './learning-path.component.scss',
@@ -91,7 +91,26 @@ export class LearningPathComponent {
 		if (this.mode === 'view') {
 			this.mode = 'study';
 		} else {
-			this.mode = 'view';
+			if (
+				this.ctx.learningPathStudy?.learningPath.type === LearningPathTypeEnum.FLASHCARD ||
+				this.ctx.learningPathStudy?.learningPath.type === LearningPathTypeEnum.QUESTION
+			) {
+				let data: ConfirmPopUpData = {
+					title: 'Entrar no modo de visualização vai expor todas as respostas. Tem certeza que deseja continuar?',
+					message: 'Você poderá voltar ao modo de estudo posteriormente.',
+					confirmButton: 'Continuar',
+				};
+				this.dialog
+					.open(ConfirmPopUpComponent, { data })
+					.afterClosed()
+					.subscribe((confirmed: boolean) => {
+						if (confirmed) {
+							this.mode = 'view';
+						}
+					});
+			} else {
+				this.mode = 'view';
+			}
 		}
 	}
 

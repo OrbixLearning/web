@@ -22,6 +22,12 @@ export type FlashCardLearningPathStudy = {
 	cardsOrder: number[];
 } & LearningPathStudyBase;
 
-export type QuestionLearningPathStudy = {} & LearningPathStudyBase;
-
 export type AudioLearningPathStudy = {} & LearningPathStudyBase;
+
+export type QuestionLearningPathStudy = {
+	userAnswers: AnsweredQuestion[];
+} & LearningPathStudyBase;
+
+export type AnsweredQuestion = {
+	answer: string[];
+};

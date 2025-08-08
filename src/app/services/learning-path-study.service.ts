@@ -18,4 +18,11 @@ export class LearningPathStudyService {
 	shuffle(learningPathId: string): Observable<FlashCardLearningPathStudy> {
 		return this.http.put<FlashCardLearningPathStudy>(`${this.api}/${learningPathId}/shuffle`, {});
 	}
+
+	answer(learningPathStudyId: string, questionIndex: number, answer: string[]): Observable<LearningPathStudy> {
+		return this.http.put<LearningPathStudy>(`${this.api}/${learningPathStudyId}/answer`, {
+			questionIndex,
+			answer,
+		});
+	}
 }
