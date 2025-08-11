@@ -21,6 +21,7 @@ import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
 import { QuestionLearningPath } from '../../../../models/LearningPath/LearningPath';
 import { QuestionLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { Question } from '../../../../models/LearningPath/Question';
+import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 
 type QuestionContext = {
 	question: Question;
@@ -47,6 +48,7 @@ export class QuestionLearningPathComponent {
 
 	formBuilder: FormBuilder = inject(FormBuilder);
 	dialog: MatDialog = inject(MatDialog);
+	service: LearningPathStudyService = inject(LearningPathStudyService);
 
 	questionsContext: QuestionContext[] = [];
 	index: number = 0;
@@ -54,6 +56,7 @@ export class QuestionLearningPathComponent {
 	questionTypeEnum = QuestionTypeEnum;
 	showAnswers: boolean = false;
 	amountOfIncorrectAnswers: number = 0;
+	openEndedQuestionsDebounceTimer: any;
 
 	get question(): Question | undefined {
 		return this.questionContext?.question;
@@ -86,6 +89,9 @@ export class QuestionLearningPathComponent {
 
 	markSingle(option: string) {
 		this.questionContext!.userAnswer = [option];
+		const questionIndex = this.index;
+		const answer = this.questionContext!.userAnswer;
+		this.saveAnswer(questionIndex, answer);
 	}
 
 	markMulti(option: string) {
@@ -95,6 +101,9 @@ export class QuestionLearningPathComponent {
 		} else {
 			currentAnswer = [...currentAnswer, option];
 		}
+		const questionIndex = this.index;
+		const answer = this.questionContext!.userAnswer;
+		this.saveAnswer(questionIndex, answer);
 	}
 
 	updateOpenEndedAnswer(event: Event) {
@@ -105,6 +114,21 @@ export class QuestionLearningPathComponent {
 		} else {
 			this.questionContext!.userAnswer = [''];
 		}
+
+		if (this.openEndedQuestionsDebounceTimer) {
+			clearTimeout(this.openEndedQuestionsDebounceTimer);
+		}
+
+		this.openEndedQuestionsDebounceTimer = setTimeout(() => {
+			const questionIndex = this.index;
+			const userAnswer = this.questionContext!.userAnswer;
+			this.saveAnswer(questionIndex, userAnswer);
+		}, 5000);
+	}
+
+	async saveAnswer(questionIndex: number, answer: string[]) {
+		const id = this.learningPathStudy.id;
+		await lastValueFrom(this.service.answer(id, questionIndex, answer));
 	}
 
 	nextQuestion() {
