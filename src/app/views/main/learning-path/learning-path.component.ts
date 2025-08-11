@@ -59,7 +59,7 @@ export class LearningPathComponent {
 
 	isLoading: boolean = false;
 	mine: boolean = this.ctx.learningPathStudy?.learningPath.creator.id === this.ctx.user?.id;
-	mode: 'view' | 'study' = this.mine || !this.ctx.isTeacher ? 'study' : 'view';
+	mode: 'view' | 'study' = this.ctx.isTeacher ? 'view' : 'study';
 	typeEnum = LearningPathTypeEnum;
 	generationStatusEnum = LearningPathGenerationStatusEnum;
 

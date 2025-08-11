@@ -1,53 +1,77 @@
-<div>
-    <div>
-        <p>{{question?.statement}}</p>
-    </div>
-    <form [formGroup]="form" (ngSubmit)="verifyAnswer()">
-        @switch (question?.type) {
+<div class="question">
+    <div class="left">
+        <div>
+            <p>{{question?.statement}}</p>
+        </div>
 
+        @switch (question?.type) {
         @case (questionTypeEnum.MULTIPLE_CHOICE) {
-        <mat-radio-group formControlName="answers">
+        <mat-radio-group class="choices">
             @for (option of question?.options; track option) {
-            <mat-radio-button [value]="[option]">{{option}}</mat-radio-button>
+            <mat-radio-button [checked]="userAnswer.includes(option)" (change)="markSingle(option)"
+                [value]="[option]">{{option}}</mat-radio-button>
             }
         </mat-radio-group>
         }
 
         @case (questionTypeEnum.MULTIPLE_SELECTION) {
-        @for (option of question?.options; track option) {
-        <mat-checkbox (change)="markedCheckbox(option)">{{option}}</mat-checkbox>
-        }
+        <div class="choices">
+            @for (option of question?.options; track option) {
+            <mat-checkbox [checked]="userAnswer.includes(option)" (change)="markMulti(option)"
+                [value]="option">{{option}}</mat-checkbox>
+            }
+        </div>
         }
 
         @case (questionTypeEnum.TRUE_FALSE) {
-        <mat-button-toggle-group formControlName="answers">
-            <mat-button-toggle [value]="['true']">Verdadeiro</mat-button-toggle>
-            <mat-button-toggle [value]="['false']">Falso</mat-button-toggle>
+        <mat-button-toggle-group>
+            <mat-button-toggle [checked]="userAnswer.includes('true')" (change)="markSingle('true')"
+                value="true">Verdadeiro</mat-button-toggle>
+            <mat-button-toggle [checked]="userAnswer.includes('false')" (change)="markSingle('false')"
+                value="false">Falso</mat-button-toggle>
         </mat-button-toggle-group>
         }
 
         @case (questionTypeEnum.OPEN_ENDED) {
         <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label>Resposta</mat-label>
-            <textarea matInput rows="5" [value]="answersControl.value?.[0] || ''"
-                (input)="updateOpenEndedAnswer($event)" formControlName="answers">
+            <textarea matInput rows="5" [value]="userAnswer[0] || ''" (input)="updateOpenEndedAnswer($event)">
             </textarea>
         </mat-form-field>
         }
-
         }
 
-        @if (result) {
-        <p>{{result}}</p>
+        @if (showAnswers) {
+        <span><span style="font-weight: bold">Resposta correta:</span> {{currentQuestionAnswer}}</span>
         }
 
-        <button mat-raised-button [disabled]="form.invalid" type="submit">Verificar resposta</button>
-    </form>
+        <div>
+            @if (index > 0) {
+            <button mat-button (click)="previousQuestion()"> Anterior </button>
+            }
+            @if (index < (questionsContext.length - 1)) { <button mat-button (click)="nextQuestion()"> Próxima
+                </button>
+                }
+        </div>
+    </div>
 
-    <div>
-        @if (index > 0) {
-        <button mat-button (click)="previousQuestion()"> Anterior </button>
-        }
-        @if (index < (questions.length - 1)) { <button mat-button (click)="nextQuestion()"> Próxima </button> }
+    <div class="right">
+        <div class="questions-menu">
+            @for (context of questionsContext; track $index) {
+            <button mat-stroked-button (click)="goToQuestion($index)"
+                [style]="'background-color: ' + (showAnswers && !verifyAnswer($index) ? '#550000' : '')">
+                <mat-icon>{{context.userAnswer.length > 0 ? 'check' : 'close'}}</mat-icon>
+                <span>Questão {{$index + 1}} {{context.userAnswer.length > 0 ? '' : '(não respondida)'}}</span>
+            </button>
+            }
+        </div>
+        <div>
+            @if (!showAnswers) {
+            <button mat-raised-button (click)="verifyAnswers()">Verificar Respostas</button>
+            } @else {
+            <p>{{amountOfIncorrectAnswers}} respostas incorretas</p>
+            <button mat-raised-button (click)="showAnswers = false">Esconder Respostas</button>
+            }
+        </div>
     </div>
 </div>

@@ -1,26 +1,42 @@
 import { Component, inject, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { lastValueFrom } from 'rxjs';
+import {
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
+} from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import {
+	SuccessPopUpComponent,
+	SuccessPopUpData,
+} from '../../../../components/pop-ups/success-pop-up/success-pop-up.component';
 import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
 import { QuestionLearningPath } from '../../../../models/LearningPath/LearningPath';
 import { QuestionLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { Question } from '../../../../models/LearningPath/Question';
 
+type QuestionContext = {
+	question: Question;
+	userAnswer: string[];
+};
+
 @Component({
 	selector: 'o-question-learning-path',
 	imports: [
-		ReactiveFormsModule,
 		MatButtonModule,
 		MatRadioModule,
 		MatCheckboxModule,
 		MatButtonToggleModule,
 		MatFormFieldModule,
 		MatInputModule,
+		MatIconModule,
 	],
 	templateUrl: './question-learning-path.component.html',
 	styleUrl: './question-learning-path.component.scss',
@@ -30,35 +46,54 @@ export class QuestionLearningPathComponent {
 	@Input() mode: 'view' | 'study' = 'view';
 
 	formBuilder: FormBuilder = inject(FormBuilder);
+	dialog: MatDialog = inject(MatDialog);
 
+	questionsContext: QuestionContext[] = [];
 	index: number = 0;
-	questions: Question[] = [];
-	question?: Question;
+	questionContext?: QuestionContext;
 	questionTypeEnum = QuestionTypeEnum;
-	form: FormGroup = this.formBuilder.group({
-		answers: this.formBuilder.control<string[]>([], Validators.required),
-	});
-	result?: string;
+	showAnswers: boolean = false;
+	amountOfIncorrectAnswers: number = 0;
 
-	get answersControl(): FormControl {
-		return this.form.get('answers') as FormControl;
+	get question(): Question | undefined {
+		return this.questionContext?.question;
+	}
+
+	get userAnswer(): string[] {
+		return this.questionContext?.userAnswer || [];
+	}
+
+	get currentQuestionAnswer(): string {
+		return this.question?.answers.join(', ') || '';
 	}
 
 	ngOnInit() {
-		this.questions = (this.learningPathStudy.learningPath as QuestionLearningPath).questions!;
-		this.question = this.questions[this.index];
+		this.startData();
 	}
 
-	markedCheckbox(option: string) {
-		const currentAnswers = this.form.value.answers || [];
-		if (currentAnswers.includes(option)) {
-			this.form.patchValue({
-				answers: currentAnswers.filter((answer: string) => answer !== option),
+	startData() {
+		const questions = (this.learningPathStudy.learningPath as QuestionLearningPath).questions!;
+		const userAnswers =
+			(this.learningPathStudy as QuestionLearningPathStudy).userAnswers || questions.map(() => []);
+		for (let i = 0; i < questions.length; i++) {
+			this.questionsContext.push({
+				question: questions[i],
+				userAnswer: userAnswers[i].answer || [],
 			});
+		}
+		this.questionContext = this.questionsContext[this.index];
+	}
+
+	markSingle(option: string) {
+		this.questionContext!.userAnswer = [option];
+	}
+
+	markMulti(option: string) {
+		let currentAnswer = this.questionContext!.userAnswer;
+		if (currentAnswer.includes(option)) {
+			currentAnswer.filter((answer: string) => answer !== option);
 		} else {
-			this.form.patchValue({
-				answers: [...currentAnswers, option],
-			});
+			currentAnswer = [...currentAnswer, option];
 		}
 	}
 
@@ -66,47 +101,92 @@ export class QuestionLearningPathComponent {
 		const input = event.target as HTMLInputElement;
 		const answer = input.value.trim();
 		if (answer) {
-			this.form.patchValue({
-				answers: [answer],
-			});
+			this.questionContext!.userAnswer = [answer];
 		} else {
-			this.form.patchValue({
-				answers: [''],
-			});
-		}
-	}
-
-	verifyAnswer() {
-		if (this.form.valid) {
-			const userAnswers = this.form.value.answers;
-			const correctAnswers = this.question!.answers;
-
-			if (userAnswers.length !== correctAnswers.length) {
-				this.result = 'Errado!';
-				return;
-			}
-
-			const isCorrect = userAnswers.every((answer: string) => correctAnswers.includes(answer));
-
-			this.result = isCorrect ? 'Acertou!' : 'Errado!';
+			this.questionContext!.userAnswer = [''];
 		}
 	}
 
 	nextQuestion() {
-		if (this.index < this.questions.length - 1) {
-			this.form.reset();
-			this.result = undefined;
+		if (this.index < this.questionsContext.length - 1) {
 			this.index++;
-			this.question = this.questions[this.index];
+			this.questionContext = this.questionsContext[this.index];
 		}
 	}
 
 	previousQuestion() {
 		if (this.index > 0) {
-			this.form.reset();
-			this.result = undefined;
 			this.index--;
-			this.question = this.questions[this.index];
+			this.questionContext = this.questionsContext[this.index];
+		}
+	}
+
+	goToQuestion(i: number) {
+		if (i >= 0 && i < this.questionsContext.length) {
+			this.index = i;
+			this.questionContext = this.questionsContext[this.index];
+		}
+	}
+
+	verifyAnswer(i: number): boolean {
+		const userAnswers = this.questionsContext[i].userAnswer;
+		const correctAnswers = this.questionsContext[i].question.answers;
+
+		if (userAnswers.length !== correctAnswers.length) {
+			return false;
+		}
+
+		// TODO: Verify open-ended answers
+		if (this.questionsContext[i].question.type === QuestionTypeEnum.OPEN_ENDED) {
+			return true;
+		}
+
+		return userAnswers.every((answer: string) => correctAnswers.includes(answer));
+	}
+
+	async verifyAnswers() {
+		if (this.questionsContext.some(q => q.userAnswer.length === 0)) {
+			const data: ConfirmPopUpData = {
+				title: 'Há questões sem resposta. Deseja verificar as respostas mesmo assim?',
+				confirmButton: 'Verificar respostas',
+			};
+			let checkAnswers: boolean | undefined = await lastValueFrom(
+				this.dialog.open(ConfirmPopUpComponent, { data }).afterClosed(),
+			);
+			if (!checkAnswers) {
+				return;
+			}
+		}
+
+		let incorrectAnswers: number[] = [];
+		for (let i = 0; i < this.questionsContext.length; i++) {
+			if (!this.verifyAnswer(i)) {
+				incorrectAnswers.push(i);
+			}
+		}
+
+		if (incorrectAnswers.length === 0) {
+			const data: SuccessPopUpData = {
+				title: 'Parabéns!',
+				message: 'Você respondeu todas as questões corretamente.',
+			};
+			this.dialog.open(SuccessPopUpComponent, { data });
+		} else {
+			const data: ConfirmPopUpData = {
+				title: `Você errou ${incorrectAnswers.length} ${
+					incorrectAnswers.length > 1 ? 'questões' : 'questão'
+				}. Gostaria de ver as respostas corretas?`,
+				message: 'Confirmar irá exibir todas as respostas corretas.',
+				confirmButton: 'Ver respostas',
+				cancelButton: 'Tentar novamente',
+			};
+			this.dialog
+				.open(ConfirmPopUpComponent, { data })
+				.afterClosed()
+				.subscribe((confirmed: boolean | undefined) => {
+					this.showAnswers = !!confirmed;
+					this.amountOfIncorrectAnswers = incorrectAnswers.length;
+				});
 		}
 	}
 }
