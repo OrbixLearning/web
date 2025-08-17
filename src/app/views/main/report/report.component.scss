@@ -1,0 +1,33 @@
+.report {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+
+	.content {
+		display: flex;
+		flex-direction: row;
+		gap: 60px;
+
+		.form {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			justify-content: center;
+		}
+
+		.list {
+			width: 50%;
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+
+		.contacts {
+			width: 40%;
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+	}
+}

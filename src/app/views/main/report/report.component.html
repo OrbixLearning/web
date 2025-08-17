@@ -1,9 +1,9 @@
 <o-loading [isLoading]="isLoading" />
 
-<div>
+<div class="report">
     <h1>Fale conosco</h1>
-    <div>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="content">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
             <mat-form-field appearance="fill" subscriptSizing="dynamic">
                 <mat-label>Título</mat-label>
                 <input type="text" matInput formControlName="title" />
@@ -23,12 +23,11 @@
             <button mat-raised-button type="submit">Enviar</button>
         </form>
 
-        <div>
+        <div class="list">
             <h3>Suas mensagens</h3>
             @for (report of userReports; track report.id) {
             <mat-card>
                 <mat-card-title>{{report.title}}</mat-card-title>
-                <mat-card-subtitle>{{report.id}}</mat-card-subtitle>
                 <mat-card-subtitle>{{formatDate(report.createdAt)}}</mat-card-subtitle>
                 <mat-card-subtitle>{{report.type}}</mat-card-subtitle>
                 <mat-card-content>
@@ -36,6 +35,12 @@
                 </mat-card-content>
             </mat-card>
             }
+        </div>
+
+        <div class="contacts">
+            <h3>Contatos</h3>
+            <p>Email: <a href="mailto:brunopenabaeta@outlook.com">brunopenabaeta&#64;outlook.com</a></p>
+            <p>Telefone: <a href="tel:+5531985370868">+55 31 98537-0868</a></p>
         </div>
     </div>
 </div>
