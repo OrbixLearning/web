@@ -95,11 +95,11 @@ export class QuestionLearningPathComponent {
 	}
 
 	markMulti(option: string) {
-		let currentAnswer = this.questionContext!.userAnswer;
-		if (currentAnswer.includes(option)) {
-			currentAnswer.filter((answer: string) => answer !== option);
+		console.log('markMulti', option);
+		if (this.questionContext!.userAnswer.includes(option)) {
+			this.questionContext!.userAnswer.filter((answer: string) => answer !== option);
 		} else {
-			currentAnswer = [...currentAnswer, option];
+			this.questionContext!.userAnswer = [...this.questionContext!.userAnswer, option];
 		}
 		const questionIndex = this.index;
 		const answer = this.questionContext!.userAnswer;
