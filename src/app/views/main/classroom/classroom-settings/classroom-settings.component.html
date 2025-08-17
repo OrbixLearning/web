@@ -66,7 +66,7 @@
         @if (!syllabus || syllabus.length === 0) {
         <div>
             @if (!syllabusDocument) {
-            <p-fileupload mode="basic" chooseLabel="Criar ementar a partir de um documento" name="logo" [auto]="true"
+            <p-fileupload mode="basic" chooseLabel="Criar ementa a partir de um documento" name="logo" [auto]="true"
                 accept=".pdf" [maxFileSize]="MAX_FILE_SIZE" (onSelect)="selectSyllabusDocument($event)" />
             } @else {
             <p>{{syllabusDocument.name}}</p>
