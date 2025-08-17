@@ -9,8 +9,6 @@ export type User = {
 	name: string;
 	role: Role;
 	profilePictureUrl: string | null;
-
-	createdInstitutions?: Institution[];
 };
 
 export type UserAccount = {

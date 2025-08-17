@@ -52,8 +52,6 @@ export class AccountCardComponent {
 		switch (this.institutionRole) {
 			case InstitutionRoleEnum.ADMIN:
 				return 'Administrador';
-			case InstitutionRoleEnum.CREATOR:
-				return 'Criador';
 			case InstitutionRoleEnum.STUDENT:
 				return 'Aluno';
 			case InstitutionRoleEnum.TEACHER:

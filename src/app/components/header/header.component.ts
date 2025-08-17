@@ -61,10 +61,7 @@ export class HeaderComponent {
 		if (!this.ctx.institution?.id || !this.ctx.institutionRoles) {
 			return false;
 		}
-		return (
-			this.ctx.institutionRoles!.includes(InstitutionRoleEnum.ADMIN) ||
-			this.ctx.institutionRoles!.includes(InstitutionRoleEnum.CREATOR)
-		);
+		return this.ctx.institutionRoles!.includes(InstitutionRoleEnum.ADMIN);
 	}
 
 	get profilePictureUrl(): string {

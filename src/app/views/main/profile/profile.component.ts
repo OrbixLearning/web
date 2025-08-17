@@ -55,7 +55,6 @@ export class ProfileComponent {
 	form: FormGroup = this.formBuilder.group({});
 	userId?: string;
 	user?: User;
-	creatorEnum: InstitutionRoleEnum = InstitutionRoleEnum.CREATOR;
 	readonly MAX_IMAGE_SIZE: number = environment.MAX_IMAGE_SIZE;
 
 	ngOnInit() {
@@ -93,13 +92,6 @@ export class ProfileComponent {
 			return [];
 		}
 		return this.user?.accounts.sort((a, b) => a.email.localeCompare(b.email));
-	}
-
-	get sortedCreatedInstitutions(): Institution[] {
-		if (!this.user?.createdInstitutions) {
-			return [];
-		}
-		return this.user?.createdInstitutions.sort((a, b) => a.name.localeCompare(b.name));
 	}
 
 	get profilePictureUrl(): string {

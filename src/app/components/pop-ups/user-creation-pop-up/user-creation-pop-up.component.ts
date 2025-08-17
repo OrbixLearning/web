@@ -49,7 +49,7 @@ export class UserCreationPopUpComponent {
 	error: string = '';
 	hidePassword: boolean = true;
 	hidePasswordConfirmation: boolean = true;
-	roles: InstitutionRoleEnum[] = Object.values(InstitutionRoleEnum).filter(r => r !== InstitutionRoleEnum.CREATOR);
+	roles: InstitutionRoleEnum[] = Object.values(InstitutionRoleEnum);
 
 	getFormControl(name: string): FormControl {
 		return this.form.get(name) as FormControl;

@@ -172,7 +172,7 @@ export class ContextService {
 
 	// MISC
 	get isTeacher(): boolean {
-		let professorRoles = [InstitutionRoleEnum.CREATOR, InstitutionRoleEnum.ADMIN, InstitutionRoleEnum.TEACHER];
+		let professorRoles = [InstitutionRoleEnum.ADMIN, InstitutionRoleEnum.TEACHER];
 		return professorRoles.some(role => this.institutionRoles?.includes(role));
 	}
 }

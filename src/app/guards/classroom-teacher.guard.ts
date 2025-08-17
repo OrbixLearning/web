@@ -14,7 +14,6 @@ export const classroomTeacherGuard: CanActivateFn = async (route, state) => {
 
 		return (
 			ctx.institutionRoles!.includes(InstitutionRoleEnum.ADMIN) ||
-			ctx.institutionRoles!.includes(InstitutionRoleEnum.CREATOR) ||
 			ctx.institutionRoles!.includes(InstitutionRoleEnum.TEACHER)
 		);
 	} catch (e) {

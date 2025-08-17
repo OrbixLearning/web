@@ -50,9 +50,7 @@ export class InstitutionUsersComponent {
 	page?: Page<UserAccount>;
 	accounts: UserAccount[] = [];
 	totalRecords: number = 0;
-	roles: InstitutionRoleEnum[] = Object.values(InstitutionRoleEnum).filter(
-		ire => ire !== InstitutionRoleEnum.CREATOR,
-	);
+	roles: InstitutionRoleEnum[] = Object.values(InstitutionRoleEnum);
 	rolesFilter?: InstitutionRoleEnum;
 	selectedUsers: UserAccount[] = [];
 	paginationFirst: number = 0;

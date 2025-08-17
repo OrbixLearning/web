@@ -8,7 +8,6 @@ export type Institution = {
 
 	accounts?: UserAccount[];
 	classrooms?: Classroom[];
-	creator?: User;
 };
 
 export type InstitutionStyle = {

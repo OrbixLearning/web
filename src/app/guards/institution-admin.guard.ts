@@ -12,10 +12,7 @@ export const institutionAdminGuard: CanActivateFn = async (route, state) => {
 			await ctx.loadInstitutionRoles();
 		}
 
-		return (
-			ctx.institutionRoles!.includes(InstitutionRoleEnum.ADMIN) ||
-			ctx.institutionRoles!.includes(InstitutionRoleEnum.CREATOR)
-		);
+		return ctx.institutionRoles!.includes(InstitutionRoleEnum.ADMIN);
 	} catch (e) {
 		const institutionId = getParamFromRouteTree(route, 'institutionId');
 		router.navigateByUrl('/i/' + institutionId);
