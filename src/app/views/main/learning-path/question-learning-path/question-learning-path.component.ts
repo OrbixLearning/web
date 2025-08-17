@@ -95,7 +95,6 @@ export class QuestionLearningPathComponent {
 	}
 
 	markMulti(option: string) {
-		console.log('markMulti', option);
 		if (this.questionContext!.userAnswer.includes(option)) {
 			this.questionContext!.userAnswer.filter((answer: string) => answer !== option);
 		} else {
