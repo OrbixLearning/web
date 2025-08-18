@@ -72,8 +72,6 @@ export class InstitutionSettingsComponent {
 		if (this.form.invalid) {
 			return true;
 		}
-		console.log("this.getFormControl('primaryColor').value", this.getFormControl('primaryColor').value);
-		console.log('this.style.primaryColor', this.initialStyle.primaryColor);
 		if (
 			this.getFormControl('name').value === this.ctx.institution?.name &&
 			this.getFormControl('primaryColor').value === this.initialStyle.primaryColor &&
