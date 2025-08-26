@@ -1,1 +1,15 @@
-<p>home works!</p>
+<div>
+    <h1>Instituições</h1>
+    <div>
+        @for (institution of ctx.institutionList; track institution.id) {
+        <button mat-button (click)="changeInstitution(institution.id!)">
+            <img [src]="getLogo(institution.id!)" alt="institution logo" />
+            <span>{{institution.name}}</span>
+        </button>
+        } @empty {
+        <p>Você ainda não está cadastrado em nenhuma instituição.</p>
+        <p>Vincule sua conta institucional <button mat-button [routerLink]="'/profile/' + ctx.user?.id">aqui</button>.
+        </p>
+        }
+    </div>
+</div>
