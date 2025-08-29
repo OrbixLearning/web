@@ -3,7 +3,7 @@
     <div>
         @for (institution of ctx.institutionList; track institution.id) {
         <button mat-button (click)="changeInstitution(institution.id!)">
-            <img [src]="getLogo(institution.id!)" alt="institution logo" />
+            <img [src]="getLogo(institution.id!)" alt="institution logo" style="width: 48px;" />
             <span>{{institution.name}}</span>
         </button>
         } @empty {
