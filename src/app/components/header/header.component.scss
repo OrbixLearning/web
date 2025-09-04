@@ -17,7 +17,7 @@ header {
 	width: 100%;
 
 	mat-icon {
-		color: var(--text-color);
+		color: var(--text-color-inverse);
 		font-size: 24px;
 		cursor: pointer;
 	}
@@ -57,4 +57,8 @@ header {
 
 .right-header {
 	justify-content: flex-end;
+}
+
+.header-icon-button mat-icon {
+	color: #e0e0e0; 
 }

@@ -64,16 +64,29 @@ export class HeaderComponent {
 	}
 
 	get canConfigureInstitution(): boolean {
-		if (!this.ctx.institution?.id || !this.ctx.institutionRoles) {
-			return false;
-		}
-		return this.ctx.institutionRoles!.includes(InstitutionRoleEnum.ADMIN);
+		if (!this.ctx.institution?.id || !this.ctx.institutionRoles) return false;
+		return this.ctx.institutionRoles.includes(InstitutionRoleEnum.ADMIN)
+			|| this.ctx.institutionRoles.includes(InstitutionRoleEnum.TEACHER);
 	}
 
 	get profilePictureUrl(): string {
 		if (!this.ctx.user) return '';
 		return this.userService.getProfilePictureUrl(this.ctx.user!);
 	}
+
+	get currentTheme(): 'light' | 'dark' {
+		return this.theme.getCurrentGlobalTheme();
+	}
+
+	toggleTheme() {
+        const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        if (newTheme === 'light') {
+            this.theme.setLightTheme();
+        } else {
+            this.theme.setDarkTheme();
+        }
+    }
+
 
 	setInstitution() {
 		const urlSegments = this.router.url.split('/');
@@ -82,9 +95,17 @@ export class HeaderComponent {
 	}
 
 	setThemes() {
-		if (this.ctx.institution?.id) this.theme.setInstitutionTheme(this.ctx.institution);
-		else this.theme.setBaseTheme();
-	}
+        if (this.ctx.institution?.id && this.ctx.institution.style) {
+        this.theme.setInstitutionTheme(this.ctx.institution);
+    } else {
+        const current = this.theme.getCurrentGlobalTheme();
+        if (current === 'dark') {
+            this.theme.setDarkTheme();
+        } else {
+            this.theme.setLightTheme();
+        }
+    }
+}
 
 	changeInstitution(institutionId: string | null) {
 		this.ctx.institution = this.institutions.find(inst => inst.id === institutionId) || this.personalInstitution;
@@ -109,6 +130,8 @@ export class HeaderComponent {
 		if (this.ctx.institution?.id) {
 			this.router.navigate(['/i/' + this.ctx.institution.id]);
 		} else {
+			this.ctx.clearInstitution();
+			this.theme.applySavedGlobalTheme();
 			this.router.navigate(['/']);
 		}
 	}
