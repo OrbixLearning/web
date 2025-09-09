@@ -1,3 +1,94 @@
+:host {
+	display: block;
+}
+
 .classroom-card {
 	cursor: pointer;
+	padding: 16px;
+	border: 1px solid var(--border-color);
+	border-radius: 12px;
+	background-color: var(--secondary-color);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+	transition: box-shadow 0.3s ease, transform 0.3s ease;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+	box-sizing: border-box;
+
+	&:hover {
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		transform: translateY(-4px);
+	}
+}
+
+.card-header {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin-bottom: 20px;
+}
+
+.classroom-icon-wrapper {
+	width: 54px;
+	height: 54px;
+	border-radius: 8px;
+	background-color: #f0f0f0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	
+	mat-icon {
+		font-size: 32px;
+		width: 32px;
+		height: 32px;
+		color: #888;
+	}
+}
+
+.classroom-info {
+  mat-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 4px;
+  }
+  mat-card-subtitle {
+    font-size: 0.9rem;
+    color: #777;
+  }
+}
+
+.card-footer {
+  margin-top: auto;
+}
+
+.stats {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+
+.stat-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.9rem;
+	color: #555;
+
+	mat-icon {
+		font-size: 1.2rem;
+		width: 1.2rem;
+		height: 1.2rem;
+		color: #888;
+	}
+}
+
+.last-activity {
+	font-size: 0.8rem;
+	color: #888;
+	border-top: 1px solid var(--border-color);
+	padding-top: 12px;
+	margin-top: 12px;
 }
