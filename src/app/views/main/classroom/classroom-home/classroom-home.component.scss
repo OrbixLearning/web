@@ -1,67 +1,154 @@
-.classroom-home {
-	.top-buttons {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		gap: 20px;
-	}
+:host {
+  display: block;
+  height: 100%;
+  background-color: var(--background-color); 
+}
 
-	.content {
-		display: flex;
-		flex-direction: row;
-		width: 100%;
-		gap: 30px;
+.classroom-home-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
-		.left-content {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			justify-content: flex-start;
-			align-items: flex-start;
-			gap: 20px;
-		}
+.classroom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 24px;
+  background-color: var(--primary-color);
+  color: var(--text-color-inverse);
+  flex-shrink: 0;
 
-		.right-content {
-			display: flex;
-			flex-direction: column;
-			gap: 20px;
-			width: 60%;
+  .classroom-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 
-			.filter-div {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				gap: 10px;
-				width: 100%;
+    h2 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 500;
+    }
+    mat-icon {
+      color: var(--text-color-inverse);
+    }
+  }
 
-				mat-form-field {
-					width: 100%;
-				}
+  .classroom-actions {
+    display: flex;
+    gap: 12px;
+    
+    .action-button {
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+      text-transform: uppercase;
+      font-weight: 500;
+      border-radius: 6px;
 
-				button {
-					width: 30%;
-				}
-			}
+      mat-icon {
+        color: var(--text-color);
+      }
+    }
+  }
+}
 
-			.learning-paths-div {
-				display: flex;
-				flex-direction: row;
-				width: 100%;
-				gap: 10px;
+.main-content {
+  display: flex;
+  flex-grow: 1;
+  gap: 24px;
+  padding: 24px;
+  overflow: hidden;
+}
 
-				.learning-paths {
-					display: flex;
-					flex-direction: column;
-					width: 100%;
-					gap: 10px;
-					justify-content: flex-start;
-					align-items: center;
-					border: 1px solid #e0e0e0;
-					border-radius: 8px;
-					padding: 20px;
-				}
-			}
-		}
-	}
+.chat-column {
+  width: 55%;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+.routes-column {
+  width: 45%;
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--secondary-color);
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+
+    input {
+      border: none;
+      outline: none;
+      background: transparent;
+      width: 100%;
+      font-size: 0.9rem;
+      color: var(--text-color);
+    }
+
+    mat-icon {
+        color: var(--text-color);
+        opacity: 0.7;
+    }
+}
+
+.syllabus-filter-container {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+
+    .syllabus-filter-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+        color: var(--text-color);
+    }
+
+    .syllabus-buttons {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .syllabus-button {
+      text-transform: none;
+      color: var(--text-color);
+    }
+}
+
+.routes-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.routes-section {
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: var(--text-color);
+  }
+}
+
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.empty-message {
+    color: var(--text-color);
+    opacity: 0.7;
+    padding: 16px 0;
+    font-size: 0.9rem;
 }
