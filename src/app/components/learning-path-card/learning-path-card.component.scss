@@ -1,0 +1,117 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.lp-card {
+  background-color: var(--secondary-color);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  &.mine {
+    .card-footer, .author-info {
+      display: none;
+    }
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .type-icon {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+
+    span {
+        background-color: var(--primary-color);
+        color: var(--text-color-inverse);
+        padding: 2px 8px;
+        border-radius: 6px;
+    }
+
+    mat-icon {
+      font-size: 1.2rem;
+      width: 1.2rem;
+      height: 1.2rem;
+      color: var(--text-color);
+    }
+  }
+
+  .validated-icon {
+    color: #34c759;
+    font-size: 1.5rem;
+  }
+}
+
+.card-body {
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0 0 12px 0;
+    color: var(--text-color);
+  }
+
+  .author-info, .date-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-top: 4px;
+
+    mat-icon {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 12px;
+
+  .tags {
+    display: flex;
+    gap: 8px;
+
+    .tag {
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .professor-tag {
+      background-color: var(--primary-color);
+      color: var(--text-color-inverse);
+    }
+
+    .aluno-tag, .shared-tag {
+      background-color: transparent;
+      color: var(--text-color);
+      opacity: 0.8;
+      border: 1px solid var(--border-color);
+    }
+  }
+}
