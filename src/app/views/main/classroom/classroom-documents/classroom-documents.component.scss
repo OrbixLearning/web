@@ -1,6 +1,154 @@
-.content {
-	display: flex;
-	flex-direction: row;
-	width: 100%;
-	gap: 30px;
+:host {
+  display: block;
+  height: 100%;
+  background-color: var(--background-color);
+}
+
+.container {
+  padding: 24px 32px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 32px;
+}
+
+.back-button {
+  color: var(--text-color);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.title-container {
+  .title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .subtitle {
+    color: var(--text-color-secondary);
+    font-size: 0.9rem;
+  }
+}
+
+.upload-button {
+  background-color: var(--primary-color);
+  color: var(--text-color-inverse);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.content-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 32px;
+}
+
+.sidebar {
+  background: var(--secondary-color);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  align-self: flex-start;
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--background-color);
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  
+  input {
+      border: none;
+      outline: none;
+      background: transparent;
+      width: 100%;
+      color: var(--text-color);
+  }
+
+  mat-icon {
+      color: var(--text-color-secondary);
+  }
+}
+
+.filter-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-weight: 500;
+
+    mat-icon {
+        color: var(--text-color-secondary);
+    }
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.document-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.document-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.doc-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+
+.doc-details {
+  display: flex;
+  flex-direction: column;
+  
+  .doc-name {
+    font-weight: 500;
+  }
+  
+  .doc-meta {
+    font-size: 0.8rem;
+    color: var(--text-color-secondary);
+  }
+}
+
+.doc-actions {
+  display: flex;
+  gap: 8px;
+
+  button {
+    color: var(--text-color-secondary);
+  }
+}
+
+.empty-message {
+  color: var(--text-color-secondary);
+  text-align: center;
+  padding: 32px;
 }
