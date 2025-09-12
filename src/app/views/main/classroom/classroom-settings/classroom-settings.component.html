@@ -1,82 +1,89 @@
 <o-loading [isLoading]="isLoading" />
 
-<header>
-    <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
-        <mat-icon>arrow_back</mat-icon>
+<div class="container">
+  <header class="header">
+    <button mat-icon-button class="back-button" [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
+      <mat-icon>arrow_back</mat-icon>
     </button>
-</header>
+    <div class="header-content">
+      <div class="title-container">
+        <h1 class="title">Configurações da Turma</h1>
+        <span class="subtitle">Configure informações básicas e gerencie a ementa</span>
+      </div>
+    </div>
+  </header>
 
-<div class="classroom-settings-div">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <h2>Configurações da Turma {{ctx.classroom?.name}}</h2>
+  <div class="content">
+    <div class="settings-section">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="info-form">
+        <h2 class="section-title">Informações da turma</h2>
 
-        <mat-form-field subscriptSizing="dynamic" appearance="outline">
-            <mat-label>Nome</mat-label>
-            <input matInput name="name" formControlName="name" required />
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Nome da turma</mat-label>
+          <input matInput formControlName="name" required />
         </mat-form-field>
 
-        <div>
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Ícone</mat-label>
-                <input matInput type="text" name="icon" formControlName="icon" />
-
-            </mat-form-field>
-
-            <mat-icon
-                [style]="'font-size: 48px; height: 48px; width: 48px; visibility: ' + (getFormControl('icon').value ? 'visible' : 'hidden')">
-                {{getFormControl('icon').value}}
-            </mat-icon>
+        <div class="icon-section">
+          <p>Ícone da turma</p>
+          <div class="icon-input-container">
+            <p-fileUpload mode="basic" chooseIcon="upload" chooseLabel="Alterar ícone" name="logo" [auto]="true" accept=".png,.svg" [maxFileSize]="MAX_FILE_SIZE" (onSelect)="selectSyllabusDocument($event)" />
+            <mat-icon class="icon-preview">{{getFormControl('icon').value}}</mat-icon>
+          </div>
         </div>
 
-        <p>É possível verificar a lista de ícones em <a href="https://fonts.google.com/icons?icon.set=Material+Icons"
-                target="_blank">Google Icons</a></p>
-
-        <div>
-            <button mat-button type="button" (click)="resetForm()">Cancelar</button>
-            <button mat-raised-button cdkInitialFocus type="submit" class="save-button"
-                [disabled]="disableInfosSaveButton">
-                <mat-icon>save</mat-icon>
-                Salvar
-            </button>
-        </div>
-    </form>
-
-    <p-divider layout="vertical" />
-
-    <div>
-        <h3>Ementa</h3>
-        <div>
-            <button mat-raised-button (click)="addSyllabusTopic()">
-                <mat-icon>add</mat-icon>
-                Adicionar tópico
-            </button>
-            <button mat-raised-button (click)="addSyllabusPreset()">
-                <mat-icon>checklist</mat-icon>
-                Adicionar grupo de tópicos
-            </button>
-            <button mat-raised-button (click)="deleteSyllabusPreset()">
-                <mat-icon>delete</mat-icon>
-                Excluir grupo de tópicos
-            </button>
-        </div>
-
-        <o-syllabus [syllabus]="syllabus" mode="edit" (editSyllabus)="editSyllabus($event)"
-            (deleteSyllabus)="deleteSyllabus($event)" [presets]="presets" />
-
-        @if (!syllabus || syllabus.length === 0) {
-        <div>
-            @if (!syllabusDocument) {
-            <p-fileupload mode="basic" chooseLabel="Criar ementa a partir de um documento" name="logo" [auto]="true"
-                accept=".pdf" [maxFileSize]="MAX_FILE_SIZE" (onSelect)="selectSyllabusDocument($event)" />
-            } @else {
-            <p>{{syllabusDocument.name}}</p>
-            <button mat-raised-button type="button" (click)="syllabusDocument = undefined">Cancelar</button>
-            <button mat-raised-button type="button" (click)="uploadSyllabusDocument()">
-                <mat-icon>upload</mat-icon>
-                Criar ementa com esse documento
-            </button>
-            }
-        </div>
-        }
+        <button mat-flat-button class="save-button" type="submit" [disabled]="disableInfosSaveButton">
+          <mat-icon>save</mat-icon>
+          <span>Salvar alterações</span>
+        </button>
+      </form>
     </div>
+
+    <div class="settings-section">
+      <h2 class="section-title">Edição de Ementa</h2>
+      <div class="syllabus-actions">
+        <button mat-stroked-button (click)="addSyllabusTopic()">
+            <mat-icon>add</mat-icon>
+            Novo tópico...
+        </button>
+      </div>
+
+      <div class="syllabus-editor">
+        @if (syllabus && syllabus.length > 0) {
+            <div class="syllabus-list">
+                @for (topic of syllabus; track topic.id) {
+                    <div class="syllabus-item-container">
+                        <div class="syllabus-item">
+                            <span>{{topic.name}}</span>
+                            <div class="item-actions">
+                                <button mat-icon-button (click)="editSyllabus(topic)"><mat-icon>edit</mat-icon></button>
+                                <button mat-icon-button (click)="deleteSyllabus(topic)"><mat-icon>delete</mat-icon></button>
+                            </div>
+                        </div>
+
+                         @if (topic.topics && topic.topics.length > 0) {
+                            <div class="sub-topics">
+                                @for(subTopic of topic.topics; track subTopic.id) {
+                                     <div class="sub-topic-item">
+                                        <span>{{subTopic.name}}</span>
+                                        <div class="item-actions">
+                                            <button mat-icon-button (click)="editSyllabus(subTopic)"><mat-icon>edit</mat-icon></button>
+                                            <button mat-icon-button (click)="deleteSyllabus(subTopic)"><mat-icon>delete</mat-icon></button>
+                                        </div>
+                                    </div>
+                                }
+                                <button mat-stroked-button class="add-sub-topic" (click)="addSyllabusTopic()">
+                                    <mat-icon>add</mat-icon>
+                                    Novo tópico...
+                                </button>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        } @else {
+            <p class="empty-message">Ainda não há tópicos na ementa.</p>
+        }
+      </div>
+    </div>
+  </div>
 </div>
