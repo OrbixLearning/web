@@ -15,10 +15,18 @@ import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
 	selector: 'o-classroom-members',
-	imports: [TableModule, MatIconModule, MatButtonModule, RouterModule, LoadingComponent],
+	imports: [
+    TableModule,
+    MatIconModule,
+    MatButtonModule,
+    RouterModule,
+    LoadingComponent,
+    CommonModule,
+  ],
 	templateUrl: './classroom-members.component.html',
 	styleUrl: './classroom-members.component.scss',
 })
