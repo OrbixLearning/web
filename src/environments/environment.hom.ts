@@ -1,6 +1,6 @@
 export const environment = {
 	ENV: 'hom',
-	API_URL: 'https://app.orbixlearning.com/api',
+	API_URL: 'https://api.orbixlearning.com',
 	PASSWORD_RESET_REDIRECT_URI: 'https://app.orbixlearning.com/login/reset-password',
 	OAUTH_REDIRECT_URI: 'https://app.orbixlearning.com/login/oauth-callback',
 	ACCOUNT_LINK_REDIRECT_URI: 'https://app.orbixlearning.com/link-account-callback',
