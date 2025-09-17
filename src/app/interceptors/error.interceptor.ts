@@ -30,6 +30,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 					m = 'Você não tem permissão ou sua sessão expirou.';
 					break;
 				case 500:
+				case 502:
+				case 504:
 					m = 'Erro interno do servidor!';
 					break;
 				case 0:

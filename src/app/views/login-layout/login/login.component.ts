@@ -55,6 +55,8 @@ export class LoginComponent {
 				.catch(err => {
 					if (err.status === 0) {
 						this.error = 'Sem conexão com a internet';
+					} else if (err.status >= 500) {
+						this.error = 'Erro interno do servidor! Entre em contato com o suporte.';
 					} else {
 						this.error = err.error;
 					}
