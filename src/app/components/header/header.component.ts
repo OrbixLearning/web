@@ -32,6 +32,7 @@ export class HeaderComponent {
 	personalInstitution: Institution = {
 		id: null,
 		name: 'Pessoal',
+		domains: [],
 		style: null,
 	};
 	selectedInstitutionId: string | null = this.personalInstitution.id;

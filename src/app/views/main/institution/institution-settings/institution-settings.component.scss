@@ -82,11 +82,13 @@
 		}
 	}
 
-	.buttons-div {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		gap: 30px;
+	.right-div {
+		.buttons-div {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			align-items: center;
+			gap: 30px;
+		}
 	}
 }

@@ -81,13 +81,27 @@
         </div>
     </form>
 
-    <div class="buttons-div">
-        <button mat-raised-button [routerLink]="[usersUrl]">
-            Usuários
-        </button>
+    <div class="right-div">
+        <div class="buttons-div">
+            <button mat-raised-button [routerLink]="[usersUrl]">
+                Usuários
+            </button>
 
-        <button mat-raised-button [routerLink]="[classroomsUrl]">
-            Turmas
-        </button>
+            <button mat-raised-button [routerLink]="[classroomsUrl]">
+                Turmas
+            </button>
+        </div>
+
+        @if (!ctx.institution?.domains || ctx.institution?.domains?.length === 0) {
+        <p>Não há domínios cadastrados na sua instituição.</p>
+        <p><a [routerLink]="['/report']">Entre em contato com o suporte para cadastrar domínios.</a></p>
+        } @else {
+        <h3>Domínios:</h3>
+        <ul>
+            @for (domain of ctx.institution?.domains; track domain) {
+            <li>&#64;{{domain}}</li>
+            }
+        </ul>
+        }
     </div>
 </div>
