@@ -9,6 +9,7 @@ export type User = {
 	name: string;
 	role: Role;
 	profilePictureUrl: string | null;
+	createdAt: Date;
 };
 
 export type UserAccount = {

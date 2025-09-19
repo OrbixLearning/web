@@ -1,1 +1,49 @@
-<router-outlet />
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <div class="title-section">
+      <a routerLink="../" class="back-link">
+        <mat-icon>arrow_back</mat-icon>
+        <mat-icon class="classroom-icon">{{ ctx.classroom?.icon || 'school' }}</mat-icon>
+      </a>
+      <div class="title-text">
+        <h1>Dashboard da Turma</h1>
+        <span>Análise de Desempenho e progresso da turma</span>
+      </div>
+    </div>
+
+    <div class="dashboard-tabs">
+      <button class="tab-button" 
+              [class.active]="isRouteActive('overview')" 
+              [disabled]="isRouteActive('overview')" 
+              (click)="navigateTo('overview')">
+        <mat-icon>trending_up</mat-icon>
+        <span>Visão Geral</span>
+      </button>
+      <button class="tab-button" 
+              [class.active]="isRouteActive('topics')" 
+              [disabled]="isRouteActive('topics')" 
+              (click)="navigateTo('topics')">
+        <mat-icon>menu_book</mat-icon>
+        <span>Processo por Tópicos</span>
+      </button>
+      <button class="tab-button" 
+              [class.active]="isRouteActive('students')" 
+              [disabled]="isRouteActive('students')" 
+              (click)="navigateTo('students')">
+        <mat-icon>group</mat-icon>
+        <span>Estudantes</span>
+      </button>
+      <button class="tab-button" 
+              [class.active]="isRouteActive('performance')" 
+              [disabled]="isRouteActive('performance')" 
+              (click)="navigateTo('performance')">
+        <mat-icon>timeline</mat-icon>
+        <span>Desempenho</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
