@@ -119,26 +119,30 @@ export const routes: Routes = [
 									).then(m => m.ClassroomDashboardComponent),
 								canActivate: [classroomTeacherGuard],
 								children: [
+									{ path: '', redirectTo: 'overview', pathMatch: 'full' },
 									{
-										path: '',
-										loadComponent: () =>
-											import(
-												'./views/main/classroom/classroom-dashboard/home-dashboard/home-dashboard.component'
-											).then(m => m.HomeDashboardComponent),
+										path: 'overview',
+										loadComponent: () => import('./views/main/classroom/classroom-dashboard/home-dashboard/home-dashboard.component').then(m => m.HomeDashboardComponent)
+									},
+									{
+										path: 'topics',
+										loadComponent: () => import('./views/main/classroom/classroom-dashboard/syllabus-dashboard/syllabus-dashboard.component').then(m => m.SyllabusDashboardComponent)
+									},
+									{
+										path: 'students',
+										loadComponent: () => import('./views/main/classroom/classroom-dashboard/student-dashboard/student-dashboard.component').then(m => m.StudentDashboardComponent)
+									},
+									{
+										path: 'performance',
+										loadComponent: () => import('./views/main/classroom/classroom-dashboard/performance-dashboard/performance-dashboard.component').then(m => m.PerformanceDashboardComponent)
 									},
 									{
 										path: 'syllabus/:syllabusId',
-										loadComponent: () =>
-											import(
-												'./views/main/classroom/classroom-dashboard/syllabus-dashboard/syllabus-dashboard.component'
-											).then(m => m.SyllabusDashboardComponent),
+										loadComponent: () => import('./views/main/classroom/classroom-dashboard/syllabus-dashboard/syllabus-dashboard.component').then(m => m.SyllabusDashboardComponent),
 									},
 									{
 										path: 'student/:studentId',
-										loadComponent: () =>
-											import(
-												'./views/main/classroom/classroom-dashboard/student-dashboard/student-dashboard.component'
-											).then(m => m.StudentDashboardComponent),
+										loadComponent: () => import('./views/main/classroom/classroom-dashboard/student-dashboard/student-dashboard.component').then(m => m.StudentDashboardComponent),
 									},
 								],
 							},
