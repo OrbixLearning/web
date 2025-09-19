@@ -23,4 +23,8 @@ export class HomeComponent {
 		this.ctx.institution = this.ctx.institutionList!.find(i => i.id === institutionId)!;
 		this.router.navigateByUrl('/i/' + institutionId);
 	}
+
+	goToGlobalSettings() {
+        this.router.navigate(['/settings']);
+    }
 }

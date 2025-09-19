@@ -2,11 +2,13 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { ContextService } from '../services/context.service';
 import { getParamFromRouteTree } from '../utils/guard.utils';
+import { ThemeService } from '../services/theme.service';
 
 export const institutionGuard: CanActivateFn = async (route, state) => {
 	const router = inject(Router);
 	const institutionId = getParamFromRouteTree(route, 'institutionId');
 	const ctx = inject(ContextService);
+	const themeService = inject(ThemeService);
 	try {
 		if (!institutionId) {
 			throw new Error('Institution ID not found in route parameters');
@@ -25,9 +27,11 @@ export const institutionGuard: CanActivateFn = async (route, state) => {
 			ctx.clearClassroom();
 		}
 		ctx.institution = institution;
+		themeService.setInstitutionTheme(institution);
 		return true;
 	} catch (e) {
 		ctx.clearInstitution();
+		themeService.applySavedGlobalTheme();
 		router.navigateByUrl('/');
 		return false;
 	}

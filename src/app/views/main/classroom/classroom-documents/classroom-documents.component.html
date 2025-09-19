@@ -1,61 +1,64 @@
 <o-loading [isLoading]="isLoading" />
 
-<header>
-    <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
-        <mat-icon>arrow_back</mat-icon>
+<div class="container">
+  <header class="header">
+    <button mat-icon-button class="back-button" [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
+      <mat-icon>arrow_back</mat-icon>
     </button>
-    @if (ctx.isTeacher) {
-    <button mat-raised-button (click)="uploadDocument()">Adicionar documento</button>
-    }
-</header>
+    <div class="header-content">
+      <div class="title-container">
+        <h1 class="title">Documentos da turma</h1>
+        <span class="subtitle">{{ctx.classroom?.name}} • {{documents.length}} documentos</span>
+      </div>
+      @if (ctx.isTeacher) {
+        <button mat-flat-button class="upload-button" (click)="uploadDocument()">
+          <mat-icon>upload</mat-icon>
+          <span>Enviar documento</span>
+        </button>
+      }
+    </div>
+  </header>
 
-<div class="content">
-    <div class="left-content">
-        @for (document of filteredDocuments; track document.id) {
-        <div>
-            <p>{{document.name}}</p>
-            <p>{{document.extension}}</p>
-            <o-syllabus-tags [syllabus]="document.syllabus || []" />
-            <button mat-icon-button (click)="downloadDocument(document.id, document.name)">
+  <div class="content-layout">
+    <aside class="sidebar">
+      <div class="search-input">
+          <mat-icon>search</mat-icon>
+          <input type="text" placeholder="Buscar documentos..." [(ngModel)]="filter">
+      </div>
+      <div class="filter-section">
+          <mat-icon>import_contacts</mat-icon>
+          <span>Filtrar por Ementa</span>
+      </div>
+      <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter" (syllabusMarked)="markSyllabus($event)" [presets]="ctx.classroom?.presets" />
+    </aside>
+
+    <main class="main-content">
+      @for (document of filteredDocuments; track document.id) {
+        <div class="document-card">
+          <div class="document-info">
+            <mat-icon class="doc-icon">docs</mat-icon>
+            <div class="doc-details">
+                <span class="doc-name">{{document.name}}</span>
+                <span class="doc-meta">PDF • {{ document.extension }} • Prof. {{ document.classroom?.[0]?.name || '—' }} • {{ document.classroom?.[0]?.updatedAt | date:'dd/MM/yyyy' }}</span>
+            </div>
+          </div>
+          <div class="doc-actions">
+              <button mat-icon-button (click)="downloadDocument(document.id, document.name)">
                 <mat-icon>download</mat-icon>
-            </button>
+              </button>
             @if (ctx.isTeacher) {
-            <button mat-icon-button (click)="updateDocument(document)">
-                <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteDocument(document.id)">
+              <button mat-icon-button (click)="updateDocument(document)">
+                <mat-icon>edit_square</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteDocument(document.id)">
                 <mat-icon>delete</mat-icon>
-            </button>
-            @if (document.aiStatus === documentAIUploadStatusEnum.FAILED) {
-            <div>
-                <p>Ocorreu um erro ao alimentar a IA com este documento</p>
-                <button mat-button (click)="recallDocumentAI(document)">Tentar novamente</button>
-            </div>
-            } @else if (document.aiStatus === documentAIUploadStatusEnum.UPLOADING) {
-            <div>
-                <p>Adicionando documento à IA...</p>
-                <o-loading [isLoading]="true" [local]="true" size="30px" />
-            </div>
+              </button>
             }
-            }
+          </div>
         </div>
-        } @empty {
-        <p>Nenhum documento encontrado</p>
-        }
-    </div>
-
-    <div class="right-content">
-
-        @if (documents.length > 0) {
-        <div class="search-div">
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Pesquisar</mat-label>
-                <input matInput [(ngModel)]="filter" />
-            </mat-form-field>
-        </div>
-
-        <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter" (syllabusMarked)="markSyllabus($event)"
-            [presets]="ctx.classroom?.presets" />
-        }
-    </div>
+      } @empty {
+        <p class="empty-message">Nenhum documento encontrado.</p>
+      }
+    </main>
+  </div>
 </div>

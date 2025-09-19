@@ -10,6 +10,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { LearningPathGenerationStatusEnum } from '../../enums/LearningPathGenerationStatus.enum';
 import { LoadingComponent } from '../loading/loading.component';
 import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 
 @Component({
 	selector: 'o-learning-path-card',
@@ -23,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
 		TooltipModule,
 		LoadingComponent,
 		MatButtonModule,
+		CommonModule,
 	],
 	templateUrl: './learning-path-card.component.html',
 	styleUrl: './learning-path-card.component.scss',

@@ -16,7 +16,6 @@ import {
 	DocumentPopUpComponent,
 	UploadDocumentPopUpResponse,
 } from '../../../../components/pop-ups/document-pop-up/document-pop-up.component';
-import { SyllabusTagsComponent } from '../../../../components/syllabus-tags/syllabus-tags.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
 import { Document } from '../../../../models/Document';
 import { Syllabus } from '../../../../models/Syllabus';
@@ -25,12 +24,14 @@ import { DocumentService } from '../../../../services/document.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { download } from '../../../../utils/Download.util';
-import { Classroom } from '../../../../models/Classroom';
 import { DocumentAIUploadStatusEnum } from '../../../../enums/DocumentAIUploadStatus.enum';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'o-classroom-documents',
 	imports: [
+		CommonModule,
+		DatePipe,
 		LoadingComponent,
 		MatIconModule,
 		MatButtonModule,
@@ -39,7 +40,6 @@ import { DocumentAIUploadStatusEnum } from '../../../../enums/DocumentAIUploadSt
 		SyllabusComponent,
 		FormsModule,
 		MatInputModule,
-		SyllabusTagsComponent,
 	],
 	templateUrl: './classroom-documents.component.html',
 	styleUrl: './classroom-documents.component.scss',

@@ -1,8 +1,15 @@
 <aside class="sidebar">
-	<o-sidebar-button icon="home" text="Início" (buttonClick)="goToHome()" [selected]="isSelected(null)" />
+  <o-sidebar-button icon="home" text="Início" (buttonClick)="goToHome()" [selected]="isSelected(null)" [isHomeButton]="true" />
+  
+  <hr class="sidebar-divider">
 
-	@for (classroom of sortedClassrooms; track classroom.id) {
-	<o-sidebar-button [icon]="classroom.icon" [text]="classroom.name" (buttonClick)="goToClassroom(classroom)"
-		[selected]="isSelected(classroom)" />
-	}
+  <div class="classrooms-list">
+    @for (classroom of sortedClassrooms; track classroom.id) {
+      <o-sidebar-button
+        [icon]="null" 
+        [text]="classroom.name" 
+        (buttonClick)="goToClassroom(classroom)"
+        [selected]="isSelected(classroom)" />
+    }
+  </div>
 </aside>

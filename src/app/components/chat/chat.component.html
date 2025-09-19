@@ -1,14 +1,18 @@
 <o-loading [isLoading]="isLoading" />
+<input type="file" #fileInput hidden (change)="onFileSelected($event)" multiple />
 
 <div class="chat-main">
-    @if (messages && messages.length > 0) {
-    <div class="clear-button-div">
-        <button mat-icon-button class="clear-button" (click)="clear()" pTooltip="Limpar chat"
-            [disabled]="isSending || isLoading">
-            <mat-icon>close</mat-icon>
-        </button>
+    <div class="chat-header">
+        <div class="chat-title">
+            <mat-icon>smart_toy</mat-icon> 
+            <h3>IA da turma</h3>
+        </div>
+        @if (messages && messages.length > 0) {
+            <button mat-icon-button class="clear-button" (click)="clear()" pTooltip="Limpar chat" [disabled]="isSending || isLoading">
+                <mat-icon>close</mat-icon>
+            </button>
+        }
     </div>
-    }
 
     <div class="messages-wrapper">
         @if (messages.length > 0) {
@@ -30,9 +34,13 @@
         }
         } @else {
         <div class="empty-chat">
-            <h1>Este é seu chat com a IA da Orbix.</h1>
-            <h3>Essa IA sabe todo o conteúdo desta turma e pode te ajudar a aprender da maneira mais eficiente e
-                confiável!</h3>
+            <h3>No que você está pensando hoje?</h3>
+            <div class="prompt-suggestions">
+                <span>me faça um cálculo de Derivadas</span>
+                <span>me faça um quadro da independência</span>
+                <span>oque é citologia oncótica</span>
+                <span>me faça um modelo de texto dissertativo argumentativo</span>
+            </div>
         </div>
         }
     </div>
@@ -42,19 +50,22 @@
         @for (learningPath of learningPaths; track learningPath.id) {
         <div class="learning-path">
             <p>{{learningPath.name}}</p>
-            <button (click)="removeLearningPath.emit(learningPath)"
-                [disabled]="isSending"><mat-icon>close</mat-icon></button>
+            <button (click)="removeLearningPath.emit(learningPath)" [disabled]="isSending"><mat-icon>close</mat-icon></button>
         </div>
         }
     </div>
     }
 
-    <div class="chat-input">
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-            <input matInput [(ngModel)]="input" placeholder="Escrever..." [disabled]="isSending" />
-        </mat-form-field>
-        <button mat-icon-button (click)="sendMessage()" [disabled]="isInputEmpty || isSending" type="submit">
-            <mat-icon>{{isSending ? 'stop' : 'send'}}</mat-icon>
+    <div class="chat-input-area">
+        <button mat-icon-button class="add-button" pTooltip="Adicionar fotos e arquivos" (click)="fileInput.click()">
+            <mat-icon>add</mat-icon>
         </button>
+        <div class="chat-input-wrapper">
+          <textarea matInput [(ngModel)]="input" placeholder="Pergunte alguma coisa" [disabled]="isSending" (keydown.enter)="!isInputEmpty && sendMessage(); $event.preventDefault()"></textarea>
+          <div class="chat-actions">
+              <button mat-icon-button [disabled]="isSending" pTooltip="Gravar áudio"><mat-icon>mic</mat-icon></button>
+              <button mat-icon-button [disabled]="isSending" pTooltip="Usar modo voz"><mat-icon>graphic_eq</mat-icon></button>
+          </div>
+        </div>
     </div>
 </div>

@@ -128,4 +128,13 @@ export class ChatComponent {
 				}
 			});
 	}
+	onFileSelected(event: any) {
+			const files = event.target.files;
+			if (files && files.length > 0) {
+				console.log(`${files.length} arquivo(s) selecionado(s).`);
+				for (let i = 0; i < files.length; i++) {
+					console.log(files[i].name);
+				}
+			}
+	}
 }

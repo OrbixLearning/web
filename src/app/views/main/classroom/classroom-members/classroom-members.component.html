@@ -1,64 +1,91 @@
 <o-loading [isLoading]="isLoading" />
 
-<header>
-    <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
-        <mat-icon>arrow_back</mat-icon>
+<div class="container">
+  <header class="header">
+    <button mat-icon-button class="back-button" [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
+      <mat-icon>arrow_back</mat-icon>
     </button>
-    @if (ctx.isTeacher) {
-    <button mat-raised-button (click)="addMember()">Adicionar pessoas</button>
-    }
-</header>
+    <div class="header-content">
+      <div class="title-container">
+        <h1 class="title">Membros da turma</h1>
+        <span class="subtitle">{{ctx.classroom?.name}} • {{teachers.length}} Professores • {{students.length}} alunos</span>
+      </div>
+      @if (ctx.isTeacher) {
+        <button mat-flat-button class="add-member-button" (click)="addMember()">
+          <mat-icon>person_add</mat-icon>
+          <span>ADICIONAR MEMBROS</span>
+        </button>
+      }
+    </div>
+  </header>
 
-<div class="classroom-members-div">
+  <div class="content">
+    <div class="members-section">
+      <div class="section-header">
+        <h2 class="section-title">Professores ({{teachers.length}})</h2>
+        @if (ctx.isTeacher) {
+          <button mat-button class="add-button" (click)="addMember()">
+            <mat-icon>add</mat-icon>
+            <span>Adicionar Professor</span>
+          </button>
+        }
+      </div>
+      <div class="members-list">
+        @for (teacher of teachers; track teacher.id) {
+          <div class="member-card">
+            <div class="member-info">
+              <div class="avatar-placeholder">
+                <span>{{ teacher.user.name | slice:0:2 }}</span>
+              </div>
+              <div class="member-details">
+                <span class="member-name">{{ teacher.user.name }}</span>
+                <span class="member-email">{{ teacher.email }}</span>
+              </div>
+            </div>
+            @if (ctx.isTeacher) {
+              <button mat-icon-button class="remove-button" (click)="removeMember(teacher)">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
+          </div>
+        } @empty {
+          <p class="empty-message">Não há professores nesta turma</p>
+        }
+      </div>
+    </div>
 
-    @if (students.length > 0 ) {
-    <p-table [value]="students" size="small" [tableStyle]="tableStyle">
-        <ng-template #body let-student>
-            <!-- Body -->
-            <tr>
-                <td>
-                    <button mat-button [routerLink]="['/profile/' + student.user.id]">
-                        <img [src]="getProfilePictureUrl(student.user)" alt="Profile Picture"
-                            class="profile-picture" />
-                    </button>
-                </td>
-                <td>{{ student.idInInstitution }}</td>
-                <td>{{ student.user.name }}</td>
-                <td>{{ student.email }}</td>
-                <td>{{ student.institutionRole }}</td>
-                @if (ctx.isTeacher) {
-                <td><button mat-icon-button (click)="removeMember(student)"><mat-icon>close</mat-icon></button></td>
-                }
-            </tr>
-        </ng-template>
-    </p-table>
-    } @else {
-    <p>Não há alunos nesta turma</p>
-    }
-
-    @if (teachers.length > 0) {
-    <p-table [value]="teachers" size="small" [tableStyle]="tableStyle">
-        <ng-template #body let-teacher>
-            <!-- Body -->
-            <tr>
-                <td>
-                    <button mat-button [routerLink]="['/profile/' + teacher.user.id]">
-                        <img [src]="getProfilePictureUrl(teacher.user)" alt="Profile Picture"
-                            class="profile-picture" />
-                    </button>
-                </td>
-                <td>{{ teacher.idInInstitution }}</td>
-                <td>{{ teacher.user.name }}</td>
-                <td>{{ teacher.email }}</td>
-                <td>{{ teacher.institutionRole }}</td>
-                @if (ctx.isTeacher) {
-                <td><button mat-icon-button (click)="removeMember(teacher)"><mat-icon>close</mat-icon></button></td>
-                }
-            </tr>
-        </ng-template>
-    </p-table>
-    } @else {
-    <p>Não há professores nesta turma</p>
-    }
-
+    <div class="members-section">
+      <div class="section-header">
+        <h2 class="section-title">Alunos ({{students.length}})</h2>
+        @if (ctx.isTeacher) {
+          <button mat-button class="add-button" (click)="addMember()">
+            <mat-icon>add</mat-icon>
+            <span>Adicionar Aluno</span>
+          </button>
+        }
+      </div>
+      <div class="members-list">
+        @for (student of students; track student.id) {
+          <div class="member-card">
+            <div class="member-info">
+              <div class="avatar-placeholder">
+                <span>{{ student.user.name | slice:0:2 }}</span>
+              </div>
+              <div class="member-details">
+                <span class="member-name">{{ student.user.name }}</span>
+                <span class="member-email">{{ student.email }}</span>
+              </div>
+            </div>
+            @if (ctx.isTeacher) {
+              <button mat-icon-button class="remove-button" (click)="removeMember(student)">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
+          </div>
+        } @empty {
+          <p class="empty-message">Não há alunos nesta turma</p>
+        }
+      </div>
+    </div>
+  </div>
 </div>

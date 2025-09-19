@@ -1,30 +1,66 @@
 :host {
-	display: flex;
-	flex-direction: column;
+	display: block;
 	width: 100%;
+	border-radius: 8px;
+	transition: background-color 0.2s ease-in-out;
+	cursor: pointer;
+	background-color: var(--primary-color);
+	color: var(--text-color-inverse);
+}
+:host(:hover) {
+	background-color: #0b5ed7;
 }
 
-.sidebar-button,
-.sidebar-button-selected {
+:host(.selected) {
+	background-color: #0b5ed7;
+	font-weight: 500;
+}
+
+:host(.inicio-button) {
+	background-color: var(--secondary-color);
+	color: var(--text-color);
+	border: 1px solid var(--border-color);
+}
+
+:host(.inicio-button:hover) {
+	background-color: #f8f9fa;
+}
+
+:host(.inicio-button.selected) {
+	background-color: #f0f1f3;
+	border: 1px solid var(--border-color);
+	font-weight: 500;
+}
+
+.button-inner {
+	width: 100%;
+	height: 48px;
+	padding: 0 16px;
+	box-sizing: border-box;
+	background: transparent;
+	border: none;
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	width: 100%;
-	height: 60px;
-	border-radius: 4px;
-	cursor: pointer;
-}
+	justify-content: flex-start;
+	gap: 12px;
+	color: inherit; 
+	font-family: inherit;
+	font-size: 0.95rem;
+	font-weight: inherit;
 
-.sidebar-button {
-	transition: background-color 0.5s;
-
-	&:hover {
-		background-color: var(--primary-color);
-		color: var(--text-color);
+	span {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 }
 
-.sidebar-button-selected {
-	background-color: var(--secondary-color);
+:host(.inicio-button) .button-inner mat-icon,
+:host(.inicio-button) .button-inner span {
 	color: var(--text-color);
+}
+
+:host(:not(.inicio-button)) .button-inner mat-icon,
+:host(:not(.inicio-button)) .button-inner span {
+	color: var(--text-color-inverse);
 }

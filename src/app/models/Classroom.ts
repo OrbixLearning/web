@@ -11,9 +11,10 @@ export type Classroom = {
 	syllabus: Syllabus[];
 	documents: Document[];
 	presets: SyllabusPreset[];
-
 	students?: UserAccount[];
 	teachers?: UserAccount[];
+	
+    updatedAt?: string | Date; 
 };
 
 export type SyllabusPreset = {

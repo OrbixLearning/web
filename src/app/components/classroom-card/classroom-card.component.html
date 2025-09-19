@@ -1,8 +1,33 @@
 <mat-card (click)="cardClick.emit(classroom)" class="classroom-card">
-    <mat-card-header>
-        <mat-icon>{{classroom?.icon}}</mat-icon>
-    </mat-card-header>
-    <mat-card-content>
-        {{classroom?.name}}
-    </mat-card-content>
+    <div class="card-header">
+        <div class="classroom-icon-wrapper">
+            <mat-icon>{{ classroom?.icon }}</mat-icon>
+        </div>
+        <div class="classroom-info">
+            <mat-card-title>{{ classroom?.name }}</mat-card-title>
+            @if (modulesCount > 0) {
+              <mat-card-subtitle>{{ modulesCount }} módulos</mat-card-subtitle>
+            }
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <div class="stats">
+            <div class="stat-item">
+                <mat-icon>group</mat-icon>
+                <span>{{ studentsCount }} alunos</span>
+            </div>
+            
+            <div class="stat-item">
+                <mat-icon>group</mat-icon>
+                <span>{{ professorsCount }} Professores</span>
+            </div>
+        </div>
+
+        @if (lastActivity) {
+          <div class="last-activity">
+              <span>Última atividade: {{ lastActivity }}</span>
+          </div>
+        }
+    </div>
 </mat-card>

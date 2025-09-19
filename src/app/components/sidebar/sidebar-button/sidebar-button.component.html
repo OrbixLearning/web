@@ -1,4 +1,6 @@
-<button mat-button [class]="selected ? 'sidebar-button-selected' : 'sidebar-button'" (click)="buttonClick.emit()">
-	<mat-icon>{{icon}}</mat-icon>
+<button mat-button class="button-inner" (click)="buttonClick.emit()">
+	@if (icon) {
+		<mat-icon>{{icon}}</mat-icon>
+	}
 	<span>{{text}}</span>
 </button>

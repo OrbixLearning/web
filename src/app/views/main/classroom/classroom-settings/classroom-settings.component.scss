@@ -1,8 +1,161 @@
-.classroom-settings-div {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: flex-start;
-	width: 100%;
-	gap: 30px;
+:host {
+  display: block;
+  height: 100%;
+  background-color: var(--background-color);
+}
+
+.container {
+  padding: 24px 32px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 32px;
+}
+
+.back-button {
+  color: var(--text-color);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.title-container {
+  .title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .subtitle {
+    color: var(--text-color-secondary);
+    font-size: 0.9rem;
+  }
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 48px;
+}
+
+.settings-section {
+  background-color: var(--secondary-color);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.info-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.icon-section {
+  margin-bottom: 24px;
+  
+  p {
+    margin: 0 0 12px 0;
+    font-size: 0.9rem;
+    color: var(--text-color-secondary);
+  }
+}
+
+.icon-input-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon-preview {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: var(--primary-color);
+}
+
+.save-button {
+  background-color: var(--primary-color);
+  color: var(--text-color-inverse);
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.syllabus-actions {
+  margin-bottom: 24px;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.syllabus-editor {
+    .syllabus-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+}
+
+.syllabus-item-container {
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.syllabus-item, .sub-topic-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sub-topics {
+    margin-top: 16px;
+    padding-left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sub-topic-item {
+    padding: 12px;
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color-light);
+    border-radius: 6px;
+}
+
+.add-sub-topic {
+    margin-top: 8px;
+}
+
+.empty-message {
+  color: var(--text-color-secondary);
+  text-align: center;
+  padding: 16px;
 }

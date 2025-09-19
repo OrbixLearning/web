@@ -1,5 +1,20 @@
-<div class="institution-home">
-	@for (classroom of ctx.classroomList; track classroom.id) {
-	<o-classroom-card [classroom]="classroom" (cardClick)="goToClassroom($event)" />
-	}
+<div class="page-container">
+	<header class="page-header">
+		<div class="logo-container">
+			<img [src]="institutionLogoUrl" alt="Logo da Instituição">
+		</div>
+		<div class="institution-info">
+			<h1>{{ ctx.institution?.name }}</h1>
+			<p>Bem vindo, ({{ ctx.user?.name }})</p>
+		</div>
+	</header>
+
+	<main class="classrooms-section">
+		<h2>Suas turmas</h2>
+		<div class="classrooms-grid">
+			@for (classroom of ctx.classroomList; track classroom.id) {
+				<o-classroom-card [classroom]="classroom" (cardClick)="goToClassroom($event)" />
+			}
+		</div>
+	</main>
 </div>

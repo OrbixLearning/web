@@ -26,7 +26,6 @@ import {
 	SyllabusTopicCreationPopUpData,
 	SyllabusTopicCreationPopUpResult,
 } from '../../../../components/pop-ups/syllabus-topic-creation-pop-up/syllabus-topic-creation-pop-up.component';
-import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
 import { Classroom, SyllabusPreset } from '../../../../models/Classroom';
 import { Syllabus } from '../../../../models/Syllabus';
 import { ClassroomService } from '../../../../services/classroom.service';
@@ -43,7 +42,6 @@ import { EditSyllabusTopicPopUpComponent } from '../../../../components/pop-ups/
 		MatInputModule,
 		MatButtonModule,
 		LoadingComponent,
-		SyllabusComponent,
 		MatIconModule,
 		RouterModule,
 		DividerModule,

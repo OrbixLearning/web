@@ -27,6 +27,7 @@ type LearningPathBase = {
 	userInstitutionRole: InstitutionRoleEnum;
 	type: LearningPathTypeEnum;
 	generation: LearningPathGeneration;
+	createdAt: Date;
 };
 
 export type VideoLearningPath = {
