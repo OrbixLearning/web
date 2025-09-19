@@ -17,11 +17,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Syllabus } from '../../../../../models/Syllabus';
 import { SyllabusService } from '../../../../../services/syllabus.service';
+import { DisciplineCardComponent } from '../../../../../components/discipline-card/discipline-card.component';
+import { CommonModule } from '@angular/common';
+import { ClassroomCurrentScore } from '../../../../../models/Dashboard/ClassroomCurrentScore';
 
 @Component({
 	selector: 'o-syllabus-dashboard',
 	imports: [
 		LoadingComponent,
+		CommonModule,
 		MatIconModule,
 		RouterModule,
 		ChartModule,
@@ -30,6 +34,7 @@ import { SyllabusService } from '../../../../../services/syllabus.service';
 		FormsModule,
 		MatInputModule,
 		MatButtonModule,
+		DisciplineCardComponent
 	],
 	templateUrl: './syllabus-dashboard.component.html',
 	styleUrl: './syllabus-dashboard.component.scss',
@@ -41,9 +46,11 @@ export class SyllabusDashboardComponent {
 	syllabusService: SyllabusService = inject(SyllabusService);
 	route: ActivatedRoute = inject(ActivatedRoute);
 
-	isLoading = false;
+	isLoading = true;
+  	disciplines: Syllabus[] = [];
+	scores: ClassroomCurrentScore[] = [];
+  	topicChartData: any;
 	syllabus: Syllabus | undefined;
-
 	ranking: SyllabusRanking[] = [];
 	scoreHistory: ClassroomScoreHistoryBySyllabus[] = [];
 	average: number = 0;
@@ -59,14 +66,19 @@ export class SyllabusDashboardComponent {
 	}
 
 	ngOnInit() {
-		// This is used to update the data when the syllabusId changes in the URL
 		this.route.params.subscribe(params => {
-			this.getData(params['syllabusId']);
+		const syllabusId = params['syllabusId'];
+		if (syllabusId) {
+			this.getSyllabusDetails(syllabusId);
+		} else {
+			this.loadAllDisciplines();
+		}
 		});
-	}
+  	}
 
 	async getData(syllabusId: string) {
 		this.isLoading = true;
+		this.disciplines = [];
 		await Promise.all([
 			lastValueFrom(this.syllabusService.get(syllabusId)),
 			lastValueFrom(
@@ -91,6 +103,84 @@ export class SyllabusDashboardComponent {
 			.finally(() => {
 				this.isLoading = false;
 			});
+	}
+
+	async loadAllDisciplines() {
+		this.isLoading = true;
+		this.syllabus = undefined;
+		const classroomId = this.ctx.classroom?.id;
+		if (!classroomId) {
+			this.isLoading = false;
+			return;
+		}
+
+		try {
+			this.scores = await lastValueFrom(this.service.getClassroomCurrentScores(classroomId));
+			this.setupChart();
+		} catch (error) {
+			console.error('Erro ao carregar dados dos tópicos:', error);
+		} finally {
+			this.isLoading = false;
+		}
+	}
+
+	setupChart() {
+    	const sortedScores = [...this.scores].sort((a, b) => b.average - a.average);
+		
+		this.topicChartData = {
+		labels: sortedScores.map(score => score.syllabus.name),
+		datasets: [
+			{
+			label: 'Média de Notas da Turma',
+			data: sortedScores.map(score => score.average),
+			backgroundColor: '#0B57D0',
+			borderRadius: 4,
+          	barPercentage: 0.5,
+			},
+		],
+		};
+
+		this.chartOptions = {
+			maintainAspectRatio: false,
+			plugins: { legend: { display: false } },
+			scales: {
+				y: { 
+					beginAtZero: true, 
+					max: 100, 
+					grid: { color: '#f0f0f0' },
+					ticks: { stepSize: 25 }
+				},
+				x: { 
+					grid: { display: false } 
+				}
+			}
+		};
+  	}
+
+	getScoreForSyllabus(syllabusItem: Syllabus): ClassroomCurrentScore | undefined {
+		return this.scores.find(s => s.syllabus.id === syllabusItem.id);
+	}
+
+	async getSyllabusDetails(syllabusId: string) {
+		this.isLoading = true;
+		const startDate = new Date();
+		startDate.setMonth(startDate.getMonth() - 1);
+
+		try {
+			const [syllabus, history, ranking] = await Promise.all([
+				lastValueFrom(this.syllabusService.get(syllabusId)),
+				lastValueFrom(this.service.getClassroomScoreHistoryBySyllabus(syllabusId, DateUtils.format(startDate, 'YYYY-MM-DDThh:mm:ss'))),
+				lastValueFrom(this.service.getRankingBySyllabus(syllabusId)),
+			]);
+			
+			this.syllabus = syllabus;
+			this.scoreHistory = history;
+			this.ranking = ranking;
+		} catch (error) {
+			console.error(`Erro ao buscar detalhes para o syllabus ${syllabusId}:`, error);
+		} finally {
+			this.isLoading = false;
+		}
 	}
 
 	setChartData() {
