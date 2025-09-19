@@ -1,63 +1,73 @@
-<o-loading [isLoading]="isLoading" />
-
-<header>
-    <button mat-icon-button [routerLink]="[classroomBaseUrl]">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-    <button mat-raised-button (click)="forceUpdateScores()">
-        <span>Forçar atualização de notas</span>
-        <mat-icon>refresh</mat-icon>
-    </button>
-</header>
-
-<div class="classroom-dashboard-div">
-    <div class="left-div">
-        <h2>Dashboard da Turma {{ctx.classroom?.name}}</h2>
-        @for (syllabus of flatSyllabus; track syllabus.id) {
-        <button [routerLink]="[classroomBaseUrl + '/dashboard/syllabus/' + syllabus.id]">
-            <div>
-                <h3>{{syllabus.name}}</h3>
-                @if (getSyllabusScore(syllabus.id!)?.count) {
-                <div>
-                    <p>Média:</p>
-                    <p-progressbar [value]="getSyllabusScore(syllabus.id!)?.average">
-                        <ng-template #content let-value>
-                            <span>{{value}}</span>
-                        </ng-template>
-                    </p-progressbar>
-                </div>
-                <div>
-                    <div>
-                        <p>Min:</p>
-                        <p-progressbar [value]="getSyllabusScore(syllabus.id!)?.min">
-                            <ng-template #content let-value>
-                                <span>{{value}}</span>
-                            </ng-template>
-                        </p-progressbar>
-                    </div>
-                    <div>
-                        <p>Max:</p>
-                        <p-progressbar [value]="getSyllabusScore(syllabus.id!)?.max">
-                            <ng-template #content let-value>
-                                <span>{{value}}</span>
-                            </ng-template>
-                        </p-progressbar>
-                    </div>
-                    <p>Quantidade: {{getSyllabusScore(syllabus.id!)?.count}}</p>
-                </div>
-                } @else {
-                <p>Nenhuma nota registrada</p>
-                }
-            </div>
-        </button>
-        }
-    </div>
-
-    <div class="right-div">
-        @for (student of students; track student.id) {
-        <button mat-raised-button [routerLink]="[classroomBaseUrl + '/dashboard/student/' + student.id]">
-            {{student.user.name}}
-        </button>
-        }
-    </div>
+<div *ngIf="isLoading; else content" class="loading-container">
+  <p>Carregando...</p>
 </div>
+
+<ng-template #content>
+  <div class="dashboard-grid">
+    <div class="metric-card">
+      <div class="card-header">
+        <div class="card-icon-background">
+          <mat-icon class="card-icon">group</mat-icon>
+        </div>
+      </div>
+      <div class="info-content">
+        <span class="info-value">{{ totalStudents }}</span>
+        <span class="info-label">Total de Estudantes</span>
+        <span class="info-sublabel">{{ newStudentsCount }} novos este mês</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="card-header">
+        <div class="card-icon-background">
+          <mat-icon class="card-icon">timeline</mat-icon>
+        </div>
+      </div>
+      <div class="info-content">
+        <span class="info-value">{{ classAverage | number:'1.1-1' }}</span>
+        <span class="info-label">Média da Turma</span>
+        <span class="info-sublabel increased">+0.0 <mat-icon class="trend-icon">north</mat-icon></span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="card-header">
+        <div class="card-icon-background">
+          <mat-icon class="card-icon">trending_up</mat-icon>
+        </div>
+      </div>
+      <div class="info-content">
+        <span class="info-value">{{ completionRate | percent:'1.0-0' }}</span>
+        <span class="info-label">Taxa de Conclusão</span>
+        <span class="info-sublabel">Atividades entregues</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="card-header">
+        <div class="card-icon-background">
+          <mat-icon class="card-icon">menu_book</mat-icon>
+        </div>
+      </div>
+      <div class="info-content">
+        <span class="info-value">--</span>
+        <span class="info-label">Estudantes Ativos</span>
+        <span class="info-sublabel">Últimos 7 dias</span>
+      </div>
+    </div>
+
+    <div class="chart-card large">
+      <h3>Progresso Semanal</h3>
+      <div class="chart-container">
+        <p-chart type="line" [data]="weeklyProgressData" [options]="chartOptions"></p-chart>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Distribuição de Notas</h3>
+      <div class="chart-container">
+        <p-chart type="pie" [data]="gradeDistributionData" [options]="chartOptions"></p-chart>
+      </div>
+    </div>
+  </div>
+</ng-template>

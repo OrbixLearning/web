@@ -1,24 +1,95 @@
-.classroom-dashboard-div {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 100%;
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
 
-	.left-div {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
-		gap: 20px;
-	}
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
 
-	.right-div {
-		width: 30%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
-		gap: 20px;
-	}
+.metric-card, .chart-card {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #E0E0E0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-header {
+  width: 100%;
+}
+
+.card-icon-background {
+  background-color: #F3F6FD;
+  color: #4A80FF;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.card-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-value {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.info-label {
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+.info-sublabel {
+  font-size: 0.8rem;
+  color: #adb5bd;
+  display: flex;
+  align-items: center;
+
+  &.increased {
+    color: #28a745;
+  }
+}
+
+.trend-icon {
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.chart-card {
+  &.large {
+    grid-column: span 3;
+  }
+  &.small {
+      grid-column: span 1;
+  }
+  h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
 }
