@@ -1,0 +1,149 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.students-container {
+  background-color: transparent;
+}
+
+.students-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+
+  input {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #111; 
+    caret-color: #111;
+    font: inherit;
+  }
+}
+
+.search-bar:focus-within {
+  border-color: #0B57D0;
+  box-shadow: 0 0 0 3px rgba(11,87,208,0.15);
+}
+
+.table-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.table-header, .table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.table-header {
+  font-weight: 500;
+  color: #6c757d;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+}
+
+.avatar-placeholder {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.grade-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+
+  &.high {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  &.medium {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+  &.low {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+}
+
+.completion-bar {
+  width: 80px;
+  height: 6px;
+  background-color: #e9ecef;
+  border-radius: 3px;
+  overflow: hidden;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.completion-fill {
+  height: 100%;
+  background-color: #0B57D0;
+  border-radius: 3px;
+}
+
+.completion-text {
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+.trend-icon {
+  &.increased { color: #28a745; }
+  &.decreased { color: #dc3545; }
+  &.neutral { color: #6c757d; }
+}

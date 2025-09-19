@@ -1,43 +1,68 @@
-<o-loading [isLoading]="isLoading" />
-
-<header>
-    <button mat-icon-button [routerLink]="[dashboardBaseUrl]">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-</header>
-
-<div class="student-dashboard-div">
-    <h2>Dashboard do aluno {{studentAccount?.user?.name}} ({{studentAccount?.idInInstitution}})</h2>
-    <img [src]="profilePictureUrl" alt="profilePicture" />
-
-    <p-accordion value="0" [multiple]="true" (onOpen)="getSyllabusHistory($event)">
-        @for (syllabus of flatSyllabus; track syllabus.id) {
-        <p-accordion-panel [value]="$index">
-            <p-accordion-header>
-                <span>
-                    <p>{{syllabus.name}}</p>
-                    <p-progressbar [value]="currentScores.get(syllabus.id!)?.value || 0">
-                        <ng-template #content let-value>
-                            <span>{{value || 0}}</span>
-                        </ng-template>
-                    </p-progressbar>
-                </span>
-            </p-accordion-header>
-            <p-accordion-content>
-                <div>
-                    @if (histories.get(syllabus.id!)) {
-                    @if (histories.get(syllabus.id!)!.length > 0) {
-                    <p-chart type="line" [data]="getChartData(histories.get(syllabus.id!)!)"
-                        [options]="getChartOptions()" />
-                    } @else {
-                    <p>Não há histórico para {{syllabus.name}}</p>
-                    }
-                    } @else {
-                    <o-loading [isLoading]="!histories.get(syllabus.id!)" [local]="true" size="50px" />
-                    }
-                </div>
-            </p-accordion-content>
-        </p-accordion-panel>
-        }
-    </p-accordion>
+<div *ngIf="isLoading; else content" class="loading-container">
+  <o-loading></o-loading>
 </div>
+
+<ng-template #content>
+  <div class="students-container">
+    <div class="students-header">
+      <h3 class="title">Acompanhamento Individual</h3>
+      <div class="search-bar">
+        <mat-icon>search</mat-icon>
+        <input
+            type="text"
+            name="searchTerm"
+            placeholder="Buscar membros..."
+            [(ngModel)]="searchTerm"
+            (input)="search()"
+            autocomplete="off"
+            autocapitalize="none"
+            spellcheck="false"
+        />
+        </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-header">
+        <div class="table-cell">Estudante</div>
+        <div class="table-cell">Nota Geral</div>
+        <div class="table-cell">Atividades</div>
+        <div class="table-cell">Conclusão</div>
+        <div class="table-cell">Tendência</div>
+      </div>
+
+      <div class="table-body">
+        @for (student of filteredStudents; track student.id) {
+          <div class="table-row">
+            <div class="table-cell student-info">
+              <div class="avatar-placeholder">{{ student.user.name | slice:0:1 }}</div>
+              <span>{{ student.user.name }}</span>
+            </div>
+            <div class="table-cell">
+              <span class="grade-badge" 
+                    [class.high]="student.geralGrade >= 80" 
+                    [class.medium]="student.geralGrade >= 60 && student.geralGrade < 80" 
+                    [class.low]="student.geralGrade < 60">
+                {{ student.geralGrade / 10 | number:'1.1-1' }}
+              </span>
+            </div>
+            <div class="table-cell">{{ student.activities }} / {{ flatSyllabus.length }}</div>
+            <div class="table-cell">
+              <div class="completion-bar">
+                <div class="completion-fill" [style.width.%]="student.conclusion * 100"></div>
+              </div>
+              <span class="completion-text">{{ student.conclusion | percent:'1.0-0' }}</span>
+            </div>
+            <div class="table-cell">
+              <mat-icon class="trend-icon" 
+                        [class.increased]="student.trend === 'north'" 
+                        [class.decreased]="student.trend === 'south'"
+                        [class.neutral]="student.trend === 'minimize'">
+                {{ student.trend }}
+              </mat-icon>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</ng-template>
