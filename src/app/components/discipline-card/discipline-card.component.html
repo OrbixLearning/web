@@ -1,0 +1,17 @@
+<div class="discipline-card-container">
+  <div class="card-title">{{ discipline.name }}</div>
+
+  <div class="info-row">
+    <span>Progresso</span>
+    <span class="percentage">{{ progress | number:'1.0-0' }}%</span>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-bar-fill" [style.width.%]="progress"></div>
+  </div>
+
+  <div class="info-row">
+    <span>Média de Notas</span>
+    <span class="grade-value">{{ averageGrade | number:'1.1-1' }}</span>
+  </div>
+</div>
