@@ -1,0 +1,48 @@
+<div *ngIf="isLoading; else content" class="loading-container">
+  <o-loading></o-loading>
+</div>
+
+<ng-template #content>
+  <div class="performance-grid">
+    <div class="performance-card">
+      <h3 class="card-title">Comparativo de Desempenho</h3>
+      <div class="chart-container">
+        <p-chart type="radar" [data]="performanceChartData" [options]="chartOptions"></p-chart>
+      </div>
+    </div>
+
+    <div class="performance-card">
+      <h3 class="card-title">Estatísticas da Turma</h3>
+      <div class="stats-container">
+        <div class="stat-item">
+          <div class="stat-label">
+            <span>Melhor Nota</span>
+            <span class="stat-sublabel">{{ classStats.bestNote?.name || 'N/A' }}</span>
+          </div>
+          <span class="stat-value">{{ classStats.bestNote?.value | number:'1.1-1' }}</span>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">
+            <span>Média da Turma</span>
+            <span class="stat-trend increased">+0.0</span>
+          </div>
+          <span class="stat-value">{{ classStats.classAverage | number:'1.1-1' }}</span>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">
+            <span>Taxa de Aprovação</span>
+            <span class="stat-trend increased">+0%</span>
+          </div>
+          <span class="stat-value">{{ classStats.approvalRate | number:'1.0-0' }}%</span>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">
+            <span>Frequência Média</span>
+            <span class="stat-trend increased">+0%</span>
+          </div>
+          <span class="stat-value">{{ classStats.averageFrequency }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
