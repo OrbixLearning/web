@@ -1,35 +1,31 @@
-<o-loading [isLoading]="isLoading" />
-
-<header>
-    <button mat-icon-button [routerLink]="[dashboardBaseUrl]">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-</header>
-
-<div class="syllabus-dashboard-div">
-    <div class="left-div">
-        <h2>Dashboard do tópico {{syllabus?.name}}</h2>
-        <mat-form-field appearance="fill" subscriptSizing="dynamic">
-            <mat-label>Data de Início</mat-label>
-            <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate"
-                (ngModelChange)="getData(syllabus!.id!)" disabled>
-            <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #startDatePicker disabled="false"></mat-datepicker>
-        </mat-form-field>
-        @if (count > 0) {
-        <div>
-            <p-chart type="line" [data]="chartData" [options]="chartOptions" />
-        </div>
-        } @else {
-        <p>Não há registros nesse tópico a partir de {{formatDateView(startDate)}}</p>
-        }
-    </div>
-
-    <div class="right-div">
-        @for (item of ranking; track $index) {
-        <button mat-raised-button [routerLink]="[dashboardBaseUrl + '/student/' + item.student.id]">
-            {{$index + 1}}. {{item.student.user.name}} -- {{item.value}}
-        </button>
-        }
-    </div>
+<div *ngIf="isLoading; else content" class="loading-container">
+  <o-loading></o-loading>
 </div>
+
+<ng-template #content>
+  <div *ngIf="syllabus; else listView">
+    <h2>Detalhes de: {{ syllabus.name }}</h2>
+    <a routerLink="../topics">Voltar</a>
+  </div>
+
+  <ng-template #listView>
+    <div class="topics-container">
+      <div class="main-chart-card">
+        <h2 class="card-title">Análise Detalhada por Tópico</h2>
+        <div class="chart-container">
+          <p-chart type="bar" [data]="topicChartData" [options]="chartOptions"></p-chart>
+        </div>
+      </div>
+
+      <div class="discipline-cards-grid">
+        @for (score of scores; track score.syllabus.id) {
+          <app-discipline-card 
+            [discipline]="score.syllabus" 
+            [progress]="score.average"
+            [averageGrade]="score.average / 10">
+          </app-discipline-card>
+        }
+      </div>
+    </div>
+  </ng-template>
+</ng-template>
