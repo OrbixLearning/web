@@ -8,6 +8,7 @@ import { FlashCardLearningPathStudy, LearningPathStudy } from '../../../../model
 import { DividerModule } from 'primeng/divider';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
+import { ChatComponent } from '../../../../components/chat/chat.component';
 import { lastValueFrom } from 'rxjs';
 
 type FlashCardContext = {
@@ -17,7 +18,7 @@ type FlashCardContext = {
 
 @Component({
 	selector: 'o-flash-card-learning-path',
-	imports: [MatCardModule, MatButtonModule, MatIconModule, DividerModule, LoadingComponent],
+	imports: [MatCardModule, MatButtonModule, MatIconModule, DividerModule, LoadingComponent, ChatComponent],
 	templateUrl: './flash-card-learning-path.component.html',
 	styleUrl: './flash-card-learning-path.component.scss',
 })
