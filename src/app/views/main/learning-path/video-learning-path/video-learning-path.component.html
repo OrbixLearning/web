@@ -1,13 +1,59 @@
-<div>
-    @for (video of videos; track video; let i = $index) {
-    <div>
-        <h4>{{video.name}}</h4>
-        <iframe [src]="getUrl(video.videoId) | safeUrl" frameborder="0" allowfullscreen width="560" height="315"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        <p>Por: {{video.author}}</p>
-        <p>{{video.description}}</p>
-        <p-divider />
+<!-- layout 50/50: chat à esquerda, vídeo à direita -->
+<div class="lp-layout two-col">
+  <!-- CHAT (esquerda) -->
+  <aside class="col chat">
+    <o-chat
+      [learningPaths]="learningPathStudy?.learningPath ? [$any(learningPathStudy.learningPath)] : []"
+      [showLearningPaths]="!!learningPathStudy?.learningPath">
+    </o-chat>
+  </aside>
+
+  <!-- VÍDEO (direita) -->
+  <main class="col video">
+    <div class="video-carousel">
+      <!-- referência do contêiner de slides -->
+      <div class="slides" #slides aria-label="Carrossel de aulas">
+        @for (video of videos; track video; let i = $index) {
+          <section class="slide" id="vid-{{ i }}" aria-roledescription="slide"
+                   [attr.aria-label]="'Vídeo ' + (i + 1)">
+            <div class="player">
+              <iframe
+                [src]="getUrl(video.videoId) | safeUrl"
+                title="{{ video.name }}"
+                frameborder="0"
+                allowfullscreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin">
+              </iframe>
+            </div>
+
+            <div class="meta">
+              <h4 class="title">{{ video.name }}</h4>
+              <p class="author">Por: {{ video.author }}</p>
+              <p class="desc">{{ video.description }}</p>
+            </div>
+          </section>
+        }
+      </div>
+
+      <!-- miniaturas -->
+      <div class="thumbs" aria-label="Navegação por vídeos">
+        @for (video of videos; track video; let i = $index) {
+          <button
+            type="button"
+            class="thumb"
+            [attr.aria-label]="'Ir para ' + video.name"
+            (click)="$any(slides).children[i]?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' })">
+            <figure>
+              <img
+                [src]="'https://i.ytimg.com/vi/' + video.videoId + '/hqdefault.jpg'"
+                [alt]="'Miniatura de ' + video.name"
+                loading="lazy" />
+              <figcaption>{{ video.name }}</figcaption>
+            </figure>
+          </button>
+        }
+      </div>
     </div>
-    }
+  </main>
 </div>
