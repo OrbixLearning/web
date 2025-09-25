@@ -1,24 +1,27 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Event, NavigationEnd, Router, RouterEvent, RouterModule } from '@angular/router';
 import { SelectModule } from 'primeng/select';
-import { filter } from 'rxjs';
+import { filter, lastValueFrom } from 'rxjs';
 import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
 import { Institution } from '../../models/Institution';
 import { ContextService } from '../../services/context.service';
 import { InstitutionService } from '../../services/institution.service';
 import { ThemeService } from '../../services/theme.service';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
 	selector: 'o-header',
-	imports: [MatIconModule, MatButtonModule, SelectModule, FormsModule, RouterModule],
+	imports: [MatIconModule, MatButtonModule, SelectModule, FormsModule, RouterModule, MatMenuModule],
 	templateUrl: './header.component.html',
 	styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+	authService: AuthService = inject(AuthService);
 	ctx: ContextService = inject(ContextService);
 	router: Router = inject(Router);
 	theme: ThemeService = inject(ThemeService);
@@ -43,7 +46,6 @@ export class HeaderComponent {
 
 	ngOnInit() {
 		this.setThemes();
-		// This is used to update the data when the institutionId changes in the URL
 		this.router.events
 			.pipe(filter((e: Event | RouterEvent): e is RouterEvent => e instanceof NavigationEnd))
 			.subscribe((e: RouterEvent) => {
@@ -79,6 +81,13 @@ export class HeaderComponent {
 		return this.theme.getCurrentGlobalTheme();
 	}
 
+	async logout() {
+		await lastValueFrom(this.authService.logout()).then(() => {
+			this.theme.setBaseTheme();
+			this.router.navigate(['/login']);
+		});
+	}
+
 	toggleTheme() {
         const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
         if (newTheme === 'light') {
@@ -96,17 +105,17 @@ export class HeaderComponent {
 	}
 
 	setThemes() {
-        if (this.ctx.institution?.id && this.ctx.institution.style) {
+		if (this.ctx.institution?.id && this.ctx.institution.style) {
         this.theme.setInstitutionTheme(this.ctx.institution);
-    } else {
-        const current = this.theme.getCurrentGlobalTheme();
-        if (current === 'dark') {
-            this.theme.setDarkTheme();
-        } else {
-            this.theme.setLightTheme();
-        }
-    }
-}
+		} else {
+			const current = this.theme.getCurrentGlobalTheme();
+			if (current === 'dark') {
+				this.theme.setDarkTheme();
+			} else {
+				this.theme.setLightTheme();
+			}
+		}
+	}
 
 	changeInstitution(institutionId: string | null) {
 		this.ctx.institution = this.institutions.find(inst => inst.id === institutionId) || this.personalInstitution;

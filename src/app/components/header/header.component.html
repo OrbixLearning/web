@@ -29,8 +29,19 @@
             <mat-icon>bug_report</mat-icon>
         </button>
         
-        <button mat-icon-button (click)="goToProfile()">
-            <img [src]="profilePictureUrl" alt="Profile Picture" class="profile-picture" />
+        <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="profile-menu-button">
+            <img [src]="profilePictureUrl" alt="Foto de Perfil" class="profile-picture" />
         </button>
+
+        <mat-menu #profileMenu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="goToProfile()">
+                <mat-icon>person</mat-icon>
+                <span>Perfil</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                <span>Sair</span>
+            </button>
+        </mat-menu>
     </div>
 </header>

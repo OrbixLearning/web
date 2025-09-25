@@ -42,6 +42,7 @@ header {
 .right-header {
 	display: flex;
 	flex-direction: row;
+	justify-content: flex-end;
 	align-items: center;
 	flex: 1;
 	gap: 20px;
@@ -61,4 +62,19 @@ header {
 
 .header-icon-button mat-icon {
 	color: #e0e0e0; 
+}
+
+.profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-color, #e0e0e0);
+}
+
+.profile-menu-button {
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
 }
