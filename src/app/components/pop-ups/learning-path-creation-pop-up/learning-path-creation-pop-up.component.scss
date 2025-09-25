@@ -1,7 +1,143 @@
+/* Layout base */
+.page {
+  padding: 16px 24px 24px;
+  background: #f5f7fb;
+}
+
+/* Cards */
+.card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.02);
+}
+
+.card-title {
+  margin: 0 0 16px;
+  font-size: 20px;
+  color: #111827;
+  font-weight: 700;
+}
+
+/* Grid */
+.form-grid .row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.field { display: flex; flex-direction: column; }
+.col-12 { flex: 0 0 100%; }
+.col-7  { flex: 1 1 58%; }
+.col-5  { flex: 1 1 40%; }
+.col-4  { flex: 1 1 31%; }
+
+.settings-row { margin-top: 4px; }
+
+/* Labels & inputs */
+.label {
+  font-weight: 600;
+  font-size: 13px;
+  color: #374151;
+  margin-bottom: 6px;
+}
+.req { color: #ef4444; margin-left: 4px; }
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.input:focus,
+.textarea:focus,
+.mat-mdc-select.mdc-select--focused .mdc-text-field--outlined {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, .15);
+}
+
+.textarea.big { min-height: 300px; }
+
+/* Select wrapper so o mat-select pareça input normal */
+.select {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  background: #fff;
+}
+.select .mat-mdc-select { width: 100%; }
+
+/* Borda roxa da área grande */
+.purple-outline {
+  border-color: #a78bfa !important;
+}
+
+/* Config */
+.config {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.config-text {
+  color: #4b5563;
+  font-size: 14px;
+}
+
+/* Seção Conteúdo Rota */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.section-icon { font-size: 18px; }
+.section-title { font-size: 18px; margin: 0; color: #111827; }
+
+/* Ações */
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+.btn-primary {
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 700;
+}
+.btn-secondary {
+  border-radius: 10px;
+  padding: 10px 16px;
+}
+
+/* Erros */
+.error {
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+/* Botões antigos (mantidos só se você ainda usar) */
 .selected-learning-path-type-button {
-	border: 2x solid var(--primary-color);
-	border-radius: 8px;
-	background-color: var(--primary-color);
-	color: var(--text-color);
-	font-weight: 600;
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+/* Responsivo */
+@media (max-width: 980px) {
+  .col-7, .col-5, .col-4 { flex: 0 0 100%; }
 }
