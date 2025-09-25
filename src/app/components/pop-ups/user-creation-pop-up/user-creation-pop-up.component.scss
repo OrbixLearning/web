@@ -1,38 +1,75 @@
 :host {
   display: block;
-  width: 700px;
+  width: 100%;
+  max-width: 880px;      // pop-up mais largo
 }
 
+/* Container */
 .pop-up-container {
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: #fff;
 }
 
+/* Conteúdo com rolagem se precisar */
 .pop-up-content {
   padding: 24px 32px;
   border-top: 1px solid var(--border-color);
+  max-height: 70vh;
+  overflow: auto;
 }
 
+/* Grid 2 colunas alinhadas */
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 32px;
+  align-items: start;
 }
 
 .form-column {
   display: flex;
   flex-direction: column;
-  gap: 20px; 
+  gap: 16px;
 }
 
+/* Form fields ocupam toda a largura */
 .mat-mdc-form-field {
   width: 100%;
 }
 
+/* Mantém a linha de ajuda com altura mínima (evita “pula-pula”) */
+.mat-mdc-form-field-subscript-wrapper {
+  min-height: 20px;
+}
+
+/* Ajuste fino do botão de “olho” para não esmagar o input */
+.with-suffix-btn .mat-mdc-form-field-icon-suffix .mat-mdc-icon-button {
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+}
+
+/* Deixa o ícone centralizado e clicável sem deslocar o outline */
+.suffix-toggle {
+  line-height: 1;
+}
+
+/* Mensagem de erro geral */
 .error-message {
   color: var(--warn-color, #f44336);
   text-align: center;
-  margin-top: 16px;
+  margin-top: 8px;
   font-size: 0.9rem;
+}
+
+/* Responsivo: empilha em uma coluna quando apertado */
+@media (max-width: 860px) {
+  :host {
+    max-width: 640px;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }
