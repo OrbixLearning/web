@@ -1,40 +1,177 @@
-.question {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: flex-start;
+/* Layout base em 3 colunas: 40% / 40% / 20% */
+.exam-layout {
+  display: grid;
+  grid-template-columns: 40% 40% 20%;
+  gap: 16px;
+  align-items: stretch; /* 👈 força colunas a crescerem juntas */
+  min-height: 100vh;    /* ocupa a tela inteira */
+  padding: 16px;
 
-	.left {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
-		gap: 15px;
+  /* Cards genéricos */
+  .card {
+    background: var(--surface, #fff);
+    border: 1px solid var(--border, rgba(0,0,0,.08));
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.06);
+  }
 
-		.choices {
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: flex-start;
-			gap: 10px;
-		}
-	}
+  /* IA (esquerda) */
+  .ai-slot {
+  grid-column: 1;        /* mantém na primeira coluna do grid */
+  height: 100vh;         /* ocupa a tela toda */
+  display: flex;
+  flex-direction: column;
 
-	.right {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
-		gap: 10px;
-		padding: 0 20px;
-		border-left: 1px solid var(--text-color);
+  o-chat {
+    flex: 1;             /* cresce até o limite da tela */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;    /* ativa rolagem caso ultrapasse */
+    background: #111;    /* fundo dark */
+    border-radius: 14px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.25);
+    color: #fff;
+    padding: 16px;
+  }
+}
 
-		.questions-menu {
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: flex-start;
-			gap: 10px;
-		}
-	}
+  /* Questão (centro) */
+  .left {
+    .question-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .statement {
+      padding-bottom: 8px;
+      border-bottom: 1px dashed var(--border, rgba(0,0,0,.1));
+
+      p {
+        margin: 0;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        font-weight: 600;
+      }
+    }
+
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tf-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .open-ended {
+      width: 100%;
+    }
+
+    .answer-hint {
+      background: rgba(76, 175, 80, 0.08);
+      border: 1px solid rgba(76, 175, 80, 0.25);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: .95rem;
+
+      &__label { font-weight: 700; margin-right: 6px; }
+      &__value { font-weight: 500; }
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+
+      .spacer { flex: 1; }
+    }
+  }
+
+  /* Sidebar (direita) */
+  .right {
+    .sticky {
+      position: sticky;
+      top: 16px;
+    }
+
+    .sidebar-card__title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .questions-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: calc(100vh - 220px);
+      overflow: auto;
+      padding-right: 4px; /* espaço para scrollbar */
+    }
+
+    .q-item {
+      --q-bg: transparent;
+      justify-content: flex-start;
+      width: 100%;
+      text-align: left;
+      background: var(--q-bg);
+      transition: transform .08s ease-in-out, background .2s ease;
+
+      &:hover { transform: translateY(-1px); }
+
+      .q-item__icon {
+        margin-right: 8px;
+      }
+      .q-item__label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .sidebar-actions {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .incorrect-count {
+        margin: 0;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+/* Responsividade */
+@media (max-width: 1280px) {
+  .exam-layout {
+    grid-template-columns: 1fr; /* empilha */
+    gap: 12px;
+
+    .right .questions-menu {
+      max-height: none;
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .exam-layout .card {
+    background: var(--surface, #121212);
+    border-color: var(--border, rgba(255,255,255,.08));
+    box-shadow: 0 6px 24px rgba(0,0,0,.35);
+  }
+
+  .exam-layout .left .answer-hint {
+    background: rgba(76, 175, 80, 0.12);
+    border-color: rgba(76, 175, 80, 0.35);
+  }
 }

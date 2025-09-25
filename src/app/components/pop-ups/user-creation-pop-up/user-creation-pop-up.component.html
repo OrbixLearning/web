@@ -3,44 +3,96 @@
   <o-loading [isLoading]="isLoading" />
 
   <div class="pop-up-content">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="user-form">
       <div class="form-grid">
+        <!-- Coluna Esquerda -->
         <div class="form-column">
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" floatLabel="always">
             <mat-label>Nome completo</mat-label>
-            <input matInput type="text" formControlName="name" />
+            <input
+              matInput
+              type="text"
+              formControlName="name"
+              required
+              autocomplete="name"
+            />
           </mat-form-field>
-          <mat-form-field appearance="outline">
+
+          <mat-form-field appearance="outline" floatLabel="always">
             <mat-label>Email</mat-label>
-            <input matInput type="email" formControlName="email" />
+            <input
+              matInput
+              type="email"
+              formControlName="email"
+              required
+              autocomplete="email"
+            />
           </mat-form-field>
-          <mat-form-field appearance="outline">
+
+          <mat-form-field appearance="outline" floatLabel="always" class="with-suffix-btn">
             <mat-label>Senha</mat-label>
-            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
-            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
-                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            <input
+              matInput
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+              required
+              autocomplete="new-password"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              class="suffix-toggle"
+              (click)="hidePassword = !hidePassword"
+              aria-label="Mostrar/ocultar senha"
+              [attr.aria-pressed]="!hidePassword"
+            >
+              <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
           </mat-form-field>
         </div>
 
+        <!-- Coluna Direita -->
         <div class="form-column">
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" floatLabel="always">
             <mat-label>Identificador</mat-label>
-            <input matInput type="text" formControlName="idInInstitution" />
+            <input
+              matInput
+              type="text"
+              formControlName="idInInstitution"
+              required
+              autocomplete="off"
+            />
           </mat-form-field>
-          <mat-form-field appearance="outline">
+
+          <mat-form-field appearance="outline" floatLabel="always">
             <mat-label>Cargo</mat-label>
-            <mat-select formControlName="role">
+            <mat-select formControlName="role" required>
               @for (role of roles; track role) {
                 <mat-option [value]="role">{{ role }}</mat-option>
               }
             </mat-select>
           </mat-form-field>
-          <mat-form-field appearance="outline">
+
+          <mat-form-field appearance="outline" floatLabel="always" class="with-suffix-btn">
             <mat-label>Confirmar Senha</mat-label>
-            <input matInput [type]="hidePasswordConfirmation ? 'password' : 'text'" formControlName="passwordConfirmation" />
-             <button mat-icon-button matSuffix (click)="hidePasswordConfirmation = !hidePasswordConfirmation" type="button">
-                <mat-icon>{{ hidePasswordConfirmation ? 'visibility_off' : 'visibility' }}</mat-icon>
+            <input
+              matInput
+              [type]="hidePasswordConfirmation ? 'password' : 'text'"
+              formControlName="passwordConfirmation"
+              required
+              autocomplete="new-password"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              class="suffix-toggle"
+              (click)="hidePasswordConfirmation = !hidePasswordConfirmation"
+              aria-label="Mostrar/ocultar confirmação de senha"
+              [attr.aria-pressed]="!hidePasswordConfirmation"
+            >
+              <mat-icon>{{ hidePasswordConfirmation ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
           </mat-form-field>
         </div>
@@ -54,9 +106,9 @@
     </form>
   </div>
 
-  <o-pop-up-buttons 
-    [disable]="isLoading || form.invalid" 
-    (confirm)="onSubmit()" 
-    confirmButton="Criar Usuário" 
+  <o-pop-up-buttons
+    [disable]="isLoading || form.invalid"
+    (confirm)="onSubmit()"
+    confirmButton="Criar Usuário"
   />
 </div>

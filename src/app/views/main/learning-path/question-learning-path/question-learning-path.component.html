@@ -1,77 +1,136 @@
-<div class="question">
-    <div class="left">
-        <div>
-            <p>{{question?.statement}}</p>
-        </div>
+<div class="question exam-layout">
+  <!-- 40% - IA -->
+  <aside class="ai-slot">
+  <o-chat
+    [learningPaths]="learningPathStudy?.learningPath ? [$any(learningPathStudy.learningPath)] : []"
+    [showLearningPaths]="!!learningPathStudy?.learningPath">
+  </o-chat>
+</aside>
 
-        @switch (question?.type) {
+  <!-- 40% - Questão -->
+  <section class="left">
+    <div class="card question-card">
+      <header class="statement">
+        <p>{{question?.statement}}</p>
+      </header>
+
+      @switch (question?.type) {
         @case (questionTypeEnum.MULTIPLE_CHOICE) {
-        <mat-radio-group class="choices">
+          <mat-radio-group class="choices">
             @for (option of question?.options; track option) {
-            <mat-radio-button [checked]="userAnswer.includes(option)" (change)="markSingle(option)"
-                [value]="[option]">{{option}}</mat-radio-button>
+              <mat-radio-button
+                [checked]="userAnswer.includes(option)"
+                (change)="markSingle(option)"
+                [value]="[option]"
+              >{{option}}</mat-radio-button>
             }
-        </mat-radio-group>
+          </mat-radio-group>
         }
 
         @case (questionTypeEnum.MULTIPLE_SELECTION) {
-        <div class="choices">
+          <div class="choices">
             @for (option of question?.options; track option) {
-            <mat-checkbox [checked]="userAnswer.includes(option)" (change)="markMulti(option)"
-                [value]="option">{{option}}</mat-checkbox>
+              <mat-checkbox
+                [checked]="userAnswer.includes(option)"
+                (change)="markMulti(option)"
+                [value]="option"
+              >{{option}}</mat-checkbox>
             }
-        </div>
+          </div>
         }
 
         @case (questionTypeEnum.TRUE_FALSE) {
-        <mat-button-toggle-group>
-            <mat-button-toggle [checked]="userAnswer.includes('true')" (change)="markSingle('true')"
-                value="true">Verdadeiro</mat-button-toggle>
-            <mat-button-toggle [checked]="userAnswer.includes('false')" (change)="markSingle('false')"
-                value="false">Falso</mat-button-toggle>
-        </mat-button-toggle-group>
+          <mat-button-toggle-group class="tf-group">
+            <mat-button-toggle
+              [checked]="userAnswer.includes('true')"
+              (change)="markSingle('true')"
+              value="true"
+            >Verdadeiro</mat-button-toggle>
+            <mat-button-toggle
+              [checked]="userAnswer.includes('false')"
+              (change)="markSingle('false')"
+              value="false"
+            >Falso</mat-button-toggle>
+          </mat-button-toggle-group>
         }
 
         @case (questionTypeEnum.OPEN_ENDED) {
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Resposta</mat-label>
-            <textarea matInput rows="5" [value]="userAnswer[0] || ''" (input)="updateOpenEndedAnswer($event)">
-            </textarea>
-        </mat-form-field>
-        }
-        }
-
-        @if (showAnswers) {
-        <span><span style="font-weight: bold">Resposta correta:</span> {{currentQuestionAnswer}}</span>
-        }
-
-        <div>
-            @if (index > 0) {
-            <button mat-button (click)="previousQuestion()"> Anterior </button>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" class="open-ended">
+                <mat-label>Resposta</mat-label>
+                <textarea
+                matInput
+                rows="6"
+                [value]="userAnswer[0] || ''"
+                (input)="updateOpenEndedAnswer($event)"
+                ></textarea>
+            </mat-form-field>
             }
-            @if (index < (questionsContext.length - 1)) { <button mat-button (click)="nextQuestion()"> Próxima
-                </button>
-                }
+      }
+
+      @if (showAnswers) {
+        <div class="answer-hint">
+          <span class="answer-hint__label">Resposta correta:</span>
+          <span class="answer-hint__value">{{currentQuestionAnswer}}</span>
         </div>
+      }
+
+      <footer class="nav-actions">
+        @if (index > 0) {
+          <button mat-stroked-button (click)="previousQuestion()">
+            <mat-icon>arrow_back</mat-icon> Anterior
+          </button>
+        }
+        <span class="spacer"></span>
+        @if (index < (questionsContext.length - 1)) {
+          <button mat-raised-button color="primary" (click)="nextQuestion()">
+            Próxima <mat-icon>arrow_forward</mat-icon>
+          </button>
+        }
+      </footer>
     </div>
+  </section>
 
-    <div class="right">
-        <div class="questions-menu">
-            @for (context of questionsContext; track $index) {
-            <button mat-stroked-button (click)="goToQuestion($index)"
-                [style]="'background-color: ' + (showAnswers && !verifyAnswer($index) ? '#550000' : '')">
-                <mat-icon>{{context.userAnswer.length > 0 ? 'check' : 'close'}}</mat-icon>
-                <span>Questão {{$index + 1}} {{context.userAnswer.length > 0 ? '' : '(não respondida)'}}</span>
-            </button>
-            }
-        </div>
-        <div>
-            @if (!showAnswers) {
-            <button mat-raised-button (click)="verifyAnswers()">Verificar Respostas</button>
-            } @else {
-            <p>{{amountOfIncorrectAnswers}} respostas incorretas</p>
-            <button mat-raised-button (click)="showAnswers = false">Esconder Respostas</button>
-            }
-        </div>
+  <!-- 20% - Sidebar -->
+  <aside class="right">
+    <div class="card sidebar-card sticky">
+      <div class="sidebar-card__title">
+        <mat-icon>menu</mat-icon>
+        <span>Questões</span>
+      </div>
+
+      <div class="questions-menu">
+        @for (context of questionsContext; track $index) {
+          <button
+            mat-stroked-button
+            class="q-item"
+            (click)="goToQuestion($index)"
+            [style]="'--q-bg:' + (showAnswers && !verifyAnswer($index) ? '#550000' : 'transparent')"
+          >
+            <mat-icon class="q-item__icon">
+              {{context.userAnswer.length > 0 ? 'check' : 'close'}}
+            </mat-icon>
+            <span class="q-item__label">
+              Questão {{$index + 1}}
+              {{context.userAnswer.length > 0 ? '' : ' (não respondida)'}}
+            </span>
+          </button>
+        }
+      </div>
+
+      <div class="sidebar-actions">
+        @if (!showAnswers) {
+          <button mat-raised-button color="accent" (click)="verifyAnswers()">
+            Verificar Respostas
+          </button>
+        } @else {
+          <p class="incorrect-count">
+            {{amountOfIncorrectAnswers}} respostas incorretas
+          </p>
+          <button mat-stroked-button (click)="showAnswers = false">
+            Esconder Respostas
+          </button>
+        }
+      </div>
     </div>
+  </aside>
 </div>
