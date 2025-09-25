@@ -5,17 +5,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
 import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { AccountCardComponent } from '../../../components/account-card/account-card.component';
-import { GameCardComponent } from '../../../components/game-card/game-card.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { LinkAccountPopUpComponent } from '../../../components/pop-ups/link-account-pop-up/link-account-pop-up.component';
-import { InstitutionRoleEnum } from '../../../enums/InstitutionRole.enum';
-import { Institution } from '../../../models/Institution';
 import { User, UserAccount } from '../../../models/User';
 import { AuthService } from '../../../services/auth.service';
 import { ContextService } from '../../../services/context.service';
@@ -33,8 +30,8 @@ import { UserService } from '../../../services/user.service';
 		LoadingComponent,
 		ReactiveFormsModule,
 		AccountCardComponent,
-		GameCardComponent,
 		DividerModule,
+		RouterModule,
 	],
 	templateUrl: './profile.component.html',
 	styleUrl: './profile.component.scss',
@@ -48,7 +45,6 @@ export class ProfileComponent {
 	dialog: MatDialog = inject(MatDialog);
 	theme: ThemeService = inject(ThemeService);
 	route: ActivatedRoute = inject(ActivatedRoute);
-
 	isLoading: boolean = false;
 	picture?: File;
 	picturePreview: string | ArrayBuffer | null = null;
@@ -65,6 +61,14 @@ export class ProfileComponent {
 			this.getUserData();
 		});
 	}
+
+	goBack() {
+        if (this.ctx.institution?.id) {
+            this.router.navigate(['/i', this.ctx.institution.id]);
+        } else {
+            this.router.navigate(['/']);
+        }
+    }
 
 	getFormControl(name: string): FormControl {
 		return this.form.get(name) as FormControl;
@@ -143,13 +147,6 @@ export class ProfileComponent {
 					this.resetForm();
 				}
 			});
-	}
-
-	async logout() {
-		await lastValueFrom(this.authService.logout()).then(() => {
-			this.theme.setBaseTheme();
-			this.router.navigate(['/login']);
-		});
 	}
 
 	async onSubmit() {

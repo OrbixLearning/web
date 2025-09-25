@@ -1,79 +1,125 @@
-.profile-settings {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: flex-start;
-	width: 100%;
-	gap: 50px;
+:host {
+  display: block;
+  background-color: var(--background-color);
+  height: 100%;
+}
 
-	.form-div {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
-		width: 50%;
-		gap: 40px;
+.profile-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 32px;
+}
 
-		.picture-div {
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: flex-start;
-			gap: 10px;
+.profile-header {
+  margin-bottom: 16px;
+  .back-button {
+    color: var(--text-color, #111827);
+  }
+}
 
-			p {
-				font-size: 20px;
-				font-weight: bold;
-			}
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
 
-			.picture-subdiv {
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-start;
-				align-items: center;
-				gap: 20px;
+.profile-card {
+  background-color: var(--secondary-color, #ffffff);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+}
 
-				img {
-					max-height: 150px;
-					max-width: 150px;
-					border-radius: 10px;
-					border: 1px solid #ccc;
-				}
-			}
-		}
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 0 0 24px 0;
+}
 
-		.name-div {
-			display: flex;
-			flex-direction: row;
-			gap: 20px;
-		}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
 
-		.name-p {
-			font-size: 24px;
-			font-weight: bold;
-		}
+  .card-title {
+    margin-bottom: 0;
+  }
+}
 
-		.save-button {
-			background-color: var(--primary-color);
-			color: var(--text-color);
-			width: 150px;
+.user-details {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
 
-			&:disabled {
-				opacity: 0.3;
-				cursor: not-allowed;
-			}
-		}
+.avatar-section {
+  position: relative;
+  flex-shrink: 0;
+
+  .user-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--border-color);
+  }
+
+  ::ng-deep .p-fileupload.upload-button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    .p-button {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: var(--primary-color) !important;
+      border: 2px solid var(--secondary-color) !important;
+      color: var(--text-color-inverse) !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+      .p-button-icon {
+        font-size: 22px;
+      }
+    }
+  }
+	.avatar-camera {
+	position: absolute;
+	right: 6px;
+	bottom: 6px;
+	z-index: 2;
 	}
+}
 
-	.emails-div {
-		display: flex;
-		flex-direction: column;
-		gap: 15px;
-		width: 80%;
+.name-input {
+  flex-grow: 1;
+}
 
-		p {
-			font-size: 20px;
-			font-weight: bold;
-		}
-	}
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 24px;
+}
+
+.save-button {
+  background-color: var(--primary-color) !important;
+  color: var(--text-color-inverse) !important;
+  height: 48px;
+}
+
+.linked-accounts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 24px;
+}
+
+.empty-message {
+  text-align: center;
+  color: var(--text-color-secondary);
+  padding: 24px 0;
 }
