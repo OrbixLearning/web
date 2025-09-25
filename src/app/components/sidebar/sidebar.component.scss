@@ -1,31 +1,61 @@
+/* ----- largura fluida por conteúdo, com limites ----- */
+:root {
+  --sidebar-min: 320px;  /* mínimo desejado */
+  --sidebar-max: 520px;  /* máximo antes de quebrar linha */
+}
+
 :host {
-  display: flex;
+  flex: 0 0 auto;
+  width: fit-content;             /* cresce conforme o conteúdo */
+  min-width: var(--sidebar-min);
+  max-width: var(--sidebar-max);
+
+  height: 100vh;
+  position: sticky;
+  top: 0;
+
   border-right: 1px solid var(--border-color);
+  background: var(--surface-color, #fff);
+  box-sizing: border-box;
 }
 
 .sidebar {
+  height: 100%;
+  display: block;
+}
+
+.sidebar-inner {
   display: flex;
   flex-direction: column;
-  width: 100%;
   height: 100%;
-  overflow: hidden;
+  gap: 8px;
+  padding: 12px;
+  box-sizing: border-box;
 }
 
 .sidebar-divider {
-  border: none;
+  border: 0;
   border-top: 1px solid var(--border-color);
-  margin: 8px 0;
+  margin: 4px 0;
 }
 
 .classrooms-list {
-  overflow-y: auto;
-  flex-grow: 1; 
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  overflow-y: auto;
+  padding-right: 4px;
+
+  &::-webkit-scrollbar { display: none; }
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+/* Em telas estreitas, reduz um pouco mas mantém fluidez */
+@media (max-width: 900px) {
+  :host {
+    --sidebar-min: 280px;
+    --sidebar-max: 380px;
+  }
 }
