@@ -2,30 +2,69 @@
 
 <o-loading [isLoading]="isLoading" />
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="pop-up-content">
 
-    <div class="ccpu-form-div">
-        <mat-form-field appearance="fill" subscriptSizing="dynamic">
-            <mat-label>Nome</mat-label>
-            <input matInput type="text" name="name" formControlName="name" />
-        </mat-form-field>
+  <!-- Nome -->
+  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+    <mat-label>Nome</mat-label>
+    <mat-icon matPrefix>group</mat-icon>
+    <input
+      matInput
+      type="text"
+      name="name"
+      formControlName="name"
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="Nome da turma"
+      placeholder="Ex.: Engenharia de Software 1" />
+    <mat-hint align="start">Dê um nome claro e curto.</mat-hint>
+    <mat-error *ngIf="getFormControl('name').touched && getFormControl('name').hasError('required')">
+      O nome é obrigatório.
+    </mat-error>
+  </mat-form-field>
 
-        <div>
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Ícone</mat-label>
-                <input matInput type="text" name="icon" formControlName="icon" />
+  <!-- Ícone + preview -->
+  <div class="icon-selector-wrapper">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="icon-field">
+      <mat-label>Ícone</mat-label>
+      <mat-icon matPrefix>favorite</mat-icon>
+      <input
+        matInput
+        type="text"
+        name="icon"
+        formControlName="icon"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Ícone Material"
+        placeholder="Ex.: school" />
+      <mat-hint align="start" class="helper-text">
+        Veja a lista em
+        <a href="https://fonts.google.com/icons?icon.set=Material+Icons" target="_blank" rel="noopener">Google Icons</a>
+      </mat-hint>
+      <mat-error *ngIf="getFormControl('icon').touched && getFormControl('icon').hasError('required')">
+        O ícone é obrigatório.
+      </mat-error>
 
-            </mat-form-field>
+      <!-- preview compacto dentro do campo -->
+      <button mat-icon-button type="button" matSuffix class="ghost-btn" aria-label="Pré-visualizar ícone" disabled>
+        <mat-icon
+          class="icon-suffix"
+          [style.visibility]="getFormControl('icon').value ? 'visible' : 'hidden'">
+          {{ getFormControl('icon').value }}
+        </mat-icon>
+      </button>
+    </mat-form-field>
 
-            <mat-icon
-                [style]="'font-size: 48px; height: 48px; width: 48px; visibility: ' + (getFormControl('icon').value ? 'visible' : 'hidden')">
-                {{getFormControl('icon').value}}
-            </mat-icon>
-        </div>
+    <!-- preview grande ao lado -->
+    <mat-icon
+      class="icon-preview"
+      [style.visibility]="getFormControl('icon').value ? 'visible' : 'hidden'">
+      {{ getFormControl('icon').value }}
+    </mat-icon>
+  </div>
 
-        <p>É possível verificar a lista de ícones em <a href="https://fonts.google.com/icons?icon.set=Material+Icons" target="_blank">Google
-                Icons</a></p>
-    </div>
-
-    <o-pop-up-buttons [disable]="isLoading || form.invalid" type="submit" confirmButton="Criar turma" />
+  <o-pop-up-buttons
+    [disable]="isLoading || form.invalid"
+    type="submit"
+    confirmButton="Criar turma" />
 </form>
