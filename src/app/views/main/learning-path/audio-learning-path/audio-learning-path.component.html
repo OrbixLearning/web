@@ -1,7 +1,61 @@
-<div>
-    @for(number of iterableAudios; track number) {
-    <div>
-        <audio [src]="getAudioUrl(number)" controls></audio>
+<!-- Layout 50/50: IA (esquerda) | Áudio (direita) -->
+<div class="alp-layout">
+  <!-- PANE: IA/Chat (esquerda) -->
+  <aside class="pane ai-pane">
+    <div class="ai-card">   <!-- Import real do chat -->
+      <o-chat
+        [learningPaths]="learningPathStudy?.learningPath ? [$any(learningPathStudy.learningPath)] : []"
+        [showLearningPaths]="!!learningPathStudy?.learningPath">
+      </o-chat>
     </div>
-    }
+  </aside>
+
+  <!-- PANE: ÁUDIO (direita) -->
+  <section class="pane audio-pane">
+    <div class="audio-card">
+      <header class="audio-header">
+        <h2>Áudio Professores</h2>
+        <div class="toggles">
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+          <span class="switch-label">Compartilhada</span>
+        </div>
+      </header>
+
+      <div class="audio-list">
+        @for (number of iterableAudios; track number) {
+          <article class="audio-item">
+            <div class="item-head">
+              <button type="button" class="play" aria-label="Reproduzir áudio {{ number + 1 }}">▶</button>
+              <h3 class="title">Aula {{ number + 1 }}</h3>
+              <span class="meta">00:00 / --:--</span>
+            </div>
+
+            <div class="item-body">
+              <!-- Player nativo dentro de container -->
+              <audio
+                class="audio"
+                [src]="getAudioUrl(number)"
+                controls
+                preload="none"
+                aria-label="Player da aula {{ number + 1 }}"
+              ></audio>
+
+              <p class="excerpt">
+                Prévia: o professor aborda pontos-chave desta aula…
+              </p>
+
+              <div class="actions">
+                <button type="button" class="linkish">[ baixar ]</button>
+                <button type="button" class="linkish">[ favoritar ]</button>
+                <button type="button" class="linkish">[ compartilhar ]</button>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
 </div>

@@ -2,10 +2,11 @@ import { Component, inject, Input } from '@angular/core';
 import { AudioLearningPath } from '../../../../models/LearningPath/LearningPath';
 import { AudioLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { LearningPathService } from '../../../../services/learning-path.service';
+import { ChatComponent } from '../../../../components/chat/chat.component';
 
 @Component({
 	selector: 'o-audio-learning-path',
-	imports: [],
+	imports: [ChatComponent],
 	templateUrl: './audio-learning-path.component.html',
 	styleUrl: './audio-learning-path.component.scss',
 })
