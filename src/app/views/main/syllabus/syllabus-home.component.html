@@ -1,0 +1,60 @@
+<div class="syllabus-container">
+  <header class="syllabus-header">
+    <button mat-icon-button class="back-button" [routerLink]="classroomHomeUrl">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-text">
+      <h1>Ementa - {{ ctx.classroom?.name }}</h1>
+      <p>Explore o conteúdo programático da disciplina e acesse materiais de estudo</p>
+    </div>
+  </header>
+
+  <div class="search-bar">
+    <mat-icon>search</mat-icon>
+    <input type="text" placeholder="Buscar na ementa..." [(ngModel)]="searchTerm">
+  </div>
+
+  <main class="syllabus-content">
+    @for (topic of filteredSyllabus; track topic.id) {
+      <div class="topic-module">
+        <div class="module-header" (click)="toggleExpand(topic.id)">
+          <div class="module-title">
+            <mat-icon class="expand-icon">{{ isExpanded(topic.id) ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+            <div>
+              <h2>{{ topic.name }}</h2>
+              <span>{{ topic.topics?.length || 0 }} tópicos disponíveis</span>
+            </div>
+          </div>
+          <div class="module-tag">
+            <mat-icon>menu_book</mat-icon>
+            <span>Módulo</span>
+          </div>
+        </div>
+
+        @if (isExpanded(topic.id)) {
+          <div class="subtopics-list">
+            @for (subTopic of topic.topics; track subTopic.id) {
+              <div class="subtopic-card">
+                <div class="subtopic-info">
+                  <mat-icon class="doc-icon">description</mat-icon>
+                  <div class="subtopic-text">
+                    <h3>{{ subTopic.name }}</h3>
+                  </div>
+                </div>
+                <div class="subtopic-actions">
+                  <mat-icon class="info-icon">help_outline</mat-icon>
+                </div>
+              </div>
+            } @empty {
+              <p class="empty-subtopics">Nenhum subtópico disponível neste módulo.</p>
+            }
+          </div>
+        }
+      </div>
+    } @empty {
+      <p class="empty-syllabus">
+        {{ searchTerm ? 'Nenhum resultado encontrado para "' + searchTerm + '"' : 'Nenhuma ementa cadastrada para esta turma.' }}
+      </p>
+    }
+  </main>
+</div>
