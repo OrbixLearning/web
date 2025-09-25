@@ -26,6 +26,7 @@ import {
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { PopoverModule } from 'primeng/popover';
 import { ChatComponent } from '../../../../components/chat/chat.component';
+import { SyllabusService } from '../../../../services/syllabus.service';
 
 @Component({
 	selector: 'o-classroom-home',
@@ -53,6 +54,7 @@ export class ClassroomHomeComponent {
 	dialog: MatDialog = inject(MatDialog);
 	router: Router = inject(Router);
 	route: ActivatedRoute = inject(ActivatedRoute);
+	syllabusService: SyllabusService = inject(SyllabusService);
 
 	isLoading: boolean = true;
 	myLearningPaths: LearningPath[] = [];
@@ -60,12 +62,29 @@ export class ClassroomHomeComponent {
 	filter: string = '';
 	syllabusFilter: string[] = [];
 	learningPathsInChat: LearningPath[] = [];
+	syllabusTopics: Syllabus[] = [];
+	selectedSyllabusTopic: Syllabus | null = null;
 
 	ngOnInit() {
-		// This is used to update the data when the classroomId changes in the URL
 		this.route.params.subscribe(params => {
 			this.getData();
+			this.loadSyllabusTopics();
 		});
+	}
+
+	
+	loadSyllabusTopics() {
+    this.syllabusTopics = this.ctx.classroom?.syllabus ?? [];
+}
+
+	selectSyllabusTopic(topic: Syllabus) {
+		if (this.selectedSyllabusTopic?.id === topic.id) {
+				this.selectedSyllabusTopic = null;
+				this.syllabusFilter = [];
+		} else {
+			this.selectedSyllabusTopic = topic;
+			this.syllabusFilter = [];
+		}
 	}
 
 	get baseUrl(): string {

@@ -15,6 +15,10 @@
                 <mat-icon>add</mat-icon>
                 <span>CRIAR ROTA</span>
             </button>
+            <button mat-flat-button class="action-button" [routerLink]="baseUrl + '/syllabus'">
+                <mat-icon>book</mat-icon>
+                <span>EMENTA</span>
+            </button>
             <button mat-flat-button class="action-button" [routerLink]="baseUrl + '/documents'">
                 <mat-icon>folder_open</mat-icon>
                 <span>DOCUMENTOS</span>
@@ -53,12 +57,25 @@
                     <span>Filtrar por Ementa</span>
                 </div>
                 <div class="syllabus-buttons">
-                    <button mat-button class="syllabus-button" (click)="syllabuspo.toggle($event)">Cálculo <mat-icon>expand_more</mat-icon></button>
-                    <button mat-button class="syllabus-button" (click)="syllabuspo.toggle($event)">Álgebra <mat-icon>expand_more</mat-icon></button>
-                    <p-popover #syllabuspo [style]="{width: '300px'}">
-                        <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter" (syllabusMarked)="markSyllabus($event)" [presets]="ctx.classroom?.presets" />
-                    </p-popover>
+                    @for (topic of syllabusTopics; track topic.id) {
+                        <button
+                        mat-button
+                        class="syllabus-button"
+                        (click)="selectSyllabusTopic(topic)"
+                        [class.active]="selectedSyllabusTopic?.id === topic.id"
+                        >
+                        {{ topic.name }}
+                        <mat-icon>
+                            {{ selectedSyllabusTopic?.id === topic.id ? 'expand_less' : 'expand_more' }}
+                        </mat-icon>
+                        </button>
+                    }
                 </div>
+                @if (selectedSyllabusTopic && selectedSyllabusTopic.topics && selectedSyllabusTopic.topics.length > 0) {
+                    <div class="sub-topics">
+                        <o-syllabus [syllabus]="selectedSyllabusTopic.topics" mode="filter" (syllabusMarked)="markSyllabus($event)" />
+                    </div>
+                }
             </div>
 
             <div class="routes-sections">
