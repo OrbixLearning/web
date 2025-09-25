@@ -112,6 +112,13 @@ export const routes: Routes = [
 								canActivate: [learningPathStudyGuard],
 							},
 							{
+								path: 'syllabus',
+								loadComponent: () =>
+									import('./views/main/syllabus/syllabus-home.component').then(
+										m => m.SyllabusHomeComponent
+									),
+							},
+							{
 								path: 'dashboard',
 								loadComponent: () =>
 									import(
