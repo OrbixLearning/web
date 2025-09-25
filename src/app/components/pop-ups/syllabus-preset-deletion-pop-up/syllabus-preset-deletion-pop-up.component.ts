@@ -8,10 +8,12 @@ import { ClassroomService } from '../../../services/classroom.service';
 import { Classroom, SyllabusPreset } from '../../../models/Classroom';
 import { LoadingComponent } from '../../loading/loading.component';
 import { lastValueFrom } from 'rxjs';
+import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
 	selector: 'o-syllabus-preset-deletion-pop-up',
-	imports: [PopUpHeaderComponent, MatCardModule, MatIconModule, MatButtonModule, LoadingComponent],
+	imports: [PopUpHeaderComponent, PopUpButtonsComponent, MatCardModule, MatIconModule, MatButtonModule, LoadingComponent],
 	templateUrl: './syllabus-preset-deletion-pop-up.component.html',
 	styleUrl: './syllabus-preset-deletion-pop-up.component.scss',
 })
@@ -21,6 +23,11 @@ export class SyllabusPresetDeletionPopUpComponent {
 
 	presets: SyllabusPreset[] = this.ctx.classroom?.presets || [];
 	isLoading: boolean = false;
+	private dialogRef = inject(MatDialogRef<SyllabusPresetDeletionPopUpComponent>);
+
+	onClose() {
+    	this.dialogRef.close();
+  	}
 
 	async deletePreset(preset: SyllabusPreset) {
 		this.presets = this.presets.filter(p => p !== preset);

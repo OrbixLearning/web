@@ -1,12 +1,21 @@
-<o-loading [isLoading]="isLoading" />
+<div class="pop-up-container">
+  <o-pop-up-header title="Excluir grupo de tópicos" />
+  <o-loading [isLoading]="isLoading" />
 
-<o-pop-up-header title="Excluir grupo de tópicos" />
+  <div class="pop-up-content">
+    <div class="presets-list">
+      @for (preset of presets; track preset.name) {
+        <div class="preset-item">
+          <span class="preset-name">{{ preset.name }}</span>
+          <button mat-icon-button color="warn" (click)="deletePreset(preset)" type="button">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div>
+      } @empty {
+        <p class="empty-message">Nenhum grupo de tópicos para excluir.</p>
+      }
+    </div>
+  </div>
 
-@for (preset of presets; track preset.name) {
-<div class="preset-item">
-    <span>{{ preset.name }}</span>
-    <button mat-icon-button (click)="deletePreset(preset)" type="button">
-        <mat-icon>delete</mat-icon>
-    </button>
+  <o-pop-up-buttons cancelButton="Concluído" (cancel)="onClose()" />
 </div>
-}
