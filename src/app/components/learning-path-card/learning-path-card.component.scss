@@ -1,32 +1,59 @@
+/* Faz o componente se comportar bem em QUALQUER container (dialog, drawer, página) */
 :host {
   display: block;
+  /* ocupa o máximo que o container der, sem depender de CSS global */
   width: 100%;
+  height: 100%;
 }
 
+/* Wrapper: centraliza e define um retângulo agradável, sem “esticar” */
+.lp-wrap {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+
+  /* respiro interno para não colar nas bordas do pop-up */
+  padding: 16px;
+
+  /* fundo opcional (remova se não quiser) */
+  /* background: var(--background-color); */
+}
+
+/* Card: retângulo estável e responsivo */
 .lp-card {
   background-color: var(--secondary-color);
   border-radius: 12px;
   border: 1px solid var(--border-color);
-  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  cursor: pointer;
-  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+
+  /* >>> regras-chave para fugir do “esticado” */
+  width: min(1920px, 100%);         /* segura a largura máxima */
+  height: min(78vh, 1080px);        /* segura a altura máxima (retangular) */
+  /* se quiser ainda mais “quadrado”, use 4/3: */
+  /* aspect-ratio: 4 / 3;  */
+
+  /* padding interno do card */
+  padding: 16px;
+
   position: relative;
-  overflow: hidden;
+  overflow: hidden;                /* o body que rola */
+  cursor: pointer;
+  transition: box-shadow .2s, transform .2s;
+
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
   }
 
   &.mine {
-    .card-footer, .author-info {
-      display: none;
-    }
+    .card-footer, .author-info { display: none; }
   }
 }
 
+/* Header */
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -36,22 +63,22 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.8rem;
+    font-size: .8rem;
     font-weight: 500;
     text-transform: uppercase;
 
     span {
-        background-color: var(--primary-color);
-        color: var(--text-color-inverse);
-        padding: 2px 8px;
-        border-radius: 6px;
+      background-color: var(--primary-color);
+      color: #000;
+      padding: 2px 8px;
+      border-radius: 6px;
     }
 
     mat-icon {
       font-size: 1.2rem;
       width: 1.2rem;
       height: 1.2rem;
-      color: var(--text-color);
+      color: #000;
     }
   }
 
@@ -61,29 +88,36 @@
   }
 }
 
+/* Body cresce e rola — evita que o card “estique” */
 .card-body {
+  flex: 1 1 auto;
+  min-height: 0;   /* essencial para overflow funcionar em flex */
+  overflow: auto;  /* rolagem só no miolo */
+
   .card-title {
     font-size: 1.1rem;
-    font-weight: 500;
-    margin: 0 0 12px 0;
-    color: var(--text-color);
+    font-weight: 600;
+    margin: 0 0 12px;
+    color: #000;
   }
 
-  .author-info, .date-info {
+  .author-info,
+  .date-info {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.85rem;
-    color: var(--text-color);
-    opacity: 0.7;
+    font-size: .85rem;
+    color: #000;
     margin-top: 4px;
 
     mat-icon {
       font-size: 1.1rem;
+      color: #000;
     }
   }
 }
 
+/* Rodapé fica ancorado no fim sem forçar altura adicional */
 .card-footer {
   display: flex;
   justify-content: space-between;
@@ -98,20 +132,40 @@
     .tag {
       padding: 4px 12px;
       border-radius: 16px;
-      font-size: 0.75rem;
+      font-size: .75rem;
       font-weight: 500;
+      color: #000;
     }
 
     .professor-tag {
       background-color: var(--primary-color);
-      color: var(--text-color-inverse);
+      color: #000;
     }
 
-    .aluno-tag, .shared-tag {
+    .aluno-tag,
+    .shared-tag {
       background-color: transparent;
-      color: var(--text-color);
-      opacity: 0.8;
+      color: #000;
       border: 1px solid var(--border-color);
     }
+  }
+}
+
+/* Overlays centralizados */
+.status-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(2px);
+  text-align: center;
+
+  &.error-overlay { background: rgba(255,0,0,.06); }
+
+  .error-message {
+    max-width: 560px;
+    margin-inline: auto;
   }
 }

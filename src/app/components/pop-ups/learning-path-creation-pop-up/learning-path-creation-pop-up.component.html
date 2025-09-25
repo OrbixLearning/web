@@ -1,120 +1,212 @@
 <o-pop-up-header title="Criar rota de aprendizagem" />
 
-<o-loading [isLoading]="isLoading" />
+<o-loading
+  [isLoading]="isLoading"
+  [style.pointer-events]="isLoading ? 'auto' : 'none'"
+  [style.z-index]="isLoading ? 1200 : 0"
+/>
 
-<!-- WRAPPER -->
 <div class="page">
-  <!-- CARD 1 -->
+
+  <!-- CARD 0 — Seleção de Syllabus -->
   <section class="card">
-    <h2 class="card-title">Informações Básicas</h2>
+    <h2 class="card-title">Ementa (Syllabus)</h2>
+    <form class="form-grid" [formGroup]="forms.at(0)" novalidate>
+      <o-syllabus
+        [syllabus]="ctx.classroom?.syllabus"
+        mode="select"
+        [presets]="ctx.classroom?.presets"
+        (syllabusMarked)="markSyllabus($event)"
+      ></o-syllabus>
 
-    <form class="form-grid" [formGroup]="form">
-      <!-- Nome da Rota + Tipo de Conteúdo -->
-      <div class="row">
-        <div class="field col-7">
-          <label class="label">Nome da Rota<span class="req">*</span></label>
-          <input class="input" type="text" placeholder="Ex: Introdução às Derivas" formControlName="name" />
-          <div class="error" *ngIf="form.get('name')?.touched && form.get('name')?.invalid">
-            Campo obrigatório.
-          </div>
-        </div>
-
-        <div class="field col-5">
-          <label class="label">Tipo de Conteúdo<span class="req">*</span></label>
-          <div class="select">
-            <mat-select formControlName="contentType">
-              <mat-option value="text">Conteúdo do Texto</mat-option>
-              <mat-option value="video">Vídeo</mat-option>
-              <mat-option value="audio">Áudio</mat-option>
-              <mat-option value="pdf">PDF</mat-option>
-            </mat-select>
-          </div>
-        </div>
-      </div>
-
-      <!-- Descrição -->
-      <div class="row">
-        <div class="field col-12">
-          <label class="label">Descrição</label>
-          <textarea
-            class="textarea"
-            rows="5"
-            placeholder="Descreva o que os alunos irão aprender nesta rota..."
-            formControlName="description"
-          ></textarea>
-        </div>
-      </div>
-
-      <!-- Módulo / Tempo Estimado / Aluno / Configurações -->
-      <div class="row">
-        <div class="field col-4">
-          <label class="label">Módulo</label>
-          <div class="select">
-            <mat-select formControlName="moduleId">
-              <mat-option [value]="null">Selecione um módulo</mat-option>
-              <mat-option *ngFor="let m of modules" [value]="m.value">{{ m.label }}</mat-option>
-            </mat-select>
-          </div>
-        </div>
-
-        <div class="field col-4">
-          <label class="label">Tempo Estimado</label>
-          <div class="select">
-            <mat-select formControlName="estimatedTime">
-              <mat-option [value]="null">Ex: 30 min</mat-option>
-              <mat-option *ngFor="let t of times" [value]="t.value">{{ t.label }}</mat-option>
-            </mat-select>
-          </div>
-        </div>
-
-        <div class="field col-4">
-          <label class="label">Aluno</label>
-          <div class="select">
-            <mat-select formControlName="studentId">
-              <mat-option [value]="null">Selecionar o aluno que será dado a rota</mat-option>
-              <mat-option *ngFor="let a of students" [value]="a.value">{{ a.label }}</mat-option>
-            </mat-select>
-          </div>
-        </div>
-      </div>
-
-      <div class="row settings-row">
-        <div class="field col-12">
-          <label class="label">Configurações</label>
-
-          <div class="config">
-            <mat-slide-toggle formControlName="shareWithOthers" color="primary"></mat-slide-toggle>
-            <span class="config-text">Compartilhar ou não com outros alunos</span>
-          </div>
-        </div>
+      <small class="hint">
+        Selecionados: {{ (getFormControl(0,'syllabus')?.value?.length || 0) }}
+      </small>
+      <div class="error" *ngIf="getFormControl(0,'syllabus')?.invalid">
+        Selecione ao menos um módulo.
       </div>
     </form>
   </section>
 
-  <!-- CARD 2 -->
+  <!-- CARD 1 — Informações Básicas -->
   <section class="card">
-    <div class="section-header">
-      <span class="section-icon" aria-hidden="true">📄</span>
-      <h3 class="section-title">Conteúdo Rota</h3>
-    </div>
+    <h2 class="card-title">Informações Básicas</h2>
 
-    <div class="field">
-      <label class="label">Conteúdo Educacional</label>
-      <textarea
-        class="textarea big purple-outline"
-        rows="12"
-        placeholder="Digite o Conteúdo educacional aqui..."
-        formControlName="educationalContent"
-      ></textarea>
-    </div>
+    <form class="form-grid" [formGroup]="forms.at(1)" novalidate>
+      <div class="row">
+        <div class="field col-7">
+          <label class="label">Nome da Rota<span class="req">*</span></label>
+          <input
+            class="input"
+            type="text"
+            placeholder="Ex: Introdução às Derivas"
+            formControlName="name"
+          />
+          <div class="error" *ngIf="forms.at(1).get('name')?.touched && forms.at(1).get('name')?.invalid">
+            Campo obrigatório.
+          </div>
+        </div>
 
-    <div class="actions">
-      <button mat-flat-button color="primary" class="btn-primary" (click)="save()" [disabled]="isLoading">
+        <!-- Tipo de Conteúdo (agora ligado ao form control) -->
+        <mat-form-field appearance="outline" class="lp-select col-5">
+          <mat-label>Tipo de Conteúdo</mat-label>
+          <mat-select
+            formControlName="type"
+            (selectionChange)="selectType($event.value)"
+            required
+          >
+            <mat-option [value]="learningPathTypeEnum.TEXT">Conteúdo do Texto</mat-option>
+            <mat-option [value]="learningPathTypeEnum.VIDEO">Vídeo</mat-option>
+            <mat-option [value]="learningPathTypeEnum.AUDIO">Áudio</mat-option>
+            <mat-option [value]="learningPathTypeEnum.FLASHCARD">Flashcards</mat-option>
+            <mat-option [value]="learningPathTypeEnum.QUESTION">Questões</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Descrição -->
+      <mat-form-field appearance="outline" class="lp-textarea">
+        <mat-label>Descrição</mat-label>
+        <textarea
+          matInput
+          cdkTextareaAutosize
+          [cdkAutosizeMinRows]="3"
+          [cdkAutosizeMaxRows]="3"
+          placeholder="Descreva o que os alunos irão aprender nesta rota..."
+        ></textarea>
+      </mat-form-field>
+    </form>
+  </section>
+
+  <!-- CARD 2 — Opções do Conteúdo (só mostra quando o grupo 2 existir) -->
+  <section class="card" *ngIf="forms.length > 2">
+    <h2 class="card-title">Opções do Conteúdo</h2>
+
+    <form class="form-grid" [formGroup]="forms.at(2)" novalidate>
+
+      <!-- TEXT -->
+      <ng-container *ngIf="getFormControl(1,'type').value === learningPathTypeEnum.TEXT">
+        <mat-form-field appearance="outline" class="lp-select col-12">
+          <mat-label>Número de Parágrafos</mat-label>
+          <input type="number" matInput formControlName="numberOfParagraphs" />
+        </mat-form-field>
+
+        <mat-slide-toggle formControlName="useTopics">Texto em tópicos</mat-slide-toggle>
+
+        <mat-form-field appearance="outline" class="lp-select col-12">
+          <mat-label>Formalidade</mat-label>
+          <mat-select formControlName="formality">
+            <mat-option value="formal">Formal</mat-option>
+            <mat-option value="medium">Média</mat-option>
+            <mat-option value="informal">Informal</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+
+      <!-- AUDIO -->
+      <ng-container *ngIf="getFormControl(1,'type').value === learningPathTypeEnum.AUDIO">
+        <mat-form-field appearance="outline" class="lp-select col-12">
+          <mat-label>Duração (segundos)</mat-label>
+          <input type="number" matInput formControlName="durationInSeconds" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="lp-select col-12">
+          <mat-label>Formalidade</mat-label>
+          <mat-select formControlName="formality">
+            <mat-option value="formal">Formal</mat-option>
+            <mat-option value="medium">Média</mat-option>
+            <mat-option value="informal">Informal</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="lp-select col-12">
+          <mat-label>Voz</mat-label>
+          <mat-select formControlName="voice">
+            <mat-option [value]="audioVoiceEnum.ALLOY">Alloy</mat-option>
+            <mat-option [value]="audioVoiceEnum.ECHO">Echo</mat-option>
+            <mat-option [value]="audioVoiceEnum.FABLE">Fable</mat-option>
+            <mat-option [value]="audioVoiceEnum.ONYX">Onyx</mat-option>
+            <mat-option [value]="audioVoiceEnum.NOVA">Nova</mat-option>
+            <mat-option [value]="audioVoiceEnum.SHIMMER">Shimmer</mat-option>
+            <mat-option [value]="audioVoiceEnum.SAGE">Sage</mat-option>
+            <mat-option [value]="audioVoiceEnum.CORAL">Coral</mat-option>
+            <mat-option [value]="audioVoiceEnum.ASH">Ash</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+
+      <!-- VIDEO -->
+      <ng-container *ngIf="getFormControl(1,'type').value === learningPathTypeEnum.VIDEO">
+        <mat-form-field appearance="outline" class="lp-select col-12">
+          <mat-label>Número de Vídeos</mat-label>
+          <input type="number" matInput formControlName="numberOfVideos" />
+        </mat-form-field>
+      </ng-container>
+
+      <!-- FLASHCARD -->
+      <ng-container *ngIf="getFormControl(1,'type').value === learningPathTypeEnum.FLASHCARD">
+        <mat-form-field appearance="outline" class="lp-select col-12">
+          <mat-label>Número de Flashcards</mat-label>
+          <input type="number" matInput formControlName="numberOfCards" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="lp-select col-12">
+          <mat-label>Nível</mat-label>
+          <mat-select formControlName="level">
+            <mat-option [value]="0">Iniciante</mat-option>
+            <mat-option [value]="1">Intermediário</mat-option>
+            <mat-option [value]="2">Avançado</mat-option>
+            <mat-option [value]="3">Especialista</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+
+      <!-- QUESTION -->
+      <ng-container *ngIf="getFormControl(1,'type').value === learningPathTypeEnum.QUESTION">
+        <mat-form-field appearance="outline" class="lp-select col-12">
+          <mat-label>Número de Questões</mat-label>
+          <input type="number" matInput formControlName="numberOfQuestions" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="lp-select col-12">
+          <mat-label>Nível</mat-label>
+          <mat-select formControlName="level">
+            <mat-option [value]="0">Iniciante</mat-option>
+            <mat-option [value]="1">Intermediário</mat-option>
+            <mat-option [value]="2">Avançado</mat-option>
+            <mat-option [value]="3">Especialista</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="lp-select col-12">
+          <mat-label>Tipos de Questões</mat-label>
+          <mat-select formControlName="questionTypes" multiple>
+            <mat-option [value]="questionTypeEnum.MULTIPLE_CHOICE">Múltipla Escolha</mat-option>
+            <mat-option [value]="questionTypeEnum.MULTIPLE_SELECTION">Múltipla Seleção</mat-option>
+            <mat-option [value]="questionTypeEnum.TRUE_FALSE">Verdadeiro ou Falso</mat-option>
+            <mat-option [value]="questionTypeEnum.OPEN_ENDED">Aberta</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+    </form>
+  </section>
+
+  <!-- CARD 3 — Botões -->
+  <section class="card">
+    <div class="actions sticky-actions">
+      <button
+        mat-flat-button
+        color="primary"
+        class="btn-primary"
+        (click)="createLearningPath()"
+        [disabled]="isLoading || forms.invalid"
+      >
         Salvar Item
       </button>
-      <button mat-stroked-button class="btn-secondary" (click)="cancel()" [disabled]="isLoading">
+      <button mat-stroked-button class="btn-secondary" mat-dialog-close [disabled]="isLoading">
         Cancelar
       </button>
     </div>
   </section>
+
 </div>

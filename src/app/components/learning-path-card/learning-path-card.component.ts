@@ -13,39 +13,39 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 
 @Component({
-	selector: 'o-learning-path-card',
-	imports: [
-		CardModule,
-		TagModule,
-		ToggleSwitchModule,
-		FormsModule,
-		SyllabusTagsComponent,
-		MatIconModule,
-		TooltipModule,
-		LoadingComponent,
-		MatButtonModule,
-		CommonModule,
-	],
-	templateUrl: './learning-path-card.component.html',
-	styleUrl: './learning-path-card.component.scss',
+  selector: 'o-learning-path-card',
+  imports: [
+    CardModule,
+    TagModule,
+    ToggleSwitchModule,
+    FormsModule,
+    SyllabusTagsComponent,
+    MatIconModule,
+    TooltipModule,
+    LoadingComponent,
+    MatButtonModule,
+    CommonModule,
+  ],
+  templateUrl: './learning-path-card.component.html',
+  styleUrl: './learning-path-card.component.scss',
 })
 export class LearningPathCardComponent {
-	@Input() learningPath!: LearningPath;
-	@Input() mine: boolean = false;
-	@Input() inChat: boolean = false;
-	@Output() cardClick: EventEmitter<void> = new EventEmitter<void>();
-	@Output() sharedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-	@Output() regenerate: EventEmitter<void> = new EventEmitter<void>();
-	@Output() addToChat: EventEmitter<void> = new EventEmitter<void>();
+  @Input() learningPath!: LearningPath;
+  @Input() mine: boolean = false;
+  @Input() inChat: boolean = false;
+  @Output() cardClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() sharedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() regenerate: EventEmitter<void> = new EventEmitter<void>();
+  @Output() addToChat: EventEmitter<void> = new EventEmitter<void>();
 
-	generated: boolean = false;
-	generating: boolean = false;
-	failed: boolean = false;
+  generated: boolean = false;
+  generating: boolean = false;
+  failed: boolean = false;
 
-	ngOnInit() {
-		const status = this.learningPath.generation.status;
-		this.generated = status === LearningPathGenerationStatusEnum.GENERATED;
-		this.generating = status === LearningPathGenerationStatusEnum.GENERATING;
-		this.failed = status === LearningPathGenerationStatusEnum.FAILED;
-	}
+  ngOnInit() {
+    const status = this.learningPath.generation.status;
+    this.generated = status === LearningPathGenerationStatusEnum.GENERATED;
+    this.generating = status === LearningPathGenerationStatusEnum.GENERATING;
+    this.failed = status === LearningPathGenerationStatusEnum.FAILED;
+  }
 }

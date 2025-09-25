@@ -1,64 +1,66 @@
-<div class="lp-card" [class.mine]="mine" (click)="cardClick.emit()">
-  <div class="card-header">
-    <div class="type-icon">
-      @switch (learningPath.type) {
-        @case ('TEXT') { <mat-icon>article</mat-icon> <span>texto</span> }
-        @case ('VIDEO') { <mat-icon>play_arrow</mat-icon> <span>VÍDEO</span> }
-        @case ('AUDIO') { <mat-icon>play_arrow</mat-icon> <span>ÁUDIO</span> }
-        @case ('FLASHCARD') { <mat-icon>style</mat-icon> <span>FLASHCARDS</span> }
-        @case ('QUESTION') { <mat-icon>quiz</mat-icon> <span>QUESTÕES</span> }
+<!-- NOVO wrapper que controla o retângulo e centraliza -->
+<div class="lp-wrap">
+  <div class="lp-card" [class.mine]="mine" (click)="cardClick.emit()">
+    <div class="card-header">
+      <div class="type-icon">
+        @switch (learningPath.type) {
+          @case ('TEXT') { <mat-icon>article</mat-icon> <span>texto</span> }
+          @case ('VIDEO') { <mat-icon>play_arrow</mat-icon> <span>VÍDEO</span> }
+          @case ('AUDIO') { <mat-icon>play_arrow</mat-icon> <span>ÁUDIO</span> }
+          @case ('FLASHCARD') { <mat-icon>style</mat-icon> <span>FLASHCARDS</span> }
+          @case ('QUESTION') { <mat-icon>quiz</mat-icon> <span>QUESTÕES</span> }
+        }
+      </div>
+      @if (learningPath.validated) {
+        <mat-icon class="validated-icon" pTooltip="Rota validada pelo professor">task_alt</mat-icon>
       }
     </div>
-    @if (learningPath.validated) {
-      <mat-icon class="validated-icon" pTooltip="Rota validada pelo professor">task_alt</mat-icon>
-    }
-  </div>
 
-  <div class="card-body">
-    <h4 class="card-title">{{ learningPath.name }}</h4>
+    <div class="card-body">
+      <h4 class="card-title">{{ learningPath.name }}</h4>
+
+      @if (!mine) {
+        <div class="author-info">
+          <mat-icon>person_outline</mat-icon>
+          @if (learningPath.userInstitutionRole === 'TEACHER' || learningPath.userInstitutionRole === 'ADMIN') {
+            <span>Prof. {{ learningPath.creator.name }}</span>
+          } @else {
+            <span>{{ learningPath.creator.name }}</span>
+          }
+        </div>
+      }
+      <div class="date-info">
+        <span>{{ learningPath.createdAt | date: 'dd/MM/yyyy' }}</span>
+      </div>
+    </div>
 
     @if (!mine) {
-      <div class="author-info">
-        <mat-icon>person_outline</mat-icon>
-        @if (learningPath.userInstitutionRole === 'TEACHER' || learningPath.userInstitutionRole === 'ADMIN') {
-          <span>Prof. {{ learningPath.creator.name }}</span>
-        } @else {
-          <span>{{ learningPath.creator.name }}</span>
-        }
+      <div class="card-footer">
+        <div class="tags">
+          @if (learningPath.userInstitutionRole === 'TEACHER' || learningPath.userInstitutionRole === 'ADMIN') {
+            <span class="tag professor-tag">Professor</span>
+          } @else {
+            <span class="tag aluno-tag">Aluno</span>
+          }
+          @if (learningPath.shared) {
+            <span class="tag shared-tag">Compartilhada</span>
+          }
+        </div>
       </div>
     }
-    <div class="date-info">
-      <span>{{ learningPath.createdAt | date: 'dd/MM/yyyy' }}</span>
-    </div>
-  </div>
 
-  @if (!mine) {
-    <div class="card-footer">
-      <div class="tags">
-        @if (learningPath.userInstitutionRole === 'TEACHER' || learningPath.userInstitutionRole === 'ADMIN') {
-          <span class="tag professor-tag">Professor</span>
-        } @else {
-          <span class="tag aluno-tag">Aluno</span>
-        }
-        @if (learningPath.shared) {
-          <span class="tag shared-tag">Compartilhada</span>
-        }
+    @if (generating) {
+      <div class="status-overlay">
+        <o-loading [isLoading]="true" [local]="true" size="50px"></o-loading>
+        <p>Sua rota está sendo gerada...</p>
       </div>
-    </div>
-  }
-
-  <!-- Overlays ficam dentro do card -->
-  @if (generating) {
-    <div class="status-overlay">
-      <o-loading [isLoading]="true" [local]="true" size="50px"></o-loading>
-      <p>Sua rota está sendo gerada...</p>
-    </div>
-  } @else if (failed) {
-    <div class="status-overlay error-overlay">
-      <mat-icon>error</mat-icon>
-      <p>Ocorreu um erro ao gerar sua rota</p>
-      <p class="error-message">{{ learningPath.generation?.errorMessage }}</p>
-      <button mat-flat-button color="warn" (click)="$event.stopPropagation(); regenerate.emit()">Gerar novamente</button>
-    </div>
-  }
+    } @else if (failed) {
+      <div class="status-overlay error-overlay">
+        <mat-icon>error</mat-icon>
+        <p>Ocorreu um erro ao gerar sua rota</p>
+        <p class="error-message">{{ learningPath.generation.errorMessage }}</p>
+        <button mat-flat-button color="warn" (click)="$event.stopPropagation(); regenerate.emit()">Gerar novamente</button>
+      </div>
+    }
+  </div>
 </div>

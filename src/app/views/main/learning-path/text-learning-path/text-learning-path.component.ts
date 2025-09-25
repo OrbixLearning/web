@@ -7,10 +7,10 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { TextLearningPath } from '../../../../models/LearningPath/LearningPath';
 import { TextLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { LearningPathService } from '../../../../services/learning-path.service';
-
+import { ChatComponent } from '../../../../components/chat/chat.component';
 @Component({
 	selector: 'o-text-learning-path',
-	imports: [MarkdownModule, MatButtonModule, MatIconModule, LoadingComponent],
+	imports: [MarkdownModule, MatButtonModule, MatIconModule, LoadingComponent,ChatComponent],
 	templateUrl: './text-learning-path.component.html',
 	styleUrl: './text-learning-path.component.scss',
 })
