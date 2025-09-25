@@ -22,6 +22,8 @@ import { QuestionLearningPath } from '../../../../models/LearningPath/LearningPa
 import { QuestionLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { Question } from '../../../../models/LearningPath/Question';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
+import { ChatComponent } from '../../../../components/chat/chat.component';
+
 
 type QuestionContext = {
 	question: Question;
@@ -38,6 +40,7 @@ type QuestionContext = {
 		MatFormFieldModule,
 		MatInputModule,
 		MatIconModule,
+		ChatComponent,
 	],
 	templateUrl: './question-learning-path.component.html',
 	styleUrl: './question-learning-path.component.scss',
