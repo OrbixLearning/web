@@ -1,0 +1,105 @@
+:host {
+  display: block;
+  background: #f6f7fb;
+  color: #0f172a;
+}
+
+/* grid 50/50 */
+.lp {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 24px;
+  /* altura total é do conteúdo da esquerda; o sticky da direita acompanha até o fim */
+}
+
+/* --- ESQUERDA: cartão flutuante para o texto --- */
+.left {
+  display: flex;
+  justify-content: center; /* centraliza o cartão na coluna */
+}
+
+.sheet {
+  width: 100%;
+  max-width: 800px;
+  background: #ffffff;
+  border: 1px solid rgba(2, 6, 23, 0.06);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow:
+    0 8px 30px rgba(2, 6, 23, 0.06),
+    0 1px 1px rgba(2, 6, 23, 0.04);
+}
+
+.content {
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.content h1, .content h2, .content h3 {
+  margin: 1.2em 0 0.5em;
+  line-height: 1.25;
+}
+.content p, .content ul, .content ol, .content blockquote, .content pre {
+  margin: 0.8em 0;
+}
+.content code, .content pre {
+  background: #f8fafc;
+  border: 1px solid #eef2f7;
+  border-radius: 10px;
+  padding: 0.15em 0.4em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* botão no final do texto */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+.end-icon {
+  margin-left: 8px;
+}
+
+/* --- DIREITA: IA sticky que acompanha até o fim do texto --- */
+.right {
+  /* o aside cresce conforme o conteúdo da esquerda;
+     o sticky fica travado na viewport, mas para no fim do parent */
+  position: relative;
+}
+
+.right__sticky {
+  position: sticky;
+  top: 16px;                 /* distância do topo ao rolar */
+  height: calc(100dvh - 32px);
+  display: flex;
+}
+
+.chat {
+  flex: 1;
+  min-height: 100%;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid rgba(2, 6, 23, 0.06);
+  border-radius: 16px;
+  box-shadow:
+    0 8px 30px rgba(2, 6, 23, 0.06),
+    0 1px 1px rgba(2, 6, 23, 0.04);
+  overflow: hidden;          /* o próprio chat gerencia a rolagem interna */
+}
+
+/* responsivo: empilha e mantém o “feeling” de cartão */
+@media (max-width: 1024px) {
+  .lp {
+    grid-template-columns: 1fr;
+  }
+
+  .right__sticky {
+    position: static;     /* desativa sticky no mobile */
+    height: auto;
+  }
+
+  .chat {
+    min-height: 60vh;     /* altura confortável para o chat no mobile */
+  }
+}
