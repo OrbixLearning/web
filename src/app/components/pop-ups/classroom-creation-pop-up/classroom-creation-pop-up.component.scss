@@ -1,27 +1,32 @@
-.ccpu-form-div {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: flex-start;
-	gap: 30px;
-	padding: 0 30px;
-	padding-top: 20px;
+:host {
+  display: block;
+  width: 450px;
+}
 
-	div {
-		display: flex;
-		flex-direction: row;
-		gap: 10px;
-		width: 100%;
-		align-items: center;
-	}
+.pop-up-content {
+  padding: 24px 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
-	mat-form-field {
-		width: 100%;
-		max-width: 400px;
-	}
+.icon-selector-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 
-	p {
-		font-size: 14px;
-		text-align: center;
-	}
+  .icon-preview {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: var(--primary-color);
+  }
+}
+
+p.helper-text {
+  font-size: 0.85rem;
+  color: var(--text-color-secondary);
+  margin: -8px 0 0 0;
 }

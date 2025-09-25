@@ -36,6 +36,7 @@
 
   .classroom-actions {
     display: flex;
+    align-items: center;
     gap: 12px;
     
     .action-button {
@@ -43,7 +44,13 @@
       color: var(--text-color);
       text-transform: uppercase;
       font-weight: 500;
-      border-radius: 6px;
+      border-radius: 8px;
+      padding: 0 16px;
+      height: 40px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
 
       mat-icon {
         color: var(--text-color);

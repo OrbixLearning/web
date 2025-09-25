@@ -1,18 +1,24 @@
 .pu-buttons-div {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-	align-items: center;
-	gap: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-color, #e0e0e0);
 
-	.pu-confirm-button {
-		background-color: var(--primary-color);
-		color: var(--text-color);
+  .pu-confirm-button {
+    background-color: var(--primary-color);
+    color: var(--text-color-inverse, #ffffff);
 
-		&:disabled {
-			opacity: 0.3;
-			cursor: not-allowed;
-		}
-	}
+    &:disabled {
+      background-color: rgba(0, 0, 0, 0.12);
+      color: rgba(0, 0, 0, 0.26);
+      cursor: not-allowed;
+    }
+  }
+
+  [mat-button] {
+    color: var(--text-color-secondary);
+  }
 }

@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  width: 500px;
+}
+
+.pop-up-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+.pop-up-content {
+  padding: 24px;
+  border-top: 1px solid var(--border-color);
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}

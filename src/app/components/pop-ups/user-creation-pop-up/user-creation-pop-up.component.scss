@@ -1,24 +1,38 @@
-.ucpu-form-div {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: flex-start;
-	gap: 30px;
-	padding: 0 30px;
-	padding-top: 20px;
-
-	.ucpu-form-column {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-		width: 100%;
-		max-width: 400px;
-	}
+:host {
+  display: block;
+  width: 700px;
 }
 
-.ucpu-error-div {
-	color: red;
-	margin-bottom: 1rem;
-	text-align: center;
-	font-size: 14px;
+.pop-up-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+.pop-up-content {
+  padding: 24px 32px;
+  border-top: 1px solid var(--border-color);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.error-message {
+  color: var(--warn-color, #f44336);
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.9rem;
 }
