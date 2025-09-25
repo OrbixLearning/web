@@ -1,107 +1,244 @@
 <div class="institution-settings">
-    @if (isLoading) {
-    <o-loading [isLoading]="isLoading" />
-    }
+  @if (isLoading) { <o-loading [isLoading]="isLoading" /> }
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-div">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-card">
 
-        <p class="title">Configurações da Instituição {{ctx.institution?.name}}</p>
+    <header class="form-header">
+      <h1 class="title">
+        Configurações da Instituição
+        <span class="title__name">{{ ctx.institution?.name }}</span>
+      </h1>
+    </header>
 
-        <mat-form-field subscriptSizing="dynamic" appearance="outline">
-            <mat-label>Nome da Instituição</mat-label>
-            <input matInput name="name" formControlName="name" required />
-        </mat-form-field>
+    <mat-form-field subscriptSizing="dynamic" appearance="outline" class="full">
+      <mat-label>Nome da Instituição</mat-label>
+      <input matInput name="name" formControlName="name" required />
+    </mat-form-field>
 
-        <div class="logo-div">
-            <p>Logo</p>
-            <div class="logo-subdiv">
-                <img [src]="logoUrl" alt="InstitutionLogo">
-                <p-divider layout="vertical" />
-                @if (!logo) {
-                <p-fileupload mode="basic" chooseLabel="Selecionar" name="logo" [auto]="true" accept=".png,.svg"
-                    [maxFileSize]="MAX_IMAGE_SIZE" (onSelect)="selectLogo($event)" />
-                } @else {
-                <img [src]="logoPreview" alt="LogoPreview" />
-                <button mat-button (click)="logo = undefined" type="button"><mat-icon>close</mat-icon>Cancelar</button>
-                }
-            </div>
-        </div>
-
-        <div class="color-div">
-            <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                <mat-label>Cor primária</mat-label>
-                <input matInput name="primaryColor" formControlName="primaryColor"
-                    [(ngModel)]="this.getFormControl('primaryColor').value" required />
-            </mat-form-field>
-            <p-colorpicker [(ngModel)]="this.getFormControl('primaryColor').value" formControlName="primaryColor" />
-        </div>
-
-        <div class="color-div">
-            <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                <mat-label>Cor secundária</mat-label>
-                <input matInput name="secondaryColor" formControlName="secondaryColor"
-                    [(ngModel)]="this.getFormControl('secondaryColor').value" required />
-            </mat-form-field>
-            <p-colorpicker [(ngModel)]="this.getFormControl('secondaryColor').value" formControlName="secondaryColor" />
-        </div>
-
-        <div class="color-div">
-            <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                <mat-label>Cor de fundo</mat-label>
-                <input matInput name="backgroundColor" formControlName="backgroundColor"
-                    [(ngModel)]="this.getFormControl('backgroundColor').value" required />
-            </mat-form-field>
-            <p-colorpicker [(ngModel)]="this.getFormControl('backgroundColor').value"
-                formControlName="backgroundColor" />
-        </div>
-
-        <div class="color-div">
-            <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                <mat-label>Cor do texto</mat-label>
-                <input matInput name="textColor" formControlName="textColor"
-                    [(ngModel)]="this.getFormControl('textColor').value" required />
-            </mat-form-field>
-            <p-colorpicker [(ngModel)]="this.getFormControl('textColor').value" formControlName="textColor" />
-        </div>
-
-        <mat-form-field subscriptSizing="dynamic" appearance="outline">
-            <mat-label>Tema</mat-label>
-            <mat-select name="theme" formControlName="theme" required>
-                <mat-option value="light">Claro</mat-option>
-                <mat-option value="dark">Escuro</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <div>
-            <button mat-button type="button" (click)="resetForm()">Cancelar</button>
-            <button mat-raised-button cdkInitialFocus type="submit" class="save-button" [disabled]="disableSaveButton">
-                <mat-icon>save</mat-icon>
-                Salvar
-            </button>
-        </div>
-    </form>
-
-    <div class="right-div">
-        <div class="buttons-div">
-            <button mat-raised-button [routerLink]="[usersUrl]">
-                Usuários
-            </button>
-
-            <button mat-raised-button [routerLink]="[classroomsUrl]">
-                Turmas
-            </button>
-        </div>
-
-        @if (!ctx.institution?.domains || ctx.institution?.domains?.length === 0) {
-        <p>Não há domínios cadastrados na sua instituição.</p>
-        <p><a [routerLink]="['/report']">Entre em contato com o suporte para cadastrar domínios.</a></p>
+    <!-- LOGO -->
+    <section class="section">
+      <h2 class="section__title">Logo</h2>
+      <div class="logo-row">
+        <img [src]="logoUrl" alt="InstitutionLogo" class="logo-thumb" />
+        <p-divider layout="vertical" />
+        @if (!logo) {
+          <p-fileupload
+            mode="basic"
+            chooseLabel="Selecionar"
+            name="logo"
+            [auto]="true"
+            accept=".png,.svg"
+            [maxFileSize]="MAX_IMAGE_SIZE"
+            (onSelect)="selectLogo($event)"
+          />
         } @else {
-        <h3>Domínios:</h3>
-        <ul>
-            @for (domain of ctx.institution?.domains; track domain) {
-            <li>&#64;{{domain}}</li>
-            }
-        </ul>
+          <img [src]="logoPreview" alt="LogoPreview" class="logo-thumb" />
+          <button mat-button (click)="logo = undefined" type="button">
+            <mat-icon>close</mat-icon>Cancelar
+          </button>
         }
+      </div>
+    </section>
+
+    <!-- CORES -->
+    <section class="section">
+      <h2 class="section__title">Cores</h2>
+
+      <div class="grid-2">
+        <!-- PRIMÁRIA -->
+        <div class="color-field">
+          <mat-form-field subscriptSizing="dynamic" appearance="outline">
+            <mat-label>Cor primária</mat-label>
+            <input
+              matInput
+              formControlName="primaryColor"
+              placeholder="#222222"
+              required
+              (focus)="primaryHidden.click()"
+              (click)="primaryHidden.click()"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              class="swatch-btn"
+              (click)="primaryHidden.click()"
+              [style.--swatch]="getFormControl('primaryColor').value"
+              aria-label="Selecionar cor primária"
+            ></button>
+          </mat-form-field>
+
+          <input
+            #primaryHidden
+            type="color"
+            class="hidden-color"
+            [value]="getFormControl('primaryColor').value || '#222222'"
+            (input)="getFormControl('primaryColor').setValue($event.target.value)"
+          />
+        </div>
+
+        <!-- SECUNDÁRIA -->
+        <div class="color-field">
+          <mat-form-field subscriptSizing="dynamic" appearance="outline">
+            <mat-label>Cor secundária</mat-label>
+            <input
+              matInput
+              formControlName="secondaryColor"
+              placeholder="#999999"
+              required
+              (focus)="secondaryHidden.click()"
+              (click)="secondaryHidden.click()"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              class="swatch-btn"
+              (click)="secondaryHidden.click()"
+              [style.--swatch]="getFormControl('secondaryColor').value"
+              aria-label="Selecionar cor secundária"
+            ></button>
+          </mat-form-field>
+
+          <input
+            #secondaryHidden
+            type="color"
+            class="hidden-color"
+            [value]="getFormControl('secondaryColor').value || '#999999'"
+            (input)="getFormControl('secondaryColor').setValue($event.target.value)"
+          />
+        </div>
+
+        <!-- FUNDO -->
+        <div class="color-field">
+          <mat-form-field subscriptSizing="dynamic" appearance="outline">
+            <mat-label>Cor de fundo</mat-label>
+            <input
+              matInput
+              formControlName="backgroundColor"
+              placeholder="#000000"
+              required
+              (focus)="backgroundHidden.click()"
+              (click)="backgroundHidden.click()"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              class="swatch-btn"
+              (click)="backgroundHidden.click()"
+              [style.--swatch]="getFormControl('backgroundColor').value"
+              aria-label="Selecionar cor de fundo"
+            ></button>
+          </mat-form-field>
+
+          <input
+            #backgroundHidden
+            type="color"
+            class="hidden-color"
+            [value]="getFormControl('backgroundColor').value || '#000000'"
+            (input)="getFormControl('backgroundColor').setValue($event.target.value)"
+          />
+        </div>
+
+        <!-- TEXTO -->
+        <div class="color-field">
+          <mat-form-field subscriptSizing="dynamic" appearance="outline">
+            <mat-label>Cor do texto</mat-label>
+            <input
+              matInput
+              formControlName="textColor"
+              placeholder="#FFFFFF"
+              required
+              (focus)="textHidden.click()"
+              (click)="textHidden.click()"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              class="swatch-btn"
+              (click)="textHidden.click()"
+              [style.--swatch]="getFormControl('textColor').value"
+              aria-label="Selecionar cor do texto"
+            ></button>
+          </mat-form-field>
+
+          <input
+            #textHidden
+            type="color"
+            class="hidden-color"
+            [value]="getFormControl('textColor').value || '#FFFFFF'"
+            (input)="getFormControl('textColor').setValue($event.target.value)"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- TEMA -->
+    <section class="section">
+      <h2 class="section__title">Tema</h2>
+      <mat-form-field subscriptSizing="dynamic" appearance="outline" class="theme-field">
+        <mat-label>Tema</mat-label>
+        <mat-select name="theme" formControlName="theme" required>
+          <mat-option value="light">Claro</mat-option>
+          <mat-option value="dark">Escuro</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+
+    <!-- PREVIEW -->
+    <section
+      class="preview"
+      [attr.data-theme]="getFormControl('theme').value"
+      [style.--preview-primary]="getFormControl('primaryColor').value"
+      [style.--preview-secondary]="getFormControl('secondaryColor').value"
+      [style.--preview-bg]="getFormControl('backgroundColor').value"
+      [style.--preview-text]="getFormControl('textColor').value"
+    >
+      <h3>Preview do Tema</h3>
+      <div class="swatches">
+        <div class="swatch" style="background: var(--preview-primary)">Primária</div>
+        <div class="swatch" style="background: var(--preview-secondary)">Secundária</div>
+        <div class="swatch" style="background: var(--preview-bg); color: var(--preview-text)">Fundo &amp; Texto</div>
+      </div>
+
+      <div class="preview-ui">
+        <button class="btn-primary" type="button">Botão Primário</button>
+        <button class="btn-secondary" type="button">Botão Secundário</button>
+        <div class="card">
+          <h4>Título de Card</h4>
+          <p>Este é um card de exemplo com as cores aplicadas.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="form-footer">
+      <button mat-button type="button" (click)="resetForm()">Cancelar</button>
+      <button mat-raised-button type="submit" class="save-button" [disabled]="disableSaveButton">
+        <mat-icon>save</mat-icon>
+        Salvar
+      </button>
+    </footer>
+  </form>
+
+  <!-- LADO DIREITO -->
+  <aside class="right-div">
+    <div class="buttons-div">
+      <button mat-raised-button [routerLink]="[usersUrl]">Usuários</button>
+      <button mat-raised-button [routerLink]="[classroomsUrl]">Turmas</button>
     </div>
+
+    @if (!ctx.institution?.domains || ctx.institution?.domains?.length === 0) {
+      <p>Não há domínios cadastrados na sua instituição.</p>
+      <p><a [routerLink]="['/report']">Entre em contato com o suporte para cadastrar domínios.</a></p>
+    } @else {
+      <h3>Domínios:</h3>
+      <ul>
+        @for (domain of ctx.institution?.domains; track domain) {
+          <li>&#64;{{ domain }}</li>
+        }
+      </ul>
+    }
+  </aside>
 </div>
