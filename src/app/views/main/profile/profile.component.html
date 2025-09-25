@@ -1,5 +1,5 @@
 <div class="profile-container">
-  <o-loading [isLoading]="isLoading" />
+  <o-loading [isLoading]="isLoading"></o-loading>
 
   <header class="profile-header">
     <button mat-icon-button class="back-button" (click)="goBack()">
@@ -9,37 +9,75 @@
 
   <main class="profile-content">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      
+      <!-- Card: Perfil -->
       <div class="profile-card">
         <h2 class="card-title">Configuração de Perfil</h2>
+
         <div class="user-details">
-          
           <div class="avatar-section">
-            <img [src]="picturePreview || profilePictureUrl" alt="Foto de perfil" class="user-avatar" />
-            
-            <!-- <button mat-fab color="primary" class="upload-button" type="button" (click)="fileUploader.click()">
-              <mat-icon>photo_camera</mat-icon>
-            </button> -->
-            
-            <!-- <input type="file" #fileUploader hidden accept="image/*" (change)="selectProfilePicture($event)" /> -->
+            <img
+              [src]="picturePreview || profilePictureUrl"
+              alt="Foto de perfil"
+              class="user-avatar"
+            />
+
+            <!-- input nativo oculto (sem câmera) -->
+            <input
+              #fileInput
+              id="avatarInput"
+              type="file"
+              accept=".png,.jpg,.jpeg,.webp"
+              hidden
+              (change)="selectProfilePicture($any({
+                originalEvent: $event,
+                files: fileInput.files ? $any([]).slice.call(fileInput.files) : [],
+                currentFiles: fileInput.files ? $any([]).slice.call(fileInput.files) : []
+              }))"
+            />
+
+            <!-- botão pequeno que abre o seletor de arquivos -->
+            <button
+              mat-mini-fab
+              color="primary"
+              type="button"
+              class="upload-btn"
+              aria-label="Selecionar arquivo"
+              (click)="fileInput.click()"
+            >
+              <mat-icon>upload</mat-icon>
+            </button>
           </div>
 
+          <!-- Nome -->
           <mat-form-field appearance="outline" class="name-input">
             <mat-label>Seu Nome</mat-label>
             <input matInput formControlName="name" required />
           </mat-form-field>
 
-          <button mat-flat-button color="primary" class="action-button save-button" type="submit" [disabled]="disableSaveButton">
+          <!-- Salvar -->
+          <button
+            mat-flat-button
+            color="primary"
+            class="action-button save-button"
+            type="submit"
+            [disabled]="disableSaveButton"
+          >
             <mat-icon>save</mat-icon>
             <span>Salvar</span>
           </button>
         </div>
       </div>
 
+      <!-- Card: Contas -->
       <div class="profile-card">
         <div class="card-header">
           <h2 class="card-title">Contas Vinculadas</h2>
-          <button mat-stroked-button class="action-button" type="button" (click)="linkAccount()">
+          <button
+            mat-stroked-button
+            class="action-button"
+            type="button"
+            (click)="linkAccount()"
+          >
             <mat-icon>add_link</mat-icon>
             <span>Vincular Conta</span>
           </button>
@@ -47,8 +85,8 @@
 
         <div class="linked-accounts-list">
           @for (account of sortedAccounts; track account.id) {
-            <span class="debug-email">{{ account.email }}</span> <!-- debug rápido -->
-            <o-account-card [account]="account" [showAvatar]="false" />
+            <span class="debug-email">{{ account.email }}</span>
+           <!--<o-account-card [account]="account" [showAvatar]="false"></o-account-card> --> 
           } @empty {
             <p class="empty-message">Nenhuma conta institucional vinculada.</p>
           }

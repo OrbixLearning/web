@@ -4,6 +4,13 @@
   height: 100%;
 }
 
+/* ====== Vars para customização rápida ====== */
+:root {
+  --divider-color: var(--border-color, #e5e7eb);
+  --divider-height: 1px;
+  --divider-radius: 0px;
+}
+
 .profile-container {
   max-width: 900px;
   margin: 0 auto;
@@ -12,6 +19,7 @@
 
 .profile-header {
   margin-bottom: 16px;
+
   .back-button {
     color: var(--text-color, #111827);
   }
@@ -40,17 +48,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 
   .card-title {
     margin-bottom: 0;
   }
 }
 
+/* ====== Avatar ====== */
 .user-details {
   display: flex;
   align-items: center;
   gap: 24px;
+  flex-wrap: wrap;
 }
 
 .avatar-section {
@@ -63,37 +73,35 @@
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--border-color);
+    background: #f3f4f6; /* fallback quando não há imagem */
   }
 
-  ::ng-deep .p-fileupload.upload-button {
+  /* botão pequeno no canto inferior direito */
+  .upload-btn {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 6px;
+    bottom: 6px;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    line-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 
-    .p-button {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background-color: var(--primary-color) !important;
-      border: 2px solid var(--secondary-color) !important;
-      color: var(--text-color-inverse) !important;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-
-      .p-button-icon {
-        font-size: 22px;
-      }
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
     }
   }
-	.avatar-camera {
-	position: absolute;
-	right: 6px;
-	bottom: 6px;
-	z-index: 2;
-	}
 }
 
 .name-input {
-  flex-grow: 1;
+  flex: 1 1 260px;
+  min-width: 240px;
 }
 
 .action-button {
@@ -110,12 +118,13 @@
   height: 48px;
 }
 
+/* ====== (REMOVIDO) .section-divider ====== */
+
+/* Lista de contas (sem barrinha extra) */
 .linked-accounts-list {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border-top: 1px solid var(--border-color);
-  padding-top: 24px;
 }
 
 .empty-message {
@@ -123,3 +132,5 @@
   color: var(--text-color-secondary);
   padding: 24px 0;
 }
+
+/* ====== Removido bloco ::ng-deep antigo ====== */
