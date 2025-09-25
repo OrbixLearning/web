@@ -134,7 +134,7 @@ Este README foi preparado para o cliente com o objetivo de **documentar o que fo
 
 ---
 
-## 📅 Linha do Tempo (resumo de commits relevantes)
+## 📅 Linha do Tempo
 
 - **03/09/2025**
   - `chore(deps):` atualização de dependências npm.
@@ -174,7 +174,7 @@ Este README foi preparado para o cliente com o objetivo de **documentar o que fo
 
 ---
 
-## ▶️ Como Demonstrar ao Cliente
+## ▶️ Demonstrativo
 
 1. **Alternância de Tema**: clique no ícone **claro/escuro** no Header.
 2. **Account Card**: conferir listas de contas vinculadas exibindo **apenas o e-mail**.
@@ -184,7 +184,7 @@ Este README foi preparado para o cliente com o objetivo de **documentar o que fo
 
 ---
 
-## 👥 Equipe / Autores (Commits citados)
+## 👥 Equipe / Autores
 
 - **@asnorferreira** — coordenação de features, theming, cards, rotas, pop-ups, integrações.
 - **@Ranmdom** — rotas (áudio/vídeo/questões/flashcards), Pop-ups de criação, Sidebar e telas finais.
