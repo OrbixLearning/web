@@ -1,56 +1,62 @@
-<o-pop-up-header [title]="'Criar usuário para ' + ctx.institution?.name" />
+<div class="pop-up-container">
+  <o-pop-up-header [title]="'Criar usuário para ' + ctx.institution?.name" />
+  <o-loading [isLoading]="isLoading" />
 
-<o-loading [isLoading]="isLoading" />
+  <div class="pop-up-content">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <div class="form-column">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome completo</mat-label>
+            <input matInput type="text" formControlName="name" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Senha</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-column">
+          <mat-form-field appearance="outline">
+            <mat-label>Identificador</mat-label>
+            <input matInput type="text" formControlName="idInInstitution" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Cargo</mat-label>
+            <mat-select formControlName="role">
+              @for (role of roles; track role) {
+                <mat-option [value]="role">{{ role }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Confirmar Senha</mat-label>
+            <input matInput [type]="hidePasswordConfirmation ? 'password' : 'text'" formControlName="passwordConfirmation" />
+             <button mat-icon-button matSuffix (click)="hidePasswordConfirmation = !hidePasswordConfirmation" type="button">
+                <mat-icon>{{ hidePasswordConfirmation ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
 
-	<div class="ucpu-form-div">
-		<div class="ucpu-form-column">
-			<mat-form-field appearance="fill" subscriptSizing="dynamic">
-				<mat-label>Nome completo</mat-label>
-				<input matInput type="text" name="name" formControlName="name" />
-			</mat-form-field>
-			<mat-form-field appearance="fill" subscriptSizing="dynamic">
-				<mat-label>Email</mat-label>
-				<input matInput type="email" name="email" formControlName="email" />
-			</mat-form-field>
-			<mat-form-field appearance="fill" subscriptSizing="dynamic">
-				<mat-label>Senha</mat-label>
-				<input matInput [type]="hidePassword ? 'password' : 'text'" name="password"
-					formControlName="password" />
-				<mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' :
-					'visibility'}}</mat-icon>
-			</mat-form-field>
-		</div>
+      @if (error) {
+        <div class="error-message">
+          <span>{{ error }}</span>
+        </div>
+      }
+    </form>
+  </div>
 
-		<div class="ucpu-form-column">
-			<mat-form-field appearance="fill" subscriptSizing="dynamic">
-				<mat-label>Identificador</mat-label>
-				<input matInput type="text" name="idInInstitution" formControlName="idInInstitution" />
-			</mat-form-field>
-			<mat-form-field appearance="fill" subscriptSizing="dynamic">
-				<mat-label>Cargo</mat-label>
-				<mat-select formControlName="role" name="role">
-					@for (role of roles; track role) {
-					<mat-option [value]="role">{{role}}</mat-option>
-					}
-				</mat-select>
-			</mat-form-field>
-			<mat-form-field appearance="fill" subscriptSizing="dynamic">
-				<mat-label>Confirmar Senha</mat-label>
-				<input matInput [type]="hidePasswordConfirmation ? 'password' : 'text'" name="passwordConfirmation"
-					formControlName="passwordConfirmation" />
-				<mat-icon matSuffix
-					(click)="hidePasswordConfirmation = !hidePasswordConfirmation">{{hidePasswordConfirmation ?
-					'visibility_off' : 'visibility'}}</mat-icon>
-			</mat-form-field>
-			@if (error !== '') {
-			<div class="ucpu-error-div">
-				<span>{{error}}</span>
-			</div>
-			}
-		</div>
-	</div>
-
-	<o-pop-up-buttons [disable]="isLoading || form.invalid" type="submit" confirmButton="Criar usuário" />
-</form>
+  <o-pop-up-buttons 
+    [disable]="isLoading || form.invalid" 
+    (confirm)="onSubmit()" 
+    confirmButton="Criar Usuário" 
+  />
+</div>

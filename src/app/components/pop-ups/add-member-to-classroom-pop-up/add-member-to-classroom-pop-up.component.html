@@ -1,49 +1,55 @@
-<o-loading [isLoading]="isLoading" />
+<div class="pop-up-container">
+  <o-pop-up-header title="Adicionar Novo Membro" />
+  <o-loading [isLoading]="isLoading" />
 
-<o-pop-up-header [title]="'Adicionar membros a turma ' + ctx.classroom?.name" />
-
-<mat-dialog-content>
-
-    <div>
-        <div>
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Filtrar</mat-label>
-                <input type="text" matInput [(ngModel)]="filter" />
-            </mat-form-field>
-            <button mat-icon-button (click)="search()" [disabled]="filter.length === 0">
-                <mat-icon>search</mat-icon>
-            </button>
-        </div>
-
-        <div>
-            @for (userAccount of filteredUsers; track userAccount.id) {
-            <button mat-button [disabled]="isAlreadySelected(userAccount)" (click)="selectUser(userAccount)">
-                <p>{{userAccount.user.name}}</p>
-                <p>{{userAccount.idInInstitution}}</p>
-                <p>{{userAccount.email}}</p>
-                <p>{{userAccount.institutionRole}}</p>
-            </button>
-            } @empty {
-            @if (showMessage) {
-            <p>Nenhum resultado</p>
-            }
-            }
-        </div>
-
+  <div class="pop-up-content">
+    
+    <div class="search-bar">
+      <mat-icon>search</mat-icon>
+      <input 
+        type="text" 
+        placeholder="Insira nome ou email para buscar..." 
+        [(ngModel)]="filter"
+        (keyup.enter)="search()"
+      />
     </div>
 
-    <mat-chip-set>
-        @for (userAccount of selectedUsers; track userAccount.id) {
-        <mat-chip [removable]="true" (removed)="removeUser(userAccount)">{{userAccount.idInInstitution}}
-            {{userAccount.email}} {{userAccount.institutionRole}}
-            <button matChipRemove>
-                <mat-icon>cancel</mat-icon>
-            </button>
-        </mat-chip>
+    <div class="search-results-container">
+      @for (user of filteredUsers; track user.id) {
+        <div class="user-result-card" (click)="selectUser(user)">
+          <div class="user-info">
+            <span class="user-name">{{ user.user.name }}</span>
+            <span class="user-email">{{ user.email }}</span>
+          </div>
+        </div>
+      } @empty {
+        @if (showMessage && filter) {
+          <p class="empty-message">Nenhum usuário encontrado</p>
         }
-    </mat-chip-set>
+      }
+    </div>
 
-</mat-dialog-content>
+    @if(selectedUsers.length > 0) {
+      <div class="selected-users-container">
+        <h3 class="selected-title">Membros a serem adicionados ({{ selectedUsers.length }})</h3>
+        <div class="selected-users-list">
+          @for (user of selectedUsers; track user.id) {
+            <div class="selected-user-card">
+              <span class="user-name">{{ user.user.name }}</span>
+              <button mat-icon-button (click)="removeUser(user)" class="remove-btn">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
 
-<o-pop-up-buttons cancelButton="Sair" confirmButton="Adicionar" [disable]="isLoading || selectedUsers.length === 0"
-    (confirm)="addUsersToClassroom()" />
+  <o-pop-up-buttons 
+    cancelButton="Cancelar" 
+    confirmButton="Adicionar Membro" 
+    [disable]="isLoading || selectedUsers.length === 0"
+    (confirm)="addUsersToClassroom()" 
+  />
+</div>

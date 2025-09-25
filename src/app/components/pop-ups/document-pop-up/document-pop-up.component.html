@@ -1,33 +1,63 @@
-<o-pop-up-header [title]="(editMode ? 'Editar' : 'Adicionar') + ' documento'" />
+<div class="pop-up-container">
+  <o-pop-up-header [title]="(editMode ? 'Editar' : 'Adicionar') + ' documento'" />
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-
-    <div>
-        <mat-form-field appearance="fill" subscriptSizing="dynamic">
-            <mat-label>Nome</mat-label>
-            <input matInput type="text" name="name" formControlName="name" />
+  <div class="pop-up-content">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      
+      <div class="form-section">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nome do documento</mat-label>
+          <input matInput type="text" formControlName="name" />
         </mat-form-field>
 
         @if (!editMode) {
-        @if (!getFormControl('file').value) {
-        <p-fileupload mode="basic" chooseLabel="Selecionar" name="document" [auto]="true" [maxFileSize]="MAX_PDF_SIZE"
-            (onSelect)="selectFile($event)" />
-        } @else {
-        <p>{{getFormControl('file').value}}</p>
-        <button mat-button (click)="removeFile()" type="button">
-            <mat-icon>close</mat-icon>Cancelar
-        </button>
+          <div class="file-upload-wrapper">
+            @if (!getFormControl('file').value) {
+              <p-fileupload 
+                mode="basic" 
+                chooseLabel="Selecionar arquivo" 
+                chooseIcon="upload"
+                name="document" 
+                [auto]="true" 
+                [maxFileSize]="MAX_PDF_SIZE"
+                (onSelect)="selectFile($event)" 
+              />
+            } @else {
+              <div class="file-info">
+                <mat-icon>description</mat-icon>
+                <span class="file-name">{{ getFormControl('file').value.name }}</span>
+                <button mat-icon-button (click)="removeFile()" type="button">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
         }
-        }
-    </div>
+      </div>
 
-    <o-syllabus [syllabus]="ctx.classroom?.syllabus" [preMarkedSyllabus]="data?.document!.syllabus" mode="select"
-        (syllabusMarked)="markSyllabus($event)" [presets]="ctx.classroom?.presets" />
+      <div class="syllabus-section">
+        <h3>Vincular à ementa (opcional)</h3>
+        <div class="syllabus-tree-container">
+            <o-syllabus 
+              [syllabus]="ctx.classroom?.syllabus" 
+              [preMarkedSyllabus]="data?.document!.syllabus" 
+              mode="select"
+              (syllabusMarked)="markSyllabus($event)" 
+              [presets]="ctx.classroom?.presets" 
+            />
+        </div>
+      </div>
 
-    <mat-checkbox formControlName="feedAi">
-        Treinar IA
-    </mat-checkbox>
+      <mat-checkbox formControlName="feedAi">
+        Permitir que a IA utilize este documento para responder perguntas
+      </mat-checkbox>
 
-    <o-pop-up-buttons [disable]="form.invalid" type="submit"
-        [confirmButton]="(editMode ? 'Editar' : 'Adicionar') + ' documento'" />
-</form>
+    </form>
+  </div>
+
+  <o-pop-up-buttons 
+    [disable]="form.invalid" 
+    (confirm)="onSubmit()"
+    [confirmButton]="(editMode ? 'Salvar Alterações' : 'Adicionar Documento')" 
+  />
+</div>

@@ -1,8 +1,16 @@
-<h1>Ocorreu um erro!</h1>
-@if (data.code) {
-<h3>Código {{data.code}}</h3>
-}
-@if (data.message) {
-<h3>{{data.message}}</h3>
-}
-<button mat-raised-button mat-dialog-close>{{data.buttonText ? data.buttonText : 'Ok'}}</button>
+<div class="pop-up-container">
+  <mat-icon class="icon error">error_outline</mat-icon>
+  
+  <h2 class="title">Ocorreu um erro!</h2>
+  
+  @if (data.code) {
+    <p class="message">Código: {{ data.code }}</p>
+  }
+  @if (data.message) {
+    <p class="message">{{ data.message }}</p>
+  }
+  
+  <button mat-flat-button color="warn" mat-dialog-close>
+    {{ data.buttonText ? data.buttonText : 'Ok' }}
+  </button>
+</div>

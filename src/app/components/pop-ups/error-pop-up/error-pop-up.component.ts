@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
 
 export type ErrorPopUpData = {
 	code?: number;
@@ -9,7 +10,7 @@ export type ErrorPopUpData = {
 
 @Component({
 	selector: 'o-error-pop-up',
-	imports: [],
+	imports: [MatIcon],
 	templateUrl: './error-pop-up.component.html',
 	styleUrl: './error-pop-up.component.scss',
 })

@@ -1,3 +1,11 @@
-<h1>{{data.title}}</h1>
-<h3>{{data.message}}</h3>
-<button mat-raised-button mat-dialog-close>{{data.buttonText ? data.buttonText : 'Ok'}}</button>
+<div class="pop-up-container">
+  <mat-icon class="icon success">check_circle</mat-icon>
+  
+  <h2 class="title">{{ data.title }}</h2>
+  
+  <p class="message">{{ data.message }}</p>
+  
+  <button mat-flat-button color="primary" mat-dialog-close>
+    {{ data.buttonText ? data.buttonText : 'Ok' }}
+  </button>
+</div>

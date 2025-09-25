@@ -1,28 +1,37 @@
-<o-pop-up-header title="Adicionar novo tópico na ementa" />
+<div class="pop-up-container">
+  <o-pop-up-header title="Adicionar novo tópico na ementa" />
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-
-    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+  <div class="pop-up-content">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>Nome do tópico</mat-label>
         <input matInput type="text" name="name" formControlName="name" />
-    </mat-form-field>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>Tópico pai</mat-label>
         <mat-select formControlName="parent" name="parent" (selectionChange)="parentChange()">
-            <mat-option [value]="undefined">Nenhum (tópico raiz)</mat-option>
-            @for (parent of parentSelector; track parent) {
-            <mat-option [value]="parent">{{parent.name}}</mat-option>
-            }
+          <mat-option [value]="undefined">Nenhum (tópico raiz)</mat-option>
+          @for (parent of parentSelector; track parent) {
+            <mat-option [value]="parent">{{ parent.name }}</mat-option>
+          }
         </mat-select>
-    </mat-form-field>
+      </mat-form-field>
 
-    @if (showIndex) {
-    <mat-form-field appearance="fill" subscriptSizing="dynamic">
-        <mat-label>Index em {{getFormControl('parent').value?.name || "Raiz"}}</mat-label>
-        <input matInput type="number" name="index" formControlName="index" />
-    </mat-form-field>
-    }
+      @if (showIndex) {
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Posição em {{ getFormControl('parent').value?.name || "Raiz" }}</mat-label>
+          <input matInput type="number" name="index" formControlName="index" />
+        </mat-form-field>
+      }
 
-    <o-pop-up-buttons [disable]="form.invalid" type="submit" confirmButton="Adicionar tópico" />
-</form>
+    </form>
+  </div>
+
+  <o-pop-up-buttons 
+    [disable]="form.invalid" 
+    (confirm)="onSubmit()" 
+    confirmButton="Adicionar tópico" 
+  />
+</div>
