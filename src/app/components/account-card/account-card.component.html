@@ -24,6 +24,10 @@
 		@if (amountOfClassrooms) {
 		<p>{{amountOfClassrooms}} turmas</p>
 		}
+
+		@if(showAvatar) {
+		<img [src]="profilePictureUrl" alt="Foto de perfil" class="user-avatar">
+		}
 	</div>
 
 	@if (institution) {

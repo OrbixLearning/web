@@ -5,6 +5,7 @@ import { Institution } from '../../models/Institution';
 import { InstitutionService } from '../../services/institution.service';
 import { UserService } from '../../services/user.service';
 import { LoadingComponent } from '../loading/loading.component';
+import { UserAccount } from '../../models/User';
 
 @Component({
 	selector: 'o-account-card',
@@ -21,9 +22,12 @@ export class AccountCardComponent {
 	@Input() institution?: Institution | null;
 	@Input() institutionRole?: InstitutionRoleEnum | null;
 	@Input() idInInstitution?: string | null;
+	@Input() account!: UserAccount;
+	@Input() showAvatar: boolean = true;
 
 	amountOfClassrooms?: number;
 	isLoading: boolean = false;
+	userService: UserService = inject(UserService);
 
 	ngOnInit() {
 		this.getData();
@@ -31,6 +35,13 @@ export class AccountCardComponent {
 
 	get institutionLogoUrl(): string {
 		return this.institutionService.getLogoUrl(this.institution?.id!);
+	}
+
+	get profilePictureUrl(): string {
+		if (!this.account || !this.account.user) {
+		return 'assets/placeholder/user.png';
+		}
+		return this.userService.getProfilePictureUrl(this.account.user);
 	}
 
 	async getData() {
