@@ -48,7 +48,6 @@ export class ChatComponent {
 	page: number = 0;
 
 	ngOnInit() {
-		// This is used to update the data when the classroomId changes in the URL
 		this.route.params.subscribe(params => {
 			this.reset();
 			this.getData();
