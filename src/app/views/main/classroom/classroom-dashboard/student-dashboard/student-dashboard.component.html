@@ -1,68 +1,67 @@
-<div *ngIf="isLoading; else content" class="loading-container">
-  <o-loading></o-loading>
-</div>
-
-<ng-template #content>
+@if (isLoading) {
+  <div class="loading-container">
+    <o-loading></o-loading>
+  </div>
+} @else {
   <div class="students-container">
     <div class="students-header">
       <h3 class="title">Acompanhamento Individual</h3>
       <div class="search-bar">
         <mat-icon>search</mat-icon>
         <input
-            type="text"
-            name="searchTerm"
-            placeholder="Buscar membros..."
-            [(ngModel)]="searchTerm"
-            (input)="search()"
-            autocomplete="off"
-            autocapitalize="none"
-            spellcheck="false"
-        />
+          type="text"
+          name="searchTerm"
+          placeholder="Buscar membros..."
+          [(ngModel)]="searchTerm"
+          (input)="search()"
+          autocomplete="off"
+          autocapitalize="none"
+          spellcheck="false"
+          />
         </div>
-    </div>
-
-    <div class="table-card">
-      <div class="table-header">
-        <div class="table-cell">Estudante</div>
-        <div class="table-cell">Nota Geral</div>
-        <div class="table-cell">Atividades</div>
-        <div class="table-cell">Conclusão</div>
-        <div class="table-cell">Tendência</div>
       </div>
-
-      <div class="table-body">
-        @for (student of filteredStudents; track student.id) {
-          <div class="table-row">
-            <div class="table-cell student-info">
-              <div class="avatar-placeholder">{{ student.user.name | slice:0:1 }}</div>
-              <span>{{ student.user.name }}</span>
-            </div>
-            <div class="table-cell">
-              <span class="grade-badge" 
-                    [class.high]="student.geralGrade >= 80" 
-                    [class.medium]="student.geralGrade >= 60 && student.geralGrade < 80" 
-                    [class.low]="student.geralGrade < 60">
-                {{ student.geralGrade / 10 | number:'1.1-1' }}
-              </span>
-            </div>
-            <div class="table-cell">{{ student.activities }} / {{ flatSyllabus.length }}</div>
-            <div class="table-cell">
-              <div class="completion-bar">
-                <div class="completion-fill" [style.width.%]="student.conclusion * 100"></div>
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-cell">Estudante</div>
+          <div class="table-cell">Nota Geral</div>
+          <div class="table-cell">Atividades</div>
+          <div class="table-cell">Conclusão</div>
+          <div class="table-cell">Tendência</div>
+        </div>
+        <div class="table-body">
+          @for (student of filteredStudents; track student.id) {
+            <div class="table-row">
+              <div class="table-cell student-info">
+                <div class="avatar-placeholder">{{ student.user.name | slice:0:1 }}</div>
+                <span>{{ student.user.name }}</span>
               </div>
-              <span class="completion-text">{{ student.conclusion | percent:'1.0-0' }}</span>
+              <div class="table-cell">
+                <span class="grade-badge"
+                  [class.high]="student.geralGrade >= 80"
+                  [class.medium]="student.geralGrade >= 60 && student.geralGrade < 80"
+                  [class.low]="student.geralGrade < 60">
+                  {{ student.geralGrade / 10 | number:'1.1-1' }}
+                </span>
+              </div>
+              <div class="table-cell">{{ student.activities }} / {{ flatSyllabus.length }}</div>
+              <div class="table-cell">
+                <div class="completion-bar">
+                  <div class="completion-fill" [style.width.%]="student.conclusion * 100"></div>
+                </div>
+                <span class="completion-text">{{ student.conclusion | percent:'1.0-0' }}</span>
+              </div>
+              <div class="table-cell">
+                <mat-icon class="trend-icon"
+                  [class.increased]="student.trend === 'north'"
+                  [class.decreased]="student.trend === 'south'"
+                  [class.neutral]="student.trend === 'minimize'">
+                  {{ student.trend }}
+                </mat-icon>
+              </div>
             </div>
-            <div class="table-cell">
-              <mat-icon class="trend-icon" 
-                        [class.increased]="student.trend === 'north'" 
-                        [class.decreased]="student.trend === 'south'"
-                        [class.neutral]="student.trend === 'minimize'">
-                {{ student.trend }}
-              </mat-icon>
-            </div>
-          </div>
-        }
+          }
+        </div>
       </div>
     </div>
-  </div>
-</ng-template>
+  }
+

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output, HostBinding } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
 	selector: 'o-sidebar-button',
-	imports: [CommonModule, MatButtonModule, MatIconModule],
+	imports: [MatButtonModule, MatIconModule],
 	templateUrl: './sidebar-button.component.html',
 	styleUrl: './sidebar-button.component.scss',
 })

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { ContextService } from '../../../services/context.service';
@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-syllabus-home',
   standalone: true,
-  imports: [CommonModule, MatIconModule, RouterModule, FormsModule, MatButtonModule],
+  imports: [MatIconModule, RouterModule, FormsModule, MatButtonModule],
   templateUrl: './syllabus-home.component.html',
   styleUrls: ['./syllabus-home.component.scss']
 })

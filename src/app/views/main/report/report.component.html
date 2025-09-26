@@ -21,94 +21,104 @@
             formControlName="title"
             maxlength="80"
             aria-label="Título da mensagem"
-          />
-          <mat-hint align="end">{{ form.value.title?.length || 0 }}/80</mat-hint>
-          <mat-error *ngIf="form.get('title')?.touched && form.get('title')?.invalid">
-            O título é obrigatório.
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" subscriptSizing="dynamic" class="field">
-          <mat-label>Descrição</mat-label>
-          <textarea
-            matInput
-            formControlName="description"
-            rows="6"
-            maxlength="1000"
-            aria-label="Descrição da mensagem"
-          ></textarea>
-          <mat-hint align="start">Explique com detalhes para podermos ajudar melhor.</mat-hint>
-          <mat-hint align="end">{{ form.value.description?.length || 0 }}/1000</mat-hint>
-          <mat-error *ngIf="form.get('description')?.touched && form.get('description')?.invalid">
-            A descrição é obrigatória.
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" subscriptSizing="dynamic" class="field">
-          <mat-label>Tipo</mat-label>
-          <mat-select formControlName="type" aria-label="Tipo de mensagem">
-            @for (type of reportTypes; track type) {
-              <mat-option [value]="type">{{ type }}</mat-option>
+            />
+            <mat-hint align="end">{{ form.value.title?.length || 0 }}/80</mat-hint>
+            @if (form.get('title')?.touched && form.get('title')?.invalid) {
+              <mat-error>
+                O título é obrigatório.
+              </mat-error>
             }
-          </mat-select>
-          <mat-error *ngIf="form.get('type')?.touched && form.get('type')?.invalid">
-            Selecione um tipo.
-          </mat-error>
-        </mat-form-field>
+          </mat-form-field>
 
-        <button mat-raised-button type="submit" class="btn-submit" [disabled]="isLoading || form.invalid">
-          Enviar
-        </button>
-      </form>
-    </section>
+          <mat-form-field appearance="fill" subscriptSizing="dynamic" class="field">
+            <mat-label>Descrição</mat-label>
+            <textarea
+              matInput
+              formControlName="description"
+              rows="6"
+              maxlength="1000"
+              aria-label="Descrição da mensagem"
+            ></textarea>
+            <mat-hint align="start">Explique com detalhes para podermos ajudar melhor.</mat-hint>
+            <mat-hint align="end">{{ form.value.description?.length || 0 }}/1000</mat-hint>
+            @if (form.get('description')?.touched && form.get('description')?.invalid) {
+              <mat-error>
+                A descrição é obrigatória.
+              </mat-error>
+            }
+          </mat-form-field>
 
-    <!-- COLUNA: LISTA -->
-    <section class="panel panel--list">
-      <div class="panel__title">
-        <h3>Suas mensagens</h3>
-        <span class="badge" *ngIf="userReports?.length">{{ userReports.length }}</span>
-      </div>
+          <mat-form-field appearance="fill" subscriptSizing="dynamic" class="field">
+            <mat-label>Tipo</mat-label>
+            <mat-select formControlName="type" aria-label="Tipo de mensagem">
+              @for (type of reportTypes; track type) {
+                <mat-option [value]="type">{{ type }}</mat-option>
+              }
+            </mat-select>
+            @if (form.get('type')?.touched && form.get('type')?.invalid) {
+              <mat-error>
+                Selecione um tipo.
+              </mat-error>
+            }
+          </mat-form-field>
 
-      <div class="empty" *ngIf="!userReports?.length">
-        <p>Nenhuma mensagem enviada ainda.</p>
-      </div>
+          <button mat-raised-button type="submit" class="btn-submit" [disabled]="isLoading || form.invalid">
+            Enviar
+          </button>
+        </form>
+      </section>
 
-      @for (report of userReports; track report.id) {
-        <mat-card class="message-card">
+      <!-- COLUNA: LISTA -->
+      <section class="panel panel--list">
+        <div class="panel__title">
+          <h3>Suas mensagens</h3>
+          @if (userReports?.length) {
+            <span class="badge">{{ userReports.length }}</span>
+          }
+        </div>
+
+        @if (!userReports?.length) {
+          <div class="empty">
+            <p>Nenhuma mensagem enviada ainda.</p>
+          </div>
+        }
+
+        @for (report of userReports; track report.id) {
+          <mat-card class="message-card">
+            <mat-card-header>
+              <div class="message-card__title">
+                <span class="title">{{ report.title }}</span>
+                <span class="pill">{{ report.type }}</span>
+              </div>
+              <div class="message-card__date">{{ formatDate(report.createdAt) }}</div>
+            </mat-card-header>
+
+            <mat-card-content>
+              <p class="message-card__text">{{ report.description }}</p>
+            </mat-card-content>
+          </mat-card>
+        }
+      </section>
+
+      <!-- COLUNA: CONTATOS -->
+      <aside class="panel panel--contacts">
+        <mat-card class="contacts">
           <mat-card-header>
-            <div class="message-card__title">
-              <span class="title">{{ report.title }}</span>
-              <span class="pill">{{ report.type }}</span>
-            </div>
-            <div class="message-card__date">{{ formatDate(report.createdAt) }}</div>
+            <h3>Contatos</h3>
           </mat-card-header>
-
           <mat-card-content>
-            <p class="message-card__text">{{ report.description }}</p>
+            <p>
+              <span class="icon">✉️</span>
+              <a href="mailto:orbixlearning@gmail.com">orbixlearning&#64;gmail.com</a>
+            </p>
+            <p>
+              <span class="icon">📞</span>
+              <a href="tel:+5531985370868">+55 31 98537-0868</a>
+            </p>
+            <p class="note">Horário de atendimento: seg–sex, 9h–18h.</p>
           </mat-card-content>
         </mat-card>
-      }
-    </section>
+      </aside>
 
-    <!-- COLUNA: CONTATOS -->
-    <aside class="panel panel--contacts">
-      <mat-card class="contacts">
-        <mat-card-header>
-          <h3>Contatos</h3>
-        </mat-card-header>
-        <mat-card-content>
-          <p>
-            <span class="icon">✉️</span>
-            <a href="mailto:orbixlearning@gmail.com">orbixlearning&#64;gmail.com</a>
-          </p>
-          <p>
-            <span class="icon">📞</span>
-            <a href="tel:+5531985370868">+55 31 98537-0868</a>
-          </p>
-          <p class="note">Horário de atendimento: seg–sex, 9h–18h.</p>
-        </mat-card-content>
-      </mat-card>
-    </aside>
-
+    </div>
   </div>
-</div>

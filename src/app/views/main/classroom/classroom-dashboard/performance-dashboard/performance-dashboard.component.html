@@ -1,8 +1,8 @@
-<div *ngIf="isLoading; else content" class="loading-container">
-  <o-loading></o-loading>
-</div>
-
-<ng-template #content>
+@if (isLoading) {
+  <div class="loading-container">
+    <o-loading></o-loading>
+  </div>
+} @else {
   <div class="performance-grid">
     <div class="performance-card">
       <h3 class="card-title">Comparativo de Desempenho</h3>
@@ -10,7 +10,6 @@
         <p-chart type="radar" [data]="performanceChartData" [options]="chartOptions"></p-chart>
       </div>
     </div>
-
     <div class="performance-card">
       <h3 class="card-title">Estatísticas da Turma</h3>
       <div class="stats-container">
@@ -45,4 +44,5 @@
       </div>
     </div>
   </div>
-</ng-template>
+}
+

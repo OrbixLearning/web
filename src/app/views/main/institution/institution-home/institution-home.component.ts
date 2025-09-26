@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { ClassroomCardComponent } from '../../../../components/classroom-card/classroom-card.component';
 import { Classroom } from '../../../../models/Classroom';
 import { ContextService } from '../../../../services/context.service';
@@ -8,7 +8,7 @@ import { InstitutionService } from'../../../../services/institution.service';
 
 @Component({
 	selector: 'o-institution-home',
-	imports: [CommonModule,ClassroomCardComponent],
+	imports: [ClassroomCardComponent],
 	templateUrl: './institution-home.component.html',
 	styleUrl: './institution-home.component.scss',
 })

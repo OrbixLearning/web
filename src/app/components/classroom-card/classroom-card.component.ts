@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectorRef, inject, OnInit } from '@angular/core';
 import { Classroom } from '../../models/Classroom';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
@@ -9,10 +9,9 @@ import { ptBR } from 'date-fns/locale';
 @Component({
 	selector: 'o-classroom-card',
 	imports: [
-		CommonModule,
-		MatCardModule,
-		MatIconModule,
-	],
+    MatCardModule,
+    MatIconModule
+],
 	templateUrl: './classroom-card.component.html',
 	styleUrl: './classroom-card.component.scss',
 })

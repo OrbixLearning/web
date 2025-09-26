@@ -1,14 +1,14 @@
-<div *ngIf="isLoading; else content" class="loading-container">
-  <o-loading></o-loading>
-</div>
-
-<ng-template #content>
-  <div *ngIf="syllabus; else listView">
-    <h2>Detalhes de: {{ syllabus.name }}</h2>
-    <a routerLink="../topics">Voltar</a>
+@if (isLoading) {
+  <div class="loading-container">
+    <o-loading></o-loading>
   </div>
-
-  <ng-template #listView>
+} @else {
+  @if (syllabus) {
+    <div>
+      <h2>Detalhes de: {{ syllabus.name }}</h2>
+      <a routerLink="../topics">Voltar</a>
+    </div>
+  } @else {
     <div class="topics-container">
       <div class="main-chart-card">
         <h2 class="card-title">Análise Detalhada por Tópico</h2>
@@ -16,16 +16,16 @@
           <p-chart type="bar" [data]="topicChartData" [options]="chartOptions"></p-chart>
         </div>
       </div>
-
       <div class="discipline-cards-grid">
         @for (score of scores; track score.syllabus.id) {
-          <app-discipline-card 
-            [discipline]="score.syllabus" 
+          <app-discipline-card
+            [discipline]="score.syllabus"
             [progress]="score.average"
             [averageGrade]="score.average / 10">
           </app-discipline-card>
         }
       </div>
     </div>
-  </ng-template>
-</ng-template>
+  }
+}
+

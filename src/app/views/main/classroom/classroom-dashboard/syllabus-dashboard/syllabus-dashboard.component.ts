@@ -18,24 +18,23 @@ import { MatButtonModule } from '@angular/material/button';
 import { Syllabus } from '../../../../../models/Syllabus';
 import { SyllabusService } from '../../../../../services/syllabus.service';
 import { DisciplineCardComponent } from '../../../../../components/discipline-card/discipline-card.component';
-import { CommonModule } from '@angular/common';
+
 import { ClassroomCurrentScore } from '../../../../../models/Dashboard/ClassroomCurrentScore';
 
 @Component({
 	selector: 'o-syllabus-dashboard',
 	imports: [
-		LoadingComponent,
-		CommonModule,
-		MatIconModule,
-		RouterModule,
-		ChartModule,
-		MatDatepickerModule,
-		MatFormFieldModule,
-		FormsModule,
-		MatInputModule,
-		MatButtonModule,
-		DisciplineCardComponent
-	],
+    LoadingComponent,
+    MatIconModule,
+    RouterModule,
+    ChartModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
+    MatButtonModule,
+    DisciplineCardComponent
+],
 	templateUrl: './syllabus-dashboard.component.html',
 	styleUrl: './syllabus-dashboard.component.scss',
 	providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }, provideNativeDateAdapter()],

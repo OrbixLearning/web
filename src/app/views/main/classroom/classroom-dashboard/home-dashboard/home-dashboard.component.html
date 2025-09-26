@@ -1,8 +1,8 @@
-<div *ngIf="isLoading; else content" class="loading-container">
-  <p>Carregando...</p>
-</div>
-
-<ng-template #content>
+@if (isLoading) {
+  <div class="loading-container">
+    <p>Carregando...</p>
+  </div>
+} @else {
   <div class="dashboard-grid">
     <div class="metric-card">
       <div class="card-header">
@@ -16,7 +16,6 @@
         <span class="info-sublabel">{{ newStudentsCount }} novos este mês</span>
       </div>
     </div>
-
     <div class="metric-card">
       <div class="card-header">
         <div class="card-icon-background">
@@ -29,7 +28,6 @@
         <span class="info-sublabel increased">+0.0 <mat-icon class="trend-icon">north</mat-icon></span>
       </div>
     </div>
-
     <div class="metric-card">
       <div class="card-header">
         <div class="card-icon-background">
@@ -42,7 +40,6 @@
         <span class="info-sublabel">Atividades entregues</span>
       </div>
     </div>
-
     <div class="metric-card">
       <div class="card-header">
         <div class="card-icon-background">
@@ -55,14 +52,12 @@
         <span class="info-sublabel">Últimos 7 dias</span>
       </div>
     </div>
-
     <div class="chart-card large">
       <h3>Progresso Semanal</h3>
       <div class="chart-container">
         <p-chart type="line" [data]="weeklyProgressData" [options]="chartOptions"></p-chart>
       </div>
     </div>
-
     <div class="chart-card">
       <h3>Distribuição de Notas</h3>
       <div class="chart-container">
@@ -70,4 +65,5 @@
       </div>
     </div>
   </div>
-</ng-template>
+}
+
