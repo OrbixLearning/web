@@ -7,7 +7,6 @@ import { Router, RouterModule } from '@angular/router';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
-import { ChatComponent } from '../../../components/chat/chat.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import {
 	ConfirmPopUpComponent,
@@ -46,7 +45,6 @@ import { VideoLearningPathComponent } from './video-learning-path/video-learning
 		QuestionLearningPathComponent,
 		TextLearningPathComponent,
 		VideoLearningPathComponent,
-		ChatComponent,
 	],
 	templateUrl: './learning-path.component.html',
 	styleUrl: './learning-path.component.scss',

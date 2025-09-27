@@ -10,7 +10,6 @@ import { DividerModule } from 'primeng/divider';
 import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { AccountCardComponent } from '../../../components/account-card/account-card.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { LinkAccountPopUpComponent } from '../../../components/pop-ups/link-account-pop-up/link-account-pop-up.component';
 import { User, UserAccount } from '../../../models/User';
@@ -29,7 +28,6 @@ import { UserService } from '../../../services/user.service';
 		MatIconModule,
 		LoadingComponent,
 		ReactiveFormsModule,
-		AccountCardComponent,
 		DividerModule,
 		RouterModule,
 	],
@@ -63,12 +61,12 @@ export class ProfileComponent {
 	}
 
 	goBack() {
-        if (this.ctx.institution?.id) {
-            this.router.navigate(['/i', this.ctx.institution.id]);
-        } else {
-            this.router.navigate(['/']);
-        }
-    }
+		if (this.ctx.institution?.id) {
+			this.router.navigate(['/i', this.ctx.institution.id]);
+		} else {
+			this.router.navigate(['/']);
+		}
+	}
 
 	getFormControl(name: string): FormControl {
 		return this.form.get(name) as FormControl;

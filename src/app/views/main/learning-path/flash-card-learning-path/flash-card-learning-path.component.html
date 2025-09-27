@@ -2,106 +2,105 @@
 
 <div class="fc-layout">
 
-  <!-- ESQUERDA: IA -->
-  <aside class="ai-slot">
-    <o-chat
-      [learningPaths]="learningPathStudy?.learningPath ? [$any(learningPathStudy.learningPath)] : []"
-      [showLearningPaths]="!!learningPathStudy?.learningPath">
-    </o-chat>
-  </aside>
+    <!-- ESQUERDA: IA -->
+    <aside class="ai-slot">
+        <o-chat [learningPaths]="learningPathStudy.learningPath ? [$any(learningPathStudy.learningPath)] : []"
+            [showLearningPaths]="!!learningPathStudy.learningPath">
+        </o-chat>
+    </aside>
 
-  <!-- DIREITA: FLASHCARDS -->
-  <section class="fc-right">
-    <header class="fc-toolbar">
-      <div class="fc-toolbar__left">
-        <button mat-icon-button (click)="shuffle()" aria-label="Embaralhar">
-          <mat-icon>shuffle</mat-icon>
-        </button>
+    <!-- DIREITA: FLASHCARDS -->
+    <section class="fc-right">
+        <header class="fc-toolbar">
+            <div class="fc-toolbar__left">
+                <button mat-icon-button (click)="shuffle()" aria-label="Embaralhar">
+                    <mat-icon>shuffle</mat-icon>
+                </button>
 
+                @if (mode == 'view') {
+                <button mat-raised-button color="primary" (click)="openAll()">Abrir todos</button>
+                <button mat-raised-button (click)="closeAll()">Fechar todos</button>
+                } @else {
+                <div class="fc-nav">
+                    <button mat-icon-button [style]="'visibility: ' + (fcIndex > 0 ? 'visible' : 'hidden')"
+                        (click)="prev()" aria-label="Anterior">
+                        <mat-icon>arrow_back_ios_new</mat-icon>
+                    </button>
+
+                    <span class="fc-counter">{{fcIndex + 1}} / {{flashCards.length}}</span>
+
+                    <button mat-icon-button
+                        [style]="'visibility: ' + (fcIndex < flashCards.length - 1 ? 'visible' : 'hidden')"
+                        (click)="next()" aria-label="Próximo">
+                        <mat-icon>arrow_forward_ios_new</mat-icon>
+                    </button>
+                </div>
+                }
+            </div>
+        </header>
+
+        <!-- VIEW: grid de cards (perguntas/respostas) -->
         @if (mode == 'view') {
-          <button mat-raised-button color="primary" (click)="openAll()">Abrir todos</button>
-          <button mat-raised-button (click)="closeAll()">Fechar todos</button>
-        } @else {
-          <div class="fc-nav">
-            <button mat-icon-button
-                    [style]="'visibility: ' + (fcIndex > 0 ? 'visible' : 'hidden')"
-                    (click)="prev()" aria-label="Anterior">
-              <mat-icon>arrow_back_ios_new</mat-icon>
-            </button>
-
-            <span class="fc-counter">{{fcIndex + 1}} / {{flashCards.length}}</span>
-
-            <button mat-icon-button
-                    [style]="'visibility: ' + (fcIndex < flashCards.length - 1 ? 'visible' : 'hidden')"
-                    (click)="next()" aria-label="Próximo">
-              <mat-icon>arrow_forward_ios_new</mat-icon>
-            </button>
-          </div>
-        }
-      </div>
-    </header>
-
-    <!-- VIEW: grid de cards (perguntas/respostas) -->
-    @if (mode == 'view') {
-      <div class="fc-grid">
-        @for (flashCard of flashCards; track $index; let i = $index) {
-          <mat-card class="note-card" [class.opened]="fcContext[i].opened">
-            <div class="note-card__head">
-              <span class="note-card__title">Pergunta</span>
-              <mat-icon class="note-card__edit" aria-hidden="true">edit</mat-icon>
-            </div>
-
-            <div class="note-card__body" (click)="this.fcContext[i].opened = !this.fcContext[i].opened">
-              <p class="note-card__question">{{ flashCard.front }}</p>
-
-              @if (fcContext[i].opened) {
-                <div class="note-card__answer">
-                  <span class="note-card__badge">Resposta</span>
-                  <p class="note-card__text">{{ flashCard.back }}</p>
+        <div class="fc-grid">
+            @for (flashCard of flashCards; track $index; let i = $index) {
+            <mat-card class="note-card" [class.opened]="fcContext[i].opened">
+                <div class="note-card__head">
+                    <span class="note-card__title">Pergunta</span>
+                    <mat-icon class="note-card__edit" aria-hidden="true">edit</mat-icon>
                 </div>
-              }
-            </div>
 
-            <div class="note-card__actions">
-              <button mat-stroked-button (click)="this.fcContext[i].opened = !this.fcContext[i].opened">
-                {{ fcContext[i].opened ? 'Fechar' : 'Abrir' }}
-              </button>
-            </div>
-          </mat-card>
-        }
-      </div>
-    }
+                <div class="note-card__body" (click)="this.fcContext[i].opened = !this.fcContext[i].opened">
+                    <p class="note-card__question">{{ flashCard.front }}</p>
 
-    <!-- STUDY: card único -->
-    @if (mode == 'study') {
-      <div class="fc-single">
-        @if (flashCard) {
-          <mat-card class="note-card note-card--single" [class.opened]="fcContext[fcIndex].opened">
-            <div class="note-card__head">
-              <span class="note-card__title">Pergunta</span>
-              <mat-icon class="note-card__edit" aria-hidden="true">edit</mat-icon>
-            </div>
-
-            <div class="note-card__body" (click)="this.fcContext[fcIndex].opened = !this.fcContext[fcIndex].opened">
-              <p class="note-card__question">{{ flashCard.front }}</p>
-
-              @if (fcContext[fcIndex].opened) {
-                <div class="note-card__answer">
-                  <span class="note-card__badge">Resposta</span>
-                  <p class="note-card__text">{{ flashCard.back }}</p>
+                    @if (fcContext[i].opened) {
+                    <div class="note-card__answer">
+                        <span class="note-card__badge">Resposta</span>
+                        <p class="note-card__text">{{ flashCard.back }}</p>
+                    </div>
+                    }
                 </div>
-              }
-            </div>
 
-            <div class="note-card__actions">
-              <button mat-stroked-button (click)="this.fcContext[fcIndex].opened = !this.fcContext[fcIndex].opened">
-                {{ fcContext[fcIndex].opened ? 'Fechar' : 'Abrir' }}
-              </button>
-            </div>
-          </mat-card>
+                <div class="note-card__actions">
+                    <button mat-stroked-button (click)="this.fcContext[i].opened = !this.fcContext[i].opened">
+                        {{ fcContext[i].opened ? 'Fechar' : 'Abrir' }}
+                    </button>
+                </div>
+            </mat-card>
+            }
+        </div>
         }
-      </div>
-    }
-  </section>
+
+        <!-- STUDY: card único -->
+        @if (mode == 'study') {
+        <div class="fc-single">
+            @if (flashCard) {
+            <mat-card class="note-card note-card--single" [class.opened]="fcContext[fcIndex].opened">
+                <div class="note-card__head">
+                    <span class="note-card__title">Pergunta</span>
+                    <mat-icon class="note-card__edit" aria-hidden="true">edit</mat-icon>
+                </div>
+
+                <div class="note-card__body" (click)="this.fcContext[fcIndex].opened = !this.fcContext[fcIndex].opened">
+                    <p class="note-card__question">{{ flashCard.front }}</p>
+
+                    @if (fcContext[fcIndex].opened) {
+                    <div class="note-card__answer">
+                        <span class="note-card__badge">Resposta</span>
+                        <p class="note-card__text">{{ flashCard.back }}</p>
+                    </div>
+                    }
+                </div>
+
+                <div class="note-card__actions">
+                    <button mat-stroked-button
+                        (click)="this.fcContext[fcIndex].opened = !this.fcContext[fcIndex].opened">
+                        {{ fcContext[fcIndex].opened ? 'Fechar' : 'Abrir' }}
+                    </button>
+                </div>
+            </mat-card>
+            }
+        </div>
+        }
+    </section>
 
 </div>

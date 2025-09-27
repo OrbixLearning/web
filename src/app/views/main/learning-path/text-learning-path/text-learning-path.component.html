@@ -1,29 +1,28 @@
 <o-loading [isLoading]="isLoading" />
 
 <div class="lp">
-  <!-- ESQUERDA: TEXTO -->
-  <section class="left">
-    <div class="sheet">
-      <markdown class="content">
-        {{ text }}
-      </markdown>
+    <!-- ESQUERDA: TEXTO -->
+    <section class="left">
+        <div class="sheet">
+            <markdown class="content">
+                {{ text }}
+            </markdown>
 
-      <div class="actions">
-        <button mat-raised-button color="primary" (click)="downloadPdf()">
-          Baixar PDF
-          <mat-icon class="end-icon">download</mat-icon>
-        </button>
-      </div>
-    </div>
-  </section>
+            <div class="actions">
+                <button mat-raised-button color="primary" (click)="downloadPdf()">
+                    Baixar PDF
+                    <mat-icon class="end-icon">download</mat-icon>
+                </button>
+            </div>
+        </div>
+    </section>
 
-  <!-- DIREITA: CHAT (troque o seletor se o seu chat tiver outro nome) -->
-  <aside class="right">
-    <div class="right__sticky">
-      <o-chat
-      [learningPaths]="learningPathStudy?.learningPath ? [$any(learningPathStudy.learningPath)] : []"
-      [showLearningPaths]="!!learningPathStudy?.learningPath">
-    </o-chat>
-    </div>
-  </aside>
+    <!-- DIREITA: CHAT (troque o seletor se o seu chat tiver outro nome) -->
+    <aside class="right">
+        <div class="right__sticky">
+            <o-chat [learningPaths]="learningPathStudy.learningPath ? [$any(learningPathStudy.learningPath)] : []"
+                [showLearningPaths]="!!learningPathStudy.learningPath">
+            </o-chat>
+        </div>
+    </aside>
 </div>

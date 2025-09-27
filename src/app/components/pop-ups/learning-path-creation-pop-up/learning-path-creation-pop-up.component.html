@@ -1,205 +1,179 @@
 <o-pop-up-header title="Criar rota de aprendizagem" />
 
-<o-loading
-  [isLoading]="isLoading"
-  [style.pointer-events]="isLoading ? 'auto' : 'none'"
-  [style.z-index]="isLoading ? 1200 : 0"
-  />
+<o-loading [isLoading]="isLoading" [style.pointer-events]="isLoading ? 'auto' : 'none'"
+    [style.z-index]="isLoading ? 1200 : 0" />
 
-  <div class="page">
+<div class="page">
 
     <!-- CARD 0 — Seleção de Syllabus -->
     <section class="card">
-      <h2 class="card-title">Ementa (Syllabus)</h2>
-      <form class="form-grid" [formGroup]="forms.at(0)" novalidate>
-        <o-syllabus
-          [syllabus]="ctx.classroom?.syllabus"
-          mode="select"
-          [presets]="ctx.classroom?.presets"
-          (syllabusMarked)="markSyllabus($event)"
-        ></o-syllabus>
+        <h2 class="card-title">Ementa (Syllabus)</h2>
+        <form class="form-grid" [formGroup]="forms.at(0)" novalidate>
+            <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="select" [presets]="ctx.classroom?.presets"
+                (syllabusMarked)="markSyllabus($event)"></o-syllabus>
 
-        <small class="hint">
-          Selecionados: {{ (getFormControl(0,'syllabus')?.value?.length || 0) }}
-        </small>
-        @if (getFormControl(0,'syllabus')?.invalid) {
-          <div class="error">
-            Selecione ao menos um módulo.
-          </div>
-        }
-      </form>
+            <small class="hint">
+                Selecionados: {{ (getFormControl(0,'syllabus').value?.length || 0) }}
+            </small>
+            @if (getFormControl(0,'syllabus').invalid) {
+            <div class="error">
+                Selecione ao menos um módulo.
+            </div>
+            }
+        </form>
     </section>
 
     <!-- CARD 1 — Informações Básicas -->
     <section class="card">
-      <h2 class="card-title">Informações Básicas</h2>
+        <h2 class="card-title">Informações Básicas</h2>
 
-      <form class="form-grid" [formGroup]="forms.at(1)" novalidate>
-        <div class="row">
-          <div class="field col-7">
-            <label class="label">Nome da Rota<span class="req">*</span></label>
-            <input
-              class="input"
-              type="text"
-              placeholder="Ex: Introdução às Derivas"
-              formControlName="name"
-              />
-              @if (forms.at(1).get('name')?.touched && forms.at(1).get('name')?.invalid) {
-                <div class="error">
-                  Campo obrigatório.
+        <form class="form-grid" [formGroup]="forms.at(1)" novalidate>
+            <div class="row">
+                <div class="field col-7">
+                    <label class="label">Nome da Rota<span class="req">*</span></label>
+                    <input class="input" type="text" placeholder="Ex: Introdução às Derivas" formControlName="name" />
+                    @if (forms.at(1).get('name')?.touched && forms.at(1).get('name')?.invalid) {
+                    <div class="error">
+                        Campo obrigatório.
+                    </div>
+                    }
                 </div>
-              }
+
+                <!-- Tipo de Conteúdo (agora ligado ao form control) -->
+                <mat-form-field appearance="outline" class="lp-select col-5">
+                    <mat-label>Tipo de Conteúdo</mat-label>
+                    <mat-select formControlName="type" (selectionChange)="selectType($event.value)" required>
+                        <mat-option [value]="learningPathTypeEnum.TEXT">Conteúdo do Texto</mat-option>
+                        <mat-option [value]="learningPathTypeEnum.VIDEO">Vídeo</mat-option>
+                        <mat-option [value]="learningPathTypeEnum.AUDIO">Áudio</mat-option>
+                        <mat-option [value]="learningPathTypeEnum.FLASHCARD">Flashcards</mat-option>
+                        <mat-option [value]="learningPathTypeEnum.QUESTION">Questões</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
 
-            <!-- Tipo de Conteúdo (agora ligado ao form control) -->
-            <mat-form-field appearance="outline" class="lp-select col-5">
-              <mat-label>Tipo de Conteúdo</mat-label>
-              <mat-select
-                formControlName="type"
-                (selectionChange)="selectType($event.value)"
-                required
-                >
-                <mat-option [value]="learningPathTypeEnum.TEXT">Conteúdo do Texto</mat-option>
-                <mat-option [value]="learningPathTypeEnum.VIDEO">Vídeo</mat-option>
-                <mat-option [value]="learningPathTypeEnum.AUDIO">Áudio</mat-option>
-                <mat-option [value]="learningPathTypeEnum.FLASHCARD">Flashcards</mat-option>
-                <mat-option [value]="learningPathTypeEnum.QUESTION">Questões</mat-option>
-              </mat-select>
+            <!-- Descrição -->
+            <mat-form-field appearance="outline" class="lp-textarea">
+                <mat-label>Descrição</mat-label>
+                <textarea matInput cdkTextareaAutosize [cdkAutosizeMinRows]="3" [cdkAutosizeMaxRows]="3"
+                    placeholder="Descreva o que os alunos irão aprender nesta rota..."></textarea>
             </mat-form-field>
-          </div>
-
-          <!-- Descrição -->
-          <mat-form-field appearance="outline" class="lp-textarea">
-            <mat-label>Descrição</mat-label>
-            <textarea
-              matInput
-              cdkTextareaAutosize
-              [cdkAutosizeMinRows]="3"
-              [cdkAutosizeMaxRows]="3"
-              placeholder="Descreva o que os alunos irão aprender nesta rota..."
-            ></textarea>
-          </mat-form-field>
         </form>
-      </section>
+    </section>
 
-      <!-- CARD 2 — Opções do Conteúdo (só mostra quando o grupo 2 existir) -->
-      @if (forms.length > 2) {
-        <section class="card">
-          <h2 class="card-title">Opções do Conteúdo</h2>
-          <form class="form-grid" [formGroup]="forms.at(2)" novalidate>
+    <!-- CARD 2 — Opções do Conteúdo (só mostra quando o grupo 2 existir) -->
+    @if (forms.length > 2) {
+    <section class="card">
+        <h2 class="card-title">Opções do Conteúdo</h2>
+        <form class="form-grid" [formGroup]="forms.at(2)" novalidate>
             <!-- TEXT -->
             @if (getFormControl(1,'type').value === learningPathTypeEnum.TEXT) {
-              <mat-form-field appearance="outline" class="lp-select col-12">
+            <mat-form-field appearance="outline" class="lp-select col-12">
                 <mat-label>Número de Parágrafos</mat-label>
                 <input type="number" matInput formControlName="numberOfParagraphs" />
-              </mat-form-field>
-              <mat-slide-toggle formControlName="useTopics">Texto em tópicos</mat-slide-toggle>
-              <mat-form-field appearance="outline" class="lp-select col-12">
+            </mat-form-field>
+            <mat-slide-toggle formControlName="useTopics">Texto em tópicos</mat-slide-toggle>
+            <mat-form-field appearance="outline" class="lp-select col-12">
                 <mat-label>Formalidade</mat-label>
                 <mat-select formControlName="formality">
-                  <mat-option value="formal">Formal</mat-option>
-                  <mat-option value="medium">Média</mat-option>
-                  <mat-option value="informal">Informal</mat-option>
+                    <mat-option value="formal">Formal</mat-option>
+                    <mat-option value="medium">Média</mat-option>
+                    <mat-option value="informal">Informal</mat-option>
                 </mat-select>
-              </mat-form-field>
+            </mat-form-field>
             }
             <!-- AUDIO -->
             @if (getFormControl(1,'type').value === learningPathTypeEnum.AUDIO) {
-              <mat-form-field appearance="outline" class="lp-select col-12">
+            <mat-form-field appearance="outline" class="lp-select col-12">
                 <mat-label>Duração (segundos)</mat-label>
                 <input type="number" matInput formControlName="durationInSeconds" />
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="lp-select col-12">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="lp-select col-12">
                 <mat-label>Formalidade</mat-label>
                 <mat-select formControlName="formality">
-                  <mat-option value="formal">Formal</mat-option>
-                  <mat-option value="medium">Média</mat-option>
-                  <mat-option value="informal">Informal</mat-option>
+                    <mat-option value="formal">Formal</mat-option>
+                    <mat-option value="medium">Média</mat-option>
+                    <mat-option value="informal">Informal</mat-option>
                 </mat-select>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="lp-select col-12">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="lp-select col-12">
                 <mat-label>Voz</mat-label>
                 <mat-select formControlName="voice">
-                  <mat-option [value]="audioVoiceEnum.ALLOY">Alloy</mat-option>
-                  <mat-option [value]="audioVoiceEnum.ECHO">Echo</mat-option>
-                  <mat-option [value]="audioVoiceEnum.FABLE">Fable</mat-option>
-                  <mat-option [value]="audioVoiceEnum.ONYX">Onyx</mat-option>
-                  <mat-option [value]="audioVoiceEnum.NOVA">Nova</mat-option>
-                  <mat-option [value]="audioVoiceEnum.SHIMMER">Shimmer</mat-option>
-                  <mat-option [value]="audioVoiceEnum.SAGE">Sage</mat-option>
-                  <mat-option [value]="audioVoiceEnum.CORAL">Coral</mat-option>
-                  <mat-option [value]="audioVoiceEnum.ASH">Ash</mat-option>
+                    <mat-option [value]="audioVoiceEnum.ALLOY">Alloy</mat-option>
+                    <mat-option [value]="audioVoiceEnum.ECHO">Echo</mat-option>
+                    <mat-option [value]="audioVoiceEnum.FABLE">Fable</mat-option>
+                    <mat-option [value]="audioVoiceEnum.ONYX">Onyx</mat-option>
+                    <mat-option [value]="audioVoiceEnum.NOVA">Nova</mat-option>
+                    <mat-option [value]="audioVoiceEnum.SHIMMER">Shimmer</mat-option>
+                    <mat-option [value]="audioVoiceEnum.SAGE">Sage</mat-option>
+                    <mat-option [value]="audioVoiceEnum.CORAL">Coral</mat-option>
+                    <mat-option [value]="audioVoiceEnum.ASH">Ash</mat-option>
                 </mat-select>
-              </mat-form-field>
+            </mat-form-field>
             }
             <!-- VIDEO -->
             @if (getFormControl(1,'type').value === learningPathTypeEnum.VIDEO) {
-              <mat-form-field appearance="outline" class="lp-select col-12">
+            <mat-form-field appearance="outline" class="lp-select col-12">
                 <mat-label>Número de Vídeos</mat-label>
                 <input type="number" matInput formControlName="numberOfVideos" />
-              </mat-form-field>
+            </mat-form-field>
             }
             <!-- FLASHCARD -->
             @if (getFormControl(1,'type').value === learningPathTypeEnum.FLASHCARD) {
-              <mat-form-field appearance="outline" class="lp-select col-12">
+            <mat-form-field appearance="outline" class="lp-select col-12">
                 <mat-label>Número de Flashcards</mat-label>
                 <input type="number" matInput formControlName="numberOfCards" />
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="lp-select col-12">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="lp-select col-12">
                 <mat-label>Nível</mat-label>
                 <mat-select formControlName="level">
-                  <mat-option [value]="0">Iniciante</mat-option>
-                  <mat-option [value]="1">Intermediário</mat-option>
-                  <mat-option [value]="2">Avançado</mat-option>
-                  <mat-option [value]="3">Especialista</mat-option>
+                    <mat-option [value]="0">Iniciante</mat-option>
+                    <mat-option [value]="1">Intermediário</mat-option>
+                    <mat-option [value]="2">Avançado</mat-option>
+                    <mat-option [value]="3">Especialista</mat-option>
                 </mat-select>
-              </mat-form-field>
+            </mat-form-field>
             }
             <!-- QUESTION -->
             @if (getFormControl(1,'type').value === learningPathTypeEnum.QUESTION) {
-              <mat-form-field appearance="outline" class="lp-select col-12">
+            <mat-form-field appearance="outline" class="lp-select col-12">
                 <mat-label>Número de Questões</mat-label>
                 <input type="number" matInput formControlName="numberOfQuestions" />
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="lp-select col-12">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="lp-select col-12">
                 <mat-label>Nível</mat-label>
                 <mat-select formControlName="level">
-                  <mat-option [value]="0">Iniciante</mat-option>
-                  <mat-option [value]="1">Intermediário</mat-option>
-                  <mat-option [value]="2">Avançado</mat-option>
-                  <mat-option [value]="3">Especialista</mat-option>
+                    <mat-option [value]="0">Iniciante</mat-option>
+                    <mat-option [value]="1">Intermediário</mat-option>
+                    <mat-option [value]="2">Avançado</mat-option>
+                    <mat-option [value]="3">Especialista</mat-option>
                 </mat-select>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="lp-select col-12">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="lp-select col-12">
                 <mat-label>Tipos de Questões</mat-label>
                 <mat-select formControlName="questionTypes" multiple>
-                  <mat-option [value]="questionTypeEnum.MULTIPLE_CHOICE">Múltipla Escolha</mat-option>
-                  <mat-option [value]="questionTypeEnum.MULTIPLE_SELECTION">Múltipla Seleção</mat-option>
-                  <mat-option [value]="questionTypeEnum.TRUE_FALSE">Verdadeiro ou Falso</mat-option>
-                  <mat-option [value]="questionTypeEnum.OPEN_ENDED">Aberta</mat-option>
+                    <mat-option [value]="questionTypeEnum.MULTIPLE_CHOICE">Múltipla Escolha</mat-option>
+                    <mat-option [value]="questionTypeEnum.MULTIPLE_SELECTION">Múltipla Seleção</mat-option>
+                    <mat-option [value]="questionTypeEnum.TRUE_FALSE">Verdadeiro ou Falso</mat-option>
+                    <mat-option [value]="questionTypeEnum.OPEN_ENDED">Aberta</mat-option>
                 </mat-select>
-              </mat-form-field>
+            </mat-form-field>
             }
-          </form>
-        </section>
-      }
+        </form>
+    </section>
+    }
 
-      <!-- CARD 3 — Botões -->
-      <section class="card">
+    <!-- CARD 3 — Botões -->
+    <section class="card">
         <div class="actions sticky-actions">
-          <button
-            mat-flat-button
-            color="primary"
-            class="btn-primary"
-            (click)="createLearningPath()"
-            [disabled]="isLoading || forms.invalid"
-            >
-            Salvar Item
-          </button>
-          <button mat-stroked-button class="btn-secondary" mat-dialog-close [disabled]="isLoading">
-            Cancelar
-          </button>
+            <button mat-flat-button color="primary" class="btn-primary" (click)="createLearningPath()"
+                [disabled]="isLoading || forms.invalid">
+                Salvar Item
+            </button>
+            <button mat-stroked-button class="btn-secondary" mat-dialog-close [disabled]="isLoading">
+                Cancelar
+            </button>
         </div>
-      </section>
+    </section>
 
-    </div>
+</div>
