@@ -1,94 +1,159 @@
 .institution-settings {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: flex-start;
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+	gap: 40px;
 	width: 100%;
-	gap: 50px;
+}
 
-	.form-div {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
-		width: 50%;
-		gap: 40px;
+/* Left form */
+.form-div {
+	display: grid;
+	grid-auto-rows: max-content;
+	gap: 24px;
 
-		.title {
-			font-size: 24px;
-			font-weight: bold;
+	.title {
+		font-size: 22px;
+		font-weight: 700;
+		margin-bottom: 4px;
+		color: var(--text-color);
+	}
+
+	mat-form-field {
+		width: 80%;
+	}
+
+	/* Logo area */
+	.logo-div {
+		display: grid;
+		gap: 10px;
+
+		p {
+			font-size: 18px;
+			font-weight: 600;
 		}
 
-		mat-form-field {
-			width: 80%;
-		}
-
-		.logo-div {
+		.logo-subdiv {
 			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: flex-start;
-			gap: 10px;
-
-			p {
-				font-size: 20px;
-				font-weight: bold;
-			}
-
-			.logo-subdiv {
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-start;
-				align-items: center;
-				gap: 20px;
-
-				img {
-					max-height: 150px;
-					max-width: 150px;
-					border-radius: 10px;
-					border: 1px solid #ccc;
-				}
-			}
-		}
-
-		.color-div {
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-start;
 			align-items: center;
-			gap: 30px;
-
-			mat-form-field {
-				width: 250px;
-			}
-
-			p-colorpicker {
-				border: 1px solid #aaa;
-				border-radius: var(--p-form-field-border-radius);
-				--p-colorpicker-preview-width: 50px;
-				--p-colorpicker-preview-height: 50px;
-			}
+			gap: 16px;
 		}
 
-		.save-button {
-			background-color: var(--primary-color);
-			color: var(--text-color);
-			width: 150px;
+		/* fixed visual frame for arbitrary logos */
+		.logo-frame {
+			width: 220px;
+			aspect-ratio: 3 / 1; /* wide logo */
+			border-radius: 10px;
+			border: 1px solid var(--border-color, #3a3a3a);
+			background: var(--primary-color);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 8px;
 
-			&:disabled {
-				opacity: 0.3;
-				cursor: not-allowed;
+			img {
+				max-width: 100%;
+				max-height: 100%;
+				object-fit: contain; /* keep ratio */
+			}
+
+			&.preview {
+				outline: 2px dashed color-mix(in oklab, var(--primary-color) 45%, transparent);
+				outline-offset: 2px;
 			}
 		}
 	}
 
-	.right-div {
-		.buttons-div {
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-start;
-			align-items: center;
-			gap: 30px;
+	/* Color fields with picker on the right */
+	.color-div {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+
+		mat-form-field {
+			width: 240px;
+		}
+
+		p-colorpicker {
+			--p-colorpicker-preview-width: 40px;
+			--p-colorpicker-preview-height: 40px;
+			border: 1px solid var(--border-color, #3a3a3a);
+			border-radius: 8px;
+		}
+	}
+
+	.actions {
+		display: flex;
+		gap: 12px;
+	}
+
+	.save-button {
+		background: var(--primary-color);
+		color: var(--on-primary, #fff);
+		min-width: 140px;
+
+		&:disabled {
+			opacity: 0.35;
+			cursor: not-allowed;
+		}
+	}
+}
+
+/* Right column */
+.right-div {
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+	padding: 16px 20px;
+	background: var(--surface, color-mix(in oklab, var(--background-color) 90%, white));
+	border-radius: 12px;
+	border: 1px solid var(--border-color, #3a3a3a);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+	max-width: 420px;
+
+	.buttons-div {
+		display: flex;
+		gap: 16px;
+
+		button {
+			flex: 1;
+			font-weight: 500;
+		}
+	}
+
+	h3 {
+		margin: 0;
+		font-size: 1.1rem;
+		font-weight: 600;
+		color: var(--text-color);
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 8px 0 0 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+
+		li {
+			background: color-mix(in oklab, var(--primary-color) 15%, transparent);
+			border: 1px solid color-mix(in oklab, var(--primary-color) 30%, var(--border-color));
+			border-radius: 6px;
+			padding: 4px 10px;
+			font-size: 0.9rem;
+			color: var(--text-color);
+		}
+	}
+
+	p {
+		margin: 0;
+		font-size: 0.95rem;
+		line-height: 1.4;
+		color: var(--sidebar-text-muted);
+
+		a {
+			color: var(--primary-color);
+			text-decoration: underline;
 		}
 	}
 }

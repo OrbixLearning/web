@@ -10,4 +10,10 @@
 	--p-list-option-focus-background: color-mix(in oklch, var(--background-color), black 40%);
 	--p-form-field-color: var(--text-color) !important;
 	--p-list-option-focus-color: var(--text-color) !important;
+	--p-content-background: color-mix(in oklch, var(--background-color), black 10%);
+	--p-datatable-header-cell-background: var(--background-color) !important;
+	--p-text-muted-color: var(--text-color) !important;
+	--p-primary-hover-color: color-mix(in oklch, var(--primary-color), white 20%);
+	--p-form-field-background: var(--background-color) !important;
+	--p-form-field-color: var(--text-color) !important;
 }
