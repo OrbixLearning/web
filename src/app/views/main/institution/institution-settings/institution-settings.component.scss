@@ -64,20 +64,26 @@
 	}
 
 	/* Color fields with picker on the right */
-	.color-div {
+	.color-row-div {
 		display: flex;
-		align-items: center;
-		gap: 16px;
+		flex-direction: row;
+		gap: 72px;
 
-		mat-form-field {
-			width: 240px;
-		}
+		.color-div {
+			display: flex;
+			align-items: center;
+			gap: 16px;
 
-		p-colorpicker {
-			--p-colorpicker-preview-width: 40px;
-			--p-colorpicker-preview-height: 40px;
-			border: 1px solid var(--border-color, #3a3a3a);
-			border-radius: 8px;
+			mat-form-field {
+				width: 240px;
+			}
+
+			p-colorpicker {
+				--p-colorpicker-preview-width: 40px;
+				--p-colorpicker-preview-height: 40px;
+				border: 1px solid var(--border-color, #3a3a3a);
+				border-radius: 8px;
+			}
 		}
 	}
 

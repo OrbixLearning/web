@@ -32,41 +32,46 @@
             </div>
         </div>
 
-        <div class="color-div">
-            <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                <mat-label>Cor primária</mat-label>
-                <input matInput name="primaryColor" formControlName="primaryColor"
-                    [(ngModel)]="this.getFormControl('primaryColor').value" required />
-            </mat-form-field>
-            <p-colorpicker [(ngModel)]="this.getFormControl('primaryColor').value" formControlName="primaryColor" />
+        <div class="color-row-div">
+            <div class="color-div">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline">
+                    <mat-label>Cor primária</mat-label>
+                    <input matInput name="primaryColor" formControlName="primaryColor"
+                        [(ngModel)]="this.getFormControl('primaryColor').value" required />
+                </mat-form-field>
+                <p-colorpicker [(ngModel)]="this.getFormControl('primaryColor').value" formControlName="primaryColor" />
+            </div>
+
+            <div class="color-div">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline">
+                    <mat-label>Cor secundária</mat-label>
+                    <input matInput name="secondaryColor" formControlName="secondaryColor"
+                        [(ngModel)]="this.getFormControl('secondaryColor').value" required />
+                </mat-form-field>
+                <p-colorpicker [(ngModel)]="this.getFormControl('secondaryColor').value"
+                    formControlName="secondaryColor" />
+            </div>
         </div>
 
-        <div class="color-div">
-            <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                <mat-label>Cor secundária</mat-label>
-                <input matInput name="secondaryColor" formControlName="secondaryColor"
-                    [(ngModel)]="this.getFormControl('secondaryColor').value" required />
-            </mat-form-field>
-            <p-colorpicker [(ngModel)]="this.getFormControl('secondaryColor').value" formControlName="secondaryColor" />
-        </div>
+        <div class="color-row-div">
+            <div class="color-div">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline">
+                    <mat-label>Cor de fundo</mat-label>
+                    <input matInput name="backgroundColor" formControlName="backgroundColor"
+                        [(ngModel)]="this.getFormControl('backgroundColor').value" required />
+                </mat-form-field>
+                <p-colorpicker [(ngModel)]="this.getFormControl('backgroundColor').value"
+                    formControlName="backgroundColor" />
+            </div>
 
-        <div class="color-div">
-            <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                <mat-label>Cor de fundo</mat-label>
-                <input matInput name="backgroundColor" formControlName="backgroundColor"
-                    [(ngModel)]="this.getFormControl('backgroundColor').value" required />
-            </mat-form-field>
-            <p-colorpicker [(ngModel)]="this.getFormControl('backgroundColor').value"
-                formControlName="backgroundColor" />
-        </div>
-
-        <div class="color-div">
-            <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                <mat-label>Cor do texto</mat-label>
-                <input matInput name="textColor" formControlName="textColor"
-                    [(ngModel)]="this.getFormControl('textColor').value" required />
-            </mat-form-field>
-            <p-colorpicker [(ngModel)]="this.getFormControl('textColor').value" formControlName="textColor" />
+            <div class="color-div">
+                <mat-form-field subscriptSizing="dynamic" appearance="outline">
+                    <mat-label>Cor do texto</mat-label>
+                    <input matInput name="textColor" formControlName="textColor"
+                        [(ngModel)]="this.getFormControl('textColor').value" required />
+                </mat-form-field>
+                <p-colorpicker [(ngModel)]="this.getFormControl('textColor').value" formControlName="textColor" />
+            </div>
         </div>
 
         <mat-form-field subscriptSizing="dynamic" appearance="outline">
