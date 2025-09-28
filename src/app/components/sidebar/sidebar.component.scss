@@ -1,14 +1,40 @@
 :host {
 	display: flex;
 	height: calc(100vh - var(--header-height, 60px));
-	border-right: 1px solid #ddd;
+	background-color: var(--background-color);
+}
+
+// TODO: Verify how to implement this the correct way
+:root[data-theme='dark'] {
+	--sidebar-bg: color-mix(in oklab, var(--background-color) 85%, white);
+	--sidebar-border: color-mix(in oklab, var(--background-color) 75%, white);
+	--sidebar-hover: color-mix(in oklab, var(--primary-color) 18%, var(--sidebar-bg));
+	--sidebar-selected: color-mix(in oklab, var(--secondary-color) 30%, var(--sidebar-bg));
+	--sidebar-text-muted: color-mix(in oklab, var(--text-color) 70%, var(--background-color));
+}
+:root[data-theme='light'] {
+	--sidebar-bg: color-mix(in oklab, var(--background-color) 92%, black);
+	--sidebar-border: color-mix(in oklab, var(--background-color) 82%, black);
+	--sidebar-hover: color-mix(in oklab, var(--primary-color) 12%, var(--sidebar-bg));
+	--sidebar-selected: color-mix(in oklab, var(--secondary-color) 20%, var(--sidebar-bg));
+	--sidebar-text-muted: color-mix(in oklab, var(--text-color) 70%, black);
 }
 
 .sidebar {
 	display: flex;
 	flex-direction: column;
-	height: 100%;
-	justify-content: flex-start;
-	align-items: center;
 	width: 100%;
+	height: 100%;
+	background: var(--sidebar-bg);
+	border-right: 1px solid var(--sidebar-border);
+	overflow: hidden;
+
+	.sidebar-content {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding: 4px;
+		overflow-y: auto;
+		scrollbar-width: thin;
+	}
 }
