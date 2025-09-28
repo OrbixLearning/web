@@ -1,6 +1,7 @@
 .classroom-card {
 	cursor: pointer;
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	background-color: var(--background-color);
 
 	&:hover {
 		transform: translateY(-4px);
@@ -52,7 +53,7 @@
 
 			mat-icon {
 				font-size: 18px;
-				color: var(--primary-color);
+				color: var(--secondary-color);
 			}
 		}
 	}
