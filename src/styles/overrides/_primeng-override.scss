@@ -1,11 +1,13 @@
-@use './../themes/theme-base';
+// Activates if any data-theme attribute is present on the root element
+:root[data-theme] {
+	--p-primary-color: var(--primary-color) !important;
+	--p-primary-color-text: var(--text-color) !important;
+	--p-text-color: var(--text-color) !important;
+	--p-focus-ring: 0 0 0 0.2rem rgba(0, 115, 247, 0.3) !important;
 
-@layer theme {
-	:root {
-		--p-primary-color: var(--primary-color);
-		--p-primary-color-text: var(--text-color);
-		--p-surface-0: var(--background-color);
-		--p-text-color: var(--text-color);
-		--p-focus-ring: 0 0 0 0.2rem rgba(0, 115, 247, 0.3);
-	}
+	--p-select-background: var(--background-color) !important;
+	--p-select-overlay-background: var(--background-color) !important;
+	--p-list-option-focus-background: color-mix(in oklch, var(--background-color), black 40%);
+	--p-form-field-color: var(--text-color) !important;
+	--p-list-option-focus-color: var(--text-color) !important;
 }

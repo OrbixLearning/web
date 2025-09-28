@@ -3,11 +3,15 @@
 	flex-direction: column;
 	height: 100vh;
 	overflow: hidden;
+	background-color: var(--background-color);
+	color: var(--text-color);
 
 	.layout-wrapper {
 		display: flex;
 		flex: 1;
 		overflow: hidden;
+		background-color: var(--background-color);
+		color: var(--text-color);
 
 		.layout-drawer {
 			display: flex;

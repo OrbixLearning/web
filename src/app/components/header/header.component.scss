@@ -17,24 +17,18 @@ header {
 	width: 100%;
 
 	mat-icon {
-		color: var(--text-color);
+		color: var(--secondary-color);
 		font-size: 24px;
 		cursor: pointer;
 	}
 
-	mat-form-field {
-		background-color: var(--primary-color);
-		color: var(--text-color);
-	}
-
-	mat-select {
-		color: var(--text-color);
-	}
-
 	.selector {
 		background-color: var(--primary-color);
-		color: var(--text-color);
 		width: 300px;
+		border: 1px solid var(--secondary-color);
+		span {
+			color: var(--text-color) !important;
+		}
 	}
 }
 
