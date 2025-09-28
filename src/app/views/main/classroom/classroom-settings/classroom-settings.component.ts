@@ -34,21 +34,25 @@ import { ContextService } from '../../../../services/context.service';
 import { SyllabusService } from '../../../../services/syllabus.service';
 import { TreeUtils } from '../../../../utils/Tree.utils';
 import { EditSyllabusTopicPopUpComponent } from '../../../../components/pop-ups/edit-syllabus-topic-pop-up/edit-syllabus-topic-pop-up.component';
+import { TextButtonComponent } from "../../../../components/buttons/text-button/text-button.component";
+import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
 
 @Component({
 	selector: 'o-classroom-settings',
 	imports: [
-		ReactiveFormsModule,
-		MatFormFieldModule,
-		MatInputModule,
-		MatButtonModule,
-		LoadingComponent,
-		SyllabusComponent,
-		MatIconModule,
-		RouterModule,
-		DividerModule,
-		FileUploadModule,
-	],
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    LoadingComponent,
+    SyllabusComponent,
+    MatIconModule,
+    RouterModule,
+    DividerModule,
+    FileUploadModule,
+    TextButtonComponent,
+    HighlightButtonComponent
+],
 	templateUrl: './classroom-settings.component.html',
 	styleUrl: './classroom-settings.component.scss',
 })

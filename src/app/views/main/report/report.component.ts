@@ -12,19 +12,21 @@ import { Report } from '../../../models/Report';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { MatCardModule } from '@angular/material/card';
 import { DateUtils } from '../../../utils/Date.util';
+import { HighlightButtonComponent } from "../../../components/buttons/highlight-button/highlight-button.component";
 
 @Component({
 	selector: 'o-report',
 	imports: [
-		ReactiveFormsModule,
-		MatFormFieldModule,
-		MatInputModule,
-		MatSelectModule,
-		MatButtonModule,
-		MatIconModule,
-		LoadingComponent,
-		MatCardModule,
-	],
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    LoadingComponent,
+    MatCardModule,
+    HighlightButtonComponent
+],
 	templateUrl: './report.component.html',
 	styleUrl: './report.component.scss',
 })

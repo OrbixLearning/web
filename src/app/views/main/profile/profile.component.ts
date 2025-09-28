@@ -21,21 +21,25 @@ import { AuthService } from '../../../services/auth.service';
 import { ContextService } from '../../../services/context.service';
 import { ThemeService } from '../../../services/theme.service';
 import { UserService } from '../../../services/user.service';
+import { TextButtonComponent } from "../../../components/buttons/text-button/text-button.component";
+import { HighlightButtonComponent } from "../../../components/buttons/highlight-button/highlight-button.component";
 
 @Component({
 	selector: 'o-profile',
 	imports: [
-		MatFormFieldModule,
-		MatInputModule,
-		FileUploadModule,
-		MatButtonModule,
-		MatIconModule,
-		LoadingComponent,
-		ReactiveFormsModule,
-		AccountCardComponent,
-		GameCardComponent,
-		DividerModule,
-	],
+    MatFormFieldModule,
+    MatInputModule,
+    FileUploadModule,
+    MatButtonModule,
+    MatIconModule,
+    LoadingComponent,
+    ReactiveFormsModule,
+    AccountCardComponent,
+    GameCardComponent,
+    DividerModule,
+    TextButtonComponent,
+    HighlightButtonComponent
+],
 	templateUrl: './profile.component.html',
 	styleUrl: './profile.component.scss',
 })

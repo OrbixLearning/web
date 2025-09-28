@@ -27,20 +27,22 @@ import { ClassroomService } from '../../../../services/classroom.service';
 import { download } from '../../../../utils/Download.util';
 import { Classroom } from '../../../../models/Classroom';
 import { DocumentAIUploadStatusEnum } from '../../../../enums/DocumentAIUploadStatus.enum';
+import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
 
 @Component({
 	selector: 'o-classroom-documents',
 	imports: [
-		LoadingComponent,
-		MatIconModule,
-		MatButtonModule,
-		RouterModule,
-		MatFormFieldModule,
-		SyllabusComponent,
-		FormsModule,
-		MatInputModule,
-		SyllabusTagsComponent,
-	],
+    LoadingComponent,
+    MatIconModule,
+    MatButtonModule,
+    RouterModule,
+    MatFormFieldModule,
+    SyllabusComponent,
+    FormsModule,
+    MatInputModule,
+    SyllabusTagsComponent,
+    HighlightButtonComponent
+],
 	templateUrl: './classroom-documents.component.html',
 	styleUrl: './classroom-documents.component.scss',
 })

@@ -78,18 +78,23 @@
         </mat-form-field>
 
         <div class="actions">
-            <button mat-button type="button" (click)="resetForm()">Cancelar</button>
-            <button mat-raised-button cdkInitialFocus type="submit" class="save-button" [disabled]="disableSaveButton">
-                <mat-icon>save</mat-icon>
+            <o-text-button (onclick)="resetForm()">
+                Cancelar
+            </o-text-button>
+            <o-highlight-button cdkInitialFocus icon="save" type="submit" [disabled]="disableSaveButton">
                 Salvar
-            </button>
+            </o-highlight-button>
         </div>
     </form>
 
     <div class="right-div">
         <div class="buttons-div">
-            <button mat-raised-button [routerLink]="[usersUrl]">Usuários</button>
-            <button mat-raised-button [routerLink]="[classroomsUrl]">Turmas</button>
+            <o-highlight-button (onclick)="goToUsers()">
+                Usuários
+            </o-highlight-button>
+            <o-highlight-button (onclick)="goToClassrooms()">
+                Turmas
+            </o-highlight-button>
         </div>
 
         @if (!ctx.institution?.domains || ctx.institution?.domains?.length === 0) {

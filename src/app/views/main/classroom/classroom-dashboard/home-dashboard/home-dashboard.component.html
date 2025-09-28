@@ -4,10 +4,7 @@
     <button mat-icon-button [routerLink]="[classroomBaseUrl]">
         <mat-icon>arrow_back</mat-icon>
     </button>
-    <button mat-raised-button (click)="forceUpdateScores()">
-        <span>Forçar atualização de notas</span>
-        <mat-icon>refresh</mat-icon>
-    </button>
+    <o-highlight-button (onclick)="forceUpdateScores()" icon="refresh">Forçar atualização de notas</o-highlight-button>
 </header>
 
 <div class="classroom-dashboard-div">

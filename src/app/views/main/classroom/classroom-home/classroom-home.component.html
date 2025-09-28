@@ -4,26 +4,16 @@
 
     <div class="top-buttons">
 
-        <button mat-raised-button (click)="createLearningPath()">
-            Criar rota de aprendizagem
-        </button>
+        <o-highlight-button (onclick)="createLearningPath()">Criar rota de aprendizagem</o-highlight-button>
 
-        <button mat-raised-button [routerLink]="baseUrl + '/documents'">
-            Documentos
-        </button>
+        <o-highlight-button (onclick)="router.navigateByUrl(baseUrl + '/documents')">Documentos</o-highlight-button>
 
-        <button mat-raised-button [routerLink]="baseUrl + '/members'">
-            Membros
-        </button>
+        <o-highlight-button (onclick)="router.navigateByUrl(baseUrl + '/members')">Membros</o-highlight-button>
 
         @if(ctx.isTeacher) {
-        <button mat-raised-button [routerLink]="baseUrl + '/dashboard'">
-            Dashboard
-        </button>
+        <o-highlight-button (onclick)="router.navigateByUrl(baseUrl + '/dashboard')">Dashboard</o-highlight-button>
 
-        <button mat-raised-button [routerLink]="baseUrl + '/settings'">
-            Configurações
-        </button>
+        <o-highlight-button (onclick)="router.navigateByUrl(baseUrl + '/settings')">Configurações</o-highlight-button>
         }
 
     </div>

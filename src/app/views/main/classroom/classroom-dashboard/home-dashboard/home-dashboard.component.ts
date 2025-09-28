@@ -17,10 +17,11 @@ import {
 	ConfirmPopUpData,
 } from '../../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { MatDialog } from '@angular/material/dialog';
+import { HighlightButtonComponent } from "../../../../../components/buttons/highlight-button/highlight-button.component";
 
 @Component({
 	selector: 'o-home-dashboard',
-	imports: [LoadingComponent, MatButtonModule, MatIconModule, RouterModule, ProgressBarModule],
+	imports: [LoadingComponent, MatButtonModule, MatIconModule, RouterModule, ProgressBarModule, HighlightButtonComponent],
 	templateUrl: './home-dashboard.component.html',
 	styleUrl: './home-dashboard.component.scss',
 })

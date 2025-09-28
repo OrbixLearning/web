@@ -19,9 +19,7 @@
                     accept=".png,.svg,.jpg" [maxFileSize]="MAX_IMAGE_SIZE" (onSelect)="selectProfilePicture($event)" />
                 } @else {
                 <img [src]="picturePreview" alt="profilePicturePreview" />
-                <button mat-button (click)="picture = undefined" type="button">
-                    <mat-icon>close</mat-icon>Cancelar
-                </button>
+                <o-text-button (onclick)="picture = undefined" icon="close">Cancelar</o-text-button>
                 }
                 }
 
@@ -42,11 +40,10 @@
 
         @if (self) {
         <div>
-            <button mat-button type="button" (click)="resetForm()">Cancelar</button>
-            <button mat-raised-button cdkInitialFocus type="submit" class="save-button" [disabled]="disableSaveButton">
-                <mat-icon>save</mat-icon>
+            <o-text-button (onclick)="resetForm()">Cancelar</o-text-button>
+            <o-highlight-button cdkInitialFocus icon="save" type="submit" [disabled]="disableSaveButton">
                 Salvar
-            </button>
+            </o-highlight-button>
         </div>
         }
 
@@ -59,12 +56,12 @@
             }
 
             @if (self) {
-            <button mat-raised-button (click)="linkAccount()" type="button">Vincular conta</button>
+            <o-highlight-button (onclick)="linkAccount()">Vincular conta</o-highlight-button>
             }
         </div>
 
         @if (self) {
-        <button mat-raised-button (click)="logout()" type="button">Sair</button>
+        <o-highlight-button (onclick)="logout()">Sair</o-highlight-button>
         }
     </form>
 

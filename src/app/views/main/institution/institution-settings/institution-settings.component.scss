@@ -112,12 +112,8 @@
 
 	.buttons-div {
 		display: flex;
+		justify-content: space-around;
 		gap: 16px;
-
-		button {
-			flex: 1;
-			font-weight: 500;
-		}
 	}
 
 	h3 {

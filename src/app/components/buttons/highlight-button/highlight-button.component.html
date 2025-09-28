@@ -1,0 +1,6 @@
+<button mat-raised-button class="highlight-button" (click)="onclick.emit()" [type]="type" [disabled]="disabled">
+    @if (icon) {
+    <mat-icon>{{ icon }}</mat-icon>
+    }
+    <ng-content></ng-content>
+</button>

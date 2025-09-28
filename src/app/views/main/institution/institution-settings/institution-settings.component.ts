@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { DividerModule } from 'primeng/divider';
 import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
@@ -16,6 +16,8 @@ import { Institution, InstitutionStyle } from '../../../../models/Institution';
 import { ContextService } from '../../../../services/context.service';
 import { InstitutionService } from '../../../../services/institution.service';
 import { ThemeService } from '../../../../services/theme.service';
+import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
+import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 
 @Component({
 	selector: 'o-institution-settings',
@@ -32,6 +34,8 @@ import { ThemeService } from '../../../../services/theme.service';
 		RouterModule,
 		FormsModule,
 		DividerModule,
+		HighlightButtonComponent,
+		TextButtonComponent,
 	],
 	templateUrl: './institution-settings.component.html',
 	styleUrl: './institution-settings.component.scss',
@@ -41,6 +45,7 @@ export class InstitutionSettingsComponent {
 	service: InstitutionService = inject(InstitutionService);
 	ctx: ContextService = inject(ContextService);
 	theme: ThemeService = inject(ThemeService);
+	router: Router = inject(Router);
 
 	isLoading: boolean = false;
 	form: FormGroup = this.formBuilder.group({});
@@ -55,14 +60,6 @@ export class InstitutionSettingsComponent {
 
 	getFormControl(name: string): FormControl {
 		return this.form.get(name) as FormControl;
-	}
-
-	get usersUrl(): string {
-		return '/i/' + this.ctx.institution?.id + '/users';
-	}
-
-	get classroomsUrl(): string {
-		return '/i/' + this.ctx.institution?.id + '/classrooms';
 	}
 
 	get disableSaveButton(): boolean {
@@ -150,5 +147,13 @@ export class InstitutionSettingsComponent {
 					this.isLoading = false;
 				});
 		}
+	}
+
+	goToUsers() {
+		this.router.navigate(['/i/' + this.ctx.institution?.id + '/users']);
+	}
+
+	goToClassrooms() {
+		this.router.navigate(['/i/' + this.ctx.institution?.id + '/classrooms']);
 	}
 }

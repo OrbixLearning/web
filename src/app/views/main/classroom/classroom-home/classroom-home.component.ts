@@ -26,23 +26,25 @@ import {
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { PopoverModule } from 'primeng/popover';
 import { ChatComponent } from '../../../../components/chat/chat.component';
+import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
 
 @Component({
 	selector: 'o-classroom-home',
 	imports: [
-		MatIconModule,
-		MatButtonModule,
-		RouterModule,
-		DividerModule,
-		MatFormFieldModule,
-		MatInputModule,
-		SyllabusComponent,
-		LearningPathCardComponent,
-		FormsModule,
-		LoadingComponent,
-		PopoverModule,
-		ChatComponent,
-	],
+    MatIconModule,
+    MatButtonModule,
+    RouterModule,
+    DividerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    SyllabusComponent,
+    LearningPathCardComponent,
+    FormsModule,
+    LoadingComponent,
+    PopoverModule,
+    ChatComponent,
+    HighlightButtonComponent
+],
 	templateUrl: './classroom-home.component.html',
 	styleUrl: './classroom-home.component.scss',
 })

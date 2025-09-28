@@ -32,12 +32,9 @@
                 target="_blank">Google Icons</a></p>
 
         <div>
-            <button mat-button type="button" (click)="resetForm()">Cancelar</button>
-            <button mat-raised-button cdkInitialFocus type="submit" class="save-button"
-                [disabled]="disableInfosSaveButton">
-                <mat-icon>save</mat-icon>
-                Salvar
-            </button>
+            <o-text-button (onclick)="resetForm()">Cancelar</o-text-button>
+            <o-highlight-button cdkInitialFocus icon="save" type="submit"
+                [disabled]="disableInfosSaveButton">Salvar</o-highlight-button>
         </div>
     </form>
 
@@ -46,18 +43,11 @@
     <div>
         <h3>Ementa</h3>
         <div>
-            <button mat-raised-button (click)="addSyllabusTopic()">
-                <mat-icon>add</mat-icon>
-                Adicionar tópico
-            </button>
-            <button mat-raised-button (click)="addSyllabusPreset()">
-                <mat-icon>checklist</mat-icon>
-                Adicionar grupo de tópicos
-            </button>
-            <button mat-raised-button (click)="deleteSyllabusPreset()">
-                <mat-icon>delete</mat-icon>
-                Excluir grupo de tópicos
-            </button>
+            <o-highlight-button (onclick)="addSyllabusTopic()" icon="add">Adicionar tópico</o-highlight-button>
+            <o-highlight-button (onclick)="addSyllabusPreset()" icon="checklist">Adicionar grupo de
+                tópicos</o-highlight-button>
+            <o-highlight-button (onclick)="deleteSyllabusPreset()" icon="delete">Excluir grupo de
+                tópicos</o-highlight-button>
         </div>
 
         <o-syllabus [syllabus]="syllabus" mode="edit" (editSyllabus)="editSyllabus($event)"

@@ -5,7 +5,7 @@
         <mat-icon>arrow_back</mat-icon>
     </button>
     @if (ctx.isTeacher) {
-    <button mat-raised-button (click)="addMember()">Adicionar pessoas</button>
+    <o-highlight-button (onclick)="addMember()">Adicionar pessoas</o-highlight-button>
     }
 </header>
 
@@ -18,8 +18,7 @@
             <tr>
                 <td>
                     <button mat-button [routerLink]="['/profile/' + student.user.id]">
-                        <img [src]="getProfilePictureUrl(student.user)" alt="Profile Picture"
-                            class="profile-picture" />
+                        <img [src]="getProfilePictureUrl(student.user)" alt="Profile Picture" class="profile-picture" />
                     </button>
                 </td>
                 <td>{{ student.idInInstitution }}</td>
@@ -43,8 +42,7 @@
             <tr>
                 <td>
                     <button mat-button [routerLink]="['/profile/' + teacher.user.id]">
-                        <img [src]="getProfilePictureUrl(teacher.user)" alt="Profile Picture"
-                            class="profile-picture" />
+                        <img [src]="getProfilePictureUrl(teacher.user)" alt="Profile Picture" class="profile-picture" />
                     </button>
                 </td>
                 <td>{{ teacher.idInInstitution }}</td>

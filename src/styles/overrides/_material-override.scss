@@ -151,7 +151,6 @@ html {
 }
 
 :root[data-theme] {
-	/* mantém o “ponteiro” para seus tokens globais */
 	--mat-sys-color-primary: var(--primary-color) !important;
 	--mat-sys-color-on-primary: #ffffff !important;
 	--mat-sys-color-surface: var(--background-color) !important;
@@ -160,7 +159,6 @@ html {
 	--mat-sys-color-error: var(--error, #b00020) !important;
 	--mat-sys-color-on-error: #ffffff !important;
 
-	/* slots específicos úteis p/ form-field (MDC) */
 	--mdc-filled-text-field-input-text-color: var(--text-color) !important;
 	--mdc-filled-text-field-label-text-color: color-mix(in oklch, var(--text-color), transparent 40%) !important;
 	--mdc-filled-text-field-focus-label-text-color: var(--primary-color) !important;
@@ -168,22 +166,20 @@ html {
 
 	--mat-sys-color-on-surface: var(--text-color);
 	--mat-sys-on-surface: var(--text-color);
+	--mat-sys-surface-container: var(--background-color) !important;
 
-	/* FILLED */
 	--mdc-filled-text-field-input-text-color: var(--text-color);
 	--mdc-filled-text-field-label-text-color: color-mix(in oklch, var(--text-color), transparent 40%);
 	--mdc-filled-text-field-focus-label-text-color: var(--primary-color);
 	--mdc-filled-text-field-input-text-placeholder-color: color-mix(in oklch, var(--text-color), white 50%);
 	--mdc-filled-text-field-supporting-text-color: color-mix(in oklch, var(--text-color), transparent 35%); /* hint */
 
-	/* OUTLINED */
 	--mdc-outlined-text-field-input-text-color: var(--text-color);
 	--mdc-outlined-text-field-label-text-color: color-mix(in oklch, var(--text-color), transparent 40%);
 	--mdc-outlined-text-field-focus-label-text-color: var(--primary-color);
 	--mdc-outlined-text-field-input-text-placeholder-color: color-mix(in oklch, var(--text-color), white 50%);
 	--mdc-outlined-text-field-supporting-text-color: color-mix(in oklch, var(--text-color), transparent 35%); /* hint */
 
-	/* Erro (se usar) */
 	--mdc-filled-text-field-error-label-text-color: var(--error, #b00020);
 	--mdc-filled-text-field-error-supporting-text-color: var(--error, #b00020);
 	--mdc-outlined-text-field-error-label-text-color: var(--error, #b00020);
