@@ -16,10 +16,11 @@ import {
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
+import { AvatarComponent } from "../../../../components/avatar/avatar.component";
 
 @Component({
 	selector: 'o-classroom-members',
-	imports: [TableModule, MatIconModule, MatButtonModule, RouterModule, LoadingComponent, HighlightButtonComponent],
+	imports: [TableModule, MatIconModule, MatButtonModule, RouterModule, LoadingComponent, HighlightButtonComponent, AvatarComponent],
 	templateUrl: './classroom-members.component.html',
 	styleUrl: './classroom-members.component.scss',
 })

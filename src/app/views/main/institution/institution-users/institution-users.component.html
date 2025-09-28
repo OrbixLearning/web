@@ -111,9 +111,7 @@
                 </button>
             </td>
             <td>
-                <button mat-icon-button [routerLink]="['/profile/' + account.user.id]">
-                    <img [src]="getProfilePictureUrl(account.user)" alt="Profile Picture" class="profile-picture" />
-                </button>
+                <o-avatar [src]="getProfilePictureUrl(account.user)" [id]="account.user.id" />
             </td>
         </tr>
 

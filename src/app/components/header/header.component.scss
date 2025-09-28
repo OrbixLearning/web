@@ -68,20 +68,4 @@ header {
 
 .right-header {
 	justify-content: flex-end;
-
-	.avatar-button {
-		border: 1px solid var(--secondary-color);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		.avatar {
-			width: 42px;
-			height: 42px;
-			border-radius: 50%;
-			object-fit: cover;
-			object-position: center;
-			display: block;
-		}
-	}
 }

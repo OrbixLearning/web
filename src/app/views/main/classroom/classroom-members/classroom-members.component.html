@@ -17,9 +17,7 @@
             <!-- Body -->
             <tr>
                 <td>
-                    <button mat-button [routerLink]="['/profile/' + student.user.id]">
-                        <img [src]="getProfilePictureUrl(student.user)" alt="Profile Picture" class="profile-picture" />
-                    </button>
+                    <o-avatar [src]="getProfilePictureUrl(student.user)" [id]="student.user.id" />
                 </td>
                 <td>{{ student.idInInstitution }}</td>
                 <td>{{ student.user.name }}</td>
@@ -41,9 +39,7 @@
             <!-- Body -->
             <tr>
                 <td>
-                    <button mat-button [routerLink]="['/profile/' + teacher.user.id]">
-                        <img [src]="getProfilePictureUrl(teacher.user)" alt="Profile Picture" class="profile-picture" />
-                    </button>
+                    <o-avatar [src]="getProfilePictureUrl(teacher.user)" [id]="teacher.user.id" />
                 </td>
                 <td>{{ teacher.idInInstitution }}</td>
                 <td>{{ teacher.user.name }}</td>

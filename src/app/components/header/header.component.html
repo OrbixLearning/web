@@ -23,8 +23,6 @@
         <button mat-icon-button (click)="goToReport()">
             <mat-icon>bug_report</mat-icon>
         </button>
-        <button class="avatar-button" mat-icon-button (click)="goToProfile()">
-            <img class="avatar" [src]="profilePictureUrl" alt="Profile picture" />
-        </button>
+        <o-avatar [src]="profilePictureUrl" [id]="ctx.user?.id!" />
     </div>
 </header>

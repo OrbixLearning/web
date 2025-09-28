@@ -11,10 +11,11 @@ import { ContextService } from '../../services/context.service';
 import { InstitutionService } from '../../services/institution.service';
 import { ThemeService } from '../../services/theme.service';
 import { UserService } from '../../services/user.service';
+import { AvatarComponent } from '../avatar/avatar.component';
 
 @Component({
 	selector: 'o-header',
-	imports: [MatIconModule, MatButtonModule, SelectModule, FormsModule, RouterModule],
+	imports: [MatIconModule, MatButtonModule, SelectModule, FormsModule, RouterModule, AvatarComponent],
 	templateUrl: './header.component.html',
 	styleUrl: './header.component.scss',
 })
@@ -112,11 +113,6 @@ export class HeaderComponent {
 		} else {
 			this.router.navigate(['/']);
 		}
-	}
-
-	goToProfile() {
-		this.ctx.clearClassroom();
-		this.router.navigate(['/profile/' + this.ctx.user?.id]);
 	}
 
 	goToReport() {

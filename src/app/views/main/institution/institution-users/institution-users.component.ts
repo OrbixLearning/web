@@ -22,20 +22,22 @@ import { Page } from '../../../../models/Page';
 import { User, UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
+import { AvatarComponent } from "../../../../components/avatar/avatar.component";
 
 @Component({
 	selector: 'o-institution-users',
 	imports: [
-		MatButtonModule,
-		MatIconModule,
-		TableModule,
-		SelectModule,
-		FormsModule,
-		RouterModule,
-		LoadingComponent,
-		InputTextModule,
-		TooltipModule,
-	],
+    MatButtonModule,
+    MatIconModule,
+    TableModule,
+    SelectModule,
+    FormsModule,
+    RouterModule,
+    LoadingComponent,
+    InputTextModule,
+    TooltipModule,
+    AvatarComponent
+],
 	templateUrl: './institution-users.component.html',
 	styleUrl: './institution-users.component.scss',
 })
