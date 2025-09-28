@@ -150,76 +150,115 @@ html {
 	);
 }
 
-// TODO: Verify if this is needed
+:root[data-theme] {
+	/* mantém o “ponteiro” para seus tokens globais */
+	--mat-sys-color-primary: var(--primary-color) !important;
+	--mat-sys-color-on-primary: #ffffff !important;
+	--mat-sys-color-surface: var(--background-color) !important;
+	--mat-sys-color-on-surface: var(--text-color) !important;
+	--mat-sys-color-outline: color-mix(in oklch, var(--text-color), transparent 60%) !important;
+	--mat-sys-color-error: var(--error, #b00020) !important;
+	--mat-sys-color-on-error: #ffffff !important;
 
-// .mat-accent {
-// 	--mdc-radio-selected-focus-icon-color: var(--primary-color) !important;
-// 	--mdc-radio-selected-hover-icon-color: var(--primary-color) !important;
-// 	--mdc-radio-selected-icon-color: var(--primary-color) !important;
-// 	--mdc-radio-selected-pressed-icon-color: var(--primary-color) !important;
-// 	--mat-radio-checked-ripple-color: var(--primary-color) !important;
-// 	--mdc-circular-progress-active-indicator-color: var(--primary-color) !important;
-// 	--mdc-slider-handle-color: var(--primary-color) !important;
-// 	--mdc-slider-focus-handle-color: var(--primary-color) !important;
-// 	--mdc-slider-hover-handle-color: var(--primary-color) !important;
-// 	--mdc-slider-active-track-color: var(--primary-color) !important;
-// 	--mdc-slider-inactive-track-color: var(--primary-color) !important;
-// 	--mdc-slider-with-tick-marks-inactive-container-color: var(--primary-color) !important;
-// 	--mat-full-pseudo-checkbox-selected-icon-color: var(--primary-color) !important;
-// }
+	/* slots específicos úteis p/ form-field (MDC) */
+	--mdc-filled-text-field-input-text-color: var(--text-color) !important;
+	--mdc-filled-text-field-label-text-color: color-mix(in oklch, var(--text-color), transparent 40%) !important;
+	--mdc-filled-text-field-focus-label-text-color: var(--primary-color) !important;
+	--mdc-filled-text-field-caret-color: var(--primary-color) !important;
 
-// .mat-accent .mat-slider-track-fill {
-// 	background-color: var(--primary-color) !important;
-// }
+	--mat-sys-color-on-surface: var(--text-color);
 
-// .mat-slider-thumb-label {
-// 	background-color: var(--primary-color) !important;
-// }
+	/* FILLED */
+	--mdc-filled-text-field-input-text-color: var(--text-color);
+	--mdc-filled-text-field-label-text-color: color-mix(in oklch, var(--text-color), transparent 40%);
+	--mdc-filled-text-field-focus-label-text-color: var(--primary-color);
+	--mdc-filled-text-field-input-text-placeholder-color: color-mix(in oklch, var(--text-color), white 50%);
+	--mdc-filled-text-field-supporting-text-color: color-mix(in oklch, var(--text-color), transparent 35%); /* hint */
 
-// .mat-slider-thumb {
-// 	background-color: var(--primary-color) !important;
-// }
+	/* OUTLINED */
+	--mdc-outlined-text-field-input-text-color: var(--text-color);
+	--mdc-outlined-text-field-label-text-color: color-mix(in oklch, var(--text-color), transparent 40%);
+	--mdc-outlined-text-field-focus-label-text-color: var(--primary-color);
+	--mdc-outlined-text-field-input-text-placeholder-color: color-mix(in oklch, var(--text-color), white 50%);
+	--mdc-outlined-text-field-supporting-text-color: color-mix(in oklch, var(--text-color), transparent 35%); /* hint */
 
-// html {
-// 	// Mat Stepper
-// 	--mat-stepper-header-selected-state-icon-background-color: var(--primary-color) !important;
-// 	--mat-stepper-header-done-state-icon-background-color: var(--primary-color) !important;
-// 	--mat-stepper-header-edit-state-icon-background-color: var(--primary-color) !important;
+	/* Erro (se usar) */
+	--mdc-filled-text-field-error-label-text-color: var(--error, #b00020);
+	--mdc-filled-text-field-error-supporting-text-color: var(--error, #b00020);
+	--mdc-outlined-text-field-error-label-text-color: var(--error, #b00020);
+	--mdc-outlined-text-field-error-supporting-text-color: var(--error, #b00020);
 
-// 	// Mat Slider
-// 	--mdc-circular-progress-active-indicator-color: var(--primary-color) !important;
-// 	--mat-slider-ripple-color: var(--primary-color) !important;
-// 	--mdc-slider-handle-color: var(--primary-color) !important;
-// 	--mdc-slider-focus-handle-color: var(--primary-color) !important;
-// 	--mdc-slider-hover-handle-color: var(--primary-color) !important;
-// 	--mdc-slider-active-track-color: var(--primary-color) !important;
-// 	--mdc-slider-inactive-track-color: var(--primary-color) !important;
-// 	--mdc-slider-with-tick-marks-inactive-container-color: var(--primary-color) !important;
+	// TODO: Verify if this is needed
 
-// 	// Mat Slide Toggle
-// 	.mat-mdc-slide-toggle.mat-accent {
-// 		--mdc-switch-selected-focus-state-layer-color: var(--primary-color) !important;
-// 		--mdc-switch-selected-handle-color: var(--primary-color) !important;
-// 		--mdc-switch-selected-hover-state-layer-color: var(--primary-color) !important;
-// 		--mdc-switch-selected-pressed-state-layer-color: var(--primary-color) !important;
-// 		--mdc-switch-selected-focus-handle-color: var(--primary-color) !important;
-// 		--mdc-switch-selected-hover-handle-color: var(--primary-color) !important;
-// 		--mdc-switch-selected-pressed-handle-color: var(--primary-color) !important;
-// 		--mdc-switch-selected-focus-track-color: var(--primary-color) !important;
-// 		--mdc-switch-selected-hover-track-color: var(--primary-color) !important;
-// 		--mdc-switch-selected-pressed-track-color: var(--primary-color) !important;
-// 		--mdc-switch-selected-track-color: var(--primary-color) !important;
-// 	}
-// 	.mdc-switch:enabled .mdc-switch__track::after {
-// 		background: var(--primary-color) !important;
-// 	}
+	// .mat-accent {
+	// 	--mdc-radio-selected-focus-icon-color: var(--primary-color) !important;
+	// 	--mdc-radio-selected-hover-icon-color: var(--primary-color) !important;
+	// 	--mdc-radio-selected-icon-color: var(--primary-color) !important;
+	// 	--mdc-radio-selected-pressed-icon-color: var(--primary-color) !important;
+	// 	--mat-radio-checked-ripple-color: var(--primary-color) !important;
+	// 	--mdc-circular-progress-active-indicator-color: var(--primary-color) !important;
+	// 	--mdc-slider-handle-color: var(--primary-color) !important;
+	// 	--mdc-slider-focus-handle-color: var(--primary-color) !important;
+	// 	--mdc-slider-hover-handle-color: var(--primary-color) !important;
+	// 	--mdc-slider-active-track-color: var(--primary-color) !important;
+	// 	--mdc-slider-inactive-track-color: var(--primary-color) !important;
+	// 	--mdc-slider-with-tick-marks-inactive-container-color: var(--primary-color) !important;
+	// 	--mat-full-pseudo-checkbox-selected-icon-color: var(--primary-color) !important;
+	// }
 
-// 	// Mat Checkbox
-// 	--mdc-checkbox-selected-focus-icon-color: var(--primary-color) !important;
-// 	--mdc-checkbox-selected-hover-icon-color: var(--primary-color) !important;
-// 	--mdc-checkbox-selected-icon-color: var(--primary-color) !important;
-// 	--mdc-checkbox-selected-pressed-icon-color: var(--primary-color) !important;
-// 	--mdc-checkbox-selected-focus-state-layer-color: var(--primary-color) !important;
-// 	--mdc-checkbox-selected-hover-state-layer-color: var(--primary-color) !important;
-// 	--mdc-checkbox-selected-pressed-state-layer-color: var(--primary-color) !important;
-// }
+	// .mat-accent .mat-slider-track-fill {
+	// 	background-color: var(--primary-color) !important;
+	// }
+
+	// .mat-slider-thumb-label {
+	// 	background-color: var(--primary-color) !important;
+	// }
+
+	// .mat-slider-thumb {
+	// 	background-color: var(--primary-color) !important;
+	// }
+
+	// html {
+	// 	// Mat Stepper
+	// 	--mat-stepper-header-selected-state-icon-background-color: var(--primary-color) !important;
+	// 	--mat-stepper-header-done-state-icon-background-color: var(--primary-color) !important;
+	// 	--mat-stepper-header-edit-state-icon-background-color: var(--primary-color) !important;
+
+	// 	// Mat Slider
+	// 	--mdc-circular-progress-active-indicator-color: var(--primary-color) !important;
+	// 	--mat-slider-ripple-color: var(--primary-color) !important;
+	// 	--mdc-slider-handle-color: var(--primary-color) !important;
+	// 	--mdc-slider-focus-handle-color: var(--primary-color) !important;
+	// 	--mdc-slider-hover-handle-color: var(--primary-color) !important;
+	// 	--mdc-slider-active-track-color: var(--primary-color) !important;
+	// 	--mdc-slider-inactive-track-color: var(--primary-color) !important;
+	// 	--mdc-slider-with-tick-marks-inactive-container-color: var(--primary-color) !important;
+
+	// 	// Mat Slide Toggle
+	// 	.mat-mdc-slide-toggle.mat-accent {
+	// 		--mdc-switch-selected-focus-state-layer-color: var(--primary-color) !important;
+	// 		--mdc-switch-selected-handle-color: var(--primary-color) !important;
+	// 		--mdc-switch-selected-hover-state-layer-color: var(--primary-color) !important;
+	// 		--mdc-switch-selected-pressed-state-layer-color: var(--primary-color) !important;
+	// 		--mdc-switch-selected-focus-handle-color: var(--primary-color) !important;
+	// 		--mdc-switch-selected-hover-handle-color: var(--primary-color) !important;
+	// 		--mdc-switch-selected-pressed-handle-color: var(--primary-color) !important;
+	// 		--mdc-switch-selected-focus-track-color: var(--primary-color) !important;
+	// 		--mdc-switch-selected-hover-track-color: var(--primary-color) !important;
+	// 		--mdc-switch-selected-pressed-track-color: var(--primary-color) !important;
+	// 		--mdc-switch-selected-track-color: var(--primary-color) !important;
+	// 	}
+	// 	.mdc-switch:enabled .mdc-switch__track::after {
+	// 		background: var(--primary-color) !important;
+	// 	}
+
+	// 	// Mat Checkbox
+	// 	--mdc-checkbox-selected-focus-icon-color: var(--primary-color) !important;
+	// 	--mdc-checkbox-selected-hover-icon-color: var(--primary-color) !important;
+	// 	--mdc-checkbox-selected-icon-color: var(--primary-color) !important;
+	// 	--mdc-checkbox-selected-pressed-icon-color: var(--primary-color) !important;
+	// 	--mdc-checkbox-selected-focus-state-layer-color: var(--primary-color) !important;
+	// 	--mdc-checkbox-selected-hover-state-layer-color: var(--primary-color) !important;
+	// 	--mdc-checkbox-selected-pressed-state-layer-color: var(--primary-color) !important;
+	// }
+}
