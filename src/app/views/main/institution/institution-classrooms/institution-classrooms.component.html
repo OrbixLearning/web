@@ -7,13 +7,10 @@
     </button>
 
     <div>
-        <button mat-raised-button (click)="createClassroom()">
-            Criar turmas
-        </button>
+        <o-highlight-button (onclick)="createClassroom()">Criar turmas</o-highlight-button>
 
-        <button mat-raised-button [disabled]="selectedClassrooms.length === 0" (click)="deleteSelectedClassrooms()">
-            Excluir turmas
-        </button>
+        <o-text-button (onclick)="deleteSelectedClassrooms()" [disabled]="selectedClassrooms.length === 0">Excluir
+            turmas</o-text-button>
     </div>
 </header>
 
@@ -24,9 +21,8 @@
     currentPageReportTemplate="Página {currentPage} de {totalPages}" paginatorPosition="both" [tableStyle]="tableStyle">
 
     <ng-template #header>
-
         <!-- Filters -->
-        <tr>
+        <tr class="filters-row">
             <th></th>
             <th></th>
             <th>
@@ -37,7 +33,7 @@
         </tr>
 
         <!-- Header -->
-        <tr>
+        <tr class="thead-row">
             <th><p-tableHeaderCheckbox /></th>
             <th style="width:20%">Ícone</th>
             <th style="width:30%">Nome</th>
@@ -52,20 +48,24 @@
         <tr>
             <td> <p-tableCheckbox [value]="classroom" /> </td>
             <td>
-                <button mat-icon-button (click)="op.toggle($event)">
+                <button mat-icon-button class="icon-cell-button" (click)="op.toggle($event)">
                     <mat-icon>{{ classroom.icon }}</mat-icon>
                 </button>
                 <p-popover #op>
-                    <div>
+                    <div class="icon-popover">
                         <input type="text" pInputText [(ngModel)]="classroom.icon" (change)="updateClassroom(classroom)"
                             (keydown.enter)="updateClassroom(classroom)" />
-                        <p>É possível verificar a lista de ícones em <a
-                                href="https://fonts.google.com/icons?icon.set=Material+Icons" target="_blank">Google
-                                Icons</a>
+
+                        <p>
+                            É possível verificar a lista de ícones em
+                            <a href="https://fonts.google.com/icons?icon.set=Material+Icons" target="_blank">
+                                Google Icons
+                            </a>
                         </p>
                     </div>
                 </p-popover>
             </td>
+
             <td [pEditableColumn]="classroom.name" pEditableColumnField="name">
                 <p-cellEditor>
                     <ng-template #input>

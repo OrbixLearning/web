@@ -1,15 +1,103 @@
 .ics-header {
 	display: flex;
-	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
 	height: 60px;
-	margin-bottom: 15px;
+	margin-bottom: 12px;
+
+	button {
+		color: var(--primary-color);
+	}
 
 	div {
 		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 30px;
+		gap: 12px;
+	}
+}
+
+/* PrimeNG table polish */
+:host ::ng-deep .p-table {
+	.p-datatable-header,
+	.p-datatable-thead > tr.thead-row > th {
+		background: var(--surface, color-mix(in oklab, var(--background-color) 90%, white));
+		color: var(--text-color);
+		border-bottom: 1px solid var(--border-color, #3a3a3a);
+	}
+
+	.p-datatable-thead > tr.filters-row > th {
+		background: color-mix(in oklab, var(--background-color) 92%, white);
+		padding: 6px 8px;
+
+		.p-column-filter,
+		.p-inputtext,
+		.p-select {
+			width: 100%;
+		}
+	}
+
+	.p-datatable-tbody > tr {
+		transition: background-color 0.15s ease;
+
+		&:hover {
+			background: color-mix(in oklab, var(--primary-color) 10%, transparent);
+		}
+	}
+
+	.p-datatable-tbody > tr.p-highlight {
+		background: color-mix(in oklab, var(--primary-color) 18%, transparent);
+	}
+
+	.p-datatable-tbody > tr > td {
+		vertical-align: middle;
+	}
+}
+
+td .icon-cell-button {
+	color: var(--primary-color);
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: color-mix(in oklab, var(--primary-color) 80%, white);
+	}
+}
+
+/* Editable cells */
+:host ::ng-deep .p-cell-editing {
+	background: color-mix(in oklab, var(--primary-color) 12%, transparent);
+	outline: 1px solid color-mix(in oklab, var(--primary-color) 50%, transparent);
+}
+
+/* Popover */
+.icon-popover {
+	padding: 12px 16px;
+	background: var(--surface, color-mix(in oklab, var(--background-color) 92%, white));
+	max-width: 400px;
+
+	input[pInputText] {
+		width: 100%;
+		margin-bottom: 18px;
+	}
+
+	p {
+		font-size: 0.85rem;
+		margin: 0;
+		line-height: 1.3;
+		color: var(--sidebar-text-muted);
+	}
+
+	a {
+		color: var(--primary-color);
+		font-weight: 500;
+		text-decoration: underline;
+	}
+}
+
+/* Paginator consistency */
+:host ::ng-deep .p-paginator {
+	background: transparent;
+	border: none;
+
+	.p-paginator-current {
+		color: var(--sidebar-text-muted, #9aa0a6);
 	}
 }

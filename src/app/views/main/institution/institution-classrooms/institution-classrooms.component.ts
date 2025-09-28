@@ -19,19 +19,23 @@ import { Page } from '../../../../models/Page';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { PopoverModule } from 'primeng/popover';
+import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
+import { TextButtonComponent } from "../../../../components/buttons/text-button/text-button.component";
 
 @Component({
 	selector: 'o-institution-classrooms',
 	imports: [
-		MatButtonModule,
-		MatIconModule,
-		TableModule,
-		FormsModule,
-		RouterModule,
-		LoadingComponent,
-		InputTextModule,
-		PopoverModule,
-	],
+    MatButtonModule,
+    MatIconModule,
+    TableModule,
+    FormsModule,
+    RouterModule,
+    LoadingComponent,
+    InputTextModule,
+    PopoverModule,
+    HighlightButtonComponent,
+    TextButtonComponent
+],
 	templateUrl: './institution-classrooms.component.html',
 	styleUrl: './institution-classrooms.component.scss',
 })

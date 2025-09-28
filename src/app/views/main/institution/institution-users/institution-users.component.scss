@@ -1,15 +1,85 @@
 .ius-header {
 	display: flex;
-	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
 	height: 60px;
-	margin-bottom: 15px;
+	margin-bottom: 12px;
+
+	button {
+		color: var(--primary-color);
+	}
 
 	div {
 		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 30px;
+		gap: 12px;
+	}
+}
+
+/* PrimeNG table polish */
+:host ::ng-deep .p-table {
+	.p-datatable-header,
+	.p-datatable-thead > tr.thead-row > th {
+		background: var(--surface, color-mix(in oklab, var(--background-color) 90%, white));
+		color: var(--text-color);
+		border-bottom: 1px solid var(--border-color, #3a3a3a);
+	}
+
+	.p-datatable-thead > tr.filters-row > th {
+		background: color-mix(in oklab, var(--background-color) 92%, white);
+		padding: 6px 8px;
+
+		.p-column-filter,
+		.p-inputtext,
+		.p-select {
+			width: 100%;
+		}
+	}
+
+	.p-datatable-tbody > tr {
+		transition: background-color 0.15s ease;
+
+		&:hover {
+			background: color-mix(in oklab, var(--primary-color) 10%, transparent);
+		}
+	}
+
+	.p-datatable-tbody > tr.p-highlight {
+		background: color-mix(in oklab, var(--primary-color) 18%, transparent);
+	}
+
+	.p-datatable-tbody > tr > td {
+		vertical-align: middle;
+	}
+}
+
+/* Editable cells */
+:host ::ng-deep .p-cell-editing {
+	background: color-mix(in oklab, var(--primary-color) 12%, transparent);
+	outline: 1px solid color-mix(in oklab, var(--primary-color) 50%, transparent);
+}
+
+/* Role as chip */
+.role-chip {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 12px;
+	font-size: 0.85rem;
+	background: color-mix(in oklab, var(--primary-color) 15%, transparent);
+	border: 1px solid color-mix(in oklab, var(--primary-color) 35%, var(--border-color, #3a3a3a));
+	color: var(--text-color);
+}
+
+/* Avatar column center */
+.avatar-col {
+	text-align: center;
+}
+
+/* Paginator consistency */
+:host ::ng-deep .p-paginator {
+	background: transparent;
+	border: none;
+
+	.p-paginator-current {
+		color: var(--sidebar-text-muted, #9aa0a6);
 	}
 }

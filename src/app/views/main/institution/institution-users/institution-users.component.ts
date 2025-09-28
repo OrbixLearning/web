@@ -23,6 +23,8 @@ import { User, UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
 import { AvatarComponent } from "../../../../components/avatar/avatar.component";
+import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
+import { TextButtonComponent } from "../../../../components/buttons/text-button/text-button.component";
 
 @Component({
 	selector: 'o-institution-users',
@@ -36,7 +38,9 @@ import { AvatarComponent } from "../../../../components/avatar/avatar.component"
     LoadingComponent,
     InputTextModule,
     TooltipModule,
-    AvatarComponent
+    AvatarComponent,
+    HighlightButtonComponent,
+    TextButtonComponent
 ],
 	templateUrl: './institution-users.component.html',
 	styleUrl: './institution-users.component.scss',

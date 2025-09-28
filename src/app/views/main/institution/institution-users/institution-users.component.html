@@ -7,13 +7,10 @@
     </button>
 
     <div>
-        <button mat-raised-button (click)="createUser()">
-            Criar usuários
-        </button>
+        <o-highlight-button (onclick)="createUser()">Criar usuários</o-highlight-button>
 
-        <button mat-raised-button [disabled]="selectedUsers.length === 0" (click)="deleteSelectedUsers()">
-            Excluir usuários
-        </button>
+        <o-text-button (onclick)="deleteSelectedUsers()" [disabled]="selectedUsers.length === 0">Excluir
+            usuários</o-text-button>
     </div>
 </header>
 
@@ -24,21 +21,13 @@
     currentPageReportTemplate="Página {currentPage} de {totalPages}" paginatorPosition="both" [tableStyle]="tableStyle">
 
     <ng-template #header>
-
         <!-- Filters -->
-        <tr>
-            <th>
-            </th>
-            <th>
-                <p-columnFilter [showMenu]="false" type="text" field="idInInstitution"
-                    placeholder="Filtrar identificador" />
-            </th>
-            <th>
-                <p-columnFilter [showMenu]="false" type="text" field="email" placeholder="Filtrar email" />
-            </th>
-            <th>
-                <p-columnFilter [showMenu]="false" type="text" field="name" placeholder="Filtrar nome" />
-            </th>
+        <tr class="filters-row">
+            <th></th>
+            <th><p-columnFilter [showMenu]="false" type="text" field="idInInstitution"
+                    placeholder="Filtrar identificador" /></th>
+            <th><p-columnFilter [showMenu]="false" type="text" field="email" placeholder="Filtrar email" /></th>
+            <th><p-columnFilter [showMenu]="false" type="text" field="name" placeholder="Filtrar nome" /></th>
             <th>
                 <p-columnFilter field="role" matchMode="equals" [showMenu]="false">
                     <ng-template #filter let-filter="filterCallback">
@@ -52,7 +41,7 @@
         </tr>
 
         <!-- Header -->
-        <tr>
+        <tr class="thead-row">
             <th><p-tableHeaderCheckbox /></th>
             <th style="width:20%">Identificador</th>
             <th style="width:20%">Email</th>
@@ -61,36 +50,34 @@
             <th style="width:15%">Senha</th>
             <th style="width:5%">Perfil</th>
         </tr>
-
     </ng-template>
-    <ng-template #body let-account let-editing="editing">
 
-        <!-- Body -->
+    <ng-template #body let-account let-editing="editing">
         <tr>
-            <td> <p-tableCheckbox [value]="account" /> </td>
+            <td><p-tableCheckbox [value]="account" /></td>
+
             <td [pEditableColumn]="account.idInInstitution" pEditableColumnField="idInInstitution">
                 <p-cellEditor>
                     <ng-template #input>
                         <input type="text" pInputText [(ngModel)]="account.idInInstitution"
                             (change)="updateAccount(account)" (keydown.enter)="updateAccount(account)" />
                     </ng-template>
-                    <ng-template #output>
-                        {{ account.idInInstitution }}
-                    </ng-template>
+                    <ng-template #output>{{ account.idInInstitution }}</ng-template>
                 </p-cellEditor>
             </td>
+
             <td [pEditableColumn]="account.email" pEditableColumnField="email">
                 <p-cellEditor>
                     <ng-template #input>
                         <input type="email" pInputText [(ngModel)]="account.email" (change)="updateAccount(account)"
                             (keydown.enter)="updateAccount(account)" />
                     </ng-template>
-                    <ng-template #output>
-                        {{ account.email }}
-                    </ng-template>
+                    <ng-template #output>{{ account.email }}</ng-template>
                 </p-cellEditor>
             </td>
+
             <td>{{ account.user.name }}</td>
+
             <td [pEditableColumn]="account.institutionRole" pEditableColumnField="institutionRole">
                 <p-cellEditor>
                     <ng-template #input>
@@ -98,10 +85,11 @@
                             (onChange)="updateAccount(account)" />
                     </ng-template>
                     <ng-template #output>
-                        {{ account.institutionRole }}
+                        <span class="role-chip">{{ account.institutionRole }}</span>
                     </ng-template>
                 </p-cellEditor>
             </td>
+
             <td>
                 <!-- TODO: This feature is temporarily disabled. Enable it when card #24 is done -->
                 <button mat-raised-button (click)="resetPassword(account)" style="height: 30px" [disabled]="true"
@@ -110,10 +98,10 @@
                     Redefinir senha
                 </button>
             </td>
-            <td>
-                <o-avatar [src]="getProfilePictureUrl(account.user)" [id]="account.user.id" />
+
+            <td class="avatar-col">
+                <o-avatar [src]="getProfilePictureUrl(account.user)" [id]="account.user.id" [size]="28" />
             </td>
         </tr>
-
     </ng-template>
 </p-table>
