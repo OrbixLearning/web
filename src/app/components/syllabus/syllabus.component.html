@@ -1,23 +1,32 @@
-<div>
-    @if (presets && presets.length > 0) {
-    @for (preset of presets; track preset.name) {
-    <p-button [label]="preset.name" (click)="loadPreset(preset)" />
-    }
-    <p-button label="Limpar seleção" (click)="clearSelection()" />
+<div class="syllabus">
+    @if (presets?.length) {
+    <div class="toolbar">
+        @for (preset of presets; track preset.name) {
+        <o-text-button (onclick)="loadPreset(preset)">{{ preset.name }}</o-text-button>
+        }
+        @if (mode === 'filter' || mode === 'select') {
+        <o-text-button (onclick)="clearSelection()">Limpar seleção</o-text-button>
+        }
+    </div>
     }
 
-    @if (syllabus && syllabus.length > 0) {
-    <p-tree [value]="syllabusComponentTree" [selectionMode]="selectionMode" [(selection)]="selection"
-        (selectionChange)="selectionChange($event)">
-        <ng-template let-node pTemplate="edit">
-            <div style="display: flex; align-items: center; gap: 10px">
-                <span>{{node.label}}</span>
-                <button mat-icon-button (click)="editSyllabus.emit(node.data)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button (click)="deleteSyllabus.emit(node.data)">
-                    <mat-icon>delete</mat-icon>
-                </button>
+    @if (syllabus?.length) {
+    <p-tree [value]="syllabusComponentTree" [styleClass]="'syllabus-tree mode-' + mode" [selectionMode]="selectionMode"
+        [(selection)]="selection" (selectionChange)="selectionChange($event)">
+        <ng-template pTemplate="edit" let-node>
+            <div class="node">
+                <div class="node-main">
+                    <mat-icon class="node-icon">{{ node.leaf ? 'description' : 'folder' }}</mat-icon>
+                    <span class="node-label">{{ node.label }}</span>
+                </div>
+                <div class="node-actions">
+                    <button mat-icon-button (click)="$event.stopPropagation(); editSyllabus.emit(node.data)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="$event.stopPropagation(); deleteSyllabus.emit(node.data)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
             </div>
         </ng-template>
     </p-tree>

@@ -1,0 +1,95 @@
+.syllabus {
+	display: grid;
+	gap: 12px;
+
+	.toolbar {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+}
+
+:host ::ng-deep .syllabus-tree.p-tree {
+	--tree-bg: var(--surface, color-mix(in oklab, var(--background-color) 90%, white));
+	--tree-hover: color-mix(in oklab, var(--primary-color) 10%, transparent);
+	--tree-selected: color-mix(in oklab, var(--primary-color) 18%, transparent);
+
+	background: var(--tree-bg);
+	border: 1px solid var(--border-color, #3a3a3a);
+	border-radius: 10px;
+	padding: 8px 10px;
+}
+
+/* indentation guide */
+:host ::ng-deep .syllabus-tree .p-treenode-children {
+	margin-left: 16px;
+	padding-left: 10px;
+	border-left: 1px dashed color-mix(in oklab, var(--border-color, #3a3a3a) 70%, transparent);
+}
+
+/* row container */
+:host ::ng-deep .syllabus-tree .p-treenode-content {
+	border-radius: 8px;
+	padding: 6px 8px;
+	transition: background-color 0.12s ease;
+}
+
+/* modes */
+:host ::ng-deep .syllabus-tree.mode-view .p-treenode-content {
+	cursor: default;
+}
+:host ::ng-deep .syllabus-tree.mode-view .p-treenode-content:hover {
+	background: transparent;
+}
+:host ::ng-deep .syllabus-tree.mode-filter .p-treenode-content:hover,
+:host ::ng-deep .syllabus-tree.mode-edit .p-treenode-content:hover,
+:host ::ng-deep .syllabus-tree.mode-select .p-treenode-content:hover {
+	background: var(--tree-hover);
+}
+
+/* selected highlight (apenas onde faz sentido) */
+:host ::ng-deep .syllabus-tree.mode-edit .p-treenode-content.p-highlight,
+:host ::ng-deep .syllabus-tree.mode-select .p-treenode-content.p-highlight {
+	background: var(--tree-selected);
+}
+
+/* Node row */
+.node {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	width: 100%;
+	min-height: 34px;
+	padding: 4px 6px;
+	border-radius: 8px;
+}
+
+/* Left side (icon + label) */
+.node-main {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0; /* allows ellipsis */
+}
+
+.node-main .node-icon {
+	font-size: 20px;
+	color: var(--primary-color);
+	flex: 0 0 auto;
+}
+
+.node-main .node-label {
+	color: var(--text-color);
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Right side (inline actions) — rendered only on type='edit' */
+.node-actions {
+	display: inline-flex;
+	gap: 6px;
+	flex: 0 0 auto;
+}

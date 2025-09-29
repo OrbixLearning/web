@@ -6,10 +6,11 @@ import { SyllabusPreset } from '../../models/Classroom';
 import { Syllabus } from '../../models/Syllabus';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { TextButtonComponent } from '../buttons/text-button/text-button.component';
 
 @Component({
 	selector: 'o-syllabus',
-	imports: [TreeModule, ButtonModule, MatButtonModule, MatIconModule],
+	imports: [TreeModule, ButtonModule, MatButtonModule, MatIconModule, TextButtonComponent],
 	templateUrl: './syllabus.component.html',
 	styleUrl: './syllabus.component.scss',
 })
@@ -21,6 +22,8 @@ export class SyllabusComponent {
 	@Output() syllabusMarked: EventEmitter<Syllabus[]> = new EventEmitter<Syllabus[]>();
 	@Output() editSyllabus: EventEmitter<Syllabus> = new EventEmitter<Syllabus>();
 	@Output() deleteSyllabus: EventEmitter<Syllabus> = new EventEmitter<Syllabus>();
+
+	readonly TREE_INITIAL_EXPAND_DEPTH = 0;
 
 	syllabusComponentTree: TreeNode[] = this.buildSyllabusTree();
 	selection?: TreeNode[];
@@ -64,7 +67,7 @@ export class SyllabusComponent {
 				leaf: s.topics ? s.topics.length === 0 : true,
 				selectable: true,
 				type: this.mode,
-				expanded: depth < 2,
+				expanded: depth < this.TREE_INITIAL_EXPAND_DEPTH,
 				children: this.recursiveSyllabusTreeBuildCall(s.topics, depth + 1),
 			};
 		});
