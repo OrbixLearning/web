@@ -21,25 +21,27 @@ import { AuthService } from '../../../services/auth.service';
 import { ContextService } from '../../../services/context.service';
 import { ThemeService } from '../../../services/theme.service';
 import { UserService } from '../../../services/user.service';
-import { TextButtonComponent } from "../../../components/buttons/text-button/text-button.component";
-import { HighlightButtonComponent } from "../../../components/buttons/highlight-button/highlight-button.component";
+import { TextButtonComponent } from '../../../components/buttons/text-button/text-button.component';
+import { HighlightButtonComponent } from '../../../components/buttons/highlight-button/highlight-button.component';
+import { ImagePickerComponent } from '../../../components/image-picker/image-picker.component';
 
 @Component({
 	selector: 'o-profile',
 	imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FileUploadModule,
-    MatButtonModule,
-    MatIconModule,
-    LoadingComponent,
-    ReactiveFormsModule,
-    AccountCardComponent,
-    GameCardComponent,
-    DividerModule,
-    TextButtonComponent,
-    HighlightButtonComponent
-],
+		MatFormFieldModule,
+		MatInputModule,
+		FileUploadModule,
+		MatButtonModule,
+		MatIconModule,
+		LoadingComponent,
+		ReactiveFormsModule,
+		AccountCardComponent,
+		GameCardComponent,
+		DividerModule,
+		TextButtonComponent,
+		HighlightButtonComponent,
+		ImagePickerComponent,
+	],
 	templateUrl: './profile.component.html',
 	styleUrl: './profile.component.scss',
 })
@@ -55,7 +57,6 @@ export class ProfileComponent {
 
 	isLoading: boolean = false;
 	picture?: File;
-	picturePreview: string | ArrayBuffer | null = null;
 	form: FormGroup = this.formBuilder.group({});
 	userId?: string;
 	user?: User;
@@ -116,17 +117,6 @@ export class ProfileComponent {
 				});
 		}
 		this.resetForm();
-	}
-
-	selectProfilePicture(event: FileSelectEvent) {
-		this.picture = event.currentFiles[0];
-		if (this.picture) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				this.picturePreview = reader.result;
-			};
-			reader.readAsDataURL(this.picture);
-		}
 	}
 
 	resetForm() {

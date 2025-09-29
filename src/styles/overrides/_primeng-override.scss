@@ -1,5 +1,5 @@
 // Activates if any data-theme attribute is present on the root element
-:root[data-theme] {
+:root {
 	--p-primary-color: var(--primary-color) !important;
 	--p-primary-color-text: var(--text-color) !important;
 	--p-text-color: var(--text-color) !important;
@@ -7,13 +7,13 @@
 
 	--p-select-background: var(--background-color) !important;
 	--p-select-overlay-background: var(--background-color) !important;
-	--p-list-option-focus-background: color-mix(in oklch, var(--background-color), black 40%);
+	--p-list-option-focus-background: color-mix(in oklch, var(--background-color), black 40%) !important;
 	--p-form-field-color: var(--text-color) !important;
 	--p-list-option-focus-color: var(--text-color) !important;
-	--p-content-background: color-mix(in oklch, var(--background-color), black 10%);
+	--p-content-background: color-mix(in oklch, var(--background-color), black 10%) !important;
 	--p-datatable-header-cell-background: var(--background-color) !important;
 	--p-text-muted-color: var(--text-color) !important;
-	--p-primary-hover-color: color-mix(in oklch, var(--primary-color), white 20%);
+	--p-primary-hover-color: color-mix(in oklch, var(--primary-color), white 20%) !important;
 	--p-form-field-background: var(--background-color) !important;
 	--p-form-field-color: var(--text-color) !important;
 	--p-overlay-popover-background: var(--background-color) !important;

@@ -18,6 +18,7 @@ import { InstitutionService } from '../../../../services/institution.service';
 import { ThemeService } from '../../../../services/theme.service';
 import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
 import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
+import { ImagePickerComponent } from '../../../../components/image-picker/image-picker.component';
 
 @Component({
 	selector: 'o-institution-settings',
@@ -36,6 +37,7 @@ import { TextButtonComponent } from '../../../../components/buttons/text-button/
 		DividerModule,
 		HighlightButtonComponent,
 		TextButtonComponent,
+		ImagePickerComponent,
 	],
 	templateUrl: './institution-settings.component.html',
 	styleUrl: './institution-settings.component.scss',
@@ -50,7 +52,6 @@ export class InstitutionSettingsComponent {
 	isLoading: boolean = false;
 	form: FormGroup = this.formBuilder.group({});
 	logo?: File;
-	logoPreview: string | ArrayBuffer | null = null;
 	initialStyle: InstitutionStyle = this.ctx.institution?.style!;
 	readonly MAX_IMAGE_SIZE: number = environment.MAX_IMAGE_SIZE;
 
@@ -109,17 +110,6 @@ export class InstitutionSettingsComponent {
 			theme: [this.ctx.institution?.style!.theme, Validators.required],
 		});
 		this.logo = undefined;
-	}
-
-	selectLogo(event: FileSelectEvent) {
-		this.logo = event.currentFiles[0];
-		if (this.logo) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				this.logoPreview = reader.result;
-			};
-			reader.readAsDataURL(this.logo);
-		}
 	}
 
 	async onSubmit() {

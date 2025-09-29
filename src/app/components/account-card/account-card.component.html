@@ -1,32 +1,47 @@
-<div class="account-card-div">
-	<div class="info-div">
+<div class="account-card">
+    <div class="account-info">
+        @if (institution?.name) {
+        <p class="institution-name">{{ institution?.name }}</p>
+        }
 
-		@if (institution?.name) {
-		<p>{{institution?.name}}</p>
-		}
+        <div class="info-grid">
+            @if (email) {
+            <div class="info-item">
+                <span class="label">Email</span>
+                <span class="value">{{ email }}</span>
+            </div>
+            }
 
-		@if (email) {
-		<p>{{email}}</p>
-		}
+            @if (idInInstitution) {
+            <div class="info-item">
+                <span class="label">Identificador</span>
+                <span class="value">{{ idInInstitution }}</span>
+            </div>
+            }
 
-		@if (idInInstitution) {
-		<p>{{idInInstitution}}</p>
-		}
+            @if (institutionRoleText()) {
+            <div class="info-item">
+                <span class="label">Cargo</span>
+                <span class="value">{{ institutionRoleText() }}</span>
+            </div>
+            }
 
-		@if (institutionRoleText()) {
-		<p>{{institutionRoleText()}}</p>
-		}
+            @if (amountOfClassrooms) {
+            <div class="info-item">
+                <span class="label">Turmas</span>
+                <span class="value">{{ amountOfClassrooms }}</span>
+            </div>
+            }
+        </div>
 
-		@if (isLoading) {
-		<o-loading [isLoading]="isLoading" [local]="true" size="30px" />
-		}
+        @if (isLoading) {
+        <o-loading [isLoading]="isLoading" [local]="true" size="30px" />
+        }
+    </div>
 
-		@if (amountOfClassrooms) {
-		<p>{{amountOfClassrooms}} turmas</p>
-		}
-	</div>
-
-	@if (institution) {
-	<img [src]="institutionLogoUrl" alt="Institution Logo">
-	}
+    @if (institution) {
+    <div class="logo-frame">
+        <img [src]="institutionLogoUrl" alt="Institution Logo" />
+    </div>
+    }
 </div>

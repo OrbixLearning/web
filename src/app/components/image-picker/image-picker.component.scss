@@ -1,0 +1,28 @@
+.image-picker-div {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+
+	.frame {
+		width: 220px;
+		aspect-ratio: 3 / 1;
+		border-radius: 10px;
+		border: 1px solid var(--border-color, #3a3a3a);
+		background: var(--primary-color);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 8px;
+
+		img {
+			max-width: 100%;
+			max-height: 100%;
+			object-fit: contain;
+		}
+
+		&.preview {
+			outline: 2px dashed color-mix(in oklab, var(--primary-color) 45%, transparent);
+			outline-offset: 2px;
+		}
+	}
+}

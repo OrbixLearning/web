@@ -1,79 +1,105 @@
 .profile-settings {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: flex-start;
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+	gap: 32px;
 	width: 100%;
-	gap: 50px;
+	align-items: start;
+}
 
-	.form-div {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
-		width: 50%;
-		gap: 40px;
+/* Columns */
+.left-column {
+	display: grid;
+	gap: 20px;
+}
 
-		.picture-div {
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: flex-start;
-			gap: 10px;
+.right-column {
+	display: grid;
+	gap: 20px;
+}
 
-			p {
-				font-size: 20px;
-				font-weight: bold;
-			}
+/* Panels */
+.panel {
+	background: var(--surface, color-mix(in oklab, var(--background-color) 90%, white));
+	border: 1px solid var(--border-color, #3a3a3a);
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+	padding-bottom: 12px;
 
-			.picture-subdiv {
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-start;
-				align-items: center;
-				gap: 20px;
+	.panel__header {
+		padding: 12px 14px;
+		border-bottom: 1px solid var(--border-color, #3a3a3a);
 
-				img {
-					max-height: 150px;
-					max-width: 150px;
-					border-radius: 10px;
-					border: 1px solid #ccc;
-				}
-			}
-		}
-
-		.name-div {
-			display: flex;
-			flex-direction: row;
-			gap: 20px;
-		}
-
-		.name-p {
-			font-size: 24px;
-			font-weight: bold;
-		}
-
-		.save-button {
-			background-color: var(--primary-color);
+		h2,
+		h3 {
+			margin: 0;
 			color: var(--text-color);
-			width: 150px;
-
-			&:disabled {
-				opacity: 0.3;
-				cursor: not-allowed;
-			}
+			font-weight: 700;
+			font-size: 1.05rem;
 		}
 	}
 
-	.emails-div {
-		display: flex;
-		flex-direction: column;
-		gap: 15px;
-		width: 80%;
+	.panel__body {
+		padding: 14px;
+	}
+}
 
-		p {
-			font-size: 20px;
-			font-weight: bold;
-		}
+/* Sticky right panel */
+.sticky {
+	position: sticky;
+	top: 12px;
+}
+
+/* Picture */
+.picture-row {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.picture {
+	width: 128px;
+	height: 128px;
+	border-radius: 50%;
+	object-fit: cover;
+	object-position: center;
+	border: 1px solid var(--border-color, #3a3a3a);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+/* Name */
+.name-row {
+	display: grid;
+}
+
+.full-width {
+	width: min(560px, 100%);
+}
+
+.name-readonly {
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--text-color);
+	margin: 4px 0;
+}
+
+/* Actions */
+.actions-row {
+	display: flex;
+	gap: 15px;
+	margin-left: 14px;
+}
+
+/* Logout */
+.logout-row {
+	display: flex;
+}
+
+/* Accounts */
+.accounts-list {
+	display: grid;
+	gap: 12px;
+
+	o-account-card {
+		display: block;
 	}
 }

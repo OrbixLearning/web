@@ -10,27 +10,11 @@
         </mat-form-field>
 
         <div class="logo-div">
-            <p>Logo</p>
-            <div class="logo-subdiv">
-                <div class="logo-frame">
-                    <img [src]="logoUrl" alt="Institution logo" />
-                </div>
-
-                <p-divider layout="vertical" />
-
-                @if (!logo) {
-                <p-fileupload mode="basic" chooseLabel="Selecionar" name="logo" [auto]="true" accept=".png,.svg"
-                    [maxFileSize]="MAX_IMAGE_SIZE" (onSelect)="selectLogo($event)" />
-                } @else {
-                <div class="logo-frame preview">
-                    <img [src]="logoPreview" alt="Logo preview" />
-                </div>
-                <button mat-button (click)="logo = undefined" type="button">
-                    <mat-icon>close</mat-icon>Cancelar
-                </button>
-                }
-            </div>
+            <h3>Logo</h3>
+            <o-image-picker [imageUrl]="logoUrl" [file]="logo" (fileChange)="logo = $event" />
         </div>
+
+        <h3>Cores</h3>
 
         <div class="color-row-div">
             <div class="color-div">

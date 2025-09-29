@@ -3,69 +3,81 @@
     <o-loading [isLoading]="isLoading" />
     }
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-div">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="left-column">
+        <!-- Picture -->
+        <section class="panel">
+            <header class="panel__header">
+                <h2>Informações</h2>
+            </header>
 
-        <div class="picture-div">
-            <p>Foto de perfil</p>
-            <div class="picture-subdiv">
-
-                <img [src]="profilePictureUrl" alt="profilePicture" />
-
-                @if(self){
-                <p-divider layout="vertical" />
-
-                @if (!picture) {
-                <p-fileupload mode="basic" chooseLabel="Selecionar" name="profilePicture" [auto]="true"
-                    accept=".png,.svg,.jpg" [maxFileSize]="MAX_IMAGE_SIZE" (onSelect)="selectProfilePicture($event)" />
+            <div class="panel__body picture-row">
+                @if (self) {
+                <o-image-picker [imageUrl]="profilePictureUrl" [file]="picture" (fileChange)="picture = $event" />
                 } @else {
-                <img [src]="picturePreview" alt="profilePicturePreview" />
-                <o-text-button (onclick)="picture = undefined" icon="close">Cancelar</o-text-button>
+                <img class="picture" [src]="profilePictureUrl" alt="profilePicture" />
                 }
-                }
-
             </div>
-        </div>
 
+            <!-- Name or read-only name -->
+            <div class="panel__body">
+                @if (self) {
+                <div class="name-row">
+                    <mat-form-field subscriptSizing="dynamic" appearance="outline" class="full-width">
+                        <mat-label>Nome completo</mat-label>
+                        <input matInput name="name" formControlName="name" required />
+                    </mat-form-field>
+                </div>
+                } @else {
+                <p class="name-readonly">{{ user?.name }}</p>
+                }
+            </div>
 
-        @if (self) {
-        <div class="name-div">
-            <mat-form-field subscriptSizing="dynamic" appearance="outline">
-                <mat-label>Nome completo</mat-label>
-                <input matInput name="name" formControlName="name" required />
-            </mat-form-field>
-        </div>
-        } @else {
-        <p class="name-p">{{user?.name}}</p>
-        }
-
-        @if (self) {
-        <div>
-            <o-text-button (onclick)="resetForm()">Cancelar</o-text-button>
-            <o-highlight-button cdkInitialFocus icon="save" type="submit" [disabled]="disableSaveButton">
-                Salvar
-            </o-highlight-button>
-        </div>
-        }
-
-        <div class="emails-div">
-            <p>Emails</p>
-
-            @for (account of sortedAccounts; track account.id) {
-            <o-account-card [userAccountId]="account.id" [email]="account.email" [institution]="account.institution"
-                [institutionRole]="account.institutionRole" [idInInstitution]="account.idInInstitution" />
-            }
-
+            <!-- Actions (self only) -->
             @if (self) {
-            <o-highlight-button (onclick)="linkAccount()">Vincular conta</o-highlight-button>
+            <section class="actions-row">
+                <o-text-button (onclick)="resetForm()">Cancelar</o-text-button>
+                <o-highlight-button icon="save" type="submit" [disabled]="disableSaveButton">
+                    Salvar
+                </o-highlight-button>
+            </section>
             }
-        </div>
+        </section>
 
+        <!-- Accounts -->
+        <section class="panel">
+            <header class="panel__header">
+                <h3>Contas</h3>
+            </header>
+
+            <div class="panel__body accounts-list">
+                @for (account of sortedAccounts; track account.id) {
+                <o-account-card [userAccountId]="account.id" [email]="account.email" [institution]="account.institution"
+                    [institutionRole]="account.institutionRole" [idInInstitution]="account.idInInstitution" />
+                }
+
+                @if (self) {
+                <o-highlight-button (onclick)="linkAccount()">Vincular conta</o-highlight-button>
+                }
+            </div>
+        </section>
+
+        <!-- Logout (self only) -->
         @if (self) {
-        <o-highlight-button (onclick)="logout()">Sair</o-highlight-button>
+        <section class="logout-row">
+            <o-highlight-button (onclick)="logout()">Sair</o-highlight-button>
+        </section>
         }
     </form>
 
-    <div class="gamification-div">
-        <o-game-card [user]="user" />
-    </div>
+    <!-- Right column -->
+    <aside class="right-column">
+        <section class="panel sticky">
+            <header class="panel__header">
+                <h3>Gamificação</h3>
+            </header>
+            <div class="panel__body">
+                <o-game-card [user]="user" />
+            </div>
+        </section>
+    </aside>
 </div>

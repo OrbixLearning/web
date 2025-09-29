@@ -1,0 +1,19 @@
+<div class="image-picker-div">
+    <div class="frame">
+        <img [src]="imageUrl" alt="Institution logo" />
+    </div>
+
+    <p-divider layout="vertical" />
+
+    @if (!file) {
+    <p-fileupload mode="basic" chooseLabel="Selecionar" name="file" [auto]="true" accept=".png,.svg"
+        [maxFileSize]="MAX_IMAGE_SIZE" (onSelect)="onFileSelect($event)" />
+    } @else {
+    <div class="frame preview">
+        <img [src]="preview" alt="Preview" />
+    </div>
+    <button mat-button (click)="file = undefined" type="button">
+        <mat-icon>close</mat-icon>Cancelar
+    </button>
+    }
+</div>

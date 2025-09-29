@@ -1,22 +1,67 @@
-.account-card-div {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: stretch;
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
+.account-card {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	gap: 16px;
 
-	.info-div {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
-		gap: 10px;
+	padding: 14px 16px;
+	border: 1px solid var(--border-color, #3a3a3a);
+	border-radius: 10px;
+	background: var(--surface, color-mix(in oklab, var(--background-color) 92%, white));
+}
+
+.account-info {
+	display: grid;
+	gap: 10px;
+
+	.institution-name {
+		margin: 0;
+		color: var(--text-color);
+		font-weight: 600;
+		font-size: 1rem;
 	}
 
+	.info-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px 16px;
+	}
+
+	.info-item {
+		display: grid;
+		grid-template-columns: 90px 1fr;
+		align-items: center;
+		column-gap: 8px;
+
+		.label {
+			color: var(--sidebar-text-muted, #9aa0a6);
+			font-size: 0.85rem;
+		}
+
+		.value {
+			color: var(--text-color);
+			font-size: 0.95rem;
+			word-break: break-word;
+		}
+	}
+}
+
+/* Dynamic logo background (white-label) */
+.logo-frame {
+	width: 92px;
+	height: 92px;
+	border-radius: 8px;
+	border: 1px solid var(--border-color, #3a3a3a);
+	background: transparent;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	padding: 4px;
+
 	img {
-		height: 80px;
-		width: 80px;
+		max-width: 90%;
+		max-height: 90%;
+		object-fit: contain;
 	}
 }
