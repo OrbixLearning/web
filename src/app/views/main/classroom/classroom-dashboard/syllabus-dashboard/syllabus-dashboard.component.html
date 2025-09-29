@@ -1,10 +1,6 @@
 <o-loading [isLoading]="isLoading" />
 
-<header>
-    <button mat-icon-button [routerLink]="[dashboardBaseUrl]">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-</header>
+<o-sub-header [backButtonLink]="dashboardBaseUrl" />
 
 <div class="syllabus-dashboard-div">
     <div class="left-div">

@@ -1,18 +1,6 @@
 <o-loading [isLoading]="isLoading" />
 
-<!-- Header -->
-<header class="ics-header">
-    <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/settings']">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-
-    <div>
-        <o-highlight-button (onclick)="createClassroom()">Criar turmas</o-highlight-button>
-
-        <o-text-button (onclick)="deleteSelectedClassrooms()" [disabled]="selectedClassrooms.length === 0">Excluir
-            turmas</o-text-button>
-    </div>
-</header>
+<o-sub-header [backButtonLink]="'/i/' + this.ctx.institution?.id + '/settings'" [buttons]="headerButtons" />
 
 <!-- Table -->
 <p-table [value]="classrooms" size="small" dataKey="id" [lazy]="true" (onLazyLoad)="getClassrooms($event)"

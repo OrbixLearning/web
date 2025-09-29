@@ -16,33 +16,32 @@ import {
 	DocumentPopUpComponent,
 	UploadDocumentPopUpResponse,
 } from '../../../../components/pop-ups/document-pop-up/document-pop-up.component';
+import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 import { SyllabusTagsComponent } from '../../../../components/syllabus-tags/syllabus-tags.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
+import { DocumentAIUploadStatusEnum } from '../../../../enums/DocumentAIUploadStatus.enum';
 import { Document } from '../../../../models/Document';
 import { Syllabus } from '../../../../models/Syllabus';
+import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { DocumentService } from '../../../../services/document.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
-import { ClassroomService } from '../../../../services/classroom.service';
 import { download } from '../../../../utils/Download.util';
-import { Classroom } from '../../../../models/Classroom';
-import { DocumentAIUploadStatusEnum } from '../../../../enums/DocumentAIUploadStatus.enum';
-import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
 
 @Component({
 	selector: 'o-classroom-documents',
 	imports: [
-    LoadingComponent,
-    MatIconModule,
-    MatButtonModule,
-    RouterModule,
-    MatFormFieldModule,
-    SyllabusComponent,
-    FormsModule,
-    MatInputModule,
-    SyllabusTagsComponent,
-    HighlightButtonComponent
-],
+		LoadingComponent,
+		MatIconModule,
+		MatButtonModule,
+		RouterModule,
+		MatFormFieldModule,
+		SyllabusComponent,
+		FormsModule,
+		MatInputModule,
+		SyllabusTagsComponent,
+		SubHeaderComponent,
+	],
 	templateUrl: './classroom-documents.component.html',
 	styleUrl: './classroom-documents.component.scss',
 })
@@ -63,6 +62,19 @@ export class ClassroomDocumentsComponent {
 
 	get documents(): Document[] {
 		return this.ctx.classroom?.documents || [];
+	}
+
+	get headerButtons(): SubHeaderButton[] {
+		let buttons: SubHeaderButton[] = [];
+		if (this.ctx.isTeacher) {
+			buttons.push({
+				text: 'Adicionar documento',
+				icon: 'add',
+				function: () => this.uploadDocument(),
+				highlighted: true,
+			});
+		}
+		return buttons;
 	}
 
 	// TODO: Do a performance test later to see if this the filtering should be async or not

@@ -1,94 +1,72 @@
 <o-loading [isLoading]="isLoading" />
 
+<o-sub-header [buttons]="headerButtons" />
+
 <div class="classroom-home">
 
-    <div class="top-buttons">
+    <div class="left-content">
 
-        <o-highlight-button (onclick)="createLearningPath()">Criar rota de aprendizagem</o-highlight-button>
-
-        <o-highlight-button (onclick)="router.navigateByUrl(baseUrl + '/documents')">Documentos</o-highlight-button>
-
-        <o-highlight-button (onclick)="router.navigateByUrl(baseUrl + '/members')">Membros</o-highlight-button>
-
-        @if(ctx.isTeacher) {
-        <o-highlight-button (onclick)="router.navigateByUrl(baseUrl + '/dashboard')">Dashboard</o-highlight-button>
-
-        <o-highlight-button (onclick)="router.navigateByUrl(baseUrl + '/settings')">Configurações</o-highlight-button>
-        }
+        <o-chat style="width: 100%" [learningPaths]="learningPathsInChat"
+            (removeLearningPath)="removeLearningPathFromChat($event)" />
 
     </div>
 
-    <p-divider />
+    <div class="right-content">
 
-    <div class="content">
+        <div class="filter-div">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Pesquisar</mat-label>
+                <input matInput [(ngModel)]="filter" />
+            </mat-form-field>
 
-        <div class="left-content">
-
-            <o-chat style="width: 100%" [learningPaths]="learningPathsInChat"
-                (removeLearningPath)="removeLearningPathFromChat($event)" />
-
+            <button mat-raised-button (click)="syllabuspo.toggle($event)">Ementa
+                ({{syllabusFilter.length}})</button>
+            <p-popover #syllabuspo>
+                <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter" (syllabusMarked)="markSyllabus($event)"
+                    [presets]="ctx.classroom?.presets" />
+            </p-popover>
         </div>
 
-        <div class="right-content">
 
-            <div class="filter-div">
-                <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                    <mat-label>Pesquisar</mat-label>
-                    <input matInput [(ngModel)]="filter" />
-                </mat-form-field>
 
-                <button mat-raised-button (click)="syllabuspo.toggle($event)">Ementa
-                    ({{syllabusFilter.length}})</button>
-                <p-popover #syllabuspo>
-                    <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter"
-                        (syllabusMarked)="markSyllabus($event)" [presets]="ctx.classroom?.presets" />
-                </p-popover>
+        <div class="learning-paths-div">
+
+            <div class="learning-paths">
+                <h3>Minhas rotas</h3>
+                @if (filteredMyNotGeneratedLearningPaths.length > 0) {
+                <h5>Rotas em geração</h5>
+                @for (learningPath of filteredMyNotGeneratedLearningPaths; track learningPath.id) {
+                <o-learning-path-card [learningPath]="learningPath" (regenerate)="regenerateLearningPath(learningPath)"
+                    [mine]="true" />
+                }
+                <p-divider />
+                <h5>Rotas geradas</h5>
+                }
+                @for (learningPath of filteredMyGeneratedLearningPaths; track learningPath.id) {
+                <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
+                    [inChat]="isLearningPathIdInChat(learningPath.id)" (addToChat)="addLearningPathToChat(learningPath)"
+                    (sharedChange)="updatedLearningPathSharing(learningPath)" [mine]="true" />
+                }
             </div>
 
-
-
-            <div class="learning-paths-div">
-
-                <div class="learning-paths">
-                    <h3>Minhas rotas</h3>
-                    @if (filteredMyNotGeneratedLearningPaths.length > 0) {
-                    <h5>Rotas em geração</h5>
-                    @for (learningPath of filteredMyNotGeneratedLearningPaths; track learningPath.id) {
-                    <o-learning-path-card [learningPath]="learningPath"
-                        (regenerate)="regenerateLearningPath(learningPath)" [mine]="true" />
-                    }
-                    <p-divider />
-                    <h5>Rotas geradas</h5>
-                    }
-                    @for (learningPath of filteredMyGeneratedLearningPaths; track learningPath.id) {
-                    <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
-                        [inChat]="isLearningPathIdInChat(learningPath.id)"
-                        (addToChat)="addLearningPathToChat(learningPath)"
-                        (sharedChange)="updatedLearningPathSharing(learningPath)" [mine]="true" />
-                    }
-                </div>
-
-                <div class="learning-paths">
-                    <h3>Rotas compartilhadas</h3>
-                    <h5>Rotas de professor</h5>
-                    @for (learningPath of filteredTeacherLearningPaths; track learningPath.id) {
-                    <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
-                        [inChat]="isLearningPathIdInChat(learningPath.id)"
-                        (addToChat)="addLearningPathToChat(learningPath)"
-                        (sharedChange)="updatedLearningPathSharing(learningPath)" />
-                    }
-                    <p-divider />
-                    <h5>Rotas de alunos</h5>
-                    @for (learningPath of filteredStudentLearningPaths; track learningPath.id) {
-                    <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
-                        [inChat]="isLearningPathIdInChat(learningPath.id)"
-                        (addToChat)="addLearningPathToChat(learningPath)"
-                        (sharedChange)="updatedLearningPathSharing(learningPath)" />
-                    }
-                </div>
-
+            <div class="learning-paths">
+                <h3>Rotas compartilhadas</h3>
+                <h5>Rotas de professor</h5>
+                @for (learningPath of filteredTeacherLearningPaths; track learningPath.id) {
+                <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
+                    [inChat]="isLearningPathIdInChat(learningPath.id)" (addToChat)="addLearningPathToChat(learningPath)"
+                    (sharedChange)="updatedLearningPathSharing(learningPath)" />
+                }
+                <p-divider />
+                <h5>Rotas de alunos</h5>
+                @for (learningPath of filteredStudentLearningPaths; track learningPath.id) {
+                <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
+                    [inChat]="isLearningPathIdInChat(learningPath.id)" (addToChat)="addLearningPathToChat(learningPath)"
+                    (sharedChange)="updatedLearningPathSharing(learningPath)" />
+                }
             </div>
+
         </div>
-
     </div>
+
 </div>

@@ -1,21 +1,22 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { AccordionModule, AccordionTabOpenEvent } from 'primeng/accordion';
+import { ChartModule } from 'primeng/chart';
+import { ProgressBar } from 'primeng/progressbar';
+import { lastValueFrom } from 'rxjs';
+import { LoadingComponent } from '../../../../../components/loading/loading.component';
+import { SubHeaderComponent } from '../../../../../components/sub-header/sub-header.component';
+import { StudentCurrentScore } from '../../../../../models/Dashboard/StudentCurrentScore';
+import { StudentScoreHistoryBySyllabus } from '../../../../../models/Dashboard/StudentScoreHistoryBySyllabus';
+import { Syllabus } from '../../../../../models/Syllabus';
+import { UserAccount } from '../../../../../models/User';
 import { ContextService } from '../../../../../services/context.service';
 import { DashboardService } from '../../../../../services/dashboard.service';
 import { UserService } from '../../../../../services/user.service';
-import { Syllabus } from '../../../../../models/Syllabus';
-import { TreeUtils } from '../../../../../utils/Tree.utils';
-import { StudentCurrentScore } from '../../../../../models/Dashboard/StudentCurrentScore';
-import { lastValueFrom } from 'rxjs';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { UserAccount } from '../../../../../models/User';
-import { LoadingComponent } from '../../../../../components/loading/loading.component';
-import { AccordionModule, AccordionTabOpenEvent } from 'primeng/accordion';
-import { ProgressBar } from 'primeng/progressbar';
-import { ChartModule } from 'primeng/chart';
-import { StudentScoreHistoryBySyllabus } from '../../../../../models/Dashboard/StudentScoreHistoryBySyllabus';
 import { DateUtils } from '../../../../../utils/Date.util';
+import { TreeUtils } from '../../../../../utils/Tree.utils';
 
 @Component({
 	selector: 'o-student-dashboard',
@@ -27,6 +28,7 @@ import { DateUtils } from '../../../../../utils/Date.util';
 		AccordionModule,
 		ProgressBar,
 		ChartModule,
+		SubHeaderComponent,
 	],
 	templateUrl: './student-dashboard.component.html',
 	styleUrl: './student-dashboard.component.scss',

@@ -1,13 +1,7 @@
 <o-loading [isLoading]="isLoading" />
 
-<header>
-    <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-    @if (ctx.isTeacher) {
-    <o-highlight-button (onclick)="uploadDocument()">Adicionar documento</o-highlight-button>
-    }
-</header>
+<o-sub-header [backButtonLink]="'/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id"
+    [buttons]="headerButtons" />
 
 <div class="content">
     <div class="left-content">

@@ -22,26 +22,28 @@ import { Page } from '../../../../models/Page';
 import { User, UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
-import { AvatarComponent } from "../../../../components/avatar/avatar.component";
-import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
-import { TextButtonComponent } from "../../../../components/buttons/text-button/text-button.component";
+import { AvatarComponent } from '../../../../components/avatar/avatar.component';
+import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
+import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
+import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 
 @Component({
 	selector: 'o-institution-users',
 	imports: [
-    MatButtonModule,
-    MatIconModule,
-    TableModule,
-    SelectModule,
-    FormsModule,
-    RouterModule,
-    LoadingComponent,
-    InputTextModule,
-    TooltipModule,
-    AvatarComponent,
-    HighlightButtonComponent,
-    TextButtonComponent
-],
+		MatButtonModule,
+		MatIconModule,
+		TableModule,
+		SelectModule,
+		FormsModule,
+		RouterModule,
+		LoadingComponent,
+		InputTextModule,
+		TooltipModule,
+		AvatarComponent,
+		HighlightButtonComponent,
+		TextButtonComponent,
+		SubHeaderComponent,
+	],
 	templateUrl: './institution-users.component.html',
 	styleUrl: './institution-users.component.scss',
 })
@@ -66,6 +68,24 @@ export class InstitutionUsersComponent {
 			'min-width': '50rem',
 			'margin-bottom': '140px', // To avoid the scroll when editing a cell
 		};
+	}
+
+	get headerButtons(): SubHeaderButton[] {
+		let buttons: SubHeaderButton[] = [];
+		buttons.push({
+			text: 'Criar usuários',
+			icon: 'add',
+			function: () => this.createUser(),
+			highlighted: true,
+		});
+		buttons.push({
+			text: 'Excluir usuários',
+			icon: 'delete',
+			function: () => this.deleteSelectedUsers(),
+			highlighted: false,
+			disabled: this.selectedUsers.length === 0,
+		});
+		return buttons;
 	}
 
 	getProfilePictureUrl(user: User): string {

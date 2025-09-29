@@ -7,44 +7,44 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
-import { last, lastValueFrom } from 'rxjs';
-import { LoadingComponent } from '../../../../components/loading/loading.component';
-import { LearningPathCreationPopUpComponent } from '../../../../components/pop-ups/learning-path-creation-pop-up/learning-path-creation-pop-up.component';
+import { PopoverModule } from 'primeng/popover';
+import { lastValueFrom } from 'rxjs';
+import { ChatComponent } from '../../../../components/chat/chat.component';
 import { LearningPathCardComponent } from '../../../../components/learning-path-card/learning-path-card.component';
-import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
-import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
-import { LearningPath } from '../../../../models/LearningPath/LearningPath';
-import { Syllabus } from '../../../../models/Syllabus';
-import { ContextService } from '../../../../services/context.service';
-import { LearningPathService } from '../../../../services/learning-path.service';
-import { ArrayUtils } from '../../../../utils/Array.utils';
-import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
-import { LearningPathGenerationStatusEnum } from '../../../../enums/LearningPathGenerationStatus.enum';
+import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
-import { PopoverModule } from 'primeng/popover';
-import { ChatComponent } from '../../../../components/chat/chat.component';
-import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
+import { LearningPathCreationPopUpComponent } from '../../../../components/pop-ups/learning-path-creation-pop-up/learning-path-creation-pop-up.component';
+import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
+import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
+import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
+import { LearningPathGenerationStatusEnum } from '../../../../enums/LearningPathGenerationStatus.enum';
+import { LearningPath } from '../../../../models/LearningPath/LearningPath';
+import { Syllabus } from '../../../../models/Syllabus';
+import { ContextService } from '../../../../services/context.service';
+import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
+import { LearningPathService } from '../../../../services/learning-path.service';
+import { ArrayUtils } from '../../../../utils/Array.utils';
 
 @Component({
 	selector: 'o-classroom-home',
 	imports: [
-    MatIconModule,
-    MatButtonModule,
-    RouterModule,
-    DividerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    SyllabusComponent,
-    LearningPathCardComponent,
-    FormsModule,
-    LoadingComponent,
-    PopoverModule,
-    ChatComponent,
-    HighlightButtonComponent
-],
+		MatIconModule,
+		MatButtonModule,
+		RouterModule,
+		DividerModule,
+		MatFormFieldModule,
+		MatInputModule,
+		SyllabusComponent,
+		LearningPathCardComponent,
+		FormsModule,
+		LoadingComponent,
+		PopoverModule,
+		ChatComponent,
+		SubHeaderComponent,
+	],
 	templateUrl: './classroom-home.component.html',
 	styleUrl: './classroom-home.component.scss',
 })
@@ -107,6 +107,43 @@ export class ClassroomHomeComponent {
 
 	get filteredTeacherLearningPaths(): LearningPath[] {
 		return this.teacherLearningPaths.filter(this.filterLearningPath);
+	}
+
+	get headerButtons(): SubHeaderButton[] {
+		let buttons: SubHeaderButton[] = [];
+		buttons.push({
+			text: 'Criar rota de aprendizagem',
+			icon: 'add',
+			function: () => this.createLearningPath(),
+			highlighted: true,
+		});
+		buttons.push({
+			text: 'Documentos',
+			icon: 'description',
+			function: () => this.router.navigateByUrl(this.baseUrl + '/documents'),
+			highlighted: true,
+		});
+		buttons.push({
+			text: 'Membros',
+			icon: 'groups',
+			function: () => this.router.navigateByUrl(this.baseUrl + '/members'),
+			highlighted: true,
+		});
+		if (this.ctx.isTeacher) {
+			buttons.push({
+				text: 'Dashboard',
+				icon: 'insights',
+				function: () => this.router.navigateByUrl(this.baseUrl + '/dashboard'),
+				highlighted: true,
+			});
+			buttons.push({
+				text: 'Configurações',
+				icon: 'settings',
+				function: () => this.router.navigateByUrl(this.baseUrl + '/settings'),
+				highlighted: true,
+			});
+		}
+		return buttons;
 	}
 
 	// TODO: Do a performance test later to see if this the filtering should be async or not

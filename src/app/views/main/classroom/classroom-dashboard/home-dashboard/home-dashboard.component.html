@@ -1,11 +1,6 @@
 <o-loading [isLoading]="isLoading" />
 
-<header>
-    <button mat-icon-button [routerLink]="[classroomBaseUrl]">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-    <o-highlight-button (onclick)="forceUpdateScores()" icon="refresh">Forçar atualização de notas</o-highlight-button>
-</header>
+<o-sub-header [backButtonLink]="classroomBaseUrl" [buttons]="headerButtons" />
 
 <div class="classroom-dashboard-div">
     <div class="left-div">

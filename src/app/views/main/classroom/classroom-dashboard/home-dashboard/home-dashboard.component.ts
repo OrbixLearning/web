@@ -1,10 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../../components/loading/loading.component';
+import {
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
+} from '../../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { SubHeaderButton, SubHeaderComponent } from '../../../../../components/sub-header/sub-header.component';
 import { ClassroomCurrentScore } from '../../../../../models/Dashboard/ClassroomCurrentScore';
 import { Syllabus } from '../../../../../models/Syllabus';
 import { UserAccount } from '../../../../../models/User';
@@ -12,16 +18,10 @@ import { ContextService } from '../../../../../services/context.service';
 import { DashboardService } from '../../../../../services/dashboard.service';
 import { UserService } from '../../../../../services/user.service';
 import { TreeUtils } from '../../../../../utils/Tree.utils';
-import {
-	ConfirmPopUpComponent,
-	ConfirmPopUpData,
-} from '../../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
-import { MatDialog } from '@angular/material/dialog';
-import { HighlightButtonComponent } from "../../../../../components/buttons/highlight-button/highlight-button.component";
 
 @Component({
 	selector: 'o-home-dashboard',
-	imports: [LoadingComponent, MatButtonModule, MatIconModule, RouterModule, ProgressBarModule, HighlightButtonComponent],
+	imports: [LoadingComponent, MatButtonModule, MatIconModule, RouterModule, ProgressBarModule, SubHeaderComponent],
 	templateUrl: './home-dashboard.component.html',
 	styleUrl: './home-dashboard.component.scss',
 })
@@ -38,6 +38,17 @@ export class HomeDashboardComponent {
 
 	get classroomBaseUrl() {
 		return '/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id;
+	}
+
+	get headerButtons(): SubHeaderButton[] {
+		let buttons: SubHeaderButton[] = [];
+		buttons.push({
+			text: 'Forçar atualização de notas',
+			icon: 'refresh',
+			function: () => this.forceUpdateScores(),
+			highlighted: true,
+		});
+		return buttons;
 	}
 
 	ngOnInit() {

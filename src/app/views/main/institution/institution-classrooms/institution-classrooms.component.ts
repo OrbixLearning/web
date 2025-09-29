@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { FilterMetadata } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
+import { PopoverModule } from 'primeng/popover';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
@@ -14,28 +15,25 @@ import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 import { Classroom } from '../../../../models/Classroom';
 import { Page } from '../../../../models/Page';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
-import { PopoverModule } from 'primeng/popover';
-import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
-import { TextButtonComponent } from "../../../../components/buttons/text-button/text-button.component";
 
 @Component({
 	selector: 'o-institution-classrooms',
 	imports: [
-    MatButtonModule,
-    MatIconModule,
-    TableModule,
-    FormsModule,
-    RouterModule,
-    LoadingComponent,
-    InputTextModule,
-    PopoverModule,
-    HighlightButtonComponent,
-    TextButtonComponent
-],
+		MatButtonModule,
+		MatIconModule,
+		TableModule,
+		FormsModule,
+		RouterModule,
+		LoadingComponent,
+		InputTextModule,
+		PopoverModule,
+		SubHeaderComponent,
+	],
 	templateUrl: './institution-classrooms.component.html',
 	styleUrl: './institution-classrooms.component.scss',
 })
@@ -57,6 +55,24 @@ export class InstitutionClassroomsComponent {
 		return {
 			'min-width': '50rem',
 		};
+	}
+
+	get headerButtons(): SubHeaderButton[] {
+		let buttons: SubHeaderButton[] = [];
+		buttons.push({
+			text: 'Criar turmas',
+			icon: 'add',
+			function: () => this.createClassroom(),
+			highlighted: true,
+		});
+		buttons.push({
+			text: 'Excluir turmas',
+			icon: 'delete',
+			function: () => this.deleteSelectedClassrooms(),
+			highlighted: false,
+			disabled: this.selectedClassrooms.length === 0,
+		});
+		return buttons;
 	}
 
 	async getClassrooms(event?: TableLazyLoadEvent) {
