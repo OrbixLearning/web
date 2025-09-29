@@ -3,53 +3,80 @@
 <o-sub-header [backButtonLink]="'/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id"
     [buttons]="headerButtons" />
 
-<div class="content">
-    <div class="left-content">
-        @for (document of filteredDocuments; track document.id) {
-        <div>
-            <p>{{document.name}}</p>
-            <p>{{document.extension}}</p>
-            <o-syllabus-tags [syllabus]="document.syllabus || []" />
-            <button mat-icon-button (click)="downloadDocument(document.id, document.name)">
-                <mat-icon>download</mat-icon>
-            </button>
-            @if (ctx.isTeacher) {
-            <button mat-icon-button (click)="updateDocument(document)">
-                <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteDocument(document.id)">
-                <mat-icon>delete</mat-icon>
-            </button>
-            @if (document.aiStatus === documentAIUploadStatusEnum.FAILED) {
-            <div>
-                <p>Ocorreu um erro ao alimentar a IA com este documento</p>
-                <button mat-button (click)="recallDocumentAI(document)">Tentar novamente</button>
+<div class="docs">
+    <!-- Left: filters/syllabus -->
+    <aside class="panel left">
+        <header class="panel__header">
+            <h3>Filtrar documentos</h3>
+        </header>
+        <div class="panel__body">
+            @if (documents.length > 0) {
+            <div class="search-row">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full">
+                    <mat-label>Pesquisar</mat-label>
+                    <input matInput [(ngModel)]="filter" />
+                </mat-form-field>
             </div>
-            } @else if (document.aiStatus === documentAIUploadStatusEnum.UPLOADING) {
-            <div>
-                <p>Adicionando documento à IA...</p>
-                <o-loading [isLoading]="true" [local]="true" size="30px" />
-            </div>
-            }
+
+            <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter" (syllabusMarked)="markSyllabus($event)"
+                [presets]="ctx.classroom?.presets" />
+            } @else {
+            <p class="muted">Nenhum documento disponível para filtrar.</p>
             }
         </div>
-        } @empty {
-        <p>Nenhum documento encontrado</p>
-        }
-    </div>
+    </aside>
 
-    <div class="right-content">
+    <!-- Right: document list -->
+    <section class="panel right">
+        <header class="panel__header">
+            <h3>Documentos</h3>
+            <span class="count">{{ filteredDocuments.length || 0 }}</span>
+        </header>
 
-        @if (documents.length > 0) {
-        <div class="search-div">
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Pesquisar</mat-label>
-                <input matInput [(ngModel)]="filter" />
-            </mat-form-field>
+        <div class="panel__body doc-list">
+            @for (document of filteredDocuments; track document.id) {
+            <article class="doc-card">
+                <div class="doc-card__head">
+                    <h4 class="doc-title" [title]="document.name">{{ document.name }}</h4>
+                    <span class="ext-chip">{{ document.extension }}</span>
+                </div>
+
+                <div class="doc-card__tags">
+                    <o-syllabus-tags [syllabus]="document.syllabus || []" />
+                </div>
+
+                <div class="doc-card__actions">
+                    <button mat-icon-button (click)="downloadDocument(document.id, document.name)">
+                        <mat-icon>download</mat-icon>
+                    </button>
+
+                    @if (ctx.isTeacher) {
+                    <button mat-icon-button (click)="updateDocument(document)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteDocument(document.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    }
+                </div>
+
+                @if (ctx.isTeacher) {
+                @if (document.aiStatus === documentAIUploadStatusEnum.FAILED) {
+                <div class="ai-row ai-failed">
+                    <p>Ocorreu um erro ao alimentar a IA com este documento.</p>
+                    <o-text-button (onclick)="recallDocumentAI(document)">Tentar novamente</o-text-button>
+                </div>
+                } @else if (document.aiStatus === documentAIUploadStatusEnum.UPLOADING) {
+                <div class="ai-row ai-uploading">
+                    <p>Adicionando documento à IA...</p>
+                    <o-loading [isLoading]="true" [local]="true" size="24px" />
+                </div>
+                }
+                }
+            </article>
+            } @empty {
+            <p class="empty">Nenhum documento encontrado.</p>
+            }
         </div>
-
-        <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter" (syllabusMarked)="markSyllabus($event)"
-            [presets]="ctx.classroom?.presets" />
-        }
-    </div>
+    </section>
 </div>

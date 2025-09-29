@@ -27,21 +27,23 @@ import { ContextService } from '../../../../services/context.service';
 import { DocumentService } from '../../../../services/document.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
 import { download } from '../../../../utils/Download.util';
+import { TextButtonComponent } from "../../../../components/buttons/text-button/text-button.component";
 
 @Component({
 	selector: 'o-classroom-documents',
 	imports: [
-		LoadingComponent,
-		MatIconModule,
-		MatButtonModule,
-		RouterModule,
-		MatFormFieldModule,
-		SyllabusComponent,
-		FormsModule,
-		MatInputModule,
-		SyllabusTagsComponent,
-		SubHeaderComponent,
-	],
+    LoadingComponent,
+    MatIconModule,
+    MatButtonModule,
+    RouterModule,
+    MatFormFieldModule,
+    SyllabusComponent,
+    FormsModule,
+    MatInputModule,
+    SyllabusTagsComponent,
+    SubHeaderComponent,
+    TextButtonComponent
+],
 	templateUrl: './classroom-documents.component.html',
 	styleUrl: './classroom-documents.component.scss',
 })

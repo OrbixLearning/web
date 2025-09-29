@@ -10,6 +10,7 @@ import { SelectModule } from 'primeng/select';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
+import { AvatarComponent } from '../../../../components/avatar/avatar.component';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
 	ConfirmPopUpComponent,
@@ -17,15 +18,12 @@ import {
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { PasswordResetPopUpComponent } from '../../../../components/pop-ups/password-reset-pop-up/password-reset-pop-up.component';
 import { UserCreationPopUpComponent } from '../../../../components/pop-ups/user-creation-pop-up/user-creation-pop-up.component';
+import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
 import { Page } from '../../../../models/Page';
 import { User, UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
-import { AvatarComponent } from '../../../../components/avatar/avatar.component';
-import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
-import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
-import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 
 @Component({
 	selector: 'o-institution-users',
@@ -40,8 +38,6 @@ import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-
 		InputTextModule,
 		TooltipModule,
 		AvatarComponent,
-		HighlightButtonComponent,
-		TextButtonComponent,
 		SubHeaderComponent,
 	],
 	templateUrl: './institution-users.component.html',

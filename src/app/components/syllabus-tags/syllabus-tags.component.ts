@@ -10,4 +10,6 @@ import { Syllabus } from '../../models/Syllabus';
 })
 export class SyllabusTagsComponent {
 	@Input() syllabus: Syllabus[] = [];
+
+	readonly MAX_TAGS = 3;
 }
