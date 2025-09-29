@@ -1,0 +1,21 @@
+<header class="sub-header">
+    <div class="right">
+        @if (backButtonLink) {
+        <button mat-icon-button [routerLink]="backButtonLink">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        }
+    </div>
+
+    <div class="left">
+        @for (btn of buttons; track $index) {
+        @if (btn.highlighted) {
+        <o-highlight-button (onclick)="btn.function()" [icon]="btn.icon"
+            [disabled]="btn.disabled !== undefined ? btn.disabled : false">{{btn.text}}</o-highlight-button>
+        } @else {
+        <o-text-button (onclick)="btn.function()" [icon]="btn.icon"
+            [disabled]="btn.disabled !== undefined ? btn.disabled : false">{{btn.text}}</o-text-button>
+        }
+        }
+    </div>
+</header>

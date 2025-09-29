@@ -1,58 +1,94 @@
 <o-loading [isLoading]="isLoading" />
 
-<header>
-    <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-    @if (ctx.isTeacher) {
-    <o-highlight-button (onclick)="addMember()">Adicionar pessoas</o-highlight-button>
-    }
-</header>
+<o-sub-header [backButtonLink]="'/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id"
+    [buttons]="headerButtons" />
 
-<div class="classroom-members-div">
+<div class="classroom-members">
+    <!-- Students panel -->
+    <section class="panel">
+        <header class="panel__header">
+            <h3>Alunos</h3>
+            <span class="count">{{ students.length || 0 }}</span>
+        </header>
 
-    @if (students.length > 0 ) {
-    <p-table [value]="students" size="small" [tableStyle]="tableStyle">
-        <ng-template #body let-student>
-            <!-- Body -->
-            <tr>
-                <td>
-                    <o-avatar [src]="getProfilePictureUrl(student.user)" [id]="student.user.id" />
-                </td>
-                <td>{{ student.idInInstitution }}</td>
-                <td>{{ student.user.name }}</td>
-                <td>{{ student.email }}</td>
-                <td>{{ student.institutionRole }}</td>
-                @if (ctx.isTeacher) {
-                <td><button mat-icon-button (click)="removeMember(student)"><mat-icon>close</mat-icon></button></td>
-                }
-            </tr>
-        </ng-template>
-    </p-table>
-    } @else {
-    <p>Não há alunos nesta turma</p>
-    }
+        <div class="panel__body">
+            @if (students.length > 0) {
+            <p-table [value]="students" size="small" [tableStyle]="tableStyle">
+                <ng-template #header>
+                    <tr>
+                        <th class="col-avatar">Perfil</th>
+                        <th>Identificador</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Cargo</th>
+                        @if (ctx.isTeacher) { <th class="col-actions">Ações</th> }
+                    </tr>
+                </ng-template>
 
-    @if (teachers.length > 0) {
-    <p-table [value]="teachers" size="small" [tableStyle]="tableStyle">
-        <ng-template #body let-teacher>
-            <!-- Body -->
-            <tr>
-                <td>
-                    <o-avatar [src]="getProfilePictureUrl(teacher.user)" [id]="teacher.user.id" />
-                </td>
-                <td>{{ teacher.idInInstitution }}</td>
-                <td>{{ teacher.user.name }}</td>
-                <td>{{ teacher.email }}</td>
-                <td>{{ teacher.institutionRole }}</td>
-                @if (ctx.isTeacher) {
-                <td><button mat-icon-button (click)="removeMember(teacher)"><mat-icon>close</mat-icon></button></td>
-                }
-            </tr>
-        </ng-template>
-    </p-table>
-    } @else {
-    <p>Não há professores nesta turma</p>
-    }
+                <ng-template #body let-student>
+                    <tr>
+                        <td class="col-avatar">
+                            <o-avatar [src]="getProfilePictureUrl(student.user)" [id]="student.user.id" [size]="28" />
+                        </td>
+                        <td>{{ student.idInInstitution }}</td>
+                        <td>{{ student.user.name }}</td>
+                        <td>{{ student.email }}</td>
+                        <td>{{ student.institutionRole }}</td>
+                        @if (ctx.isTeacher) {
+                        <td class="col-actions">
+                            <button mat-icon-button (click)="removeMember(student)"><mat-icon>close</mat-icon></button>
+                        </td>
+                        }
+                    </tr>
+                </ng-template>
+            </p-table>
+            } @else {
+            <p class="empty">Não há alunos nesta turma.</p>
+            }
+        </div>
+    </section>
 
+    <!-- Teachers panel -->
+    <section class="panel">
+        <header class="panel__header">
+            <h3>Professores</h3>
+            <span class="count">{{ teachers.length || 0 }}</span>
+        </header>
+
+        <div class="panel__body">
+            @if (teachers.length > 0) {
+            <p-table [value]="teachers" size="small" [tableStyle]="tableStyle">
+                <ng-template #header>
+                    <tr>
+                        <th class="col-avatar">Perfil</th>
+                        <th>Identificador</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Cargo</th>
+                        @if (ctx.isTeacher) { <th class="col-actions">Ações</th> }
+                    </tr>
+                </ng-template>
+
+                <ng-template #body let-teacher>
+                    <tr>
+                        <td class="col-avatar">
+                            <o-avatar [src]="getProfilePictureUrl(teacher.user)" [id]="teacher.user.id" [size]="28" />
+                        </td>
+                        <td>{{ teacher.idInInstitution }}</td>
+                        <td>{{ teacher.user.name }}</td>
+                        <td>{{ teacher.email }}</td>
+                        <td>{{ teacher.institutionRole }}</td>
+                        @if (ctx.isTeacher) {
+                        <td class="col-actions">
+                            <button mat-icon-button (click)="removeMember(teacher)"><mat-icon>close</mat-icon></button>
+                        </td>
+                        }
+                    </tr>
+                </ng-template>
+            </p-table>
+            } @else {
+            <p class="empty">Não há professores nesta turma.</p>
+            }
+        </div>
+    </section>
 </div>

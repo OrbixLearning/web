@@ -1,10 +1,6 @@
 <o-loading [isLoading]="isLoading" />
 
-<header class="cls-header">
-    <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-</header>
+<o-sub-header [backButtonLink]="'/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id" />
 
 <div class="classroom-settings">
     <!-- Left: basic info -->

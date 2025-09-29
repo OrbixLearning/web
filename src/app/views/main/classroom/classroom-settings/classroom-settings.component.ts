@@ -10,11 +10,14 @@ import { DividerModule } from 'primeng/divider';
 import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
+import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
+import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { EditSyllabusTopicPopUpComponent } from '../../../../components/pop-ups/edit-syllabus-topic-pop-up/edit-syllabus-topic-pop-up.component';
 import {
 	SyllabusPresetCreationPopUpComponent,
 	SyllabusPresetCreationPopUpData,
@@ -26,6 +29,7 @@ import {
 	SyllabusTopicCreationPopUpData,
 	SyllabusTopicCreationPopUpResult,
 } from '../../../../components/pop-ups/syllabus-topic-creation-pop-up/syllabus-topic-creation-pop-up.component';
+import { SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
 import { Classroom, SyllabusPreset } from '../../../../models/Classroom';
 import { Syllabus } from '../../../../models/Syllabus';
@@ -33,26 +37,24 @@ import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { SyllabusService } from '../../../../services/syllabus.service';
 import { TreeUtils } from '../../../../utils/Tree.utils';
-import { EditSyllabusTopicPopUpComponent } from '../../../../components/pop-ups/edit-syllabus-topic-pop-up/edit-syllabus-topic-pop-up.component';
-import { TextButtonComponent } from "../../../../components/buttons/text-button/text-button.component";
-import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
 
 @Component({
 	selector: 'o-classroom-settings',
 	imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    LoadingComponent,
-    SyllabusComponent,
-    MatIconModule,
-    RouterModule,
-    DividerModule,
-    FileUploadModule,
-    TextButtonComponent,
-    HighlightButtonComponent
-],
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatButtonModule,
+		LoadingComponent,
+		SyllabusComponent,
+		MatIconModule,
+		RouterModule,
+		DividerModule,
+		FileUploadModule,
+		TextButtonComponent,
+		HighlightButtonComponent,
+		SubHeaderComponent,
+	],
 	templateUrl: './classroom-settings.component.html',
 	styleUrl: './classroom-settings.component.scss',
 })
