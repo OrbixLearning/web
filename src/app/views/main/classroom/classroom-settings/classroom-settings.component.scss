@@ -1,8 +1,134 @@
-.classroom-settings-div {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: flex-start;
+.cls-header {
+	margin-bottom: 8px;
+}
+
+.classroom-settings {
+	display: grid;
+	grid-template-columns: 1fr auto 1.2fr;
+	gap: 24px;
 	width: 100%;
-	gap: 30px;
+	align-items: start;
+}
+
+/* Generic panel */
+.panel {
+	background: var(--surface, color-mix(in oklab, var(--background-color) 90%, white));
+	border: 1px solid var(--border-color, #3a3a3a);
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+	overflow: hidden;
+
+	.panel__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		padding: 12px 14px;
+		border-bottom: 1px solid var(--border-color, #3a3a3a);
+
+		h2,
+		h3 {
+			margin: 0;
+			font-weight: 700;
+			font-size: 1.05rem;
+			color: var(--text-color);
+		}
+
+		.panel__header-actions {
+			display: flex;
+			gap: 8px;
+			flex-wrap: wrap;
+		}
+	}
+
+	.panel__body {
+		padding: 14px;
+	}
+	.panel__footer {
+		padding: 12px 14px;
+		border-top: 1px solid var(--border-color, #3a3a3a);
+	}
+}
+
+/* Vertical divider spacing */
+.cls-divider {
+	align-self: stretch;
+}
+
+/* Left form layout */
+.form-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+
+	.full {
+		grid-column: 1 / -1;
+	}
+
+	.icon-row {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.icon-field {
+		min-width: 0;
+	}
+
+	.hint {
+		margin: 0;
+
+		a {
+			color: var(--primary-color);
+			text-decoration: underline;
+		}
+	}
+
+	.actions {
+		display: flex;
+		gap: 10px;
+		justify-content: flex-end;
+	}
+}
+
+/* Icon preview square */
+.icon-preview {
+	width: 64px;
+	height: 64px;
+	border-radius: 16px;
+	border: 1px solid var(--border-color, #3a3a3a);
+	background: transparent;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	visibility: hidden;
+
+	&.is-visible {
+		visibility: visible;
+	}
+
+	.icon-preview__mat {
+		font-size: 36px;
+		color: var(--text-color);
+		line-height: 1;
+		height: 36px;
+		width: 36px;
+	}
+}
+
+/* Syllabus area */
+.upload-area {
+	display: grid;
+	gap: 10px;
+	.file-name {
+		margin: 0;
+		color: var(--text-color);
+	}
+
+	.upload-actions {
+		display: flex;
+		gap: 8px;
+		justify-content: flex-end;
+	}
 }

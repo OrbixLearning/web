@@ -1,72 +1,86 @@
 <o-loading [isLoading]="isLoading" />
 
-<header>
+<header class="cls-header">
     <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
         <mat-icon>arrow_back</mat-icon>
     </button>
 </header>
 
-<div class="classroom-settings-div">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <h2>Configurações da Turma {{ctx.classroom?.name}}</h2>
+<div class="classroom-settings">
+    <!-- Left: basic info -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="panel">
+        <header class="panel__header">
+            <h2>Configurações da Turma {{ ctx.classroom?.name }}</h2>
+        </header>
 
-        <mat-form-field subscriptSizing="dynamic" appearance="outline">
-            <mat-label>Nome</mat-label>
-            <input matInput name="name" formControlName="name" required />
-        </mat-form-field>
-
-        <div>
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Ícone</mat-label>
-                <input matInput type="text" name="icon" formControlName="icon" />
-
+        <div class="panel__body form-grid">
+            <mat-form-field subscriptSizing="dynamic" appearance="outline" class="full">
+                <mat-label>Nome</mat-label>
+                <input matInput name="name" formControlName="name" required />
             </mat-form-field>
 
-            <mat-icon
-                [style]="'font-size: 48px; height: 48px; width: 48px; visibility: ' + (getFormControl('icon').value ? 'visible' : 'hidden')">
-                {{getFormControl('icon').value}}
-            </mat-icon>
-        </div>
+            <div class="icon-row full">
+                <mat-form-field appearance="fill" subscriptSizing="dynamic" class="icon-field">
+                    <mat-label>Ícone</mat-label>
+                    <input matInput type="text" name="icon" formControlName="icon" />
+                </mat-form-field>
 
-        <p>É possível verificar a lista de ícones em <a href="https://fonts.google.com/icons?icon.set=Material+Icons"
-                target="_blank">Google Icons</a></p>
+                <div class="icon-preview" [class.is-visible]="getFormControl('icon').value">
+                    <mat-icon class="icon-preview__mat">
+                        {{ getFormControl('icon').value }}
+                    </mat-icon>
+                </div>
+            </div>
 
-        <div>
-            <o-text-button (onclick)="resetForm()">Cancelar</o-text-button>
-            <o-highlight-button cdkInitialFocus icon="save" type="submit"
-                [disabled]="disableInfosSaveButton">Salvar</o-highlight-button>
+            <p class="hint full">
+                É possível verificar a lista de ícones em
+                <a href="https://fonts.google.com/icons?icon.set=Material+Icons" target="_blank">Google Icons</a>
+            </p>
+
+            <div class="actions full">
+                <o-text-button (onclick)="resetForm()">Cancelar</o-text-button>
+                <o-highlight-button cdkInitialFocus icon="save" type="submit" [disabled]="disableInfosSaveButton">
+                    Salvar
+                </o-highlight-button>
+            </div>
         </div>
     </form>
 
-    <p-divider layout="vertical" />
+    <!-- Divider -->
+    <p-divider layout="vertical" class="cls-divider" />
 
-    <div>
-        <h3>Ementa</h3>
-        <div>
-            <o-highlight-button (onclick)="addSyllabusTopic()" icon="add">Adicionar tópico</o-highlight-button>
-            <o-highlight-button (onclick)="addSyllabusPreset()" icon="checklist">Adicionar grupo de
-                tópicos</o-highlight-button>
-            <o-highlight-button (onclick)="deleteSyllabusPreset()" icon="delete">Excluir grupo de
-                tópicos</o-highlight-button>
+    <!-- Right: syllabus -->
+    <section class="panel">
+        <header class="panel__header">
+            <h3>Ementa</h3>
+            <div class="panel__header-actions">
+                <o-highlight-button (onclick)="addSyllabusTopic()" icon="add">Adicionar tópico</o-highlight-button>
+                <o-highlight-button (onclick)="addSyllabusPreset()" icon="checklist">Adicionar
+                    grupo</o-highlight-button>
+                <o-highlight-button (onclick)="deleteSyllabusPreset()" icon="delete">Excluir grupo</o-highlight-button>
+            </div>
+        </header>
+
+        <div class="panel__body">
+            <o-syllabus [syllabus]="syllabus" mode="edit" (editSyllabus)="editSyllabus($event)"
+                (deleteSyllabus)="deleteSyllabus($event)" [presets]="presets" />
         </div>
 
-        <o-syllabus [syllabus]="syllabus" mode="edit" (editSyllabus)="editSyllabus($event)"
-            (deleteSyllabus)="deleteSyllabus($event)" [presets]="presets" />
-
         @if (!syllabus || syllabus.length === 0) {
-        <div>
+        <div class="panel__footer upload-area">
             @if (!syllabusDocument) {
             <p-fileupload mode="basic" chooseLabel="Criar ementa a partir de um documento" name="logo" [auto]="true"
                 accept=".pdf" [maxFileSize]="MAX_FILE_SIZE" (onSelect)="selectSyllabusDocument($event)" />
             } @else {
-            <p>{{syllabusDocument.name}}</p>
-            <button mat-raised-button type="button" (click)="syllabusDocument = undefined">Cancelar</button>
-            <button mat-raised-button type="button" (click)="uploadSyllabusDocument()">
-                <mat-icon>upload</mat-icon>
-                Criar ementa com esse documento
-            </button>
+            <p class="file-name">{{ syllabusDocument.name }}</p>
+            <div class="upload-actions">
+                <o-text-button (onclick)="syllabusDocument = undefined">Cancelar</o-text-button>
+                <o-highlight-button icon="upload" (onclick)="uploadSyllabusDocument()">
+                    Criar ementa com esse documento
+                </o-highlight-button>
+            </div>
             }
         </div>
         }
-    </div>
+    </section>
 </div>
