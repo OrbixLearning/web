@@ -2,45 +2,82 @@
 
 <div class="report">
     <h1>Fale conosco</h1>
+
     <div class="content">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Título</mat-label>
-                <input type="text" matInput formControlName="title" />
-            </mat-form-field>
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Descrição</mat-label>
-                <textarea matInput formControlName="description" rows="6"></textarea>
-            </mat-form-field>
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Tipo</mat-label>
-                <mat-select formControlName="type">
-                    @for (type of reportTypes; track type) {
-                    <mat-option [value]="type">{{ type }}</mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
-            <o-highlight-button type="submit">Enviar</o-highlight-button>
-        </form>
+        <!-- Form panel -->
+        <section class="panel form">
+            <header class="panel__header">
+                <h2>Enviar mensagem</h2>
+            </header>
 
-        <div class="list">
-            <h3>Suas mensagens</h3>
-            @for (report of userReports; track report.id) {
-            <mat-card>
-                <mat-card-title>{{report.title}}</mat-card-title>
-                <mat-card-subtitle>{{formatDate(report.createdAt)}}</mat-card-subtitle>
-                <mat-card-subtitle>{{report.type}}</mat-card-subtitle>
-                <mat-card-content>
-                    <p>{{report.description}}</p>
-                </mat-card-content>
-            </mat-card>
-            }
-        </div>
+            <div class="panel__body form__body">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form__grid">
+                    <mat-form-field appearance="fill" subscriptSizing="dynamic" class="full">
+                        <mat-label>Título</mat-label>
+                        <input type="text" matInput formControlName="title" />
+                    </mat-form-field>
 
-        <div class="contacts">
-            <h3>Contatos</h3>
-            <p>Email: <a href="mailto:orbixlearning@gmail.com">orbixlearning&#64;gmail.com</a></p>
-            <p>Telefone: <a href="tel:+5531985370868">+55 31 98537-0868</a></p>
-        </div>
+                    <mat-form-field appearance="fill" subscriptSizing="dynamic" class="full">
+                        <mat-label>Descrição</mat-label>
+                        <textarea matInput formControlName="description" rows="6"></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" subscriptSizing="dynamic" class="half">
+                        <mat-label>Tipo</mat-label>
+                        <mat-select formControlName="type">
+                            @for (type of reportTypes; track type) {
+                            <mat-option [value]="type">{{ type }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div class="actions">
+                        <o-highlight-button type="submit">Enviar</o-highlight-button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- List panel -->
+        <section class="panel list">
+            <header class="panel__header">
+                <h3>Suas mensagens</h3>
+            </header>
+
+            <div class="panel__body list__body">
+                @if (userReports.length === 0) {
+                <p class="empty">Você ainda não enviou mensagens.</p>
+                } @else {
+                @for (report of userReports; track report.id) {
+                <mat-card class="report-card">
+                    <div class="report-card__header">
+                        <h4 class="title">{{ report.title }}</h4>
+                        <span class="type-chip">{{ report.type }}</span>
+                    </div>
+
+                    <div class="report-card__meta">
+                        <span class="date">{{ formatDate(report.createdAt) }}</span>
+                    </div>
+
+                    <div class="report-card__content">
+                        <p class="description">{{ report.description }}</p>
+                    </div>
+                </mat-card>
+                }
+                }
+            </div>
+        </section>
+
+        <!-- Contacts panel -->
+        <aside class="panel contacts">
+            <header class="panel__header">
+                <h3>Contatos</h3>
+            </header>
+
+            <div class="panel__body contacts__body">
+                <p>Email: <a href="mailto:orbixlearning@gmail.com" target="_blank">orbixlearning&#64;gmail.com</a></p>
+                <p>Whats App: <a href="https://wa.me/5531985370868" target="_blank">+55 31 98537-0868</a></p>
+            </div>
+        </aside>
     </div>
 </div>

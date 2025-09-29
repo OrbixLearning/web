@@ -1,33 +1,135 @@
 .report {
-	display: flex;
-	flex-direction: column;
-	gap: 30px;
+	display: grid;
+	gap: 20px;
+
+	h1 {
+		margin: 0;
+		font-size: 1.4rem;
+		color: var(--text-color);
+	}
 
 	.content {
+		display: grid;
+		grid-template-columns: 2fr 2fr 1fr;
+		gap: 20px;
+		align-items: start;
+	}
+}
+
+/* Generic panel */
+.panel {
+	background: var(--surface, color-mix(in oklab, var(--background-color) 90%, white));
+	border: 1px solid var(--border-color, #3a3a3a);
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+	overflow: hidden;
+
+	.panel__header {
+		padding: 12px 14px;
+		border-bottom: 1px solid var(--border-color, #3a3a3a);
+
+		h2,
+		h3 {
+			margin: 0;
+			font-weight: 700;
+			font-size: 1.05rem;
+			color: var(--text-color);
+		}
+	}
+
+	.panel__body {
+		padding: 14px;
+	}
+}
+
+/* Form */
+.form__body {
+	padding-top: 10px;
+}
+
+.form__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+
+	.full {
+		grid-column: 1 / -1;
+	}
+	.half {
+		grid-column: span 1;
+	}
+
+	.actions {
+		grid-column: 1 / -1;
 		display: flex;
-		flex-direction: row;
-		gap: 60px;
+		justify-content: flex-end;
+	}
+}
 
-		.form {
-			width: 100%;
+/* List */
+.list__body {
+	display: grid;
+	gap: 12px;
+
+	.empty {
+		margin: 0;
+		color: var(--sidebar-text-muted, #9aa0a6);
+	}
+
+	.report-card {
+		background: var(--surface, color-mix(in oklab, var(--background-color) 94%, white));
+		border: 1px solid var(--border-color, #3a3a3a);
+		border-radius: 12px;
+		padding: 12px 14px;
+		display: grid;
+		gap: 10px;
+
+		.report-card__header {
 			display: flex;
-			flex-direction: column;
-			gap: 16px;
-			justify-content: flex-start;
+			justify-content: space-between;
+			align-items: center;
+
+			.title {
+				margin: 0;
+				font-size: 1rem;
+				font-weight: 600;
+				color: var(--text-color);
+			}
+
+			.type-chip {
+				display: inline-block;
+				padding: 2px 8px;
+				border-radius: 12px;
+				background: color-mix(in oklab, var(--primary-color) 15%, transparent);
+				border: 1px solid color-mix(in oklab, var(--primary-color) 35%, var(--border-color, #3a3a3a));
+				font-size: 0.8rem;
+				color: var(--text-color);
+			}
 		}
 
-		.list {
-			width: 50%;
-			display: flex;
-			flex-direction: column;
-			gap: 16px;
+		.report-card__meta {
+			font-size: 0.85rem;
+			color: var(--sidebar-text-muted, #9aa0a6);
 		}
 
-		.contacts {
-			width: 40%;
-			display: flex;
-			flex-direction: column;
-			gap: 16px;
+		.report-card__content {
+			.description {
+				margin: 0;
+				color: var(--text-color);
+				white-space: pre-wrap;
+				line-height: 1.4;
+			}
 		}
+	}
+}
+
+/* Contacts */
+.contacts__body {
+	display: grid;
+	gap: 8px;
+
+	a {
+		color: var(--primary-color);
+		text-decoration: underline;
 	}
 }
