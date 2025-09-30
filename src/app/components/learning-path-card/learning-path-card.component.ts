@@ -1,31 +1,31 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
-import { LearningPath } from '../../models/LearningPath/LearningPath';
-import { SyllabusTagsComponent } from '../syllabus-tags/syllabus-tags.component';
-import { MatIconModule } from '@angular/material/icon';
 import { TooltipModule } from 'primeng/tooltip';
 import { LearningPathGenerationStatusEnum } from '../../enums/LearningPathGenerationStatus.enum';
+import { LearningPath } from '../../models/LearningPath/LearningPath';
+import { TextButtonComponent } from '../buttons/text-button/text-button.component';
 import { LoadingComponent } from '../loading/loading.component';
-import { MatButtonModule } from '@angular/material/button';
-import { TextButtonComponent } from "../buttons/text-button/text-button.component";
+import { SyllabusTagsComponent } from '../syllabus-tags/syllabus-tags.component';
 
 @Component({
 	selector: 'o-learning-path-card',
 	imports: [
-    CardModule,
-    TagModule,
-    ToggleSwitchModule,
-    FormsModule,
-    SyllabusTagsComponent,
-    MatIconModule,
-    TooltipModule,
-    LoadingComponent,
-    MatButtonModule,
-    TextButtonComponent
-],
+		CardModule,
+		TagModule,
+		ToggleSwitchModule,
+		FormsModule,
+		SyllabusTagsComponent,
+		MatIconModule,
+		TooltipModule,
+		LoadingComponent,
+		MatButtonModule,
+		TextButtonComponent,
+	],
 	templateUrl: './learning-path-card.component.html',
 	styleUrl: './learning-path-card.component.scss',
 })

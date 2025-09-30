@@ -1,7 +1,7 @@
 <div class="learning-path-card" [class.is-interactive]="generated" (click)="generated && cardClick.emit()">
 
     @if (generated) {
-    <div class="lp-left">
+    <div class="lp-left" [pTooltip]="syllabusTags" tooltipPosition="top">
         <div class="lp-title-row">
             <h4 class="lp-title" [title]="learningPath.name">{{ learningPath.name }}</h4>
         </div>
@@ -13,11 +13,14 @@
             }
         </div>
     </div>
+    <ng-template #syllabusTags>
+        <o-syllabus-tags [syllabus]="learningPath.syllabus" />
+    </ng-template>
 
     <div class="lp-right">
         <span class="lp-chip">{{ learningPath.type }}</span>
         <button mat-icon-button (click)="$event.stopPropagation(); addToChat.emit()" pTooltip="Adicionar ao chat"
-            [style]="inChat ? 'visibility: hidden' : ''">
+            tooltipPosition="top" [style]="inChat ? 'visibility: hidden' : ''">
             <mat-icon>chat_bubble</mat-icon>
         </button>
         @if (mine) {
