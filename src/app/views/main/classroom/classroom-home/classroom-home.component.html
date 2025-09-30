@@ -3,68 +3,98 @@
 <o-sub-header [buttons]="headerButtons" />
 
 <div class="classroom-home">
+    <!-- Left: chat -->
+    <section class="left-content panel">
+        <div class="panel__body">
+            <o-chat style="width: 100%" [learningPaths]="learningPathsInChat"
+                (removeLearningPath)="removeLearningPathFromChat($event)" />
+        </div>
+    </section>
 
-    <div class="left-content">
+    <!-- Right: filters + lists -->
+    <aside class="right-content">
+        <div class="filter-div panel">
+            <header class="panel__header">
+                <h3>Filtro</h3>
+            </header>
 
-        <o-chat style="width: 100%" [learningPaths]="learningPathsInChat"
-            (removeLearningPath)="removeLearningPathFromChat($event)" />
+            <div class="panel__body filter-row">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full">
+                    <mat-label>Pesquisar</mat-label>
+                    <input matInput [(ngModel)]="filter" />
+                </mat-form-field>
 
-    </div>
+                <o-text-button (click)="syllabuspo.toggle($event)">
+                    Ementa ({{ syllabusFilter.length }})
+                </o-text-button>
 
-    <div class="right-content">
-
-        <div class="filter-div">
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Pesquisar</mat-label>
-                <input matInput [(ngModel)]="filter" />
-            </mat-form-field>
-
-            <button mat-raised-button (click)="syllabuspo.toggle($event)">Ementa
-                ({{syllabusFilter.length}})</button>
-            <p-popover #syllabuspo>
-                <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter" (syllabusMarked)="markSyllabus($event)"
-                    [presets]="ctx.classroom?.presets" />
-            </p-popover>
+                <p-popover #syllabuspo>
+                    <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter"
+                        (syllabusMarked)="markSyllabus($event)" [presets]="ctx.classroom?.presets" />
+                </p-popover>
+            </div>
         </div>
 
         <div class="learning-paths-div">
+            <!-- My learning paths -->
+            <section class="learning-paths panel">
+                <header class="panel__header">
+                    <h3>Minhas rotas</h3>
+                    <span class="count">
+                        {{ (filteredMyGeneratedLearningPaths.length || 0) +
+                        (filteredMyNotGeneratedLearningPaths.length || 0) }}
+                    </span>
+                </header>
 
-            <div class="learning-paths">
-                <h3>Minhas rotas</h3>
-                @if (filteredMyNotGeneratedLearningPaths.length > 0) {
-                <h5>Rotas em geração</h5>
-                @for (learningPath of filteredMyNotGeneratedLearningPaths; track learningPath.id) {
-                <o-learning-path-card [learningPath]="learningPath" (regenerate)="regenerateLearningPath(learningPath)"
-                    [mine]="true" />
-                }
-                <p-divider />
-                <h5>Rotas geradas</h5>
-                }
-                @for (learningPath of filteredMyGeneratedLearningPaths; track learningPath.id) {
-                <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
-                    [inChat]="isLearningPathIdInChat(learningPath.id)" (addToChat)="addLearningPathToChat(learningPath)"
-                    (sharedChange)="updatedLearningPathSharing(learningPath)" [mine]="true" />
-                }
-            </div>
+                <div class="panel__body lp-list">
+                    @if (filteredMyNotGeneratedLearningPaths.length > 0) {
+                    <h5 class="group-title">Rotas em geração</h5>
+                    @for (learningPath of filteredMyNotGeneratedLearningPaths; track learningPath.id) {
+                    <o-learning-path-card [learningPath]="learningPath"
+                        (regenerate)="regenerateLearningPath(learningPath)" [mine]="true" />
+                    }
+                    <p-divider />
+                    <h5 class="group-title">Rotas geradas</h5>
+                    }
 
-            <div class="learning-paths">
-                <h3>Rotas compartilhadas</h3>
-                <h5>Rotas de professor</h5>
-                @for (learningPath of filteredTeacherLearningPaths; track learningPath.id) {
-                <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
-                    [inChat]="isLearningPathIdInChat(learningPath.id)" (addToChat)="addLearningPathToChat(learningPath)"
-                    (sharedChange)="updatedLearningPathSharing(learningPath)" />
-                }
-                <p-divider />
-                <h5>Rotas de alunos</h5>
-                @for (learningPath of filteredStudentLearningPaths; track learningPath.id) {
-                <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
-                    [inChat]="isLearningPathIdInChat(learningPath.id)" (addToChat)="addLearningPathToChat(learningPath)"
-                    (sharedChange)="updatedLearningPathSharing(learningPath)" />
-                }
-            </div>
+                    @for (learningPath of filteredMyGeneratedLearningPaths; track learningPath.id) {
+                    <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
+                        [inChat]="isLearningPathIdInChat(learningPath.id)"
+                        (addToChat)="addLearningPathToChat(learningPath)"
+                        (sharedChange)="updatedLearningPathSharing(learningPath)" [mine]="true" />
+                    }
+                </div>
+            </section>
 
+            <!-- Shared learning paths -->
+            <section class="learning-paths panel">
+                <header class="panel__header">
+                    <h3>Rotas compartilhadas</h3>
+                    <span class="count">
+                        {{ (filteredTeacherLearningPaths.length || 0) + (filteredStudentLearningPaths.length || 0) }}
+                    </span>
+                </header>
+
+                <div class="panel__body lp-list">
+                    <h5 class="group-title">Rotas de professor</h5>
+                    @for (learningPath of filteredTeacherLearningPaths; track learningPath.id) {
+                    <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
+                        [inChat]="isLearningPathIdInChat(learningPath.id)"
+                        (addToChat)="addLearningPathToChat(learningPath)"
+                        (sharedChange)="updatedLearningPathSharing(learningPath)" />
+                    }
+
+                    <p-divider />
+
+                    <h5 class="group-title">Rotas de alunos</h5>
+                    @for (learningPath of filteredStudentLearningPaths; track learningPath.id) {
+                    <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
+                        [inChat]="isLearningPathIdInChat(learningPath.id)"
+                        (addToChat)="addLearningPathToChat(learningPath)"
+                        (sharedChange)="updatedLearningPathSharing(learningPath)" />
+                    }
+                </div>
+            </section>
         </div>
-    </div>
-
+    </aside>
 </div>

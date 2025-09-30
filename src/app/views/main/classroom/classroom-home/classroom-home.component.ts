@@ -27,24 +27,26 @@ import { ContextService } from '../../../../services/context.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
+import { TextButtonComponent } from "../../../../components/buttons/text-button/text-button.component";
 
 @Component({
 	selector: 'o-classroom-home',
 	imports: [
-		MatIconModule,
-		MatButtonModule,
-		RouterModule,
-		DividerModule,
-		MatFormFieldModule,
-		MatInputModule,
-		SyllabusComponent,
-		LearningPathCardComponent,
-		FormsModule,
-		LoadingComponent,
-		PopoverModule,
-		ChatComponent,
-		SubHeaderComponent,
-	],
+    MatIconModule,
+    MatButtonModule,
+    RouterModule,
+    DividerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    SyllabusComponent,
+    LearningPathCardComponent,
+    FormsModule,
+    LoadingComponent,
+    PopoverModule,
+    ChatComponent,
+    SubHeaderComponent,
+    TextButtonComponent
+],
 	templateUrl: './classroom-home.component.html',
 	styleUrl: './classroom-home.component.scss',
 })

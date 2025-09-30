@@ -1,0 +1,133 @@
+.learning-path-card {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	border: 1px solid var(--border-color, #3a3a3a);
+	border-radius: 10px;
+	background: color-mix(in oklab, var(--background-color) 95%, white);
+
+	&.is-interactive {
+		cursor: pointer;
+	}
+	&.is-interactive:hover {
+		background: color-mix(in oklab, var(--background-color) 92%, white);
+	}
+}
+
+.lp-left {
+	min-width: 0;
+	display: grid;
+	gap: 4px;
+}
+
+.lp-title-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 8px;
+	align-items: center;
+}
+
+.lp-title {
+	margin: 0;
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: var(--text-color);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.lp-chip {
+	flex: 0 0 auto;
+	padding: 2px 8px;
+	border-radius: 9999px;
+	font-size: 0.75rem;
+	line-height: 1.2;
+	color: var(--text-color);
+	background: color-mix(in oklab, var(--primary-color) 16%, transparent);
+	border: 1px solid color-mix(in oklab, var(--primary-color) 40%, var(--border-color, #3a3a3a));
+
+	&.error {
+		background: color-mix(in oklab, red 12%, transparent);
+		border-color: color-mix(in oklab, red 40%, var(--border-color, #3a3a3a));
+	}
+}
+
+.lp-meta {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 0.78rem;
+
+	.lp-validated {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		color: var(--primary-color);
+
+		mat-icon {
+			font-size: 16px;
+			width: 16px;
+			height: 16px;
+		}
+	}
+}
+
+.lp-right {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+
+	button[mat-icon-button] {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 30px;
+		height: 30px;
+		border-radius: 6px;
+		color: var(--text-color);
+
+		mat-icon {
+			font-size: 16px;
+			width: 16px;
+			height: 16px;
+		}
+		&:hover {
+			background: color-mix(in oklab, var(--primary-color) 10%, transparent);
+		}
+	}
+
+	.lp-share {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 0.78rem;
+	}
+}
+
+.lp-loading {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.8rem;
+}
+
+.lp-error-row {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: red;
+
+	mat-icon {
+		font-size: 18px;
+	}
+	.lp-error-text {
+		max-width: 40ch;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-size: 0.8rem;
+	}
+}
