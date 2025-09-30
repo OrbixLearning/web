@@ -84,7 +84,9 @@ export class ClassroomMembersComponent {
 
 	addMember() {
 		this.dialog
-			.open(AddMemberToClassroomPopUpComponent)
+			.open(AddMemberToClassroomPopUpComponent, {
+				width: '700px',
+			})
 			.afterClosed()
 			.subscribe(r => {
 				if (r) {

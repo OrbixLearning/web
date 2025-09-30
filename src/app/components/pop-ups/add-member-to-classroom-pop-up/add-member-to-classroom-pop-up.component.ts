@@ -64,7 +64,6 @@ export class AddMemberToClassroomPopUpComponent {
 
 	selectUser(user: UserAccount) {
 		this.selectedUsers.push(user);
-		this.filteredUsers = this.filteredUsers.filter(u => u.id !== user.id);
 	}
 
 	removeUser(user: UserAccount) {

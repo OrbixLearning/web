@@ -1,41 +1,48 @@
 <o-loading [isLoading]="isLoading" />
 
-<o-pop-up-header [title]="'Adicionar membros a turma ' + ctx.classroom?.name" />
+<o-pop-up-header [title]="'Adicionar membros à turma ' + ctx.classroom?.name" />
 
-<mat-dialog-content>
+<mat-dialog-content class="add-members-popup">
 
-    <div>
-        <div>
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Filtrar</mat-label>
-                <input type="text" matInput [(ngModel)]="filter" />
-            </mat-form-field>
-            <button mat-icon-button (click)="search()" [disabled]="filter.length === 0">
-                <mat-icon>search</mat-icon>
-            </button>
-        </div>
+    <!-- Search bar -->
+    <div class="search-row">
+        <mat-form-field appearance="fill" subscriptSizing="dynamic" class="search-field">
+            <mat-label>Filtrar usuários</mat-label>
+            <input matInput type="text" [(ngModel)]="filter" (keydown.enter)="filter.length && search()"
+                placeholder="Nome, email ou identificador" />
+        </mat-form-field>
 
-        <div>
-            @for (userAccount of filteredUsers; track userAccount.id) {
-            <button mat-button [disabled]="isAlreadySelected(userAccount)" (click)="selectUser(userAccount)">
-                <p>{{userAccount.user.name}}</p>
-                <p>{{userAccount.idInInstitution}}</p>
-                <p>{{userAccount.email}}</p>
-                <p>{{userAccount.institutionRole}}</p>
-            </button>
-            } @empty {
-            @if (showMessage) {
-            <p>Nenhum resultado</p>
-            }
-            }
-        </div>
-
+        <button mat-icon-button class="search-btn" (click)="search()" [disabled]="!filter.length"
+            pTooltip="Pesquisar (Enter)">
+            <mat-icon>search</mat-icon>
+        </button>
     </div>
 
+    <!-- Results + empty state -->
+    <div class="results">
+        @if (showMessage && filteredUsers.length === 0) {
+        <div class="empty">
+            <mat-icon>search_off</mat-icon>
+            <p>Nenhum resultado</p>
+        </div>
+
+        } @else {
+        <div class="results-list">
+            @for (userAccount of filteredUsers; track userAccount.id) {
+            <button mat-raised-button class="result-item" [disabled]="isAlreadySelected(userAccount)"
+                (click)="selectUser(userAccount)">
+                {{ userAccount.user.name }} • {{ userAccount.idInInstitution }}
+            </button>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- Selected chips -->
     <mat-chip-set>
         @for (userAccount of selectedUsers; track userAccount.id) {
-        <mat-chip [removable]="true" (removed)="removeUser(userAccount)">{{userAccount.idInInstitution}}
-            {{userAccount.email}} {{userAccount.institutionRole}}
+        <mat-chip [removable]="true" (removed)="removeUser(userAccount)">
+            {{ userAccount.user.name }} • {{ userAccount.idInInstitution }}
             <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
             </button>
@@ -45,5 +52,5 @@
 
 </mat-dialog-content>
 
-<o-pop-up-buttons cancelButton="Sair" confirmButton="Adicionar" [disable]="isLoading || selectedUsers.length === 0"
+<o-pop-up-buttons cancelButton="Cancelar" confirmButton="Adicionar" [disable]="isLoading || selectedUsers.length === 0"
     (confirm)="addUsersToClassroom()" />
