@@ -14,10 +14,12 @@ import {
 import { User } from '../../../../models/User';
 import { AuthService } from '../../../../services/auth.service';
 import { ContextService } from '../../../../services/context.service';
+import { MatIconModule } from '@angular/material/icon';
+import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 
 @Component({
 	selector: 'o-link-account-callback',
-	imports: [],
+	imports: [MatIconModule, TextButtonComponent],
 	templateUrl: './link-account-callback.component.html',
 	styleUrl: './link-account-callback.component.scss',
 })

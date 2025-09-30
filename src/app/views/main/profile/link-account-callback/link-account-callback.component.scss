@@ -1,0 +1,92 @@
+.link-account-callback {
+	min-height: calc(100vh - var(--header-height, 60px));
+	display: grid;
+	place-items: center;
+	padding: 16px;
+	background: transparent; /* respeita seu layout global */
+}
+
+.lac-card {
+	width: min(560px, 100%);
+	display: grid;
+	gap: 12px;
+	padding: 20px;
+	border-radius: 12px;
+	border: 1px solid var(--border-color, #3a3a3a);
+	background: var(--surface, color-mix(in oklab, var(--background-color) 94%, white));
+	color: var(--text-color);
+	text-align: center;
+}
+
+.lac-icon {
+	width: 56px;
+	height: 56px;
+	margin: 0 auto 4px;
+	border-radius: 14px;
+	display: grid;
+	place-items: center;
+	background: color-mix(in oklab, var(--primary-color) 16%, transparent);
+	border: 1px solid color-mix(in oklab, var(--primary-color) 36%, var(--border-color, #3a3a3a));
+
+	mat-icon {
+		color: var(--primary-color);
+		font-size: 28px;
+		width: 28px;
+		height: 28px;
+	}
+}
+
+.lac-title {
+	margin: 0;
+	font-size: 1.25rem;
+	font-weight: 700;
+}
+
+.lac-progress {
+	position: relative;
+	height: 8px;
+	border-radius: 9999px;
+	background: color-mix(in oklab, var(--background-color) 88%, white);
+	overflow: hidden;
+	border: 1px solid var(--border-color, #3a3a3a);
+	margin-top: 4px;
+}
+
+.lac-progress__bar {
+	position: absolute;
+	inset: 0 100% 0 0;
+	background: linear-gradient(
+		90deg,
+		color-mix(in oklab, var(--primary-color) 25%, transparent) 0%,
+		var(--primary-color) 60%,
+		color-mix(in oklab, var(--primary-color) 25%, transparent) 100%
+	);
+	animation: lac-indeterminate 1.4s ease-in-out infinite;
+}
+
+@keyframes lac-indeterminate {
+	0% {
+		left: -40%;
+		right: 100%;
+	}
+	50% {
+		left: 10%;
+		right: 10%;
+	}
+	100% {
+		left: 100%;
+		right: -40%;
+	}
+}
+
+.lac-hint {
+	margin: 0;
+	font-size: 0.9rem;
+	color: var(--sidebar-text-muted, #9aa0a6);
+}
+
+.lac-actions {
+	display: flex;
+	justify-content: center;
+	margin-top: 4px;
+}
