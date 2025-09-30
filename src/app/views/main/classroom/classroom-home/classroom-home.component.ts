@@ -191,7 +191,9 @@ export class ClassroomHomeComponent {
 		this.dialog
 			.open(LearningPathCreationPopUpComponent, {
 				disableClose: true,
-				maxWidth: '1800px',
+				width: '960px',
+				maxWidth: '95vw',
+				autoFocus: false,
 			})
 			.afterClosed()
 			.subscribe((res: LearningPath | undefined) => {

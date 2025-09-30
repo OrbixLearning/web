@@ -1,18 +1,14 @@
-.pu-buttons-div {
+mat-dialog-actions {
 	width: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-	align-items: center;
-	gap: 20px;
+	border-top: 1px solid gray;
 
-	.pu-confirm-button {
-		background-color: var(--primary-color);
-		color: var(--text-color);
-
-		&:disabled {
-			opacity: 0.3;
-			cursor: not-allowed;
-		}
+	.pu-buttons-div {
+		width: 100%;
+		height: 36px;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+		gap: 20px;
 	}
 }

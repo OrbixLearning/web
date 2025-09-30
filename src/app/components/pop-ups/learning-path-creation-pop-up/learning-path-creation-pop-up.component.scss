@@ -1,7 +1,90 @@
-.selected-learning-path-type-button {
-	border: 2x solid var(--primary-color);
+:host {
+	display: block;
+	height: 100%;
+}
+
+.lpc-content {
+	display: flex;
+	flex-direction: column;
+	padding: 18px;
+	gap: 14px;
+	background: var(--background-color);
 	border-radius: 8px;
-	background-color: var(--primary-color);
-	color: var(--text-color);
-	font-weight: 600;
+
+	/* Name field row */
+	.name-div {
+		display: grid;
+	}
+
+	/* Accordion spacing */
+	.accordion {
+		.accordion-header {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			width: 100%;
+			gap: 15px;
+			font-size: 18px;
+
+			mat-icon {
+				color: var(--success-color, #34a853);
+			}
+		}
+
+		.center-panel {
+			border-top: 2px solid gray;
+			border-bottom: 2px solid gray;
+
+			.lpc-type {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+
+				.type-option {
+					padding: 6px 10px;
+					border-radius: 8px;
+					border: 1px solid var(--border-color, #3a3a3a);
+					background: color-mix(in oklab, var(--background-color) 92%, white);
+					color: var(--text-color);
+					font-weight: 500;
+					cursor: pointer;
+					outline: none;
+				}
+
+				.type-option:hover {
+					border-color: var(--primary-color);
+					background: color-mix(in oklab, var(--primary-color) 10%, var(--background-color));
+				}
+
+				.type-option.is-selected {
+					border-color: var(--primary-color);
+					background: var(--primary-color);
+					color: var(--text-color);
+					font-weight: 700;
+				}
+			}
+		}
+
+		.lpc-customize {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 12px;
+
+			.topics-toggle-div {
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+			}
+		}
+
+		.lpc-customize > mat-form-field[appearance],
+		.lpc-customize > mat-slide-toggle {
+			min-width: 0;
+		}
+
+		.hint {
+			margin: 0 0 6px 0;
+			color: var(--sidebar-text-muted, #9aa0a6);
+		}
+	}
 }

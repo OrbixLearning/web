@@ -1,5 +1,7 @@
-<mat-dialog-actions class="pu-buttons-div">
-    <button mat-button [mat-dialog-close]="undefined" type="button">{{cancelButton}}</button>
-    <button mat-raised-button cdkFocusInitial class="pu-confirm-button" (click)="confirm.emit()" [disabled]="disable"
-        [type]="type">{{confirmButton}}</button>
+<mat-dialog-actions>
+    <div class="pu-buttons-div">
+        <o-text-button (onclick)="dialogRef.close(undefined)">{{cancelButton}}</o-text-button>
+        <o-highlight-button cdkFocusInitial (onclick)="confirm.emit()" [disabled]="disable"
+            [type]="type">{{confirmButton}}</o-highlight-button>
+    </div>
 </mat-dialog-actions>

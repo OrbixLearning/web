@@ -163,6 +163,7 @@ html {
 	--mdc-filled-text-field-label-text-color: color-mix(in oklch, var(--text-color), transparent 40%) !important;
 	--mdc-filled-text-field-focus-label-text-color: var(--primary-color) !important;
 	--mdc-filled-text-field-caret-color: var(--primary-color) !important;
+	--mat-sys-surface: var(--background-color) !important;
 
 	--mat-sys-color-on-surface: var(--text-color);
 	--mat-sys-on-surface: var(--text-color);
@@ -186,6 +187,21 @@ html {
 	--mdc-filled-text-field-error-supporting-text-color: var(--error, #b00020);
 	--mdc-outlined-text-field-error-label-text-color: var(--error, #b00020);
 	--mdc-outlined-text-field-error-supporting-text-color: var(--error, #b00020);
+	--mat-sys-error: var(--error, #b00020);
+	--mat-sys-on-error-container: var(--error, #b00020);
+
+	.lp-dialog-panel .mat-mdc-dialog-container .mdc-dialog__surface {
+		/* tiramos paddings do container e deixamos o conteúdo controlar */
+		padding: 0;
+		border-radius: 12px;
+		background: var(--surface, color-mix(in oklab, var(--background-color) 96%, white));
+	}
+
+	/* opcional: borda sutil para integrar ao seu DS */
+	.lp-dialog-panel .mat-mdc-dialog-container .mdc-dialog__surface {
+		border: 1px solid var(--border-color, #3a3a3a);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+	}
 
 	// TODO: Verify if this is needed
 

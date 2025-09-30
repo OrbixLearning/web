@@ -1,12 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
+import { AccordionModule } from 'primeng/accordion';
 import { lastValueFrom } from 'rxjs';
 import { AudioVoiceEnum } from '../../../enums/AudioVoice.enum';
 import { LearningPathTypeEnum } from '../../../enums/LearningPathType.enum';
@@ -25,6 +27,7 @@ import { ContextService } from '../../../services/context.service';
 import { LearningPathService } from '../../../services/learning-path.service';
 import { LoadingComponent } from '../../loading/loading.component';
 import { SyllabusComponent } from '../../syllabus/syllabus.component';
+import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/success-pop-up.component';
 
@@ -41,6 +44,10 @@ import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/succe
 		MatSelectModule,
 		MatSlideToggleModule,
 		LoadingComponent,
+		AccordionModule,
+		PopUpButtonsComponent,
+		MatDialogModule,
+		MatIconModule,
 	],
 	templateUrl: './learning-path-creation-pop-up.component.html',
 	styleUrl: './learning-path-creation-pop-up.component.scss',
@@ -95,10 +102,12 @@ export class LearningPathCreationPopUpComponent {
 
 	forms = this.formBuilder.array([
 		this.formBuilder.group({
+			name: this.formBuilder.control<string>('', Validators.required),
+		}),
+		this.formBuilder.group({
 			syllabus: this.formBuilder.control<Syllabus[]>([], Validators.required),
 		}),
 		this.formBuilder.group({
-			name: this.formBuilder.control<string>('', Validators.required),
 			type: this.formBuilder.control<LearningPathTypeEnum>(LearningPathTypeEnum.TEXT, Validators.required),
 		}),
 		this.formBuilder.group({ ...this.baseLastForm, ...this.textForm }),
@@ -108,18 +117,12 @@ export class LearningPathCreationPopUpComponent {
 		return this.forms.at(i).get(name) as FormControl;
 	}
 
-	learningPathTypeButtonClass(type: LearningPathTypeEnum): string {
-		return this.getFormControl(1, 'type').value === type
-			? 'selected-learning-path-type-button'
-			: 'learning-path-type-button';
-	}
-
 	markSyllabus(syllabus: Syllabus[]) {
-		this.getFormControl(0, 'syllabus').setValue(syllabus);
+		this.getFormControl(1, 'syllabus').setValue(syllabus);
 	}
 
 	setLastFormGroup(group: any) {
-		this.forms.removeAt(2);
+		this.forms.removeAt(3);
 		let completeGroupObject = Object.assign({}, this.baseLastForm, group);
 		this.forms.push(this.formBuilder.group(completeGroupObject));
 	}
@@ -143,10 +146,10 @@ export class LearningPathCreationPopUpComponent {
 				break;
 			default:
 				this.setLastFormGroup({});
-				this.getFormControl(1, 'type').reset();
+				this.getFormControl(2, 'type').reset();
 				return;
 		}
-		this.getFormControl(1, 'type').setValue(type);
+		this.getFormControl(2, 'type').setValue(type);
 	}
 
 	async createLearningPath() {
@@ -155,54 +158,54 @@ export class LearningPathCreationPopUpComponent {
 
 			let endpoint: string = '';
 			let syllabusIds: string[] = [];
-			this.getFormControl(0, 'syllabus').value.forEach((syllabus: Syllabus) => {
+			this.getFormControl(1, 'syllabus').value.forEach((syllabus: Syllabus) => {
 				syllabusIds.push(syllabus.id!);
 			});
-			let name: string = this.getFormControl(1, 'name').value;
-			const baseBody: any = { syllabusIds, name, language: this.getFormControl(2, 'language').value };
+			let name: string = this.getFormControl(0, 'name').value;
+			const baseBody: any = { syllabusIds, name, language: this.getFormControl(3, 'language').value };
 			let requestBody: GenerateLearningPathRequest | undefined;
 
-			switch (this.getFormControl(1, 'type').value) {
+			switch (this.getFormControl(2, 'type').value) {
 				case LearningPathTypeEnum.VIDEO:
 					endpoint = 'video';
 					requestBody = {
 						...baseBody,
-						numberOfVideos: this.getFormControl(2, 'numberOfVideos').value,
+						numberOfVideos: this.getFormControl(3, 'numberOfVideos').value,
 					} as GenerateVideoLearningPathRequest;
 					break;
 				case LearningPathTypeEnum.TEXT:
 					endpoint = 'text';
 					requestBody = {
 						...baseBody,
-						numberOfParagraphs: this.getFormControl(2, 'numberOfParagraphs').value,
-						useTopics: this.getFormControl(2, 'useTopics').value,
-						formality: this.getFormControl(2, 'formality').value,
+						numberOfParagraphs: this.getFormControl(3, 'numberOfParagraphs').value,
+						useTopics: this.getFormControl(3, 'useTopics').value,
+						formality: this.getFormControl(3, 'formality').value,
 					} as GenerateTextLearningPathRequest;
 					break;
 				case LearningPathTypeEnum.AUDIO:
 					endpoint = 'audio';
 					requestBody = {
 						...baseBody,
-						durationInSeconds: this.getFormControl(2, 'durationInSeconds').value,
-						formality: this.getFormControl(2, 'formality').value,
-						voice: this.getFormControl(2, 'voice').value,
+						durationInSeconds: this.getFormControl(3, 'durationInSeconds').value,
+						formality: this.getFormControl(3, 'formality').value,
+						voice: this.getFormControl(3, 'voice').value,
 					} as GenerateAudioLearningPathRequest;
 					break;
 				case LearningPathTypeEnum.FLASHCARD:
 					endpoint = 'flashcard';
 					requestBody = {
 						...baseBody,
-						numberOfCards: this.getFormControl(2, 'numberOfCards').value,
-						level: this.getFormControl(2, 'level').value,
+						numberOfCards: this.getFormControl(3, 'numberOfCards').value,
+						level: this.getFormControl(3, 'level').value,
 					} as GenerateFlashCardLearningPathRequest;
 					break;
 				case LearningPathTypeEnum.QUESTION:
 					endpoint = 'question';
 					requestBody = {
 						...baseBody,
-						numberOfQuestions: this.getFormControl(2, 'numberOfQuestions').value,
-						level: this.getFormControl(2, 'level').value,
-						questionTypes: this.getFormControl(2, 'questionTypes').value,
+						numberOfQuestions: this.getFormControl(3, 'numberOfQuestions').value,
+						level: this.getFormControl(3, 'level').value,
+						questionTypes: this.getFormControl(3, 'questionTypes').value,
 					} as GenerateQuestionLearningPathRequest;
 					break;
 			}

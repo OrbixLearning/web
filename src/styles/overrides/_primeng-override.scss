@@ -17,4 +17,8 @@
 	--p-form-field-background: var(--background-color) !important;
 	--p-form-field-color: var(--text-color) !important;
 	--p-overlay-popover-background: var(--background-color) !important;
+	--p-accordion-header-active-background: var(--background-color) !important;
+	--p-accordion-header-active-hover-background: color-mix(in oklch, var(--background-color), white 20%) !important;
+	--p-accordion-header-background: var(--background-color) !important;
+	--p-accordion-header-hover-background: color-mix(in oklch, var(--background-color), white 20%) !important;
 }
