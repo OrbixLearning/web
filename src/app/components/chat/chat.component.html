@@ -10,21 +10,22 @@
     </div>
     }
 
-    <div class="messages-wrapper">
+    <div class="messages-wrapper" #messagesWrapper>
         @if (messages.length > 0) {
         <div class="messages">
-            @for (message of messages; track message.content) {
+            @for (message of messages; track $index) {
             @if (message.userMessage) {
             <div class="user-message-div">
-                <p class=" user-message">{{message.content}}</p>
+                <div class="user-message">{{ message.content }}</div>
             </div>
             } @else {
             <div class="assistant-message-div">
-                <markdown class="assistant-message">{{message.content}}</markdown>
+                <markdown class="assistant-message" (ready)="scrollToBottom()">{{ message.content }}</markdown>
             </div>
             }
             }
         </div>
+
         @if (isSending) {
         <p class="thinking">Pensando...</p>
         }
@@ -41,20 +42,24 @@
     <div class="learning-paths">
         @for (learningPath of learningPaths; track learningPath.id) {
         <div class="learning-path">
-            <p>{{learningPath.name}}</p>
-            <button (click)="removeLearningPath.emit(learningPath)"
-                [disabled]="isSending"><mat-icon>close</mat-icon></button>
+            <p>{{ learningPath.name }}</p>
+            <button (click)="removeLearningPath.emit(learningPath)" [disabled]="isSending">
+                <mat-icon>close</mat-icon>
+            </button>
         </div>
         }
     </div>
     }
 
     <div class="chat-input">
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-            <input matInput [(ngModel)]="input" placeholder="Escrever..." [disabled]="isSending" />
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="input-field">
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="6" [(ngModel)]="input" placeholder="Escrever..." [disabled]="isSending"
+                (keydown.enter)="onEnter($event)"></textarea>
         </mat-form-field>
-        <button mat-icon-button (click)="sendMessage()" [disabled]="isInputEmpty || isSending" type="submit">
-            <mat-icon>{{isSending ? 'stop' : 'send'}}</mat-icon>
+
+        <button mat-icon-button (click)="sendMessage()" [disabled]="isInputEmpty || isSending" type="button">
+            <mat-icon>{{ isSending ? 'stop' : 'send' }}</mat-icon>
         </button>
     </div>
 </div>

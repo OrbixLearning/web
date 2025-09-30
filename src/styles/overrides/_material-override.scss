@@ -151,6 +151,7 @@ html {
 }
 
 :root {
+	--mat-sys-primary: var(--primary-color) !important;
 	--mat-sys-color-primary: var(--primary-color) !important;
 	--mat-sys-color-on-primary: #ffffff !important;
 	--mat-sys-color-surface: var(--background-color) !important;

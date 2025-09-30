@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -37,6 +37,7 @@ export class ChatComponent {
 	route: ActivatedRoute = inject(ActivatedRoute);
 	dialog: MatDialog = inject(MatDialog);
 
+	@ViewChild('messagesWrapper') messagesWrapper!: ElementRef<HTMLDivElement>;
 	@Input() learningPaths: LearningPath[] = [];
 	@Input() showLearningPaths: boolean = true;
 	@Output() removeLearningPath: EventEmitter<LearningPath> = new EventEmitter<LearningPath>();
@@ -46,6 +47,7 @@ export class ChatComponent {
 	isLoading: boolean = false;
 	error: boolean = false;
 	page: number = 0;
+	scrollDone: boolean = false;
 
 	ngOnInit() {
 		// This is used to update the data when the classroomId changes in the URL
@@ -86,6 +88,13 @@ export class ChatComponent {
 			});
 	}
 
+	scrollToBottom() {
+		this.messagesWrapper.nativeElement.scrollTo({
+			top: this.messagesWrapper.nativeElement.scrollHeight,
+			behavior: 'instant',
+		});
+	}
+
 	async sendMessage() {
 		const aiChatMessage: AIChatMessage = {
 			content: this.input,
@@ -93,6 +102,7 @@ export class ChatComponent {
 		};
 		this.messages.unshift(aiChatMessage);
 		const learningPathIds = this.learningPaths.map(lp => lp.id!) || [];
+		this.scrollToBottom();
 		await lastValueFrom(this.service.chat(this.ctx.classroom!.id, this.input, learningPathIds))
 			.then(data => {
 				this.messages.unshift(data);
@@ -102,6 +112,15 @@ export class ChatComponent {
 			.catch(() => {
 				this.error = true;
 			});
+	}
+
+	onEnter(event: Event) {
+		const keyboardEvent = event as KeyboardEvent;
+		if (keyboardEvent.shiftKey) return;
+		keyboardEvent.preventDefault();
+		if (!this.isInputEmpty && !this.isSending) {
+			this.sendMessage();
+		}
 	}
 
 	clear() {
