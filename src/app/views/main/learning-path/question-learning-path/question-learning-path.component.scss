@@ -123,16 +123,6 @@
 		max-height: 70vh;
 		overflow: auto;
 		padding-right: 4px;
-
-		scrollbar-width: thin;
-		scrollbar-color: var(--primary-color) transparent;
-		&::-webkit-scrollbar {
-			width: 8px;
-		}
-		&::-webkit-scrollbar-thumb {
-			background: var(--primary-color);
-			border-radius: 8px;
-		}
 	}
 
 	.q-item {

@@ -177,13 +177,13 @@ html {
 	--mdc-filled-text-field-input-text-color: var(--text-color);
 	--mdc-filled-text-field-label-text-color: color-mix(in oklch, var(--text-color), transparent 40%);
 	--mdc-filled-text-field-focus-label-text-color: var(--primary-color);
-	--mdc-filled-text-field-input-text-placeholder-color: color-mix(in oklch, var(--text-color), white 50%);
+	--mdc-filled-text-field-input-text-placeholder-color: color-mix(in oklch, var(--text-color), gray 75%);
 	--mdc-filled-text-field-supporting-text-color: color-mix(in oklch, var(--text-color), transparent 35%); /* hint */
 
 	--mdc-outlined-text-field-input-text-color: var(--text-color);
 	--mdc-outlined-text-field-label-text-color: color-mix(in oklch, var(--text-color), transparent 40%);
 	--mdc-outlined-text-field-focus-label-text-color: var(--primary-color);
-	--mdc-outlined-text-field-input-text-placeholder-color: color-mix(in oklch, var(--text-color), white 50%);
+	--mdc-outlined-text-field-input-text-placeholder-color: color-mix(in oklch, var(--text-color), gray 75%);
 	--mdc-outlined-text-field-supporting-text-color: color-mix(in oklch, var(--text-color), transparent 35%); /* hint */
 
 	--mdc-filled-text-field-error-label-text-color: var(--error, #b00020);

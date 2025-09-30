@@ -7,20 +7,20 @@
 
 	--p-select-background: var(--background-color) !important;
 	--p-select-overlay-background: var(--background-color) !important;
-	--p-list-option-focus-background: color-mix(in oklch, var(--background-color), black 40%) !important;
+	--p-list-option-focus-background: color-mix(in oklch, var(--background-color), gray 60%) !important;
 	--p-form-field-color: var(--text-color) !important;
 	--p-list-option-focus-color: var(--text-color) !important;
-	--p-content-background: color-mix(in oklch, var(--background-color), black 10%) !important;
+	--p-content-background: color-mix(in oklch, var(--background-color), gray 20%) !important;
 	--p-datatable-header-cell-background: var(--background-color) !important;
 	--p-text-muted-color: var(--text-color) !important;
-	--p-primary-hover-color: color-mix(in oklch, var(--primary-color), white 20%) !important;
+	--p-primary-hover-color: color-mix(in oklch, var(--primary-color), gray 40%) !important;
 	--p-form-field-background: var(--background-color) !important;
 	--p-form-field-color: var(--text-color) !important;
 	--p-overlay-popover-background: var(--background-color) !important;
 	--p-accordion-header-active-background: var(--background-color) !important;
-	--p-accordion-header-active-hover-background: color-mix(in oklch, var(--background-color), white 20%) !important;
+	--p-accordion-header-active-hover-background: color-mix(in oklch, var(--background-color), gray 40%) !important;
 	--p-accordion-header-background: var(--background-color) !important;
-	--p-accordion-header-hover-background: color-mix(in oklch, var(--background-color), white 20%) !important;
+	--p-accordion-header-hover-background: color-mix(in oklch, var(--background-color), gray 40%) !important;
 	--p-tooltip-background: var(--secondary-color) !important;
 	--p-tooltip-color: var(--text-color) !important;
 }

@@ -10,20 +10,6 @@
 	padding: 0 36px;
 	max-height: 80vh;
 	overflow-y: auto;
-
-	scrollbar-width: thin;
-	scrollbar-color: var(--primary-color) transparent;
-
-	&::-webkit-scrollbar {
-		width: 8px;
-	}
-	&::-webkit-scrollbar-track {
-		background: transparent;
-	}
-	&::-webkit-scrollbar-thumb {
-		background: var(--primary-color);
-		border-radius: 4px;
-	}
 }
 
 .text-markdown {

@@ -78,6 +78,14 @@ export class DocumentPopUpComponent {
 
 	selectFile(event: FileSelectEvent) {
 		this.getFormControl('file').setValue(event.currentFiles[0]);
+		if (!this.getFormControl('name').value) {
+			const lastDotIndex = event.currentFiles[0].name.lastIndexOf('.');
+			const name =
+				lastDotIndex !== -1
+					? event.currentFiles[0].name.substring(0, lastDotIndex)
+					: event.currentFiles[0].name;
+			this.getFormControl('name').setValue(name);
+		}
 	}
 
 	removeFile() {

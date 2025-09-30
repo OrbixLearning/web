@@ -2,31 +2,46 @@
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <div>
-        <mat-form-field appearance="fill" subscriptSizing="dynamic">
-            <mat-label>Nome</mat-label>
-            <input matInput type="text" name="name" formControlName="name" />
-        </mat-form-field>
+    <div class="document-pop-up-content">
+        <div class="left">
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Nome</mat-label>
+                <input matInput type="text" name="name" formControlName="name" />
+            </mat-form-field>
 
-        @if (!editMode) {
-        @if (!getFormControl('file').value) {
-        <p-fileupload mode="basic" chooseLabel="Selecionar" name="document" [auto]="true" [maxFileSize]="MAX_PDF_SIZE"
-            (onSelect)="selectFile($event)" />
-        } @else {
-        <p>{{getFormControl('file').value}}</p>
-        <button mat-button (click)="removeFile()" type="button">
-            <mat-icon>close</mat-icon>Cancelar
-        </button>
-        }
-        }
+            <div class="separator"></div>
+
+            @if (!editMode) {
+            @if (!getFormControl('file').value) {
+            <p-fileupload mode="basic" chooseLabel="Selecionar documento" name="document" [auto]="true"
+                [maxFileSize]="MAX_PDF_SIZE" (onSelect)="selectFile($event)" />
+            } @else {
+            <div class="selected-file">
+                <p>{{getFormControl('file').value.name}}</p>
+                <button mat-button (click)="removeFile()" type="button">
+                    <mat-icon>close</mat-icon>Cancelar
+                </button>
+            </div>
+            }
+            }
+
+            <div class="separator"></div>
+
+            <div class="feed-ai-div">
+                <mat-checkbox formControlName="feedAi">
+                    Treinar IA
+                </mat-checkbox>
+                <p class="hint">Marque se deseja que este documento seja utilizado pela IA como fonte de conhecimento
+                </p>
+            </div>
+        </div>
+
+        <div class="right">
+            <o-syllabus [syllabus]="ctx.classroom?.syllabus" [preMarkedSyllabus]="data?.document!.syllabus"
+                mode="select" (syllabusMarked)="markSyllabus($event)" [presets]="ctx.classroom?.presets" />
+        </div>
+
     </div>
-
-    <o-syllabus [syllabus]="ctx.classroom?.syllabus" [preMarkedSyllabus]="data?.document!.syllabus" mode="select"
-        (syllabusMarked)="markSyllabus($event)" [presets]="ctx.classroom?.presets" />
-
-    <mat-checkbox formControlName="feedAi">
-        Treinar IA
-    </mat-checkbox>
 
     <o-pop-up-buttons [disable]="form.invalid" type="submit"
         [confirmButton]="(editMode ? 'Editar' : 'Adicionar') + ' documento'" />
