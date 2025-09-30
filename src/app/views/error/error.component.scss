@@ -1,0 +1,139 @@
+.notfound-page {
+	min-height: calc(100vh - var(--header-height, 60px));
+	display: grid;
+	place-items: center;
+	padding: 24px;
+	position: relative;
+	overflow: hidden;
+	color: var(--text-color);
+}
+
+/* Illustration */
+.nf-illustration {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	pointer-events: none;
+	opacity: 0.22;
+
+	.planet {
+		width: 220px;
+		height: 220px;
+		border-radius: 50%;
+		background: radial-gradient(
+			circle at 30% 30%,
+			color-mix(in oklab, var(--primary-color) 35%, transparent),
+			color-mix(in oklab, var(--background-color) 90%, white)
+		);
+		border: 1px solid var(--border-color, #3a3a3a);
+		filter: blur(0.2px);
+	}
+
+	.orbit {
+		position: absolute;
+		border-radius: 50%;
+		border: 1px dashed color-mix(in oklab, var(--primary-color) 35%, var(--border-color, #3a3a3a));
+		&.orbit--1 {
+			width: 420px;
+			height: 420px;
+			animation: orbit 16s linear infinite;
+		}
+		&.orbit--2 {
+			width: 560px;
+			height: 560px;
+			animation: orbit 24s linear infinite reverse;
+		}
+	}
+
+	.ship {
+		position: absolute;
+		transform-origin: center -210px;
+		animation: ship 10s linear infinite;
+		mat-icon {
+			font-size: 28px;
+			width: 28px;
+			height: 28px;
+			color: var(--primary-color);
+		}
+	}
+}
+
+@keyframes orbit {
+	to {
+		transform: rotate(360deg);
+	}
+}
+@keyframes ship {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Card */
+.nf-card {
+	position: relative;
+	z-index: 1;
+	width: min(680px, 100%);
+	background: var(--surface, color-mix(in oklab, var(--background-color) 94%, white));
+	border: 1px solid var(--border-color, #3a3a3a);
+	border-radius: 16px;
+	padding: 24px;
+	display: grid;
+	gap: 12px;
+	text-align: center;
+	box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+}
+
+.nf-code {
+	font-weight: 800;
+	font-size: clamp(2.5rem, 6vw, 4rem);
+	letter-spacing: 2px;
+	color: var(--text-color);
+}
+
+.nf-title {
+	margin: 0;
+	font-size: 1.4rem;
+	font-weight: 700;
+}
+
+.nf-subtitle {
+	margin: 0;
+	opacity: 0.9;
+}
+
+.nf-actions {
+	margin-top: 4px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: center;
+
+	/* padroniza altura visual dos botões custom */
+	o-text-button,
+	o-highlight-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+}
+
+/* Reduce illustration noise on smaller screens (opcional) */
+@media (max-width: 900px) {
+	.nf-illustration {
+		opacity: 0.16;
+	}
+	.nf-illustration .planet {
+		width: 160px;
+		height: 160px;
+	}
+	.nf-illustration .orbit.orbit--1 {
+		width: 300px;
+		height: 300px;
+	}
+	.nf-illustration .orbit.orbit--2 {
+		width: 420px;
+		height: 420px;
+	}
+}

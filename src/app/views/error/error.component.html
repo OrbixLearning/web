@@ -1,1 +1,36 @@
-<p>error works!</p>
+<div class="notfound-page">
+    <div class="nf-illustration" aria-hidden="true">
+        <div class="planet"></div>
+        <div class="orbit orbit--1"></div>
+        <div class="orbit orbit--2"></div>
+        <div class="ship">
+            <mat-icon>rocket_launch</mat-icon>
+        </div>
+    </div>
+
+    <div class="nf-card">
+        <div class="nf-code">404</div>
+        <h1 class="nf-title">Página não encontrada</h1>
+        <p class="nf-subtitle">
+            A página que você tentou acessar não existe ou foi movida.
+        </p>
+
+        <div class="nf-actions">
+            <o-text-button (onclick)="goBack()" icon="arrow_back">
+                Voltar
+            </o-text-button>
+
+            <o-text-button (onclick)="goHome()" icon="home">
+                Ir para início
+            </o-text-button>
+
+            <o-text-button (onclick)="openReport()" icon="bug_report">
+                Reportar problema
+            </o-text-button>
+
+            <o-text-button (onclick)="reload()" icon="refresh">
+                Recarregar
+            </o-text-button>
+        </div>
+    </div>
+</div>
