@@ -1,8 +1,8 @@
 <div class="syllabus-tags">
-    @for (topic of syllabus.slice(0, MAX_TAGS); track topic.name) {
+    @for (topic of syllabus.slice(0, maxTags); track topic.name) {
     <p-tag [value]="topic.name" />
     }
-    @if (syllabus.length > MAX_TAGS) {
-    <p-tag [value]="'+' + (syllabus.length - MAX_TAGS)" styleClass="more-tag" />
+    @if (syllabus.length > maxTags) {
+    <p-tag [value]="'+' + (syllabus.length - maxTags)" styleClass="more-tag" />
     }
 </div>
