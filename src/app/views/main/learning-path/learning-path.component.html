@@ -5,32 +5,42 @@
         <mat-icon>arrow_back</mat-icon>
     </button>
 
-    @if (ctx.learningPathStudy?.learningPath?.validated) {
-    <mat-icon pTooltip="Rota validada pelo professor">check</mat-icon>
-    }
-    @if (ctx.isTeacher) {
-    <button mat-raised-button (click)="validateLearningPath(!ctx.learningPathStudy?.learningPath?.validated)">
-        {{ctx.learningPathStudy?.learningPath?.validated ? "Invalidar rota" : "Validar rota"}}
-    </button>
-    }
-
-    <button mat-raised-button (click)="toggleMode()">
-        <mat-icon>{{mode === 'view' ? 'visibility' : 'school'}}</mat-icon>
-        Modo {{mode === 'view' ? 'Visualização' : 'Estudo'}}
-    </button>
-
-    @if (mine) {
     <div>
-        <p-toggleswitch [(ngModel)]="ctx.learningPathStudy!.learningPath!.shared"
-            (ngModelChange)="updatedLearningPathSharing()" />
-        <span>Compartilhada</span>
+        <mat-icon [style]="ctx.learningPathStudy?.learningPath?.validated ? '' : 'visibility: hidden'"
+            pTooltip="Rota validada pelo professor">check</mat-icon>
+
+        @if (ctx.isTeacher) {
+        <o-text-button (onclick)="validateLearningPath(!ctx.learningPathStudy?.learningPath?.validated)">
+            {{ctx.learningPathStudy?.learningPath?.validated ? "Invalidar rota" : "Validar rota"}}
+        </o-text-button>
+        }
     </div>
 
+    <o-highlight-button (onclick)="toggleMode()" [icon]="mode === 'view' ? 'visibility' : 'school'">
+        Modo {{mode === 'view' ? 'Visualização' : 'Estudo'}}
+    </o-highlight-button>
+
+    <div class="sharing-div">
+        @if (mine) {
+        <div class="toggle-div">
+            <p-toggleswitch [(ngModel)]="ctx.learningPathStudy!.learningPath!.shared"
+                (ngModelChange)="updatedLearningPathSharing()" />
+            <span>Compartilhada</span>
+        </div>
+        }
+
+        <button mat-icon-button (click)="shareLearningPath()">
+            <mat-icon>share</mat-icon>
+        </button>
+    </div>
+
+    @if (mine) {
     <!-- TODO: Deleting learning paths is currently disabled (issue #22)-->
     <button mat-icon-button (click)="deleteLearningPath()" [disabled]="true">
         <mat-icon>delete</mat-icon>
     </button>
     }
+
 </header>
 
 <div class="learning-path-content">
@@ -60,9 +70,11 @@
         }
     </div>
 
+    @if (mode === 'study') {
     <div class="right">
         <o-chat [learningPaths]="[ctx.learningPathStudy!.learningPath]" [showLearningPaths]="false" />
     </div>
+    }
 
     } @else if(generationStatus === generationStatusEnum.FAILED) {
 

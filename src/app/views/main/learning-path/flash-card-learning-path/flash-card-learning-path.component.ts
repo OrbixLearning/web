@@ -9,6 +9,8 @@ import { DividerModule } from 'primeng/divider';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { lastValueFrom } from 'rxjs';
+import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
+import { TextButtonComponent } from "../../../../components/buttons/text-button/text-button.component";
 
 type FlashCardContext = {
 	flashCard: FlashCard;
@@ -17,7 +19,7 @@ type FlashCardContext = {
 
 @Component({
 	selector: 'o-flash-card-learning-path',
-	imports: [MatCardModule, MatButtonModule, MatIconModule, DividerModule, LoadingComponent],
+	imports: [MatCardModule, MatButtonModule, MatIconModule, DividerModule, LoadingComponent, HighlightButtonComponent, TextButtonComponent],
 	templateUrl: './flash-card-learning-path.component.html',
 	styleUrl: './flash-card-learning-path.component.scss',
 })

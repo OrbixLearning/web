@@ -1,58 +1,75 @@
 <o-loading [isLoading]="isLoading" />
 
-<button mat-icon-button (click)="shuffle()"><mat-icon>shuffle</mat-icon></button>
+<div class="flashcards-lp">
 
-@if (mode == 'view') {
-<div>
-    <div>
-        <button mat-raised-button (click)="openAll()">Abrir todos</button>
-        <button mat-raised-button (click)="closeAll()">Fechar todos</button>
-    </div>
-    @for (flashCard of flashCards; track $index; let i = $index) {
-    <mat-card>
-        <mat-card-content>
-            <p>{{ flashCard.front }}</p>
-            @if(fcContext[i].opened) {
-            <p>{{ flashCard.back }}</p>
-            }
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-button (click)="this.fcContext[i].opened= !this.fcContext[i].opened">
-                {{ fcContext[i].opened? 'Fechar' : 'Abrir' }}
+    <div class="fc-toolbar">
+        <button mat-icon-button (click)="shuffle()" pTooltip="Embaralhar">
+            <mat-icon>shuffle</mat-icon>
+        </button>
+
+        <div class="fc-nav">
+            @if (mode == 'view') {
+            <o-text-button (onclick)="openAll()">Abrir todos</o-text-button>
+            <o-text-button (onclick)="closeAll()">Fechar todos</o-text-button>
+            } @else {
+            <button mat-icon-button [style]="'visibility: ' + (fcIndex > 0 ? 'visible' : 'hidden')" (click)="prev()"
+                pTooltip="Anterior">
+                <mat-icon>arrow_back_ios_new</mat-icon>
             </button>
-        </mat-card-actions>
-    </mat-card>
-    }
-</div>
-} @else {
-<div>
-    <div>
-        <button mat-icon-button [style]="'visibility: ' + (fcIndex > 0 ? 'visible' : 'hidden')" (click)="prev()">
-            <mat-icon>arrow_back_ios_new</mat-icon>
-        </button>
-        <p>{{fcIndex + 1}} / {{flashCards.length}}</p>
-        <button mat-icon-button [style]="'visibility: ' + (fcIndex < flashCards.length - 1? 'visible' : 'hidden')"
-            (click)="next()">
-            <mat-icon>arrow_forward_ios_new</mat-icon>
-        </button>
+
+            <p class="fc-counter">{{ fcIndex + 1 }} / {{ flashCards.length }}</p>
+
+            <button mat-icon-button [style]="'visibility: ' + (fcIndex < flashCards.length - 1 ? 'visible' : 'hidden')"
+                (click)="next()" pTooltip="Próximo">
+                <mat-icon>arrow_forward_ios_new</mat-icon>
+            </button>
+            }
+        </div>
     </div>
 
-    <p-divider />
+    @if (mode == 'view') {
 
-    @if (flashCard) {
-    <mat-card>
-        <mat-card-content>
-            <p>{{ flashCard.front }}</p>
-            @if(fcContext[fcIndex].opened) {
-            <p>{{ flashCard.back }}</p>
-            }
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-button (click)="this.fcContext[fcIndex].opened = !this.fcContext[fcIndex].opened">
-                {{ fcContext[fcIndex].opened ? 'Fechar' : 'Abrir' }}
-            </button>
-        </mat-card-actions>
-    </mat-card>
+    <div class="fc-grid">
+        @for (flashCard of flashCards; track $index; let i = $index) {
+        <mat-card class="fc-card" [class.is-open]="fcContext[i].opened">
+            <mat-card-content class="fc-card__content">
+                <p class="fc-front">{{ flashCard.front }}</p>
+
+                @if (fcContext[i].opened) {
+                <p class="fc-back">{{ flashCard.back }}</p>
+                }
+            </mat-card-content>
+
+            <mat-card-actions class="fc-card__actions">
+                <o-text-button (onclick)="this.fcContext[i].opened = !this.fcContext[i].opened">
+                    {{ fcContext[i].opened ? 'Fechar' : 'Abrir' }}
+                </o-text-button>
+            </mat-card-actions>
+        </mat-card>
+        }
+    </div>
+
+    } @else {
+
+    <div class="fc-study">
+        @if (flashCard) {
+        <mat-card class="fc-card fc-card--focus" [class.is-open]="fcContext[fcIndex].opened">
+            <mat-card-content class="fc-card__content">
+                <p class="fc-front">{{ flashCard.front }}</p>
+
+                @if (fcContext[fcIndex].opened) {
+                <p class="fc-back">{{ flashCard.back }}</p>
+                }
+            </mat-card-content>
+
+            <mat-card-actions class="fc-card__actions">
+                <o-highlight-button (onclick)="this.fcContext[fcIndex].opened = !this.fcContext[fcIndex].opened">
+                    {{ fcContext[fcIndex].opened ? 'Fechar' : 'Abrir' }}
+                </o-highlight-button>
+            </mat-card-actions>
+        </mat-card>
+        }
+    </div>
+
     }
 </div>
-}

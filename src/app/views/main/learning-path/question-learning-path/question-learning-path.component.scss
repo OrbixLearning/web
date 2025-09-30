@@ -1,40 +1,191 @@
 .question {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: flex-start;
+	display: grid;
+	grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.9fr);
+	gap: 20px;
+	align-items: start;
+	width: 100%;
 
-	.left {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
-		gap: 15px;
+	.q-left {
+		display: grid;
+		align-content: start;
+		gap: 14px;
+		min-width: 0;
+	}
 
-		.choices {
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: flex-start;
-			gap: 10px;
+	.q-header .q-title {
+		margin: 0;
+		color: var(--text-color);
+		font-weight: 700;
+		font-size: 1.05rem;
+	}
+
+	.q-statement p {
+		margin: 0;
+		padding: 12px 14px;
+		border: 1px solid gray;
+		border-radius: 10px;
+		background: var(--surface, color-mix(in oklab, var(--background-color) 94%, white));
+		color: var(--text-color);
+		line-height: 1.5;
+		font-weight: 600;
+	}
+
+	.choices {
+		width: min(800px, 100%);
+		display: grid;
+		gap: 10px;
+		padding: 0;
+
+		.choice-item {
+			border: 1px solid gray;
+			border-radius: 8px;
+			background: color-mix(in oklab, var(--background-color) 96%, white);
+			color: var(--text-color);
+			min-height: 44px;
+
+			::ng-deep .mdc-list-item__content {
+				padding: 8px 12px;
+				width: 100%;
+			}
+
+			&:hover {
+				background: color-mix(in oklab, var(--primary-color) 10%, transparent);
+			}
+
+			&.mdc-list-item--selected,
+			&.mat-mdc-list-option-selected {
+				border-color: color-mix(in oklab, var(--primary-color) 35%, gray);
+				background: color-mix(in oklab, var(--primary-color) 15%, transparent);
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--primary-color);
+				outline-offset: 2px;
+			}
 		}
 	}
 
-	.right {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
-		gap: 10px;
-		padding: 0 20px;
-		border-left: 1px solid var(--text-color);
+	.tf-group {
+		border-radius: 10px;
+		border: 1px solid gray;
+		overflow: hidden;
 
-		.questions-menu {
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: flex-start;
-			gap: 10px;
+		mat-button-toggle {
+			min-width: 120px;
+			font-weight: 600;
+		}
+	}
+
+	.open-ended {
+		width: min(800px, 100%);
+	}
+
+	.q-correct {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 6px 10px;
+		border-radius: 9999px;
+		background: color-mix(in oklab, var(--primary-color) 12%, transparent);
+		border: 1px solid color-mix(in oklab, var(--primary-color) 35%, gray);
+		color: var(--text-color);
+		font-size: 0.9rem;
+
+		.label {
+			font-weight: 700;
+		}
+		.value {
+			font-weight: 600;
+		}
+	}
+
+	.q-nav {
+		display: inline-flex;
+		gap: 10px;
+		align-items: center;
+		padding-top: 4px;
+	}
+
+	.q-right {
+		min-width: 0;
+		display: grid;
+		gap: 14px;
+		padding-left: 16px;
+		border-left: 1px solid gray;
+		position: sticky;
+		top: 12px;
+		align-content: start;
+	}
+
+	.questions-menu {
+		display: grid;
+		gap: 8px;
+		max-height: 70vh;
+		overflow: auto;
+		padding-right: 4px;
+
+		scrollbar-width: thin;
+		scrollbar-color: var(--primary-color) transparent;
+		&::-webkit-scrollbar {
+			width: 8px;
+		}
+		&::-webkit-scrollbar-thumb {
+			background: var(--primary-color);
+			border-radius: 8px;
+		}
+	}
+
+	.q-item {
+		display: grid;
+		grid-template-columns: 20px 1fr;
+		align-items: center;
+		gap: 8px;
+		justify-content: start;
+		text-align: left;
+		padding: 6px 10px;
+		border-radius: 10px;
+		border-color: gray;
+		background: color-mix(in oklab, var(--background-color) 96%, white);
+		color: var(--text-color);
+
+		mat-icon {
+			font-size: 18px;
+			height: 18px;
+			width: 18px;
+		}
+
+		&:hover {
+			background: color-mix(in oklab, var(--primary-color) 10%, transparent);
+		}
+
+		&.answered {
+			border-color: color-mix(in oklab, var(--primary-color) 35%, gray);
+		}
+		&.incorrect {
+			background: #550000;
+			color: #ffd9d9;
+			border-color: #772222;
+		}
+	}
+
+	.q-actions {
+		display: grid;
+		gap: 8px;
+
+		.q-summary {
+			margin: 0;
+			font-weight: 600;
+			color: var(--text-color);
+		}
+	}
+
+	@media (max-width: 1100px) {
+		grid-template-columns: 1fr;
+		.q-right {
+			position: static;
+			max-height: none;
+			border-left: 0;
+			padding-left: 0;
 		}
 	}
 }

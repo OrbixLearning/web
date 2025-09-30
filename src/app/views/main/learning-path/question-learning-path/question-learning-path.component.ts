@@ -22,6 +22,9 @@ import { QuestionLearningPath } from '../../../../models/LearningPath/LearningPa
 import { QuestionLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { Question } from '../../../../models/LearningPath/Question';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
+import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
+import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
+import { MatListModule } from '@angular/material/list';
 
 type QuestionContext = {
 	question: Question;
@@ -38,6 +41,9 @@ type QuestionContext = {
 		MatFormFieldModule,
 		MatInputModule,
 		MatIconModule,
+		HighlightButtonComponent,
+		TextButtonComponent,
+		MatListModule,
 	],
 	templateUrl: './question-learning-path.component.html',
 	styleUrl: './question-learning-path.component.scss',

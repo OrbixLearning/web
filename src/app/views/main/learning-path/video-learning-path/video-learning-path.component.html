@@ -1,13 +1,18 @@
-<div>
+<div class="video-learning-path">
     @for (video of videos; track video; let i = $index) {
-    <div>
-        <h4>{{video.name}}</h4>
-        <iframe [src]="getUrl(video.videoId) | safeUrl" frameborder="0" allowfullscreen width="560" height="315"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        <p>Por: {{video.author}}</p>
-        <p>{{video.description}}</p>
-        <p-divider />
+    <div class="video-card">
+        <h4 class="video-title">{{i + 1}}. {{ video.name }}</h4>
+
+        <div class="video-wrapper">
+            <iframe [src]="getUrl(video.videoId) | safeUrl" frameborder="0" allowfullscreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+
+        <div class="video-meta">
+            <p class="author">Por: {{ video.author }}</p>
+            <p class="description">{{ video.description }}</p>
+        </div>
     </div>
     }
 </div>

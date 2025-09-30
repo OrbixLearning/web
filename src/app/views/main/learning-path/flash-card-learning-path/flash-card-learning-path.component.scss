@@ -1,0 +1,109 @@
+.flashcards-lp {
+	display: grid;
+	gap: 14px;
+}
+
+/* toolbar superior */
+.fc-toolbar {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 8px;
+	padding: 6px 0;
+	width: 100%;
+
+	.fc-nav {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		gap: 20px;
+
+		.fc-counter {
+			margin: 0 8px;
+			font-weight: 600;
+			color: var(--text-color);
+		}
+	}
+}
+
+/* grade de cartões (view) */
+.fc-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: 12px;
+}
+
+/* cartão base */
+.fc-card {
+	border: 1px solid var(--border-color, #3a3a3a);
+	border-radius: 12px;
+	background: var(--surface, color-mix(in oklab, var(--background-color) 94%, white));
+	display: grid;
+	grid-template-rows: 1fr auto;
+	min-height: 160px;
+
+	&.fc-card--focus {
+		min-height: 220px;
+	}
+
+	&.is-open .fc-back {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.fc-card__content {
+		padding: 12px 14px;
+		display: grid;
+		align-content: start;
+		gap: 10px;
+	}
+
+	.fc-card__actions {
+		padding: 8px 12px 12px;
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.fc-front {
+		margin: 0;
+		font-weight: 600;
+		color: var(--text-color);
+	}
+
+	.fc-back {
+		margin: 0;
+		color: var(--text-color);
+		opacity: 0.95;
+		border-top: 1px dashed var(--border-color, #3a3a3a);
+		padding-top: 8px;
+
+		/* transição suave no revelar */
+		transition: transform 120ms ease, opacity 120ms ease;
+		transform: translateY(-2px);
+		opacity: 0; /* inicia escondido; .is-open ativa */
+	}
+}
+
+/* modo estudo (um card por vez) */
+.fc-study {
+	display: grid;
+	gap: 12px;
+}
+
+/* acessibilidade de texto em dark/light */
+.fc-front,
+.fc-back {
+	word-wrap: break-word;
+	overflow-wrap: anywhere;
+	line-height: 1.45;
+}
+
+/* responsivo opcional */
+@media (max-width: 1200px) {
+	.fc-grid {
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	}
+}

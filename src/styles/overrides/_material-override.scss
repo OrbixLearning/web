@@ -166,11 +166,13 @@ html {
 	--mdc-filled-text-field-caret-color: var(--primary-color) !important;
 	--mat-sys-surface: var(--background-color) !important;
 
-	--mat-sys-color-on-surface: var(--text-color);
-	--mat-sys-on-surface: var(--text-color);
+	--mat-sys-color-on-surface: var(--text-color) !important;
+	--mat-sys-on-surface: var(--text-color) !important;
 	--mat-sys-surface-container: var(--background-color) !important;
 	--mat-sys-surface-variant: var(--background-color) !important;
 	--mat-sys-on-surface-variant: var(--text-color) !important;
+	--mat-sys-surface-container-low: var(--background-color) !important;
+	--mat-sys-secondary-container: var(--primary-color) !important;
 
 	--mdc-filled-text-field-input-text-color: var(--text-color);
 	--mdc-filled-text-field-label-text-color: color-mix(in oklch, var(--text-color), transparent 40%);

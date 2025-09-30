@@ -1,6 +1,7 @@
-<div>
-    @for(number of iterableAudios; track number) {
-    <div>
+<div class="audio-learning-path">
+    @for (number of iterableAudios; track number) {
+    <div class="audio-card">
+        <p class="audio-title">Áudio {{ number + 1 }}</p>
         <audio [src]="getAudioUrl(number)" controls></audio>
     </div>
     }

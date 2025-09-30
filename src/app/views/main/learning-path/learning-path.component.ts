@@ -30,6 +30,9 @@ import { FlashCardLearningPathComponent } from './flash-card-learning-path/flash
 import { QuestionLearningPathComponent } from './question-learning-path/question-learning-path.component';
 import { TextLearningPathComponent } from './text-learning-path/text-learning-path.component';
 import { VideoLearningPathComponent } from './video-learning-path/video-learning-path.component';
+import { TextButtonComponent } from '../../../components/buttons/text-button/text-button.component';
+import { HighlightButtonComponent } from '../../../components/buttons/highlight-button/highlight-button.component';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
 	selector: 'o-learning-path',
@@ -47,6 +50,9 @@ import { VideoLearningPathComponent } from './video-learning-path/video-learning
 		TextLearningPathComponent,
 		VideoLearningPathComponent,
 		ChatComponent,
+		TextButtonComponent,
+		HighlightButtonComponent,
+		A11yModule,
 	],
 	templateUrl: './learning-path.component.html',
 	styleUrl: './learning-path.component.scss',
@@ -59,9 +65,11 @@ export class LearningPathComponent {
 
 	isLoading: boolean = false;
 	mine: boolean = this.ctx.learningPathStudy?.learningPath.creator.id === this.ctx.user?.id;
-	mode: 'view' | 'study' = this.ctx.isTeacher ? 'view' : 'study';
 	typeEnum = LearningPathTypeEnum;
 	generationStatusEnum = LearningPathGenerationStatusEnum;
+
+	// TODO: In the beginning, the initial mode should always be 'study'. In the future, the teacher's initial mode should be 'view'.
+	mode: 'view' | 'study' = 'study';
 
 	get generationStatus(): LearningPathGenerationStatusEnum | undefined {
 		return this.ctx.learningPathStudy?.learningPath.generation.status;
@@ -193,4 +201,6 @@ export class LearningPathComponent {
 				}
 			});
 	}
+
+	shareLearningPath() {}
 }
