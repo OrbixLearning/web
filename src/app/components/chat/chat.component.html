@@ -43,7 +43,25 @@
         @for (learningPath of learningPaths; track learningPath.id) {
         <div class="learning-path">
             <p>{{ learningPath.name }}</p>
-            <button (click)="removeLearningPath.emit(learningPath)" [disabled]="isSending">
+            <button mat-icon-button (click)="removeLearningPath.emit(learningPath)" [disabled]="isSending">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <div class="learning-path">
+            <p>{{ learningPath.name }}</p>
+            <button mat-icon-button (click)="removeLearningPath.emit(learningPath)" [disabled]="isSending">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <div class="learning-path">
+            <p>{{ learningPath.name }}</p>
+            <button mat-icon-button (click)="removeLearningPath.emit(learningPath)" [disabled]="isSending">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <div class="learning-path">
+            <p>{{ learningPath.name }}</p>
+            <button mat-icon-button (click)="removeLearningPath.emit(learningPath)" [disabled]="isSending">
                 <mat-icon>close</mat-icon>
             </button>
         </div>
