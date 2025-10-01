@@ -16,7 +16,7 @@
             <div class="sy-metrics">
                 <div class="metric avg">
                     <span class="label">Média</span>
-                    <p-progressbar [value]="getSyllabusScore(sy.id!)?.average">
+                    <p-progressbar [value]="getSyllabusScore(sy.id!)?.average" class="progress-bar">
                         <ng-template #content let-value><span>{{ value }}</span></ng-template>
                     </p-progressbar>
                 </div>
@@ -24,19 +24,19 @@
                 <div class="metric pair">
                     <div class="metric">
                         <span class="label">Min</span>
-                        <p-progressbar [value]="getSyllabusScore(sy.id!)?.min">
+                        <p-progressbar [value]="getSyllabusScore(sy.id!)?.min" class="progress-bar">
                             <ng-template #content let-value><span>{{ value }}</span></ng-template>
                         </p-progressbar>
                     </div>
                     <div class="metric">
                         <span class="label">Max</span>
-                        <p-progressbar [value]="getSyllabusScore(sy.id!)?.max">
+                        <p-progressbar [value]="getSyllabusScore(sy.id!)?.max" class="progress-bar">
                             <ng-template #content let-value><span>{{ value }}</span></ng-template>
                         </p-progressbar>
                     </div>
                 </div>
 
-                <div class="count-pill">Qtd: {{ getSyllabusScore(sy.id!)?.count }}</div>
+                <div class="count-pill">Alunos analisados: {{ getSyllabusScore(sy.id!)?.count }}</div>
             </div>
             } @else {
             <p class="empty">Nenhuma nota registrada</p>

@@ -113,8 +113,9 @@
 
 			p-progressbar {
 				/* compact progress bars via CSS vars do PrimeNG */
-				--p-progressbar-height: 10px;
+				--p-progressbar-height: 20px;
 				--p-progressbar-border-radius: 8px;
+				color: var(--text-color);
 			}
 		}
 

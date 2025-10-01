@@ -1,5 +1,4 @@
 .loading {
-	background-color: rgba(gray, 0.5);
 	top: 0;
 	left: 0;
 	z-index: 1000;
@@ -18,4 +17,9 @@
 	p {
 		color: var(--text-color);
 	}
+}
+
+.global-loading {
+	position: absolute;
+	background-color: rgba(gray, 0.3);
 }

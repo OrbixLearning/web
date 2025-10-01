@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { lastValueFrom } from 'rxjs';
+import { AvatarComponent } from '../../../../../components/avatar/avatar.component';
 import { LoadingComponent } from '../../../../../components/loading/loading.component';
 import {
 	ConfirmPopUpComponent,
@@ -18,11 +19,18 @@ import { ContextService } from '../../../../../services/context.service';
 import { DashboardService } from '../../../../../services/dashboard.service';
 import { UserService } from '../../../../../services/user.service';
 import { TreeUtils } from '../../../../../utils/Tree.utils';
-import { AvatarComponent } from "../../../../../components/avatar/avatar.component";
 
 @Component({
 	selector: 'o-home-dashboard',
-	imports: [LoadingComponent, MatButtonModule, MatIconModule, RouterModule, ProgressBarModule, SubHeaderComponent, AvatarComponent],
+	imports: [
+		LoadingComponent,
+		MatButtonModule,
+		MatIconModule,
+		RouterModule,
+		ProgressBarModule,
+		SubHeaderComponent,
+		AvatarComponent,
+	],
 	templateUrl: './home-dashboard.component.html',
 	styleUrl: './home-dashboard.component.scss',
 })
