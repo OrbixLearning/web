@@ -1,28 +1,29 @@
 <o-pop-up-header title="Adicionar novo tópico na ementa" />
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form class="syllabus-topic-popup" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="fields">
+        <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-label>Nome do tópico</mat-label>
+            <input matInput type="text" name="name" formControlName="name" />
+        </mat-form-field>
 
-    <mat-form-field appearance="fill" subscriptSizing="dynamic">
-        <mat-label>Nome do tópico</mat-label>
-        <input matInput type="text" name="name" formControlName="name" />
-    </mat-form-field>
+        <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-label>Tópico pai</mat-label>
+            <mat-select formControlName="parent" name="parent" (selectionChange)="parentChange()">
+                <mat-option [value]="undefined">Nenhum (tópico raiz)</mat-option>
+                @for (parent of parentSelector; track parent) {
+                <mat-option [value]="parent">{{ parent.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
 
-    <mat-form-field appearance="fill" subscriptSizing="dynamic">
-        <mat-label>Tópico pai</mat-label>
-        <mat-select formControlName="parent" name="parent" (selectionChange)="parentChange()">
-            <mat-option [value]="undefined">Nenhum (tópico raiz)</mat-option>
-            @for (parent of parentSelector; track parent) {
-            <mat-option [value]="parent">{{parent.name}}</mat-option>
-            }
-        </mat-select>
-    </mat-form-field>
-
-    @if (showIndex) {
-    <mat-form-field appearance="fill" subscriptSizing="dynamic">
-        <mat-label>Index em {{getFormControl('parent').value?.name || "Raiz"}}</mat-label>
-        <input matInput type="number" name="index" formControlName="index" />
-    </mat-form-field>
-    }
+        @if (showIndex) {
+        <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-label>Index em {{ getFormControl('parent').value?.name || 'Raiz' }}</mat-label>
+            <input matInput type="number" name="index" formControlName="index" />
+        </mat-form-field>
+        }
+    </div>
 
     <o-pop-up-buttons [disable]="form.invalid" type="submit" confirmButton="Adicionar tópico" />
 </form>
