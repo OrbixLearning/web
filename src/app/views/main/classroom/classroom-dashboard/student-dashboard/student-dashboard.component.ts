@@ -96,7 +96,7 @@ export class StudentDashboardComponent {
 			labels: history.map(item => this.formatDateView(item.update)),
 			datasets: [
 				{
-					label: 'Pontuação média',
+					label: 'Pontuação',
 					data: history.map(item => item.value),
 					fill: false,
 					borderColor: '#42A5F5',
