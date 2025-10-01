@@ -13,6 +13,7 @@ export class AvatarComponent {
 	@Input() src!: string;
 	@Input() id!: string;
 	@Input() size: number = 42;
+	@Input() clickable: boolean = true;
 	@Output() onclick: EventEmitter<void> = new EventEmitter<void>();
 
 	router: Router = inject(Router);

@@ -1,4 +1,4 @@
-<button class="avatar-button" mat-icon-button (click)="goToProfile()">
+<button class="avatar-button" mat-icon-button (click)="clickable && goToProfile()">
     @if(src) {
     <img class="avatar" [src]="src" alt="Profile picture" [style]="'width: ' + size + 'px; height: ' + size +'px;'" />
     } @else {

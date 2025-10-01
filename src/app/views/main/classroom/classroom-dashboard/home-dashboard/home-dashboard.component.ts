@@ -13,15 +13,16 @@ import {
 import { SubHeaderButton, SubHeaderComponent } from '../../../../../components/sub-header/sub-header.component';
 import { ClassroomCurrentScore } from '../../../../../models/Dashboard/ClassroomCurrentScore';
 import { Syllabus } from '../../../../../models/Syllabus';
-import { UserAccount } from '../../../../../models/User';
+import { User, UserAccount } from '../../../../../models/User';
 import { ContextService } from '../../../../../services/context.service';
 import { DashboardService } from '../../../../../services/dashboard.service';
 import { UserService } from '../../../../../services/user.service';
 import { TreeUtils } from '../../../../../utils/Tree.utils';
+import { AvatarComponent } from "../../../../../components/avatar/avatar.component";
 
 @Component({
 	selector: 'o-home-dashboard',
-	imports: [LoadingComponent, MatButtonModule, MatIconModule, RouterModule, ProgressBarModule, SubHeaderComponent],
+	imports: [LoadingComponent, MatButtonModule, MatIconModule, RouterModule, ProgressBarModule, SubHeaderComponent, AvatarComponent],
 	templateUrl: './home-dashboard.component.html',
 	styleUrl: './home-dashboard.component.scss',
 })
@@ -68,6 +69,10 @@ export class HomeDashboardComponent {
 			.finally(() => {
 				this.isLoading = false;
 			});
+	}
+
+	getProfilePictureUrl(user: User): string {
+		return this.userService.getProfilePictureUrl(user);
 	}
 
 	getSyllabusScore(syllabusId: string): ClassroomCurrentScore | undefined {

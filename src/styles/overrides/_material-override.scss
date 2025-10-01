@@ -173,6 +173,7 @@ html {
 	--mat-sys-on-surface-variant: var(--text-color) !important;
 	--mat-sys-surface-container-low: var(--background-color) !important;
 	--mat-sys-secondary-container: var(--primary-color) !important;
+	--mat-sys-surface-container-high: var(--background-color) !important;
 
 	--mdc-filled-text-field-input-text-color: var(--text-color);
 	--mdc-filled-text-field-label-text-color: color-mix(in oklch, var(--text-color), transparent 40%);

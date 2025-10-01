@@ -2,54 +2,60 @@
 
 <o-sub-header [backButtonLink]="classroomBaseUrl" [buttons]="headerButtons" />
 
-<div class="classroom-dashboard-div">
-    <div class="left-div">
-        <h2>Dashboard da Turma {{ctx.classroom?.name}}</h2>
-        @for (syllabus of flatSyllabus; track syllabus.id) {
-        <button [routerLink]="[classroomBaseUrl + '/dashboard/syllabus/' + syllabus.id]">
-            <div>
-                <h3>{{syllabus.name}}</h3>
-                @if (getSyllabusScore(syllabus.id!)?.count) {
-                <div>
-                    <p>Média:</p>
-                    <p-progressbar [value]="getSyllabusScore(syllabus.id!)?.average">
-                        <ng-template #content let-value>
-                            <span>{{value}}</span>
-                        </ng-template>
+<div class="classroom-dashboard">
+    <div class="left-pane">
+        <h2 class="title">Dashboard da Turma {{ ctx.classroom?.name }}</h2>
+
+        @for (sy of flatSyllabus; track sy.id) {
+        <button class="syllabus-card" [routerLink]="[classroomBaseUrl + '/dashboard/syllabus/' + sy.id]">
+            <div class="sy-header">
+                <h3 class="sy-name ellipsis">{{ sy.name }}</h3>
+            </div>
+
+            @if (getSyllabusScore(sy.id!)?.count) {
+            <div class="sy-metrics">
+                <div class="metric avg">
+                    <span class="label">Média</span>
+                    <p-progressbar [value]="getSyllabusScore(sy.id!)?.average">
+                        <ng-template #content let-value><span>{{ value }}</span></ng-template>
                     </p-progressbar>
                 </div>
-                <div>
-                    <div>
-                        <p>Min:</p>
-                        <p-progressbar [value]="getSyllabusScore(syllabus.id!)?.min">
-                            <ng-template #content let-value>
-                                <span>{{value}}</span>
-                            </ng-template>
+
+                <div class="metric pair">
+                    <div class="metric">
+                        <span class="label">Min</span>
+                        <p-progressbar [value]="getSyllabusScore(sy.id!)?.min">
+                            <ng-template #content let-value><span>{{ value }}</span></ng-template>
                         </p-progressbar>
                     </div>
-                    <div>
-                        <p>Max:</p>
-                        <p-progressbar [value]="getSyllabusScore(syllabus.id!)?.max">
-                            <ng-template #content let-value>
-                                <span>{{value}}</span>
-                            </ng-template>
+                    <div class="metric">
+                        <span class="label">Max</span>
+                        <p-progressbar [value]="getSyllabusScore(sy.id!)?.max">
+                            <ng-template #content let-value><span>{{ value }}</span></ng-template>
                         </p-progressbar>
                     </div>
-                    <p>Quantidade: {{getSyllabusScore(syllabus.id!)?.count}}</p>
                 </div>
-                } @else {
-                <p>Nenhuma nota registrada</p>
-                }
+
+                <div class="count-pill">Qtd: {{ getSyllabusScore(sy.id!)?.count }}</div>
             </div>
+            } @else {
+            <p class="empty">Nenhuma nota registrada</p>
+            }
         </button>
         }
     </div>
 
-    <div class="right-div">
-        @for (student of students; track student.id) {
-        <button mat-raised-button [routerLink]="[classroomBaseUrl + '/dashboard/student/' + student.id]">
-            {{student.user.name}}
-        </button>
-        }
+    <div class="right-pane">
+        <h3 class="side-title">Alunos</h3>
+        <div class="students-list">
+            @for (student of students; track student.id) {
+            <button class="student-item" [routerLink]="[classroomBaseUrl + '/dashboard/student/' + student.id]"
+                [title]="student.user.name">
+                <o-avatar [src]="getProfilePictureUrl(student.user)" [id]="student.user.id" [size]="28"
+                    [clickable]="false" />
+                <p class="ellipsis">{{ student.user.name }} • {{student.idInInstitution}}</p>
+            </button>
+            }
+        </div>
     </div>
 </div>
