@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from "@angular/material/icon";
 
 export type SuccessPopUpData = {
 	title?: string;
@@ -10,7 +11,7 @@ export type SuccessPopUpData = {
 
 @Component({
 	selector: 'o-success-pop-up',
-	imports: [MatButtonModule, MatDialogModule],
+	imports: [MatButtonModule, MatDialogModule, MatIconModule],
 	templateUrl: './success-pop-up.component.html',
 	styleUrl: './success-pop-up.component.scss',
 })

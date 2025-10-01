@@ -1,10 +1,15 @@
-@if (data.title) {
-<h1>{{data.title}}</h1>
-}
+<div class="confirm-popup">
+    <mat-icon class="icon">help_outline</mat-icon>
 
-@if (data.message) {
-<h3>{{data.message}}</h3>
-}
+    @if (data.title) {
+    <h2 class="title">{{ data.title }}</h2>
+    }
 
-<o-pop-up-buttons (confirm)="dialogRef.close(true)" [cancelButton]="data.cancelButton ? data.cancelButton : 'Cancelar'"
-    [confirmButton]="data.confirmButton ? data.confirmButton : 'Confirmar'" />
+    @if (data.message) {
+    <p class="message">{{ data.message }}</p>
+    }
+
+    <o-pop-up-buttons (confirm)="dialogRef.close(true)"
+        [cancelButton]="data.cancelButton ? data.cancelButton : 'Cancelar'"
+        [confirmButton]="data.confirmButton ? data.confirmButton : 'Confirmar'" />
+</div>

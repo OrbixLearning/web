@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
+import { MatIconModule } from "@angular/material/icon";
 
 export type ConfirmPopUpData = {
 	title?: string;
@@ -11,7 +12,7 @@ export type ConfirmPopUpData = {
 
 @Component({
 	selector: 'o-confirm-pop-up',
-	imports: [MatDialogModule, PopUpButtonsComponent],
+	imports: [MatDialogModule, PopUpButtonsComponent, MatIconModule],
 	templateUrl: './confirm-pop-up.component.html',
 	styleUrl: './confirm-pop-up.component.scss',
 })

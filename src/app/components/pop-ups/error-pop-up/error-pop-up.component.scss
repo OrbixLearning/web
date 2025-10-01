@@ -1,0 +1,43 @@
+.error-popup {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: 16px;
+	padding: 24px 20px;
+
+	.icon {
+		font-size: 48px;
+		height: 48px;
+		width: 48px;
+		color: #f44336;
+	}
+
+	.title {
+		margin: 0;
+		font-size: 1.4rem;
+		font-weight: 600;
+		color: var(--text-color);
+	}
+
+	.code {
+		font-size: 1rem;
+		font-weight: 500;
+		color: #f44336;
+	}
+
+	.message {
+		font-size: 1rem;
+		color: var(--text-color);
+		opacity: 0.9;
+	}
+
+	button {
+		background: #f44336;
+		color: #fff;
+
+		&:hover {
+			background: #d32f2f;
+		}
+	}
+}
