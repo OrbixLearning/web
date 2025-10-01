@@ -17,6 +17,7 @@ import { DashboardService } from '../../../../../services/dashboard.service';
 import { UserService } from '../../../../../services/user.service';
 import { DateUtils } from '../../../../../utils/Date.util';
 import { TreeUtils } from '../../../../../utils/Tree.utils';
+import { AvatarComponent } from '../../../../../components/avatar/avatar.component';
 
 @Component({
 	selector: 'o-student-dashboard',
@@ -29,6 +30,7 @@ import { TreeUtils } from '../../../../../utils/Tree.utils';
 		ProgressBar,
 		ChartModule,
 		SubHeaderComponent,
+		AvatarComponent,
 	],
 	templateUrl: './student-dashboard.component.html',
 	styleUrl: './student-dashboard.component.scss',
@@ -105,7 +107,14 @@ export class StudentDashboardComponent {
 	}
 
 	getChartOptions() {
-		return {};
+		return {
+			scales: {
+				y: {
+					min: 0,
+					max: 100,
+				},
+			},
+		};
 	}
 
 	formatDateView(date: Date): string {

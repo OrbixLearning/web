@@ -1,0 +1,60 @@
+.student-dashboard-div {
+	display: flex;
+	flex-direction: column;
+
+	.header {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		padding: 18px 0;
+	}
+
+	.content {
+		.accordion-header {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			padding-right: 50px;
+			width: 100%;
+
+			p {
+				margin: 0;
+				max-width: 40%;
+			}
+
+			p-progressbar {
+				width: 50%;
+			}
+		}
+
+		.sd-panel-body {
+			padding: 8px 0 4px 0;
+
+			.sd-chart {
+				border: 1px solid var(--border-color, #3a3a3a);
+				border-radius: 12px;
+				background: color-mix(in oklab, var(--background-color) 94%, white);
+				padding: 10px 12px;
+
+				p-chart,
+				canvas {
+					width: 100% !important;
+				}
+			}
+
+			.sd-empty {
+				margin: 4px 0 0 0;
+				opacity: 0.9;
+				color: var(--text-color);
+			}
+
+			.sd-loading {
+				display: grid;
+				place-items: center;
+				padding: 12px 0;
+			}
+		}
+	}
+}

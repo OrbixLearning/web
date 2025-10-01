@@ -3,37 +3,45 @@
 <o-sub-header [backButtonLink]="dashboardBaseUrl" />
 
 <div class="student-dashboard-div">
-    <h2>Dashboard do aluno {{studentAccount?.user?.name}} ({{studentAccount?.idInInstitution}})</h2>
-    <img [src]="profilePictureUrl" alt="profilePicture" />
+    <div class="header">
+        <h2>Dashboard do aluno {{studentAccount?.user?.name}} ({{studentAccount?.idInInstitution}})</h2>
+        <o-avatar [src]="profilePictureUrl" [id]="studentAccount?.user?.id || ''" [size]="58" />
+    </div>
 
-    <p-accordion value="0" [multiple]="true" (onOpen)="getSyllabusHistory($event)">
-        @for (syllabus of flatSyllabus; track syllabus.id) {
-        <p-accordion-panel [value]="$index">
-            <p-accordion-header>
-                <span>
-                    <p>{{syllabus.name}}</p>
-                    <p-progressbar [value]="currentScores.get(syllabus.id!)?.value || 0">
-                        <ng-template #content let-value>
-                            <span>{{value || 0}}</span>
-                        </ng-template>
-                    </p-progressbar>
-                </span>
-            </p-accordion-header>
-            <p-accordion-content>
-                <div>
-                    @if (histories.get(syllabus.id!)) {
-                    @if (histories.get(syllabus.id!)!.length > 0) {
-                    <p-chart type="line" [data]="getChartData(histories.get(syllabus.id!)!)"
-                        [options]="getChartOptions()" />
-                    } @else {
-                    <p>Não há histórico para {{syllabus.name}}</p>
-                    }
-                    } @else {
-                    <o-loading [isLoading]="!histories.get(syllabus.id!)" [local]="true" size="50px" />
-                    }
-                </div>
-            </p-accordion-content>
-        </p-accordion-panel>
-        }
-    </p-accordion>
+    <div class="content">
+        <p-accordion value="0" [multiple]="true" (onOpen)="getSyllabusHistory($event)">
+            @for (syllabus of flatSyllabus; track syllabus.id) {
+            <p-accordion-panel [value]="$index">
+                <p-accordion-header>
+                    <div class="accordion-header">
+                        <p>{{syllabus.name}}</p>
+                        <p-progressbar [value]="currentScores.get(syllabus.id!)?.value || 0">
+                            <ng-template #content let-value>
+                                <span>{{value || 0}}</span>
+                            </ng-template>
+                        </p-progressbar>
+                    </div>
+                </p-accordion-header>
+                <p-accordion-content>
+                    <div class="sd-panel-body">
+                        @if (histories.get(syllabus.id!)) {
+                        @if (histories.get(syllabus.id!)!.length > 0) {
+                        <div class="sd-chart">
+                            <p-chart type="line" [data]="getChartData(histories.get(syllabus.id!)!)"
+                                [options]="getChartOptions()" height="60vh" />
+                        </div>
+                        } @else {
+                        <p class="sd-empty">Não há histórico para {{ syllabus.name }}</p>
+                        }
+                        } @else {
+                        <div class="sd-loading">
+                            <o-loading [isLoading]="!histories.get(syllabus.id!)" [local]="true" size="50px" />
+                        </div>
+                        }
+                    </div>
+                </p-accordion-content>
+            </p-accordion-panel>
+            }
+        </p-accordion>
+    </div>
 </div>
