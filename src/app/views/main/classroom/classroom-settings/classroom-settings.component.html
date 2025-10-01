@@ -53,7 +53,8 @@
                 <o-highlight-button (onclick)="addSyllabusTopic()" icon="add">Adicionar tópico</o-highlight-button>
                 <o-highlight-button (onclick)="addSyllabusPreset()" icon="checklist">Adicionar
                     grupo</o-highlight-button>
-                <o-highlight-button (onclick)="deleteSyllabusPreset()" icon="delete">Excluir grupo</o-highlight-button>
+                <o-highlight-button (onclick)="deleteSyllabusPreset()" icon="delete"
+                    [disabled]="!presets || presets.length === 0">Excluir grupo</o-highlight-button>
             </div>
         </header>
 

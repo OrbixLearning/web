@@ -1,10 +1,12 @@
 <o-pop-up-header [title]="'Renomear ' + data" />
 
-<div>
-    <mat-form-field appearance="outline" subscriptSizing="dynamic">
-        <mat-label>Nome</mat-label>
-        <input matInput [(ngModel)]="name" />
-    </mat-form-field>
-</div>
+<form class="edit-topic-popup" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="fields">
+        <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-label>Nome do tópico</mat-label>
+            <input matInput type="text" name="name" formControlName="name" />
+        </mat-form-field>
+    </div>
 
-<o-pop-up-buttons [disable]="!name || name.length === 0" (confirm)="confirm()" confirmButton="Renomear" />
+    <o-pop-up-buttons [disable]="form.invalid" type="submit" confirmButton="Renomear" />
+</form>

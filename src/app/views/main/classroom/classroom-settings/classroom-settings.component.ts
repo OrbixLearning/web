@@ -149,6 +149,7 @@ export class ClassroomSettingsComponent {
 		this.dialog
 			.open(SyllabusTopicCreationPopUpComponent, {
 				data,
+				minWidth: '500px',
 			})
 			.afterClosed()
 			.subscribe(async (result: SyllabusTopicCreationPopUpResult | undefined) => {
@@ -172,7 +173,10 @@ export class ClassroomSettingsComponent {
 			syllabus: this.syllabus || [],
 		};
 		this.dialog
-			.open(SyllabusPresetCreationPopUpComponent, { data })
+			.open(SyllabusPresetCreationPopUpComponent, {
+				data,
+				minWidth: '500px',
+			})
 			.afterClosed()
 			.subscribe(async (result: SyllabusPresetCreationPopUpResult | undefined) => {
 				if (result) {
@@ -195,6 +199,7 @@ export class ClassroomSettingsComponent {
 		this.dialog
 			.open(EditSyllabusTopicPopUpComponent, {
 				data: s.name,
+				minWidth: '500px',
 			})
 			.afterClosed()
 			.subscribe(async (result: string | undefined) => {
@@ -232,7 +237,9 @@ export class ClassroomSettingsComponent {
 
 	deleteSyllabusPreset() {
 		this.dialog
-			.open(SyllabusPresetDeletionPopUpComponent)
+			.open(SyllabusPresetDeletionPopUpComponent, {
+				minWidth: '500px',
+			})
 			.afterClosed()
 			.subscribe(() => {
 				this.presets = this.ctx.classroom?.presets;

@@ -1,13 +1,15 @@
 <o-pop-up-header title="Adicionar novo grupo de tópicos na ementa" />
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form class="syllabus-preset-popup" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="fields">
+        <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-label>Nome do grupo</mat-label>
+            <input matInput type="text" name="name" formControlName="name" />
+        </mat-form-field>
 
-    <mat-form-field appearance="fill" subscriptSizing="dynamic">
-        <mat-label>Nome do grupo</mat-label>
-        <input matInput type="text" name="name" formControlName="name" />
-    </mat-form-field>
+        <o-syllabus [syllabus]="data.syllabus" (syllabusMarked)="markSyllabus($event)" mode="select" />
 
-    <o-syllabus [syllabus]="data.syllabus" (syllabusMarked)="markSyllabus($event)" mode="select" />
+    </div>
 
     <o-pop-up-buttons [disable]="form.invalid" type="submit" confirmButton="Adicionar grupo de tópicos" />
 </form>

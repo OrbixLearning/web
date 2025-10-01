@@ -2,11 +2,23 @@
 
 <o-pop-up-header title="Excluir grupo de tópicos" />
 
-@for (preset of presets; track preset.name) {
-<div class="preset-item">
-    <span>{{ preset.name }}</span>
-    <button mat-icon-button (click)="deletePreset(preset)" type="button">
-        <mat-icon>delete</mat-icon>
-    </button>
-</div>
-}
+<mat-dialog-content class="delete-presets-popup">
+    @if (presets.length) {
+    <div class="list" role="list">
+        @for (preset of presets; track preset.name) {
+        <div class="item" role="listitem">
+            <span class="name ellipsis" [title]="preset.name">{{ preset.name }}</span>
+
+            <button mat-icon-button class="delete-btn" type="button" (click)="deletePreset(preset)" pTooltip="Excluir">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+        }
+    </div>
+    } @else {
+    <div class="empty">
+        <mat-icon>inbox</mat-icon>
+        <p>Nenhum grupo de tópicos encontrado.</p>
+    </div>
+    }
+</mat-dialog-content>
