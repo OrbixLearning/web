@@ -1,24 +1,143 @@
-.syllabus-dashboard-div {
+.syllabus-dashboard {
 	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+	gap: 20px;
 	width: 100%;
+	align-items: flex-start;
+}
 
-	.left-div {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
-		gap: 20px;
+/* LEFT */
+.left-pane {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+
+	.title {
+		margin: 0;
+		color: var(--text-color);
 	}
 
-	.right-div {
-		width: 30%;
+	.filters {
+		display: flex;
+		gap: 12px;
+		.date-field {
+			max-width: 280px;
+		}
+	}
+
+	.chart-card {
+		border: 1px solid gray;
+		border-radius: 12px;
+		background: color-mix(in oklab, var(--background-color) 94%, white);
+		overflow: hidden;
+
+		.chart-header {
+			display: flex;
+			align-items: baseline;
+			gap: 10px;
+			padding: 10px 12px;
+			border-bottom: 1px solid gray;
+
+			.chart-title {
+				margin: 0;
+				font-size: 1.05rem;
+				font-weight: 600;
+			}
+			.chart-sub {
+				opacity: 0.8;
+				font-size: 0.9rem;
+			}
+		}
+
+		.chart-body {
+			padding: 8px 12px;
+			/* ajuda o canvas a não “estourar” */
+			p-chart,
+			canvas {
+				width: 100% !important;
+				height: auto;
+			}
+		}
+	}
+
+	.empty {
+		border: 1px dashed gray;
+		border-radius: 12px;
+		padding: 18px;
+		display: grid;
+		place-items: center;
+		gap: 6px;
+		color: var(--text-color);
+		opacity: 0.9;
+
+		mat-icon {
+			color: var(--primary-color);
+		}
+		p {
+			margin: 0;
+			text-align: center;
+		}
+	}
+}
+
+/* RIGHT */
+.right-pane {
+	flex: 0 0 32%;
+	min-width: 300px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
+	.side-title {
+		margin: 0;
+		color: var(--text-color);
+	}
+
+	.ranking {
 		display: flex;
 		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
-		gap: 20px;
+		gap: 8px;
+		max-height: 70vh;
+		overflow-y: auto;
+		padding-right: 4px;
+	}
+
+	.rank-item {
+		display: grid;
+		grid-template-columns: 36px 1fr auto;
+		align-items: center;
+		gap: 10px;
+		padding: 8px 10px;
+		border: 1px solid gray;
+		border-radius: 10px;
+		background: color-mix(in oklab, var(--background-color) 96%, white);
+		color: var(--text-color);
+		text-decoration: none;
+
+		.position {
+			width: 28px;
+			height: 28px;
+			display: grid;
+			place-items: center;
+			border-radius: 9999px;
+			border: 1px solid gray;
+			background: color-mix(in oklab, var(--background-color) 92%, white);
+			font-weight: 600;
+		}
+		.name {
+			min-width: 0; /* enable ellipsis */
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		.value {
+			font-weight: 600;
+			opacity: 0.95;
+		}
+
+		&:hover {
+			background: color-mix(in oklab, var(--primary-color) 10%, transparent);
+			border-color: color-mix(in oklab, var(--primary-color) 35%, var(--border-color, #3a3a3a));
+		}
 	}
 }

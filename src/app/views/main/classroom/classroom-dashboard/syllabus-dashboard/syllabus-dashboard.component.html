@@ -2,30 +2,49 @@
 
 <o-sub-header [backButtonLink]="dashboardBaseUrl" />
 
-<div class="syllabus-dashboard-div">
-    <div class="left-div">
-        <h2>Dashboard do tópico {{syllabus?.name}}</h2>
-        <mat-form-field appearance="fill" subscriptSizing="dynamic">
-            <mat-label>Data de Início</mat-label>
-            <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate"
-                (ngModelChange)="getData(syllabus!.id!)" disabled>
-            <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #startDatePicker disabled="false"></mat-datepicker>
-        </mat-form-field>
-        @if (count > 0) {
-        <div>
-            <p-chart type="line" [data]="chartData" [options]="chartOptions" />
+<div class="syllabus-dashboard">
+    <div class="left-pane">
+        <h2 class="title">Dashboard do tópico {{ syllabus?.name }}</h2>
+
+        <div class="filters">
+            <mat-form-field appearance="fill" subscriptSizing="dynamic" class="date-field">
+                <mat-label>Data de Início</mat-label>
+                <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate"
+                    (ngModelChange)="getData(syllabus!.id!)" disabled />
+                <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #startDatePicker disabled="false"></mat-datepicker>
+            </mat-form-field>
         </div>
+
+        @if (count > 0) {
+        <section class="chart-card">
+            <header class="chart-header">
+                <h3 class="chart-title">Evolução das notas em {{syllabus?.name}}</h3>
+                <span class="chart-sub">desde {{ formatDateView(startDate) }}</span>
+            </header>
+            <div class="chart-body">
+                <p-chart type="line" [data]="chartData" [options]="chartOptions" />
+            </div>
+        </section>
         } @else {
-        <p>Não há registros nesse tópico a partir de {{formatDateView(startDate)}}</p>
+        <div class="empty">
+            <mat-icon>insert_chart_outlined</mat-icon>
+            <p>Não há registros nesse tópico a partir de {{ formatDateView(startDate) }}</p>
+        </div>
         }
     </div>
 
-    <div class="right-div">
-        @for (item of ranking; track $index) {
-        <button mat-raised-button [routerLink]="[dashboardBaseUrl + '/student/' + item.student.id]">
-            {{$index + 1}}. {{item.student.user.name}} -- {{item.value}}
-        </button>
-        }
-    </div>
+    <aside class="right-pane">
+        <h3 class="side-title">Ranking</h3>
+        <div class="ranking">
+            @for (item of ranking; track $index) {
+            <a class="rank-item" [routerLink]="[dashboardBaseUrl + '/student/' + item.student.id]"
+                [title]="item.student.user.name">
+                <span class="position">{{ $index + 1 }}</span>
+                <span class="name ellipsis">{{ item.student.user.name }} • {{item.student.idInInstitution}}</span>
+                <span class="value">{{ item.value }}</span>
+            </a>
+            }
+        </div>
+    </aside>
 </div>
