@@ -1,0 +1,120 @@
+:host {
+	display: block;
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+.institutions {
+	padding: clamp(1rem, 2vw, 2rem);
+	--radius: 14px;
+	--gap: 1rem;
+
+	.page-header {
+		margin-bottom: 1.25rem;
+
+		h1 {
+			margin: 0;
+			font-size: clamp(1.25rem, 1.2rem + 1vw, 2rem);
+			color: var(--text-color);
+		}
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		gap: var(--gap);
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.inst-btn {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		width: 100%;
+		padding: 0.875rem 1rem;
+		background: color-mix(in oklab, var(--secondary-color) 12%, transparent);
+		color: var(--text-color);
+		border: 1px solid color-mix(in oklab, var(--text-color) 25%, transparent);
+		border-radius: var(--radius);
+		cursor: pointer;
+		text-align: left;
+		transition: all 0.18s ease;
+
+		.logo {
+			width: 48px;
+			height: 48px;
+			object-fit: contain;
+			border-radius: 10px;
+			background: color-mix(in oklab, var(--background-color) 60%, var(--secondary-color));
+			border: 1px solid color-mix(in oklab, var(--text-color) 15%, transparent);
+			flex-shrink: 0;
+		}
+
+		.name {
+			font-weight: 600;
+			font-size: 1rem;
+			flex: 1;
+		}
+
+		&:hover {
+			border-color: var(--primary-color);
+			background: color-mix(in oklab, var(--primary-color) 12%, transparent);
+			transform: translateY(-1px);
+			box-shadow: 0 6px 14px color-mix(in oklab, var(--primary-color) 20%, transparent);
+		}
+
+		&:active {
+			transform: scale(0.98);
+			box-shadow: 0 3px 8px color-mix(in oklab, var(--primary-color) 25%, transparent);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--primary-color);
+			outline-offset: 3px;
+		}
+	}
+
+	.empty {
+		margin-top: 1rem;
+		padding: 1rem;
+		border-radius: var(--radius);
+		border: 1px dashed color-mix(in oklab, var(--text-color) 30%, transparent);
+		background: color-mix(in oklab, var(--secondary-color) 8%, transparent);
+
+		p {
+			margin: 0 0 0.5rem;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		.inline-btn {
+			background: transparent;
+			border: none;
+			color: var(--primary-color);
+			font-weight: 600;
+			cursor: pointer;
+			padding: 0.25rem 0.4rem;
+			border-radius: 6px;
+			transition: background 0.2s ease;
+
+			&:hover {
+				background: color-mix(in oklab, var(--primary-color) 15%, transparent);
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--primary-color);
+				outline-offset: 2px;
+			}
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.institutions .inst-btn {
+		transition: none !important;
+	}
+}
