@@ -1,5 +1,6 @@
 <div class="question">
 
+    @if (mode === 'study') {
     <!-- LEFT: current question -->
     <section class="q-left">
         <header class="q-header">
@@ -78,7 +79,8 @@
         <div class="questions-menu">
             @for (context of questionsContext; track $index; let i = $index) {
             <button mat-stroked-button class="q-item" (click)="goToQuestion(i)"
-                [class.answered]="context.userAnswer.length > 0" [class.incorrect]="showAnswers && !verifyAnswer(i)">
+                [class.answered]="context.userAnswer.length > 0"
+                [class.incorrect]="showAnswers && !verifyUserAnswer(i)">
                 <mat-icon>{{ context.userAnswer.length > 0 ? 'check' : 'close' }}</mat-icon>
                 <span>Questão {{ i + 1 }} {{ context.userAnswer.length > 0 ? '' : '(não respondida)' }}</span>
             </button>
@@ -94,4 +96,76 @@
             }
         </div>
     </aside>
+
+    } @else {
+    <section class="view-mode">
+        <header class="vm-header">
+            <o-highlight-button icon="add">Nova questão</o-highlight-button>
+        </header>
+
+        <div class="vm-list" role="list">
+            @for (ctxItem of questionsContext; track $index; let i = $index) {
+            <article class="q-card" role="listitem">
+                <header class="qc-head">
+                    <div class="qc-left">
+                        <span class="idx">Questão {{ i + 1 }}</span>
+                        <span class="type">{{ ctxItem.question.type }}</span>
+                    </div>
+                    <div class="qc-right">
+                        <o-text-button>Editar</o-text-button>
+                        <o-text-button>Remover</o-text-button>
+                    </div>
+                </header>
+
+                <section class="qc-body">
+                    <div class="statement">
+                        <p>{{ ctxItem.question.statement }}</p>
+                    </div>
+
+                    @switch (ctxItem.question.type) {
+                    @case (questionTypeEnum.MULTIPLE_CHOICE) {
+                    <ul class="options">
+                        @for (opt of ctxItem.question.options; track opt) {
+                        <li class="option" [class.is-correct]="verifyAnswer(ctxItem.question, [opt])">
+                            <span class="bullet"></span>
+                            <span class="text">{{ opt }}</span>
+                        </li>
+                        }
+                    </ul>
+                    }
+
+                    @case (questionTypeEnum.MULTIPLE_SELECTION) {
+                    <ul class="options">
+                        @for (opt of ctxItem.question.options; track opt) {
+                        <li class="option" [class.is-correct]="ctxItem.question.answers.includes(opt)">
+                            <span class="check"></span>
+                            <span class="text">{{ opt }}</span>
+                        </li>
+                        }
+                    </ul>
+                    }
+
+                    @case (questionTypeEnum.TRUE_FALSE) {
+                    <div class="tf">
+                        <span class="chip"
+                            [class.is-correct]="verifyAnswer(ctxItem.question, ['true'])">Verdadeiro</span>
+                        <span class="chip" [class.is-correct]="verifyAnswer(ctxItem.question, ['false'])">Falso</span>
+                    </div>
+                    }
+
+                    @case (questionTypeEnum.OPEN_ENDED) {
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="open-ended">
+                        <mat-label>Resposta correta</mat-label>
+                        <textarea matInput rows="6" [value]="ctxItem.question.answers[0]"
+                            [disabled]="true">        </textarea>
+                    </mat-form-field>
+                    }
+                    }
+                </section>
+
+            </article>
+            }
+        </div>
+    </section>
+    }
 </div>

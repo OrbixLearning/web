@@ -3,11 +3,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
 import { ContextService } from '../../../services/context.service';
 import { InstitutionService } from '../../../services/institution.service';
-import { TextButtonComponent } from "../../../components/buttons/text-button/text-button.component";
 
 @Component({
 	selector: 'o-home',
-	imports: [MatButtonModule, RouterModule, TextButtonComponent],
+	imports: [MatButtonModule, RouterModule],
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss',
 })

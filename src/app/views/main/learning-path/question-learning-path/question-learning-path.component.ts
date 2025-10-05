@@ -157,20 +157,24 @@ export class QuestionLearningPathComponent {
 		}
 	}
 
-	verifyAnswer(i: number): boolean {
-		const userAnswers = this.questionsContext[i].userAnswer;
-		const correctAnswers = this.questionsContext[i].question.answers;
+	verifyAnswer(question: Question, currentAnswers: string[]): boolean {
+		const correctAnswers = question.answers;
 
-		if (userAnswers.length !== correctAnswers.length) {
+		if (currentAnswers.length !== correctAnswers.length) {
 			return false;
 		}
 
 		// TODO: Verify open-ended answers
-		if (this.questionsContext[i].question.type === QuestionTypeEnum.OPEN_ENDED) {
+		if (question.type === QuestionTypeEnum.OPEN_ENDED) {
 			return true;
 		}
 
-		return userAnswers.every((answer: string) => correctAnswers.includes(answer));
+		return currentAnswers.every((answer: string) => correctAnswers.includes(answer));
+	}
+
+	verifyUserAnswer(i: number): boolean {
+		const userAnswers = this.questionsContext[i].userAnswer;
+		return this.verifyAnswer(this.questionsContext[i].question, userAnswers);
 	}
 
 	async verifyAnswers() {
@@ -189,7 +193,7 @@ export class QuestionLearningPathComponent {
 
 		let incorrectAnswers: number[] = [];
 		for (let i = 0; i < this.questionsContext.length; i++) {
-			if (!this.verifyAnswer(i)) {
+			if (!this.verifyUserAnswer(i)) {
 				incorrectAnswers.push(i);
 			}
 		}
