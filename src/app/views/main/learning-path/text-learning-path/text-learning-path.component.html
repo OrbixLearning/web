@@ -1,11 +1,20 @@
 <o-loading [isLoading]="isLoading" />
 
 <header class="text-lp-header">
+    @if (mode === 'view') {
+    <o-highlight-button [disabled]="htmlText === startingText" (onclick)="edit()">Salvar
+        edições</o-highlight-button>
+    } @else {
     <button mat-icon-button class="download-btn" (click)="downloadPdf()">
         <mat-icon>download</mat-icon>
     </button>
+    }
 </header>
 
 <section class="text-lp-content">
-    <markdown class="text-markdown">{{ text }}</markdown>
+    @if (mode === 'study') {
+    <div class="text-markdown" [innerHTML]="htmlText"></div>
+    } @else {
+    <p-editor [(ngModel)]="htmlText" />
+    }
 </section>

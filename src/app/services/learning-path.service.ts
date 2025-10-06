@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { LearningPath } from '../models/LearningPath/LearningPath';
+import { LearningPath, TextLearningPath } from '../models/LearningPath/LearningPath';
 import { GenerateLearningPathRequest } from '../models/LearningPath/LearningPathGeneration';
 
 @Injectable({
@@ -54,5 +54,11 @@ export class LearningPathService {
 
 	delete(learningPathId: string): Observable<void> {
 		return this.http.delete<void>(`${this.api}/${learningPathId}`);
+	}
+
+	// EDITING
+
+	editTextLearningPath(learningPathId: string, text: string): Observable<TextLearningPath> {
+		return this.http.put<TextLearningPath>(`${this.api}/text/${learningPathId}`, { text });
 	}
 }
