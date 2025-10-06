@@ -60,8 +60,8 @@
                     @for (learningPath of filteredMyGeneratedLearningPaths; track learningPath.id) {
                     <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
                         [inChat]="isLearningPathIdInChat(learningPath.id)"
-                        (addToChat)="addLearningPathToChat(learningPath)"
-                        (sharedChange)="updatedLearningPathSharing(learningPath)" [mine]="true" />
+                        (addToChat)="addLearningPathToChat(learningPath)" (share)="shareLearningPath(learningPath)"
+                        [mine]="true" />
                     }
                 </div>
             </section>
@@ -81,7 +81,7 @@
                     <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
                         [inChat]="isLearningPathIdInChat(learningPath.id)"
                         (addToChat)="addLearningPathToChat(learningPath)"
-                        (sharedChange)="updatedLearningPathSharing(learningPath)" />
+                        (sharedChange)="shareLearningPath(learningPath)" />
                     }
 
                     <p-divider />
@@ -91,7 +91,7 @@
                     <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
                         [inChat]="isLearningPathIdInChat(learningPath.id)"
                         (addToChat)="addLearningPathToChat(learningPath)"
-                        (sharedChange)="updatedLearningPathSharing(learningPath)" />
+                        (sharedChange)="shareLearningPath(learningPath)" />
                     }
                 </div>
             </section>

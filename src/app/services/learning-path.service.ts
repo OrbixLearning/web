@@ -32,8 +32,8 @@ export class LearningPathService {
 
 	// UPDATE
 
-	updateLearningPathSharing(id: string, share: boolean): Observable<LearningPath> {
-		return this.http.put<LearningPath>(`${this.api}/share/${id}`, { share });
+	shareLearningPath(id: string): Observable<LearningPath> {
+		return this.http.put<LearningPath>(`${this.api}/share/${id}`, {});
 	}
 
 	validateLearningPath(id: string, validate: boolean): Observable<LearningPath> {

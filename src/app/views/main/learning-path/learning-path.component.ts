@@ -7,6 +7,8 @@ import { Router, RouterModule } from '@angular/router';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
+import { HighlightButtonComponent } from '../../../components/buttons/highlight-button/highlight-button.component';
+import { TextButtonComponent } from '../../../components/buttons/text-button/text-button.component';
 import { ChatComponent } from '../../../components/chat/chat.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import {
@@ -30,9 +32,8 @@ import { FlashCardLearningPathComponent } from './flash-card-learning-path/flash
 import { QuestionLearningPathComponent } from './question-learning-path/question-learning-path.component';
 import { TextLearningPathComponent } from './text-learning-path/text-learning-path.component';
 import { VideoLearningPathComponent } from './video-learning-path/video-learning-path.component';
-import { TextButtonComponent } from '../../../components/buttons/text-button/text-button.component';
-import { HighlightButtonComponent } from '../../../components/buttons/highlight-button/highlight-button.component';
-import { A11yModule } from '@angular/cdk/a11y';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
 	selector: 'o-learning-path',
@@ -52,16 +53,18 @@ import { A11yModule } from '@angular/cdk/a11y';
 		ChatComponent,
 		TextButtonComponent,
 		HighlightButtonComponent,
-		A11yModule,
+		ToastModule,
 	],
 	templateUrl: './learning-path.component.html',
 	styleUrl: './learning-path.component.scss',
+	providers: [MessageService],
 })
 export class LearningPathComponent {
 	ctx: ContextService = inject(ContextService);
 	service: LearningPathService = inject(LearningPathService);
 	dialog: MatDialog = inject(MatDialog);
 	router: Router = inject(Router);
+	toast: MessageService = inject(MessageService);
 
 	isLoading: boolean = false;
 	mine: boolean = this.ctx.learningPathStudy?.learningPath.creator.id === this.ctx.user?.id;
@@ -149,15 +152,11 @@ export class LearningPathComponent {
 			});
 	}
 
-	async updatedLearningPathSharing() {
+	async shareLearningPath() {
 		const data: ConfirmPopUpData = {
-			title: `Tem certeza que deseja ${
-				this.ctx.learningPathStudy?.learningPath.shared ? 'compartilhar a' : 'remover o compartilhamento da'
-			} rota de aprendizagem "${this.ctx.learningPathStudy?.learningPath.name}"?`,
-			message: `Você poderá alterar essa configuração posteriormente.`,
-			confirmButton: this.ctx.learningPathStudy?.learningPath.shared
-				? 'Compartilhar'
-				: 'Remover compartilhamento',
+			title: `Tem certeza que deseja compartilhar a rota de aprendizagem "${this.ctx.learningPathStudy?.learningPath.name}"?`,
+			message: `Essa ação não pode ser desfeita. Uma vez compartilhada, qualquer membro da turma poderá acessar essa rota de aprendizagem.`,
+			confirmButton: 'Compartilhar',
 		};
 		this.dialog
 			.open(ConfirmPopUpComponent, { data })
@@ -165,16 +164,13 @@ export class LearningPathComponent {
 			.subscribe(async (confirmed: boolean) => {
 				if (confirmed) {
 					this.isLoading = true;
-					await lastValueFrom(
-						this.service.updateLearningPathSharing(
-							this.ctx.learningPathStudy!.learningPath.id,
-							this.ctx.learningPathStudy!.learningPath.shared,
-						),
-					).finally(() => {
-						this.isLoading = false;
-					});
-				} else {
-					this.ctx.learningPathStudy!.learningPath.shared = !this.ctx.learningPathStudy!.learningPath.shared;
+					await lastValueFrom(this.service.shareLearningPath(this.ctx.learningPathStudy!.learningPath.id))
+						.then((learningPath: LearningPath) => {
+							this.ctx.learningPathStudy!.learningPath = learningPath;
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
 				}
 			});
 	}
@@ -202,5 +198,13 @@ export class LearningPathComponent {
 			});
 	}
 
-	shareLearningPath() {}
+	copyLearningPathLink() {
+		const completeURL = window.location.href;
+		navigator.clipboard.writeText(completeURL);
+		this.toast.add({
+			severity: 'success',
+			summary: 'Link copiado',
+			detail: 'O link da rota de aprendizagem foi copiado para a área de transferência.',
+		});
+	}
 }

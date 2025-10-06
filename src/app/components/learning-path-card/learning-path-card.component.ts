@@ -34,7 +34,7 @@ export class LearningPathCardComponent {
 	@Input() mine: boolean = false;
 	@Input() inChat: boolean = false;
 	@Output() cardClick: EventEmitter<void> = new EventEmitter<void>();
-	@Output() sharedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() share: EventEmitter<void> = new EventEmitter<void>();
 	@Output() regenerate: EventEmitter<void> = new EventEmitter<void>();
 	@Output() addToChat: EventEmitter<void> = new EventEmitter<void>();
 

@@ -21,22 +21,23 @@
     </o-highlight-button>
 
     <div class="sharing-div">
-        @if (mine) {
-        <div class="toggle-div">
-            <p-toggleswitch [(ngModel)]="ctx.learningPathStudy!.learningPath!.shared"
-                (ngModelChange)="updatedLearningPathSharing()" />
-            <span>Compartilhada</span>
-        </div>
-        }
-
-        <button mat-icon-button (click)="shareLearningPath()">
+        @if (mine && !ctx.learningPathStudy?.learningPath?.shared) {
+        <button mat-icon-button (click)="shareLearningPath()" pTooltip="Compartilhar" tooltipPosition="top">
             <mat-icon>share</mat-icon>
         </button>
+        }
+
+        @if (ctx.learningPathStudy?.learningPath?.shared) {
+        <button mat-icon-button (click)="copyLearningPathLink()" pTooltip="Copiar link para rota" tooltipPosition="top">
+            <mat-icon>link</mat-icon>
+        </button>
+
+        <p-toast />
+        }
     </div>
 
-    @if (mine) {
-    <!-- TODO: Deleting learning paths is currently disabled (issue #22)-->
-    <button mat-icon-button (click)="deleteLearningPath()" [disabled]="true">
+    @if (mine && !ctx.learningPathStudy?.learningPath?.shared) {
+    <button mat-icon-button (click)="deleteLearningPath()">
         <mat-icon>delete</mat-icon>
     </button>
     }

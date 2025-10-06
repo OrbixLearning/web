@@ -27,26 +27,26 @@ import { ContextService } from '../../../../services/context.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
-import { TextButtonComponent } from "../../../../components/buttons/text-button/text-button.component";
+import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 
 @Component({
 	selector: 'o-classroom-home',
 	imports: [
-    MatIconModule,
-    MatButtonModule,
-    RouterModule,
-    DividerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    SyllabusComponent,
-    LearningPathCardComponent,
-    FormsModule,
-    LoadingComponent,
-    PopoverModule,
-    ChatComponent,
-    SubHeaderComponent,
-    TextButtonComponent
-],
+		MatIconModule,
+		MatButtonModule,
+		RouterModule,
+		DividerModule,
+		MatFormFieldModule,
+		MatInputModule,
+		SyllabusComponent,
+		LearningPathCardComponent,
+		FormsModule,
+		LoadingComponent,
+		PopoverModule,
+		ChatComponent,
+		SubHeaderComponent,
+		TextButtonComponent,
+	],
 	templateUrl: './classroom-home.component.html',
 	styleUrl: './classroom-home.component.scss',
 })
@@ -209,13 +209,11 @@ export class ClassroomHomeComponent {
 		this.router.navigate(['/i', this.ctx.institution?.id, 'c', this.ctx.classroom?.id, 'lp', learningPath.id]);
 	}
 
-	async updatedLearningPathSharing(learningPath: LearningPath) {
+	async shareLearningPath(learningPath: LearningPath) {
 		const data: ConfirmPopUpData = {
-			title: `Tem certeza que deseja ${
-				learningPath.shared ? 'compartilhar a' : 'remover o compartilhamento da'
-			} rota de aprendizagem "${learningPath.name}"?`,
-			message: `Você poderá alterar essa configuração posteriormente.`,
-			confirmButton: learningPath.shared ? 'Compartilhar' : 'Remover compartilhamento',
+			title: `Tem certeza que deseja compartilhar a rota de aprendizagem "${learningPath.name}"?`,
+			message: `Essa ação não pode ser desfeita. Uma vez compartilhada, qualquer membro da turma poderá acessar essa rota de aprendizagem.`,
+			confirmButton: 'Compartilhar',
 		};
 		this.dialog
 			.open(ConfirmPopUpComponent, { data })
@@ -223,10 +221,9 @@ export class ClassroomHomeComponent {
 			.subscribe(async (confirmed: boolean) => {
 				if (confirmed) {
 					this.isLoading = true;
-					await lastValueFrom(
-						this.learningPathService.updateLearningPathSharing(learningPath.id, learningPath.shared),
-					)
+					await lastValueFrom(this.learningPathService.shareLearningPath(learningPath.id))
 						.then(() => {
+							learningPath.shared = true;
 							if (learningPath.id === this.ctx.learningPathStudy?.learningPath?.id) {
 								this.ctx.learningPathStudy!.learningPath = learningPath;
 							}
@@ -234,8 +231,6 @@ export class ClassroomHomeComponent {
 						.finally(() => {
 							this.isLoading = false;
 						});
-				} else {
-					learningPath.shared = !learningPath.shared;
 				}
 			});
 	}

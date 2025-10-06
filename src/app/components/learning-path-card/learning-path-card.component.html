@@ -9,7 +9,11 @@
             <span class="lp-author">Por {{ learningPath.creator.name }}</span>
             @if (learningPath.validated) {
             <span class="lp-sep">•</span>
-            <span class="lp-validated"><mat-icon>check</mat-icon> Validada</span>
+            <span class="lp-info"><mat-icon>check</mat-icon> Validada</span>
+            }
+            @if (learningPath.shared) {
+            <span class="lp-sep">•</span>
+            <span class="lp-info"><mat-icon>share</mat-icon> Compartilhada</span>
             }
         </div>
     </div>
@@ -23,13 +27,10 @@
             tooltipPosition="top" [style]="inChat ? 'visibility: hidden' : ''">
             <mat-icon>chat_bubble</mat-icon>
         </button>
-        @if (mine) {
-        <div class="lp-share" (click)="$event.stopPropagation()">
-            <p-toggleswitch [(ngModel)]="learningPath.shared"
-                (ngModelChange)="sharedChange.emit(learningPath.shared)" />
-            <span>Compartilhada</span>
-        </div>
-        }
+        <button mat-icon-button (click)="$event.stopPropagation(); share.emit()" pTooltip="Compartilhar"
+            tooltipPosition="top" [style]="mine && !learningPath.shared ? '' : 'visibility: hidden'">
+            <mat-icon>share</mat-icon>
+        </button>
     </div>
     }
 
