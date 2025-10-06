@@ -29,13 +29,13 @@ export class OAuthCallbackComponent {
 	async oAuthLoginProcess(urlParams: URLSearchParams) {
 		try {
 			let code = urlParams.get('code');
-			// if (code) {
-			// 	await lastValueFrom(this.service.oAuthLogin(code, environment.OAUTH_REDIRECT_URI)).then(() => {
-			// 		this.router.navigate(['/']);
-			// 	});
-			// } else {
-			throw new Error('Missing code parameter.');
-			// }
+			if (code) {
+				await lastValueFrom(this.service.oAuthLogin(code, environment.OAUTH_REDIRECT_URI)).then(() => {
+					this.router.navigate(['/']);
+				});
+			} else {
+				throw new Error('Missing code parameter.');
+			}
 		} catch (e) {
 			this.errorAlert();
 		}
