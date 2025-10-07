@@ -16,9 +16,11 @@
         }
     </div>
 
+    @if (mine || ctx.isTeacher) {
     <o-highlight-button (onclick)="toggleMode()" [icon]="mode === 'view' ? 'visibility' : 'school'">
         Modo {{mode === 'view' ? 'Visualização' : 'Estudo'}}
     </o-highlight-button>
+    }
 
     <div class="sharing-div">
         @if (mine && !ctx.learningPathStudy?.learningPath?.shared) {

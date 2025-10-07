@@ -71,7 +71,6 @@ export class LearningPathComponent {
 	typeEnum = LearningPathTypeEnum;
 	generationStatusEnum = LearningPathGenerationStatusEnum;
 
-	// TODO: In the beginning, the initial mode should always be 'study'. In the future, the teacher's initial mode should be 'view'.
 	mode: 'view' | 'study' = 'study';
 
 	get generationStatus(): LearningPathGenerationStatusEnum | undefined {
