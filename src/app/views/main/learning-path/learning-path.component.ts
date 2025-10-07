@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TooltipModule } from 'primeng/tooltip';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { HighlightButtonComponent } from '../../../components/buttons/highlight-button/highlight-button.component';
 import { TextButtonComponent } from '../../../components/buttons/text-button/text-button.component';
 import { ChatComponent } from '../../../components/chat/chat.component';
@@ -17,7 +17,7 @@ import {
 } from '../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { LearningPathGenerationStatusEnum } from '../../../enums/LearningPathGenerationStatus.enum';
 import { LearningPathTypeEnum } from '../../../enums/LearningPathType.enum';
-import { LearningPath } from '../../../models/LearningPath/LearningPath';
+import { LearningPath, TextLearningPath } from '../../../models/LearningPath/LearningPath';
 import {
 	AudioLearningPathStudy,
 	FlashCardLearningPathStudy,
@@ -66,12 +66,18 @@ export class LearningPathComponent {
 	router: Router = inject(Router);
 	toast: MessageService = inject(MessageService);
 
+	@ViewChild('text') textComponent?: TextLearningPathComponent;
+	@ViewChild('video') videoComponent?: VideoLearningPathComponent;
+	@ViewChild('audio') audioComponent?: AudioLearningPathComponent;
+	@ViewChild('flashcard') flashCardComponent?: FlashCardLearningPathComponent;
+	@ViewChild('question') questionComponent?: QuestionLearningPathComponent;
+
 	isLoading: boolean = false;
 	mine: boolean = this.ctx.learningPathStudy?.learningPath.creator.id === this.ctx.user?.id;
 	typeEnum = LearningPathTypeEnum;
 	generationStatusEnum = LearningPathGenerationStatusEnum;
 
-	mode: 'view' | 'study' = 'study';
+	mode: 'edit' | 'study' = 'study';
 
 	get generationStatus(): LearningPathGenerationStatusEnum | undefined {
 		return this.ctx.learningPathStudy?.learningPath.generation.status;
@@ -97,8 +103,21 @@ export class LearningPathComponent {
 		return this.ctx.learningPathStudy as VideoLearningPathStudy;
 	}
 
-	toggleMode() {
-		if (this.mode === 'view') {
+	async toggleMode() {
+		if (this.mode === 'edit') {
+			this.isLoading = true;
+			if (this.textComponent) {
+				await this.textComponent.save();
+			} else if (this.videoComponent) {
+				await this.videoComponent.save();
+			} else if (this.audioComponent) {
+				await this.audioComponent.save();
+			} else if (this.flashCardComponent) {
+				await this.flashCardComponent.save();
+			} else if (this.questionComponent) {
+				await this.questionComponent.save();
+			}
+			this.isLoading = false;
 			this.mode = 'study';
 		} else {
 			if (
@@ -106,7 +125,7 @@ export class LearningPathComponent {
 				this.ctx.learningPathStudy?.learningPath.type === LearningPathTypeEnum.QUESTION
 			) {
 				let data: ConfirmPopUpData = {
-					title: 'Entrar no modo de visualização vai expor todas as respostas. Tem certeza que deseja continuar?',
+					title: 'Entrar no modo de edição vai expor todas as respostas. Tem certeza que deseja continuar?',
 					message: 'Você poderá voltar ao modo de estudo posteriormente.',
 					confirmButton: 'Continuar',
 				};
@@ -115,11 +134,11 @@ export class LearningPathComponent {
 					.afterClosed()
 					.subscribe((confirmed: boolean) => {
 						if (confirmed) {
-							this.mode = 'view';
+							this.mode = 'edit';
 						}
 					});
 			} else {
-				this.mode = 'view';
+				this.mode = 'edit';
 			}
 		}
 	}

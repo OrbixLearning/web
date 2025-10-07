@@ -4,13 +4,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { EditorModule } from 'primeng/editor';
+import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
-import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { TextLearningPath } from '../../../../models/LearningPath/LearningPath';
 import { TextLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { LearningPathService } from '../../../../services/learning-path.service';
-import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
 	selector: 'o-text-learning-path',
@@ -21,7 +20,6 @@ import { TooltipModule } from 'primeng/tooltip';
 		LoadingComponent,
 		FormsModule,
 		EditorModule,
-		HighlightButtonComponent,
 		TooltipModule,
 	],
 	templateUrl: './text-learning-path.component.html',
@@ -29,7 +27,7 @@ import { TooltipModule } from 'primeng/tooltip';
 })
 export class TextLearningPathComponent {
 	@Input() learningPathStudy!: TextLearningPathStudy;
-	@Input() mode: 'view' | 'study' = 'view';
+	@Input() mode: 'edit' | 'study' = 'edit';
 
 	service: LearningPathService = inject(LearningPathService);
 	markdownService: MarkdownService = inject(MarkdownService);
@@ -82,7 +80,7 @@ export class TextLearningPathComponent {
 			});
 	}
 
-	async edit() {
+	async save() {
 		this.isLoading = true;
 		await lastValueFrom(this.service.editTextLearningPath(this.learningPathStudy.learningPath.id, this.text))
 			.then((updatedLearningPath: TextLearningPath) => {

@@ -12,7 +12,7 @@ import { SafeUrlPipe } from '../../../../pipes/safe-url.pipe';
 })
 export class VideoLearningPathComponent {
 	@Input() learningPathStudy!: VideoLearningPathStudy;
-	@Input() mode: 'view' | 'study' = 'view';
+	@Input() mode: 'edit' | 'study' = 'edit';
 
 	videos: VideoDetails[] = [];
 
@@ -23,4 +23,6 @@ export class VideoLearningPathComponent {
 	getUrl(videoId: string): string {
 		return `https://www.youtube.com/embed/${videoId}`;
 	}
+
+	async save() {}
 }

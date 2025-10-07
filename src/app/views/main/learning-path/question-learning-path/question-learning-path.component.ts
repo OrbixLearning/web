@@ -50,7 +50,7 @@ type QuestionContext = {
 })
 export class QuestionLearningPathComponent {
 	@Input() learningPathStudy!: QuestionLearningPathStudy;
-	@Input() mode: 'view' | 'study' = 'view';
+	@Input() mode: 'edit' | 'study' = 'edit';
 
 	formBuilder: FormBuilder = inject(FormBuilder);
 	dialog: MatDialog = inject(MatDialog);
@@ -222,4 +222,6 @@ export class QuestionLearningPathComponent {
 				});
 		}
 	}
+
+	async save() {}
 }

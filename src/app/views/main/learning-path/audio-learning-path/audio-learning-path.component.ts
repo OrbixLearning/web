@@ -11,7 +11,7 @@ import { LearningPathService } from '../../../../services/learning-path.service'
 })
 export class AudioLearningPathComponent {
 	@Input() learningPathStudy!: AudioLearningPathStudy;
-	@Input() mode: 'view' | 'study' = 'view';
+	@Input() mode: 'edit' | 'study' = 'edit';
 
 	service: LearningPathService = inject(LearningPathService);
 
@@ -26,4 +26,6 @@ export class AudioLearningPathComponent {
 	getAudioUrl(number: number): string {
 		return this.service.getAudioUrl(this.learningPathStudy.learningPath.id, number);
 	}
+
+	async save() {}
 }

@@ -9,8 +9,8 @@ import { DividerModule } from 'primeng/divider';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { lastValueFrom } from 'rxjs';
-import { HighlightButtonComponent } from "../../../../components/buttons/highlight-button/highlight-button.component";
-import { TextButtonComponent } from "../../../../components/buttons/text-button/text-button.component";
+import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
+import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 
 type FlashCardContext = {
 	flashCard: FlashCard;
@@ -19,7 +19,15 @@ type FlashCardContext = {
 
 @Component({
 	selector: 'o-flash-card-learning-path',
-	imports: [MatCardModule, MatButtonModule, MatIconModule, DividerModule, LoadingComponent, HighlightButtonComponent, TextButtonComponent],
+	imports: [
+		MatCardModule,
+		MatButtonModule,
+		MatIconModule,
+		DividerModule,
+		LoadingComponent,
+		HighlightButtonComponent,
+		TextButtonComponent,
+	],
 	templateUrl: './flash-card-learning-path.component.html',
 	styleUrl: './flash-card-learning-path.component.scss',
 })
@@ -27,7 +35,7 @@ export class FlashCardLearningPathComponent {
 	service: LearningPathStudyService = inject(LearningPathStudyService);
 
 	@Input() learningPathStudy!: FlashCardLearningPathStudy;
-	@Input() mode: 'view' | 'study' = 'view';
+	@Input() mode: 'edit' | 'study' = 'edit';
 
 	isLoading: boolean = false;
 	flashCards: FlashCard[] = [];
@@ -86,4 +94,6 @@ export class FlashCardLearningPathComponent {
 				this.isLoading = false;
 			});
 	}
+
+	async save() {}
 }

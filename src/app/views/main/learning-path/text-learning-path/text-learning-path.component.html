@@ -1,15 +1,12 @@
 <o-loading [isLoading]="isLoading" />
 
+@if (mode === 'study') {
 <header class="text-lp-header">
-    @if (mode === 'study') {
     <button mat-icon-button (click)="downloadPdf()">
         <mat-icon>download</mat-icon>
     </button>
-    } @else {
-    <o-highlight-button [disabled]="text === startingText" (onclick)="edit()">Salvar
-        edições</o-highlight-button>
-    }
 </header>
+}
 
 <section class="text-lp-content">
     @if (mode === 'study') {
