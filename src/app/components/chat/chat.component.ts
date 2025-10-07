@@ -40,6 +40,7 @@ export class ChatComponent {
 	@ViewChild('messagesWrapper') messagesWrapper!: ElementRef<HTMLDivElement>;
 	@Input() learningPaths: LearningPath[] = [];
 	@Input() showLearningPaths: boolean = true;
+	@Input() height: string = '65vh';
 	@Output() removeLearningPath: EventEmitter<LearningPath> = new EventEmitter<LearningPath>();
 
 	messages: AIChatMessage[] = [];
