@@ -14,10 +14,11 @@
         <div class="q-choices">
             @switch (question?.type) {
             @case (questionTypeEnum.MULTIPLE_CHOICE) {
-            <mat-selection-list class="choices" [multiple]="false">
-                @for (option of question?.options; track option) {
-                <mat-list-option class="choice-item" [selected]="userAnswer.includes(option)"
-                    (click)="markSingle(option)" role="radio" [attr.aria-checked]="userAnswer.includes(option)">
+            <mat-selection-list class="choices" [multiple]="false"
+                (selectionChange)="markSingle($event.options[0].value)">
+                @for (option of question?.options; track $index) {
+                <mat-list-option class="choice-item" [selected]="userAnswer.includes(option)" [value]="option"
+                    role="radio">
                     {{ option }}
                 </mat-list-option>
                 }
@@ -25,10 +26,11 @@
             }
 
             @case (questionTypeEnum.MULTIPLE_SELECTION) {
-            <mat-selection-list class="choices" [multiple]="true">
-                @for (option of question?.options; track option) {
-                <mat-list-option class="choice-item" [selected]="userAnswer.includes(option)"
-                    (click)="markMulti(option)" role="checkbox" [attr.aria-checked]="userAnswer.includes(option)">
+            <mat-selection-list class="choices" [multiple]="true"
+                (selectionChange)="markMulti($event.options[0].value)">
+                @for (option of question?.options; track $index) {
+                <mat-list-option class="choice-item" [selected]="userAnswer.includes(option)" [value]="option"
+                    role="checkbox">
                     {{ option }}
                 </mat-list-option>
                 }
@@ -36,12 +38,11 @@
             }
 
             @case (questionTypeEnum.TRUE_FALSE) {
-            <mat-button-toggle-group class="tf-group">
-                <mat-button-toggle [checked]="userAnswer.includes('true')" (change)="markSingle('true')" value="true">
+            <mat-button-toggle-group class="tf-group" (valueChange)="markSingle($event)">
+                <mat-button-toggle [checked]="userAnswer.includes('true')" value="true">
                     Verdadeiro
                 </mat-button-toggle>
-                <mat-button-toggle [checked]="userAnswer.includes('false')" (change)="markSingle('false')"
-                    value="false">
+                <mat-button-toggle [checked]="userAnswer.includes('false')" value="false">
                     Falso
                 </mat-button-toggle>
             </mat-button-toggle-group>
