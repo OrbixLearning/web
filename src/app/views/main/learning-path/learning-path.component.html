@@ -51,7 +51,7 @@
 
     } @else if (generationStatus === generationStatusEnum.GENERATED) {
 
-    <div class="left">
+    <div class="left" [style]="mode === 'study' ? 'width: 60%' : 'width: 100%'">
         @switch (ctx.learningPathStudy!.learningPath!.type) {
         @case (typeEnum.TEXT) {
         <o-text-learning-path [learningPathStudy]="learningPathStudyAsText" [mode]="mode" />
