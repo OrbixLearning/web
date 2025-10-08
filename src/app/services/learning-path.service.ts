@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { LearningPath, TextLearningPath } from '../models/LearningPath/LearningPath';
+import { LearningPath, TextLearningPath, VideoLearningPath } from '../models/LearningPath/LearningPath';
 import { GenerateLearningPathRequest } from '../models/LearningPath/LearningPathGeneration';
+import { VideoDetails } from '../models/LearningPath/VideoDetails';
 
 @Injectable({
 	providedIn: 'root',
@@ -60,5 +61,9 @@ export class LearningPathService {
 
 	editTextLearningPath(learningPathId: string, text: string): Observable<TextLearningPath> {
 		return this.http.put<TextLearningPath>(`${this.api}/text/${learningPathId}`, { text });
+	}
+
+	editVideoLearningPath(learningPathId: string, videoDetails: VideoDetails[]): Observable<VideoLearningPath> {
+		return this.http.put<VideoLearningPath>(`${this.api}/video/${learningPathId}`, { videoDetails });
 	}
 }

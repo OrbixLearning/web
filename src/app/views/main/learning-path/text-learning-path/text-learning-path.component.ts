@@ -32,7 +32,6 @@ export class TextLearningPathComponent {
 	service: LearningPathService = inject(LearningPathService);
 	markdownService: MarkdownService = inject(MarkdownService);
 
-	startingText: string = '';
 	text: string = '';
 	isLoading: boolean = false;
 
@@ -61,7 +60,6 @@ export class TextLearningPathComponent {
 
 	startData() {
 		this.text = (this.learningPathStudy.learningPath as TextLearningPath).text!;
-		this.startingText = this.text;
 	}
 
 	async downloadPdf() {

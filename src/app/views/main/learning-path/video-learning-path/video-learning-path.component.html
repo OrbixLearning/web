@@ -1,3 +1,6 @@
+<o-loading [isLoading]="isLoading" />
+
+@if (mode === 'study') {
 <div class="video-learning-path">
     @for (video of videos; track video; let i = $index) {
     <div class="video-card">
@@ -16,3 +19,71 @@
     </div>
     }
 </div>
+} @else {
+<div class="videos-edit">
+    <header class="v-header">
+        <o-highlight-button (onclick)="addVideo()" icon="add">Adicionar vídeo</o-highlight-button>
+    </header>
+
+    @if (videos.length) {
+    <section class="v-list" role="list">
+        @for (video of videos; track video; let i = $index) {
+        <article class="v-card" role="listitem">
+            <header class="v-head">
+                <p class="v-index">Vídeo {{ i + 1 }}</p>
+                <div class="v-actions">
+                    <o-text-button icon="edit" (onclick)="editVideo(video, i)">Editar informações</o-text-button>
+                    <o-text-button icon="delete" (onclick)="deleteVideo(video, i)">Excluir vídeo</o-text-button>
+                </div>
+            </header>
+
+            <div class="v-body">
+                <!-- LEFT: info -->
+                <div class="v-info">
+                    <div class="v-meta">
+                        <div class="meta-item">
+                            <span class="label">ID do vídeo</span>
+                            <span class="value mono">{{ video.videoId || '—' }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="label">Nome</span>
+                            <span class="value">{{ video.name || '—' }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="label">Autor</span>
+                            <span class="value">{{ video.author || '—' }}</span>
+                        </div>
+                    </div>
+
+                    <div class="v-desc">
+                        <span class="label">Descrição</span>
+                        <p class="desc">{{ video.description || '—' }}</p>
+                    </div>
+                </div>
+
+                <!-- RIGHT: preview -->
+                <div class="v-preview">
+                    @if (isValidVideoId(video.videoId)) {
+                    <div class="frame-wrap">
+                        <iframe [src]="getUrl(video.videoId) | safeUrl" allowfullscreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" title="Pré-visualização do vídeo">
+                        </iframe>
+                    </div>
+                    } @else {
+                    <div class="placeholder">
+                        <span>ID inválido</span>
+                    </div>
+                    }
+                </div>
+            </div>
+        </article>
+        }
+    </section>
+    } @else {
+    <section class="v-empty">
+        <p>Nenhum vídeo adicionado ainda.</p>
+    </section>
+    }
+</div>
+}

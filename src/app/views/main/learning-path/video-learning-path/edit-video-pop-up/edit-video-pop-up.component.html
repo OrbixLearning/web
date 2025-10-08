@@ -1,0 +1,57 @@
+<o-pop-up-header [title]="(data ? 'Editar' : 'Adicionar') + ' vídeo'" />
+
+<form class="video-popup" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <section class="vp-body">
+        <!-- LEFT -->
+        <div class="vp-left">
+            <div class="row">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-2">
+                    <mat-label>ID do vídeo</mat-label>
+                    <input matInput formControlName="videoId" />
+                    <mat-hint>Use o valor após <b>v=</b> na URL do YouTube.</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-2">
+                    <mat-label>Nome</mat-label>
+                    <input matInput formControlName="name" />
+                </mat-form-field>
+            </div>
+
+            <div class="row">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-2">
+                    <mat-label>Autor</mat-label>
+                    <input matInput formControlName="author" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-1">
+                    <mat-label>Index</mat-label>
+                    <input matInput type="number" formControlName="index" />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="vp-right">
+            @if (isValidVideoId(form.get('videoId')?.value)) {
+            <div class="frame-wrap">
+                <iframe [src]="getUrl(form.get('videoId')!.value!) | safeUrl" allowfullscreen
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" title="Pré-visualização do vídeo">
+                </iframe>
+            </div>
+            } @else {
+            <div class="placeholder"><span>ID inválido</span></div>
+            }
+        </div>
+    </section>
+
+    <!-- FULL-WIDTH: descrição ocupa as 2 colunas -->
+    <section class="vp-desc">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="desc-field">
+            <mat-label>Descrição</mat-label>
+            <textarea matInput formControlName="description" rows="4" #description></textarea>
+        </mat-form-field>
+    </section>
+
+    <o-pop-up-buttons [confirmButton]="data ? 'Editar' : 'Adicionar'" [disable]="form.invalid" type="submit" />
+</form>
