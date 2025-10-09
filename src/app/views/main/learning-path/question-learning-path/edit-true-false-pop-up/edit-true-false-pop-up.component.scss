@@ -12,6 +12,25 @@
 
 		max-height: 70vh;
 		overflow-y: auto;
+
+		.tf-group {
+			border-radius: 10px;
+			border: 1px solid color-mix(in oklab, var(--text-color) 25%, transparent);
+			overflow: hidden;
+			width: 100%;
+
+			mat-button-toggle {
+				flex: 1;
+				min-width: 120px;
+				font-weight: 600;
+				color: var(--text-color);
+			}
+
+			::ng-deep .mat-button-toggle-checked {
+				background: color-mix(in oklab, var(--primary-color) 16%, transparent) !important;
+				border-color: color-mix(in oklab, var(--primary-color) 45%, transparent) !important;
+			}
+		}
 	}
 }
 

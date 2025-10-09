@@ -12,8 +12,10 @@
             <textarea matInput formControlName="statement" rows="4" cdkTextareaAutosize></textarea>
         </mat-form-field>
 
-        <div>
-        </div>
+        <mat-button-toggle-group class="tf-group" formControlName="answer">
+            <mat-button-toggle [value]="true">Verdadeiro</mat-button-toggle>
+            <mat-button-toggle [value]="false">Falso</mat-button-toggle>
+        </mat-button-toggle-group>
     </section>
 
     <o-pop-up-buttons [confirmButton]="data ? 'Editar' : 'Adicionar'" [disable]="form.invalid" type="submit" />

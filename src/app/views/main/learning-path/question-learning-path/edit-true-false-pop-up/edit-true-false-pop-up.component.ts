@@ -7,10 +7,18 @@ import { PopUpButtonsComponent } from '../../../../../components/pop-ups/pop-up-
 import { PopUpHeaderComponent } from '../../../../../components/pop-ups/pop-up-header/pop-up-header.component';
 import { QuestionTypeEnum } from '../../../../../enums/QuestionType.enum';
 import { Question } from '../../../../../models/LearningPath/Question';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
 	selector: 'o-edit-true-false-pop-up',
-	imports: [PopUpHeaderComponent, PopUpButtonsComponent, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
+	imports: [
+		PopUpHeaderComponent,
+		PopUpButtonsComponent,
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatButtonToggleModule,
+	],
 	templateUrl: './edit-true-false-pop-up.component.html',
 	styleUrl: './edit-true-false-pop-up.component.scss',
 })
@@ -21,7 +29,6 @@ export class EditTrueFalsePopUpComponent {
 
 	form = this.formBuilder.group({
 		statement: ['', Validators.required],
-		options: this.formBuilder.control<string[]>([], Validators.required),
 		answer: this.formBuilder.control<boolean | undefined>(undefined, Validators.required),
 		index: [1, Validators.min(1)],
 	});
@@ -34,7 +41,6 @@ export class EditTrueFalsePopUpComponent {
 		if (this.data) {
 			this.form.patchValue({
 				statement: this.data.question.statement,
-				options: this.data.question.options,
 				answer: this.data.question.answers[0] === 'true',
 				index: this.data.index + 1,
 			});
@@ -45,7 +51,7 @@ export class EditTrueFalsePopUpComponent {
 		if (this.form.valid) {
 			const question: Question = {
 				statement: this.form.value.statement!,
-				options: this.form.value.options! as string[],
+				options: ['true', 'false'],
 				answers: [this.form.value.answer! ? 'true' : 'false'],
 				type: QuestionTypeEnum.TRUE_FALSE,
 			};
