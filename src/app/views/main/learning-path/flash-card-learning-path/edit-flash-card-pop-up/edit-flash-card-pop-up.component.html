@@ -1,0 +1,17 @@
+<o-pop-up-header [title]="(data ? 'Editar' : 'Adicionar') + ' flash card'" />
+
+<form class="card-popup" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <section class="cp-body">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Frente</mat-label>
+            <textarea matInput formControlName="front" rows="2"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Verso</mat-label>
+            <textarea matInput formControlName="back" rows="4" cdkTextareaAutosize></textarea>
+        </mat-form-field>
+    </section>
+
+    <o-pop-up-buttons [confirmButton]="data ? 'Editar' : 'Adicionar'" [disable]="form.invalid" type="submit" />
+</form>

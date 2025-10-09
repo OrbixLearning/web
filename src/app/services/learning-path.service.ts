@@ -2,7 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { LearningPath, TextLearningPath, VideoLearningPath } from '../models/LearningPath/LearningPath';
+import { FlashCard } from '../models/LearningPath/FlashCard';
+import {
+	FlashCardLearningPath,
+	LearningPath,
+	TextLearningPath,
+	VideoLearningPath,
+} from '../models/LearningPath/LearningPath';
 import { GenerateLearningPathRequest } from '../models/LearningPath/LearningPathGeneration';
 import { VideoDetails } from '../models/LearningPath/VideoDetails';
 
@@ -65,5 +71,9 @@ export class LearningPathService {
 
 	editVideoLearningPath(learningPathId: string, videoDetails: VideoDetails[]): Observable<VideoLearningPath> {
 		return this.http.put<VideoLearningPath>(`${this.api}/video/${learningPathId}`, { videoDetails });
+	}
+
+	editFlashCardLearningPath(learningPathId: string, flashCards: FlashCard[]): Observable<FlashCardLearningPath> {
+		return this.http.put<FlashCardLearningPath>(`${this.api}/flashcard/${learningPathId}`, { flashCards });
 	}
 }

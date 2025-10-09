@@ -3,15 +3,12 @@
 <div class="flashcards-lp">
 
     <div class="fc-toolbar">
+        @if (mode === 'study') {
         <button mat-icon-button (click)="shuffle()" pTooltip="Embaralhar">
             <mat-icon>shuffle</mat-icon>
         </button>
 
         <div class="fc-nav">
-            @if (mode === 'edit') {
-            <o-text-button (onclick)="openAll()">Abrir todos</o-text-button>
-            <o-text-button (onclick)="closeAll()">Fechar todos</o-text-button>
-            } @else {
             <button mat-icon-button [style]="'visibility: ' + (fcIndex > 0 ? 'visible' : 'hidden')" (click)="prev()"
                 pTooltip="Anterior">
                 <mat-icon>arrow_back_ios_new</mat-icon>
@@ -23,33 +20,15 @@
                 (click)="next()" pTooltip="Próximo">
                 <mat-icon>arrow_forward_ios_new</mat-icon>
             </button>
-            }
         </div>
-    </div>
-
-    @if (mode === 'edit') {
-
-    <div class="fc-grid">
-        @for (flashCard of flashCards; track $index; let i = $index) {
-        <mat-card class="fc-card" [class.is-open]="fcContext[i].opened">
-            <mat-card-content class="fc-card__content">
-                <p class="fc-front">{{ flashCard.front }}</p>
-
-                @if (fcContext[i].opened) {
-                <p class="fc-back">{{ flashCard.back }}</p>
-                }
-            </mat-card-content>
-
-            <mat-card-actions class="fc-card__actions">
-                <o-text-button (onclick)="this.fcContext[i].opened = !this.fcContext[i].opened">
-                    {{ fcContext[i].opened ? 'Fechar' : 'Abrir' }}
-                </o-text-button>
-            </mat-card-actions>
-        </mat-card>
+        } @else {
+        <o-highlight-button (onclick)="addFlashCard()" icon="add">
+            Adicionar flash card
+        </o-highlight-button>
         }
     </div>
 
-    } @else {
+    @if (mode === 'study') {
 
     <div class="fc-study">
         @if (flashCard) {
@@ -67,6 +46,33 @@
                     {{ fcContext[fcIndex].opened ? 'Fechar' : 'Abrir' }}
                 </o-highlight-button>
             </mat-card-actions>
+        </mat-card>
+        }
+    </div>
+
+    } @else {
+
+    <div class="fc-grid">
+        @for (flashCard of flashCards; track $index; let i = $index) {
+        <mat-card class="fc-card">
+            <div class="fc-card__title">
+                <span>{{ i + 1 }}</span>
+            </div>
+            <mat-card-content class="fc-card__content">
+                <div class="fc-card__text">
+                    <p class="fc-front">{{ flashCard.front }}</p>
+                    <p class="fc-back">{{ flashCard.back }}</p>
+                </div>
+
+                <mat-card-actions class="fc-card__actions">
+                    <button mat-icon-button (click)="editFlashCard(i)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteFlashCard(i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-card-actions>
+            </mat-card-content>
         </mat-card>
         }
     </div>

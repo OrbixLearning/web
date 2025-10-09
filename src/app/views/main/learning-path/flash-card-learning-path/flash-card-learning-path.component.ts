@@ -1,16 +1,22 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { FlashCard } from '../../../../models/LearningPath/FlashCard';
-import { FlashCardLearningPath } from '../../../../models/LearningPath/LearningPath';
-import { FlashCardLearningPathStudy, LearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { DividerModule } from 'primeng/divider';
-import { LoadingComponent } from '../../../../components/loading/loading.component';
-import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { lastValueFrom } from 'rxjs';
 import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
-import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
+import { LoadingComponent } from '../../../../components/loading/loading.component';
+import {
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
+} from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { FlashCard } from '../../../../models/LearningPath/FlashCard';
+import { FlashCardLearningPath } from '../../../../models/LearningPath/LearningPath';
+import { FlashCardLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
+import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
+import { LearningPathService } from '../../../../services/learning-path.service';
+import { EditFlashCardPopUpComponent } from './edit-flash-card-pop-up/edit-flash-card-pop-up.component';
 
 type FlashCardContext = {
 	flashCard: FlashCard;
@@ -19,31 +25,26 @@ type FlashCardContext = {
 
 @Component({
 	selector: 'o-flash-card-learning-path',
-	imports: [
-		MatCardModule,
-		MatButtonModule,
-		MatIconModule,
-		DividerModule,
-		LoadingComponent,
-		HighlightButtonComponent,
-		TextButtonComponent,
-	],
+	imports: [MatCardModule, MatButtonModule, MatIconModule, DividerModule, LoadingComponent, HighlightButtonComponent],
 	templateUrl: './flash-card-learning-path.component.html',
 	styleUrl: './flash-card-learning-path.component.scss',
 })
 export class FlashCardLearningPathComponent {
 	service: LearningPathStudyService = inject(LearningPathStudyService);
+	learningPathService: LearningPathService = inject(LearningPathService);
+	dialog: MatDialog = inject(MatDialog);
 
 	@Input() learningPathStudy!: FlashCardLearningPathStudy;
 	@Input() mode: 'edit' | 'study' = 'edit';
 
 	isLoading: boolean = false;
 	flashCards: FlashCard[] = [];
+	shuffledFlashCards: FlashCard[] = [];
 	fcIndex: number = 0;
 	fcContext: FlashCardContext[] = [];
 
 	get flashCard(): FlashCard {
-		return this.flashCards[this.fcIndex];
+		return this.shuffledFlashCards[this.fcIndex];
 	}
 
 	ngOnInit() {
@@ -51,23 +52,15 @@ export class FlashCardLearningPathComponent {
 	}
 
 	setData() {
-		const unorderedFC = (this.learningPathStudy.learningPath as FlashCardLearningPath).flashCards!;
+		this.flashCards = (this.learningPathStudy.learningPath as FlashCardLearningPath).flashCards!;
 		const order: number[] = this.learningPathStudy.cardsOrder;
 		if (order && order.length > 0) {
-			this.flashCards = order.map(index => unorderedFC[index]);
+			this.shuffledFlashCards = order.map(index => this.flashCards[index]);
 		}
-		this.fcContext = this.flashCards.map(flashCard => ({
+		this.fcContext = this.shuffledFlashCards.map(flashCard => ({
 			flashCard,
 			opened: false,
 		}));
-	}
-
-	openAll() {
-		this.fcContext.forEach(context => (context.opened = true));
-	}
-
-	closeAll() {
-		this.fcContext.forEach(context => (context.opened = false));
 	}
 
 	prev() {
@@ -80,6 +73,51 @@ export class FlashCardLearningPathComponent {
 		if (this.fcIndex < this.fcContext.length - 1) {
 			this.fcIndex++;
 		}
+	}
+
+	addFlashCard() {
+		this.dialog
+			.open(EditFlashCardPopUpComponent, {
+				minWidth: '600px',
+			})
+			.afterClosed()
+			.subscribe((result: FlashCard | undefined) => {
+				if (result) {
+					this.flashCards.push(result);
+					this.setData();
+				}
+			});
+	}
+
+	editFlashCard(index: number) {
+		this.dialog
+			.open(EditFlashCardPopUpComponent, {
+				data: this.flashCards[index],
+				minWidth: '600px',
+			})
+			.afterClosed()
+			.subscribe((result: FlashCard | undefined) => {
+				if (result) {
+					this.flashCards[index] = result;
+					this.setData();
+				}
+			});
+	}
+
+	deleteFlashCard(index: number) {
+		const data: ConfirmPopUpData = {
+			title: `Tem certeza que deseja excluir o Flash Card ${index + 1}?`,
+			message: 'Esta ação não pode ser desfeita.',
+			confirmButton: 'Excluir',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async result => {
+				if (result) {
+					this.flashCards.splice(index, 1);
+				}
+			});
 	}
 
 	async shuffle() {
@@ -95,5 +133,17 @@ export class FlashCardLearningPathComponent {
 			});
 	}
 
-	async save() {}
+	async save() {
+		this.isLoading = true;
+		await lastValueFrom(
+			this.learningPathService.editFlashCardLearningPath(this.learningPathStudy.learningPath.id, this.flashCards),
+		)
+			.then((learningPath: FlashCardLearningPath) => {
+				this.learningPathStudy.learningPath = learningPath;
+				this.flashCards = learningPath.flashCards!;
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
 }

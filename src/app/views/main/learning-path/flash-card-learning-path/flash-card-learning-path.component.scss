@@ -38,33 +38,43 @@
 
 /* cartão base */
 .fc-card {
-	border: 1px solid var(--border-color, #3a3a3a);
+	border: 1px solid gray;
 	border-radius: 12px;
-	background: var(--surface, color-mix(in oklab, var(--background-color) 94%, white));
-	display: grid;
-	grid-template-rows: 1fr auto;
+	background-color: var(--background-color);
+	display: flex;
+	flex-direction: column;
 	min-height: 160px;
 
 	&.fc-card--focus {
 		min-height: 220px;
 	}
 
-	&.is-open .fc-back {
-		opacity: 1;
-		transform: translateY(0);
+	.fc-card__title {
+		padding: 5px 8px;
+		border-bottom: 1px solid gray;
+		font-weight: 600;
+		color: var(--text-color);
 	}
 
 	.fc-card__content {
 		padding: 12px 14px;
-		display: grid;
-		align-content: start;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 100%;
 		gap: 10px;
+
+		.fc-card__text {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
 	}
 
 	.fc-card__actions {
-		padding: 8px 12px 12px;
 		display: flex;
 		justify-content: flex-end;
+		gap: 10px;
 	}
 
 	.fc-front {
@@ -77,13 +87,8 @@
 		margin: 0;
 		color: var(--text-color);
 		opacity: 0.95;
-		border-top: 1px dashed var(--border-color, #3a3a3a);
+		border-top: 1px dashed gray;
 		padding-top: 8px;
-
-		/* transição suave no revelar */
-		transition: transform 120ms ease, opacity 120ms ease;
-		transform: translateY(-2px);
-		opacity: 0; /* inicia escondido; .is-open ativa */
 	}
 }
 
