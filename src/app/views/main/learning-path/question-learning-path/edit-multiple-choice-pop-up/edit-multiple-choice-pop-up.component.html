@@ -12,8 +12,35 @@
             <textarea matInput formControlName="statement" rows="4" cdkTextareaAutosize></textarea>
         </mat-form-field>
 
-        <div>
+        <div class="options">
+            <div formArrayName="options" class="texts">
+                @for (option of optionsFormControls; track $index) {
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <input matInput type="text" [formControl]="option" />
+                </mat-form-field>
+                }
+            </div>
+
+            <mat-radio-group formControlName="answer" class="radios">
+                @for (_ of optionsFormControls; track $index) {
+                <mat-radio-button [value]="$index"></mat-radio-button>
+                }
+            </mat-radio-group>
+
+            <div class="deletes">
+                @for (_ of optionsFormControls; track $index) {
+                <button mat-icon-button (click)="deleteOption($index)" type="button"
+                    [style]="optionsFormControls.length <= 2 ? 'visibility: hidden' : ''">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                }
+            </div>
         </div>
+
+        <div class="add-option">
+            <o-text-button (onclick)="addOption()" icon="add">Adicionar alternativa</o-text-button>
+        </div>
+
     </section>
 
     <o-pop-up-buttons [confirmButton]="data ? 'Editar' : 'Adicionar'" [disable]="form.invalid" type="submit" />
