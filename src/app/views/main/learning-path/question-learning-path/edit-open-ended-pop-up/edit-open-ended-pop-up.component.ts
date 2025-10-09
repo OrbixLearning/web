@@ -47,7 +47,7 @@ export class EditOpenEndedPopUpComponent {
 				answers: [this.form.value.answer!],
 				type: QuestionTypeEnum.OPEN_ENDED,
 			};
-			this.dialogRef.close({ question, index: this.form.value.index });
+			this.dialogRef.close({ question, index: this.form.value.index! - 1 });
 		}
 	}
 }
