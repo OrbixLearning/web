@@ -237,7 +237,9 @@ export class QuestionLearningPathComponent {
 
 	addMultipleChoiceQuestion() {
 		this.dialog
-			.open(EditMultipleChoicePopUpComponent)
+			.open(EditMultipleChoicePopUpComponent, {
+				minWidth: '600px',
+			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
 				if (result) {
@@ -248,7 +250,9 @@ export class QuestionLearningPathComponent {
 
 	addMultipleSelectionQuestion() {
 		this.dialog
-			.open(EditMultipleSelectionPopUpComponent)
+			.open(EditMultipleSelectionPopUpComponent, {
+				minWidth: '600px',
+			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
 				if (result) {
@@ -259,7 +263,9 @@ export class QuestionLearningPathComponent {
 
 	addTrueFalseQuestion() {
 		this.dialog
-			.open(EditTrueFalsePopUpComponent)
+			.open(EditTrueFalsePopUpComponent, {
+				minWidth: '600px',
+			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
 				if (result) {
@@ -270,7 +276,9 @@ export class QuestionLearningPathComponent {
 
 	addOpenEndedQuestion() {
 		this.dialog
-			.open(EditOpenEndedPopUpComponent)
+			.open(EditOpenEndedPopUpComponent, {
+				minWidth: '600px',
+			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
 				if (result) {
@@ -301,6 +309,7 @@ export class QuestionLearningPathComponent {
 					question: this.questions[index],
 					index: index,
 				},
+				minWidth: '600px',
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
