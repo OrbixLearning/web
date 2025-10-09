@@ -7,8 +7,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { lastValueFrom } from 'rxjs';
+import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
+import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
+import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
@@ -22,9 +27,11 @@ import { QuestionLearningPath } from '../../../../models/LearningPath/LearningPa
 import { QuestionLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { Question } from '../../../../models/LearningPath/Question';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
-import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
-import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
-import { MatListModule } from '@angular/material/list';
+import { LearningPathService } from '../../../../services/learning-path.service';
+import { EditMultipleChoicePopUpComponent } from './edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
+import { EditMultipleSelectionPopUpComponent } from './edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
+import { EditOpenEndedPopUpComponent } from './edit-open-ended-pop-up/edit-open-ended-pop-up.component';
+import { EditTrueFalsePopUpComponent } from './edit-true-false-pop-up/edit-true-false-pop-up.component';
 
 type QuestionContext = {
 	question: Question;
@@ -44,6 +51,8 @@ type QuestionContext = {
 		HighlightButtonComponent,
 		TextButtonComponent,
 		MatListModule,
+		LoadingComponent,
+		MatMenuModule,
 	],
 	templateUrl: './question-learning-path.component.html',
 	styleUrl: './question-learning-path.component.scss',
@@ -55,7 +64,10 @@ export class QuestionLearningPathComponent {
 	formBuilder: FormBuilder = inject(FormBuilder);
 	dialog: MatDialog = inject(MatDialog);
 	service: LearningPathStudyService = inject(LearningPathStudyService);
+	learningPathService: LearningPathService = inject(LearningPathService);
 
+	isLoading: boolean = false;
+	questions: Question[] = [];
 	questionsContext: QuestionContext[] = [];
 	index: number = 0;
 	questionContext?: QuestionContext;
@@ -81,12 +93,12 @@ export class QuestionLearningPathComponent {
 	}
 
 	startData() {
-		const questions = (this.learningPathStudy.learningPath as QuestionLearningPath).questions!;
+		this.questions = (this.learningPathStudy.learningPath as QuestionLearningPath).questions!;
 		const userAnswers =
-			(this.learningPathStudy as QuestionLearningPathStudy).userAnswers || questions.map(() => []);
-		for (let i = 0; i < questions.length; i++) {
+			(this.learningPathStudy as QuestionLearningPathStudy).userAnswers || this.questions.map(() => []);
+		for (let i = 0; i < this.questions.length; i++) {
 			this.questionsContext.push({
-				question: questions[i],
+				question: this.questions[i],
 				userAnswer: userAnswers[i].answer || [],
 			});
 		}
@@ -223,5 +235,113 @@ export class QuestionLearningPathComponent {
 		}
 	}
 
-	async save() {}
+	addMultipleChoiceQuestion() {
+		this.dialog
+			.open(EditMultipleChoicePopUpComponent)
+			.afterClosed()
+			.subscribe((result: { question: Question; index: number } | undefined) => {
+				if (result) {
+					this.questions.splice(result.index, 0, result.question);
+				}
+			});
+	}
+
+	addMultipleSelectionQuestion() {
+		this.dialog
+			.open(EditMultipleSelectionPopUpComponent)
+			.afterClosed()
+			.subscribe((result: { question: Question; index: number } | undefined) => {
+				if (result) {
+					this.questions.splice(result.index, 0, result.question);
+				}
+			});
+	}
+
+	addTrueFalseQuestion() {
+		this.dialog
+			.open(EditTrueFalsePopUpComponent)
+			.afterClosed()
+			.subscribe((result: { question: Question; index: number } | undefined) => {
+				if (result) {
+					this.questions.splice(result.index, 0, result.question);
+				}
+			});
+	}
+
+	addOpenEndedQuestion() {
+		this.dialog
+			.open(EditOpenEndedPopUpComponent)
+			.afterClosed()
+			.subscribe((result: { question: Question; index: number } | undefined) => {
+				if (result) {
+					this.questions.splice(result.index, 0, result.question);
+				}
+			});
+	}
+
+	editQuestion(index: number) {
+		let editionPopUp: any;
+		switch (this.questions[index].type) {
+			case QuestionTypeEnum.MULTIPLE_CHOICE:
+				editionPopUp = EditMultipleChoicePopUpComponent;
+				break;
+			case QuestionTypeEnum.MULTIPLE_SELECTION:
+				editionPopUp = EditMultipleSelectionPopUpComponent;
+				break;
+			case QuestionTypeEnum.TRUE_FALSE:
+				editionPopUp = EditTrueFalsePopUpComponent;
+				break;
+			case QuestionTypeEnum.OPEN_ENDED:
+				editionPopUp = EditOpenEndedPopUpComponent;
+				break;
+		}
+		this.dialog
+			.open(editionPopUp, {
+				data: {
+					question: this.questions[index],
+					index: index,
+				},
+			})
+			.afterClosed()
+			.subscribe((result: { question: Question; index: number } | undefined) => {
+				if (result) {
+					if (result.index === index) {
+						this.questions[index] = result.question;
+					} else {
+						this.questions.splice(index, 1);
+						this.questions.splice(result.index, 0, result.question);
+					}
+				}
+			});
+	}
+
+	deleteQuestion(index: number) {
+		const data: ConfirmPopUpData = {
+			title: `Tem certeza que deseja excluir a questão ${index + 1}?`,
+			message: 'Esta ação não pode ser desfeita.',
+			confirmButton: 'Excluir',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async result => {
+				if (result) {
+					this.questions.splice(index, 1);
+				}
+			});
+	}
+
+	async save() {
+		this.isLoading = true;
+		await lastValueFrom(
+			this.learningPathService.editQuestionLearningPath(this.learningPathStudy.learningPath.id, this.questions),
+		)
+			.then((learningPath: QuestionLearningPath) => {
+				this.learningPathStudy.learningPath = learningPath;
+				this.questions = learningPath.questions!;
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
 }

@@ -6,11 +6,13 @@ import { FlashCard } from '../models/LearningPath/FlashCard';
 import {
 	FlashCardLearningPath,
 	LearningPath,
+	QuestionLearningPath,
 	TextLearningPath,
 	VideoLearningPath,
 } from '../models/LearningPath/LearningPath';
 import { GenerateLearningPathRequest } from '../models/LearningPath/LearningPathGeneration';
 import { VideoDetails } from '../models/LearningPath/VideoDetails';
+import { Question } from '../models/LearningPath/Question';
 
 @Injectable({
 	providedIn: 'root',
@@ -75,5 +77,9 @@ export class LearningPathService {
 
 	editFlashCardLearningPath(learningPathId: string, flashCards: FlashCard[]): Observable<FlashCardLearningPath> {
 		return this.http.put<FlashCardLearningPath>(`${this.api}/flashcard/${learningPathId}`, { flashCards });
+	}
+
+	editQuestionLearningPath(learningPathId: string, questions: Question[]): Observable<QuestionLearningPath> {
+		return this.http.put<QuestionLearningPath>(`${this.api}/question/${learningPathId}`, { questions });
 	}
 }

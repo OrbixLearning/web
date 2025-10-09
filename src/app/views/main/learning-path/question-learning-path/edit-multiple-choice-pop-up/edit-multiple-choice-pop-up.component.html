@@ -1,0 +1,16 @@
+<o-pop-up-header [title]="(data ? 'Editar' : 'Adicionar') + ' questão de múltipla escolha'" />
+
+<form class="multiple-choice-question-popup" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Enunciado</mat-label>
+            <textarea matInput formControlName="statement" rows="4"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-1">
+            <mat-label>Número</mat-label>
+            <input matInput type="number" formControlName="index" />
+        </mat-form-field>
+    </div>
+    <o-pop-up-buttons [confirmButton]="data ? 'Editar' : 'Adicionar'" [disable]="form.invalid" type="submit" />
+</form>

@@ -31,7 +31,7 @@ export class EditVideoPopUpComponent {
 		name: ['', Validators.required],
 		author: ['', Validators.required],
 		description: [''],
-		index: [0, Validators.min(0)],
+		index: [1, Validators.min(1)],
 	});
 
 	ngOnInit() {
@@ -53,7 +53,7 @@ export class EditVideoPopUpComponent {
 				name: this.data.video.name,
 				author: this.data.video.author,
 				description: this.data.video.description,
-				index: this.data.index,
+				index: this.data.index + 1,
 			});
 		}
 	}
@@ -66,7 +66,7 @@ export class EditVideoPopUpComponent {
 				author: this.form.value.author!,
 				description: this.form.value.description || '',
 			};
-			this.dialogRef.close({ video, index: this.form.value.index });
+			this.dialogRef.close({ video, index: this.form.value.index! - 1 });
 		}
 	}
 }

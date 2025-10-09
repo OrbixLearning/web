@@ -84,7 +84,6 @@ export class FlashCardLearningPathComponent {
 			.subscribe((result: FlashCard | undefined) => {
 				if (result) {
 					this.flashCards.push(result);
-					this.setData();
 				}
 			});
 	}
@@ -99,7 +98,6 @@ export class FlashCardLearningPathComponent {
 			.subscribe((result: FlashCard | undefined) => {
 				if (result) {
 					this.flashCards[index] = result;
-					this.setData();
 				}
 			});
 	}
