@@ -13,7 +13,7 @@
 
         <div class="panel__body">
             @if (students.length > 0) {
-            <p-table [value]="students" size="small" [tableStyle]="tableStyle">
+            <p-table [value]="sortedStudents" size="small" [tableStyle]="tableStyle">
                 <ng-template #header>
                     <tr>
                         <th class="col-avatar">Perfil</th>
@@ -57,7 +57,7 @@
 
         <div class="panel__body">
             @if (teachers.length > 0) {
-            <p-table [value]="teachers" size="small" [tableStyle]="tableStyle">
+            <p-table [value]="sortedTeachers" size="small" [tableStyle]="tableStyle">
                 <ng-template #header>
                     <tr>
                         <th class="col-avatar">Perfil</th>

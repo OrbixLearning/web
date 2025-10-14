@@ -91,10 +91,7 @@ export class ProfileComponent {
 	}
 
 	get sortedAccounts(): UserAccount[] {
-		if (!this.user?.accounts) {
-			return [];
-		}
-		return this.user?.accounts.sort((a, b) => a.email.localeCompare(b.email));
+		return this.user?.accounts.sort((a, b) => a.email.localeCompare(b.email)) || [];
 	}
 
 	get profilePictureUrl(): string {

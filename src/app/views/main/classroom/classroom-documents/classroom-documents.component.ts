@@ -81,19 +81,31 @@ export class ClassroomDocumentsComponent {
 
 	// TODO: Do a performance test later to see if this the filtering should be async or not
 	get filteredDocuments(): Document[] {
-		return this.documents.filter(d => {
-			const filteredBySyllabus =
-				this.markedSyllabus.length === 0 ||
-				(d.syllabus &&
-					ArrayUtils.hasAllItems(
-						d.syllabus.map(r => r.id),
-						this.markedSyllabus.map(r => r.id),
-					));
+		return this.documents
+			.filter(d => {
+				const filteredBySyllabus =
+					this.markedSyllabus.length === 0 ||
+					(d.syllabus &&
+						ArrayUtils.hasAllItems(
+							d.syllabus.map(r => r.id),
+							this.markedSyllabus.map(r => r.id),
+						));
 
-			const filteredByName = d.name.toLowerCase().includes(this.filter.toLowerCase());
+				const filteredByName = d.name.toLowerCase().includes(this.filter.toLowerCase());
 
-			return filteredBySyllabus && filteredByName;
-		});
+				return filteredBySyllabus && filteredByName;
+			})
+			.sort((a, b) => {
+				const statusA =
+					a.aiStatus === DocumentAIUploadStatusEnum.UPLOADING ||
+					a.aiStatus === DocumentAIUploadStatusEnum.FAILED;
+				const statusB =
+					b.aiStatus === DocumentAIUploadStatusEnum.UPLOADING ||
+					b.aiStatus === DocumentAIUploadStatusEnum.FAILED;
+				if (!statusA && statusB) return 1;
+				if (statusA && !statusB) return -1;
+				return a.name.localeCompare(b.name);
+			});
 	}
 
 	async getData() {

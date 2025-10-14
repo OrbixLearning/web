@@ -53,9 +53,13 @@ export class HeaderComponent {
 			});
 	}
 
+	get sortedContextInstitutions(): Institution[] {
+		return this.ctx.institutionList?.sort((a, b) => a.name.localeCompare(b.name)) || [];
+	}
+
 	get institutions(): Institution[] {
 		let arr: Institution[] = [this.personalInstitution];
-		arr.push(...(this.ctx.institutionList || []));
+		arr.push(...this.sortedContextInstitutions);
 		return arr;
 	}
 

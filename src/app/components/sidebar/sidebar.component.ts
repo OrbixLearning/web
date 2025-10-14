@@ -35,8 +35,7 @@ export class SidebarComponent {
 	}
 
 	get sortedClassrooms(): Classroom[] {
-		if (!this.ctx.classroomList) return [];
-		return this.ctx.classroomList.sort((a, b) => a.name.localeCompare(b.name));
+		return this.ctx.classroomList?.sort((a, b) => a.name.localeCompare(b.name)) || [];
 	}
 
 	isSelected(classroom: Classroom | null): boolean {

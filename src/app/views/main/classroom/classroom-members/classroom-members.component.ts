@@ -59,6 +59,14 @@ export class ClassroomMembersComponent {
 		return buttons;
 	}
 
+	get sortedStudents(): UserAccount[] {
+		return this.students.sort((a, b) => a.email.localeCompare(b.email));
+	}
+
+	get sortedTeachers(): UserAccount[] {
+		return this.teachers.sort((a, b) => a.email.localeCompare(b.email));
+	}
+
 	ngOnInit() {
 		this.getData();
 	}
