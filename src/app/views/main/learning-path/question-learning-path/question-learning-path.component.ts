@@ -32,6 +32,7 @@ import { EditMultipleChoicePopUpComponent } from './edit-multiple-choice-pop-up/
 import { EditMultipleSelectionPopUpComponent } from './edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
 import { EditOpenEndedPopUpComponent } from './edit-open-ended-pop-up/edit-open-ended-pop-up.component';
 import { EditTrueFalsePopUpComponent } from './edit-true-false-pop-up/edit-true-false-pop-up.component';
+import { QuestionTypePipe } from '../../../../pipes/question-type.pipe';
 
 type QuestionContext = {
 	question: Question;
@@ -53,6 +54,7 @@ type QuestionContext = {
 		MatListModule,
 		LoadingComponent,
 		MatMenuModule,
+		QuestionTypePipe,
 	],
 	templateUrl: './question-learning-path.component.html',
 	styleUrl: './question-learning-path.component.scss',
@@ -75,6 +77,8 @@ export class QuestionLearningPathComponent {
 	amountOfIncorrectAnswers: number = 0;
 	questionTypeEnum = QuestionTypeEnum;
 	openEndedQuestionsDebounceTimer: any;
+
+	readonly QUESTION_TYPES = Object.values(QuestionTypeEnum) as QuestionTypeEnum[];
 
 	get question(): Question | undefined {
 		return this.questionContext?.question;
@@ -270,6 +274,23 @@ export class QuestionLearningPathComponent {
 						});
 				}
 			});
+	}
+
+	addQuestion(type: QuestionTypeEnum) {
+		switch (type) {
+			case QuestionTypeEnum.MULTIPLE_CHOICE:
+				this.addMultipleChoiceQuestion();
+				break;
+			case QuestionTypeEnum.MULTIPLE_SELECTION:
+				this.addMultipleSelectionQuestion();
+				break;
+			case QuestionTypeEnum.TRUE_FALSE:
+				this.addTrueFalseQuestion();
+				break;
+			case QuestionTypeEnum.OPEN_ENDED:
+				this.addOpenEndedQuestion();
+				break;
+		}
 	}
 
 	addMultipleChoiceQuestion() {

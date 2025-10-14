@@ -108,10 +108,9 @@
     <header class="vm-header">
         <o-highlight-button icon="add" matButton [matMenuTriggerFor]="menu">Adicionar questão</o-highlight-button>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="addMultipleChoiceQuestion()">Múltipla escolha</button>
-            <button mat-menu-item (click)="addMultipleSelectionQuestion()">Múltipla seleção</button>
-            <button mat-menu-item (click)="addTrueFalseQuestion()">Verdadeiro ou falso</button>
-            <button mat-menu-item (click)="addOpenEndedQuestion()">Aberta</button>
+            @for (type of QUESTION_TYPES; track type) {
+            <button mat-menu-item (click)="addQuestion(type)">{{ type | questionType }}</button>
+            }
         </mat-menu>
     </header>
 
@@ -121,7 +120,7 @@
             <header class="qc-head">
                 <div class="qc-left">
                     <span class="idx">Questão {{ i + 1 }}</span>
-                    <span class="type">{{ question.type }}</span>
+                    <span class="type">{{ question.type | questionType }}</span>
                 </div>
                 <div class="qc-right">
                     <o-text-button (onclick)="editQuestion(i)">Editar</o-text-button>
