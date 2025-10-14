@@ -24,22 +24,24 @@ import { Page } from '../../../../models/Page';
 import { User, UserAccount } from '../../../../models/User';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
+import { InstitutionRolePipe } from "../../../../pipes/institution-role.pipe";
 
 @Component({
 	selector: 'o-institution-users',
 	imports: [
-		MatButtonModule,
-		MatIconModule,
-		TableModule,
-		SelectModule,
-		FormsModule,
-		RouterModule,
-		LoadingComponent,
-		InputTextModule,
-		TooltipModule,
-		AvatarComponent,
-		SubHeaderComponent,
-	],
+    MatButtonModule,
+    MatIconModule,
+    TableModule,
+    SelectModule,
+    FormsModule,
+    RouterModule,
+    LoadingComponent,
+    InputTextModule,
+    TooltipModule,
+    AvatarComponent,
+    SubHeaderComponent,
+    InstitutionRolePipe
+],
 	templateUrl: './institution-users.component.html',
 	styleUrl: './institution-users.component.scss',
 })

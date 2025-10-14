@@ -12,7 +12,8 @@ import { Report } from '../../../models/Report';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { MatCardModule } from '@angular/material/card';
 import { DateUtils } from '../../../utils/Date.util';
-import { HighlightButtonComponent } from "../../../components/buttons/highlight-button/highlight-button.component";
+import { HighlightButtonComponent } from '../../../components/buttons/highlight-button/highlight-button.component';
+import { ReportTypePipe } from "../../../pipes/report-type.pipe";
 
 @Component({
 	selector: 'o-report',
@@ -25,7 +26,8 @@ import { HighlightButtonComponent } from "../../../components/buttons/highlight-
     MatIconModule,
     LoadingComponent,
     MatCardModule,
-    HighlightButtonComponent
+    HighlightButtonComponent,
+    ReportTypePipe
 ],
 	templateUrl: './report.component.html',
 	styleUrl: './report.component.scss',
@@ -43,9 +45,7 @@ export class ReportComponent {
 	});
 	userReports: Report[] = [];
 
-	get reportTypes(): ReportTypeEnum[] {
-		return Object.values(ReportTypeEnum);
-	}
+	readonly REPORT_TYPES = Object.values(ReportTypeEnum) as ReportTypeEnum[];
 
 	ngOnInit() {
 		this.getData();

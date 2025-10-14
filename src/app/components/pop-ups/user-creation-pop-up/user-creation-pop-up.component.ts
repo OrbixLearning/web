@@ -14,19 +14,21 @@ import { LoadingComponent } from '../../loading/loading.component';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/success-pop-up.component';
+import { InstitutionRolePipe } from "../../../pipes/institution-role.pipe";
 
 @Component({
 	selector: 'o-user-creation-pop-up',
 	imports: [
-		PopUpHeaderComponent,
-		PopUpButtonsComponent,
-		ReactiveFormsModule,
-		MatInputModule,
-		MatFormFieldModule,
-		MatSelectModule,
-		LoadingComponent,
-		MatIconModule,
-	],
+    PopUpHeaderComponent,
+    PopUpButtonsComponent,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    LoadingComponent,
+    MatIconModule,
+    InstitutionRolePipe
+],
 	templateUrl: './user-creation-pop-up.component.html',
 	styleUrl: './user-creation-pop-up.component.scss',
 })

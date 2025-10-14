@@ -30,25 +30,31 @@ import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/success-pop-up.component';
+import { AudioVoicePipe } from '../../../pipes/audio-voice.pipe';
+import { LearningPathTypePipe } from '../../../pipes/learning-path-type.pipe';
+import { QuestionTypePipe } from "../../../pipes/question-type.pipe";
 
 @Component({
 	selector: 'o-learning-path-creation-pop-up',
 	imports: [
-		PopUpHeaderComponent,
-		MatStepperModule,
-		MatButtonModule,
-		MatFormFieldModule,
-		ReactiveFormsModule,
-		SyllabusComponent,
-		MatInputModule,
-		MatSelectModule,
-		MatSlideToggleModule,
-		LoadingComponent,
-		AccordionModule,
-		PopUpButtonsComponent,
-		MatDialogModule,
-		MatIconModule,
-	],
+    PopUpHeaderComponent,
+    MatStepperModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    SyllabusComponent,
+    MatInputModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    LoadingComponent,
+    AccordionModule,
+    PopUpButtonsComponent,
+    MatDialogModule,
+    MatIconModule,
+    AudioVoicePipe,
+    LearningPathTypePipe,
+    QuestionTypePipe
+],
 	templateUrl: './learning-path-creation-pop-up.component.html',
 	styleUrl: './learning-path-creation-pop-up.component.scss',
 })
@@ -62,9 +68,12 @@ export class LearningPathCreationPopUpComponent {
 	);
 
 	isLoading: boolean = false;
+	audioVoiceEnum = AudioVoiceEnum;
 	learningPathTypeEnum = LearningPathTypeEnum;
 	questionTypeEnum = QuestionTypeEnum;
-	audioVoiceEnum = AudioVoiceEnum;
+	readonly VOICES = Object.values(AudioVoiceEnum) as AudioVoiceEnum[];
+	readonly LEARNING_PATH_TYPES = Object.values(LearningPathTypeEnum) as LearningPathTypeEnum[];
+	readonly QUESTION_TYPES = Object.values(QuestionTypeEnum) as QuestionTypeEnum[];
 
 	baseLastForm = {
 		language: this.formBuilder.control<string>('pt-BR', Validators.required),
@@ -80,15 +89,7 @@ export class LearningPathCreationPopUpComponent {
 	questionForm = {
 		numberOfQuestions: this.formBuilder.control<number>(20, Validators.required),
 		level: this.formBuilder.control<number>(0),
-		questionTypes: this.formBuilder.control<string[]>(
-			[
-				this.questionTypeEnum.MULTIPLE_CHOICE,
-				this.questionTypeEnum.MULTIPLE_SELECTION,
-				this.questionTypeEnum.TRUE_FALSE,
-				this.questionTypeEnum.OPEN_ENDED,
-			],
-			Validators.required,
-		),
+		questionTypes: this.formBuilder.control<string[]>(this.QUESTION_TYPES, Validators.required),
 	};
 	audioForm = {
 		durationInSeconds: this.formBuilder.control<number>(90, Validators.required),

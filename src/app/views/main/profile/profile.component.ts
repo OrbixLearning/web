@@ -7,23 +7,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
-import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { AccountCardComponent } from '../../../components/account-card/account-card.component';
+import { HighlightButtonComponent } from '../../../components/buttons/highlight-button/highlight-button.component';
+import { TextButtonComponent } from '../../../components/buttons/text-button/text-button.component';
 import { GameCardComponent } from '../../../components/game-card/game-card.component';
+import { ImagePickerComponent } from '../../../components/image-picker/image-picker.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { LinkAccountPopUpComponent } from '../../../components/pop-ups/link-account-pop-up/link-account-pop-up.component';
-import { InstitutionRoleEnum } from '../../../enums/InstitutionRole.enum';
-import { Institution } from '../../../models/Institution';
 import { User, UserAccount } from '../../../models/User';
 import { AuthService } from '../../../services/auth.service';
 import { ContextService } from '../../../services/context.service';
 import { ThemeService } from '../../../services/theme.service';
 import { UserService } from '../../../services/user.service';
-import { TextButtonComponent } from '../../../components/buttons/text-button/text-button.component';
-import { HighlightButtonComponent } from '../../../components/buttons/highlight-button/highlight-button.component';
-import { ImagePickerComponent } from '../../../components/image-picker/image-picker.component';
 
 @Component({
 	selector: 'o-profile',
@@ -100,7 +98,7 @@ export class ProfileComponent {
 	}
 
 	get profilePictureUrl(): string {
-		return this.service.getProfilePictureUrl(this.user!);
+		return this.user ? this.service.getProfilePictureUrl(this.user) : '';
 	}
 
 	async getUserData() {

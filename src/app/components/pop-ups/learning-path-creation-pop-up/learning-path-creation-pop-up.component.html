@@ -42,25 +42,12 @@
             </p-accordion-header>
             <p-accordion-content>
                 <form [formGroup]="forms.at(2)" class="lpc-type">
+                    @for (type of LEARNING_PATH_TYPES; track type) {
                     <button type="button" class="type-option"
-                        [class.is-selected]="getFormControl(2,'type').value === learningPathTypeEnum.TEXT"
-                        (click)="selectType(learningPathTypeEnum.TEXT)">TEXTO</button>
-
-                    <button type="button" class="type-option"
-                        [class.is-selected]="getFormControl(2,'type').value === learningPathTypeEnum.AUDIO"
-                        (click)="selectType(learningPathTypeEnum.AUDIO)">ÁUDIO</button>
-
-                    <button type="button" class="type-option"
-                        [class.is-selected]="getFormControl(2,'type').value === learningPathTypeEnum.VIDEO"
-                        (click)="selectType(learningPathTypeEnum.VIDEO)">VÍDEO</button>
-
-                    <button type="button" class="type-option"
-                        [class.is-selected]="getFormControl(2,'type').value === learningPathTypeEnum.QUESTION"
-                        (click)="selectType(learningPathTypeEnum.QUESTION)">QUESTÃO</button>
-
-                    <button type="button" class="type-option"
-                        [class.is-selected]="getFormControl(2,'type').value === learningPathTypeEnum.FLASHCARD"
-                        (click)="selectType(learningPathTypeEnum.FLASHCARD)">FLASHCARD</button>
+                        [class.is-selected]="getFormControl(2,'type').value === type" (click)="selectType(type)">
+                        {{ type | learningPathType }}
+                    </button>
+                    }
                 </form>
             </p-accordion-content>
         </p-accordion-panel>
@@ -122,15 +109,11 @@
                     <mat-form-field appearance="fill" subscriptSizing="dynamic">
                         <mat-label>Voz</mat-label>
                         <mat-select formControlName="voice">
-                            <mat-option [value]="audioVoiceEnum.ALLOY">Alloy</mat-option>
-                            <mat-option [value]="audioVoiceEnum.ECHO">Echo</mat-option>
-                            <mat-option [value]="audioVoiceEnum.FABLE">Fable</mat-option>
-                            <mat-option [value]="audioVoiceEnum.ONYX">Onyx</mat-option>
-                            <mat-option [value]="audioVoiceEnum.NOVA">Nova</mat-option>
-                            <mat-option [value]="audioVoiceEnum.SHIMMER">Shimmer</mat-option>
-                            <mat-option [value]="audioVoiceEnum.SAGE">Sage</mat-option>
-                            <mat-option [value]="audioVoiceEnum.CORAL">Coral</mat-option>
-                            <mat-option [value]="audioVoiceEnum.ASH">Ash</mat-option>
+                            @for (voice of VOICES; track voice) {
+                            <mat-option [value]="voice">
+                                {{ voice | audioVoice:'camelcase' }}
+                            </mat-option>
+                            }
                         </mat-select>
                     </mat-form-field>
                     }
@@ -175,10 +158,9 @@
                     <mat-form-field appearance="fill" subscriptSizing="dynamic">
                         <mat-label>Tipos de Questões</mat-label>
                         <mat-select formControlName="questionTypes" multiple>
-                            <mat-option [value]="questionTypeEnum.MULTIPLE_CHOICE">Múltipla Escolha</mat-option>
-                            <mat-option [value]="questionTypeEnum.MULTIPLE_SELECTION">Múltipla Seleção</mat-option>
-                            <mat-option [value]="questionTypeEnum.TRUE_FALSE">Verdadeiro ou Falso</mat-option>
-                            <mat-option [value]="questionTypeEnum.OPEN_ENDED">Aberta</mat-option>
+                            @for (type of QUESTION_TYPES; track type) {
+                            <mat-option [value]="type">{{ type | questionType }}</mat-option>
+                            }
                         </mat-select>
                     </mat-form-field>
                     }

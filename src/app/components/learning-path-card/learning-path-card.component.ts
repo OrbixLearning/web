@@ -11,21 +11,23 @@ import { LearningPath } from '../../models/LearningPath/LearningPath';
 import { TextButtonComponent } from '../buttons/text-button/text-button.component';
 import { LoadingComponent } from '../loading/loading.component';
 import { SyllabusTagsComponent } from '../syllabus-tags/syllabus-tags.component';
+import { LearningPathTypePipe } from "../../pipes/learning-path-type.pipe";
 
 @Component({
 	selector: 'o-learning-path-card',
 	imports: [
-		CardModule,
-		TagModule,
-		ToggleSwitchModule,
-		FormsModule,
-		SyllabusTagsComponent,
-		MatIconModule,
-		TooltipModule,
-		LoadingComponent,
-		MatButtonModule,
-		TextButtonComponent,
-	],
+    CardModule,
+    TagModule,
+    ToggleSwitchModule,
+    FormsModule,
+    SyllabusTagsComponent,
+    MatIconModule,
+    TooltipModule,
+    LoadingComponent,
+    MatButtonModule,
+    TextButtonComponent,
+    LearningPathTypePipe
+],
 	templateUrl: './learning-path-card.component.html',
 	styleUrl: './learning-path-card.component.scss',
 })

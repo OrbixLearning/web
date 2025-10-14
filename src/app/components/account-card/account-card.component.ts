@@ -5,10 +5,11 @@ import { Institution } from '../../models/Institution';
 import { InstitutionService } from '../../services/institution.service';
 import { UserService } from '../../services/user.service';
 import { LoadingComponent } from '../loading/loading.component';
+import { InstitutionRolePipe } from "../../pipes/institution-role.pipe";
 
 @Component({
 	selector: 'o-account-card',
-	imports: [LoadingComponent],
+	imports: [LoadingComponent, InstitutionRolePipe],
 	templateUrl: './account-card.component.html',
 	styleUrl: './account-card.component.scss',
 })
@@ -45,19 +46,6 @@ export class AccountCardComponent {
 				.finally(() => {
 					this.isLoading = false;
 				});
-		}
-	}
-
-	institutionRoleText(): string | undefined {
-		switch (this.institutionRole) {
-			case InstitutionRoleEnum.ADMIN:
-				return 'Administrador';
-			case InstitutionRoleEnum.STUDENT:
-				return 'Aluno';
-			case InstitutionRoleEnum.TEACHER:
-				return 'Professor';
-			default:
-				return undefined;
 		}
 	}
 }

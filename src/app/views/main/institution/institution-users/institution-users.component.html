@@ -20,7 +20,16 @@
                 <p-columnFilter field="role" matchMode="equals" [showMenu]="false">
                     <ng-template #filter let-filter="filterCallback">
                         <p-select [options]="roles" [(ngModel)]="rolesFilter" placeholder="Filtrar cargo"
-                            [showClear]="true" (onChange)="filter($event.value)" />
+                            [showClear]="true" (onChange)="filter($event.value)">
+                            <!-- Items Pipe -->
+                            <ng-template pTemplate="item" let-role>
+                                {{ role | institutionRole }}
+                            </ng-template>
+                            <!-- Selected Item Pipe -->
+                            <ng-template pTemplate="selectedItem" let-role>
+                                {{ role | institutionRole }}
+                            </ng-template>
+                        </p-select>
                     </ng-template>
                 </p-columnFilter>
             </th>
@@ -70,10 +79,19 @@
                 <p-cellEditor>
                     <ng-template #input>
                         <p-select [options]="roles" [(ngModel)]="account.institutionRole" [checkmark]="true"
-                            (onChange)="updateAccount(account)" />
+                            (onChange)="updateAccount(account)">
+                            <!-- Items Pipe -->
+                            <ng-template pTemplate="item" let-role>
+                                {{ role | institutionRole }}
+                            </ng-template>
+                            <!-- Selected Item Pipe -->
+                            <ng-template pTemplate="selectedItem" let-role>
+                                {{ role | institutionRole }}
+                            </ng-template>
+                        </p-select>
                     </ng-template>
                     <ng-template #output>
-                        <span class="role-chip">{{ account.institutionRole }}</span>
+                        <span class="role-chip">{{ account.institutionRole | institutionRole }}</span>
                     </ng-template>
                 </p-cellEditor>
             </td>

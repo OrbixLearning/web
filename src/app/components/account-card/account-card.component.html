@@ -19,10 +19,10 @@
             </div>
             }
 
-            @if (institutionRoleText()) {
+            @if (institutionRole) {
             <div class="info-item">
                 <span class="label">Cargo</span>
-                <span class="value">{{ institutionRoleText() }}</span>
+                <span class="value">{{ institutionRole | institutionRole }}</span>
             </div>
             }
 

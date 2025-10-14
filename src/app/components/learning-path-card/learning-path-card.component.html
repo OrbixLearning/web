@@ -22,7 +22,7 @@
     </ng-template>
 
     <div class="lp-right">
-        <span class="lp-chip">{{ learningPath.type }}</span>
+        <span class="lp-chip">{{ learningPath.type | learningPathType }}</span>
         <button mat-icon-button (click)="$event.stopPropagation(); addToChat.emit()" pTooltip="Adicionar ao chat"
             tooltipPosition="top" [style]="inChat ? 'visibility: hidden' : ''">
             <mat-icon>chat_bubble</mat-icon>
@@ -38,7 +38,7 @@
     <div class="lp-left">
         <div class="lp-title-row">
             <h4 class="lp-title" [title]="learningPath.name">{{ learningPath.name }}</h4>
-            <span class="lp-chip">{{ learningPath.type }}</span>
+            <span class="lp-chip">{{ learningPath.type | learningPathType }}</span>
         </div>
         <div class="lp-loading">
             <o-loading [isLoading]="true" [local]="true" size="22px" />
@@ -51,7 +51,7 @@
     <div class="lp-left">
         <div class="lp-title-row">
             <h4 class="lp-title" [title]="learningPath.name">{{ learningPath.name }}</h4>
-            <span class="lp-chip error">{{ learningPath.type }}</span>
+            <span class="lp-chip error">{{ learningPath.type | learningPathType }}</span>
         </div>
         <div class="lp-error-row">
             <mat-icon>error</mat-icon>

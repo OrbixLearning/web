@@ -4,12 +4,11 @@ import { lastValueFrom } from 'rxjs';
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
 import { Classroom } from '../models/Classroom';
 import { Institution } from '../models/Institution';
-import { LearningPath } from '../models/LearningPath/LearningPath';
+import { LearningPathStudy } from '../models/LearningPath/LearningPathStudy';
 import { User } from '../models/User';
 import { ClassroomService } from './classroom.service';
 import { InstitutionService } from './institution.service';
 import { LearningPathService } from './learning-path.service';
-import { LearningPathStudy } from '../models/LearningPath/LearningPathStudy';
 
 @Injectable({
 	providedIn: 'root',
