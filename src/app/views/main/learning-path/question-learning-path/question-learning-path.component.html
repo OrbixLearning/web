@@ -93,6 +93,11 @@
             <p class="q-summary">{{ amountOfIncorrectAnswers }} respostas incorretas</p>
             <o-text-button (onclick)="showAnswers = false">Esconder Respostas</o-text-button>
             }
+            @if (hasAnyAnswer) {
+            <o-text-button icon="clear_all" (onclick)="clearAnswers()">
+                Limpar Respostas
+            </o-text-button>
+            }
         </div>
     </aside>
 </div>

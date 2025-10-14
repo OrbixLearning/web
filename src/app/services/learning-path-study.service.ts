@@ -1,8 +1,12 @@
-import { inject, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FlashCardLearningPathStudy, LearningPathStudy } from '../models/LearningPath/LearningPathStudy';
+import { environment } from '../../environments/environment';
+import {
+	FlashCardLearningPathStudy,
+	LearningPathStudy,
+	QuestionLearningPathStudy,
+} from '../models/LearningPath/LearningPathStudy';
 
 @Injectable({
 	providedIn: 'root',
@@ -24,5 +28,9 @@ export class LearningPathStudyService {
 			questionIndex,
 			answer,
 		});
+	}
+
+	clearAnswers(learningPathStudyId: string): Observable<QuestionLearningPathStudy> {
+		return this.http.put<QuestionLearningPathStudy>(`${this.api}/${learningPathStudyId}/clear-answers`, {});
 	}
 }

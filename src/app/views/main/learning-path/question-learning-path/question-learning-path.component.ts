@@ -69,11 +69,11 @@ export class QuestionLearningPathComponent {
 	isLoading: boolean = false;
 	questions: Question[] = [];
 	questionsContext: QuestionContext[] = [];
-	index: number = 0;
 	questionContext?: QuestionContext;
-	questionTypeEnum = QuestionTypeEnum;
+	index: number = 0;
 	showAnswers: boolean = false;
 	amountOfIncorrectAnswers: number = 0;
+	questionTypeEnum = QuestionTypeEnum;
 	openEndedQuestionsDebounceTimer: any;
 
 	get question(): Question | undefined {
@@ -88,14 +88,26 @@ export class QuestionLearningPathComponent {
 		return this.question?.answers.join(', ') || '';
 	}
 
+	get hasAnyAnswer(): boolean {
+		return this.questionsContext.some(q => q.userAnswer.length > 0);
+	}
+
 	ngOnInit() {
+		this.resetData();
 		this.startData();
+	}
+
+	resetData() {
+		this.index = 0;
+		this.showAnswers = false;
+		this.amountOfIncorrectAnswers = 0;
 	}
 
 	startData() {
 		this.questions = (this.learningPathStudy.learningPath as QuestionLearningPath).questions!;
 		const userAnswers =
 			(this.learningPathStudy as QuestionLearningPathStudy).userAnswers || this.questions.map(() => []);
+		this.questionsContext = [];
 		for (let i = 0; i < this.questions.length; i++) {
 			this.questionsContext.push({
 				question: this.questions[i],
@@ -233,6 +245,31 @@ export class QuestionLearningPathComponent {
 					this.amountOfIncorrectAnswers = incorrectAnswers.length;
 				});
 		}
+	}
+
+	async clearAnswers() {
+		const data: ConfirmPopUpData = {
+			title: 'Tem certeza que deseja limpar todas as respostas?',
+			message: 'Esta ação não pode ser desfeita.',
+			confirmButton: 'Limpar respostas',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async (result: boolean | undefined) => {
+				if (result) {
+					this.isLoading = true;
+					await lastValueFrom(this.service.clearAnswers(this.learningPathStudy.id))
+						.then((lps: QuestionLearningPathStudy) => {
+							this.learningPathStudy = lps;
+							this.resetData();
+							this.startData();
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				}
+			});
 	}
 
 	addMultipleChoiceQuestion() {
