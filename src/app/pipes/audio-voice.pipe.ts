@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { AudioVoiceEnum } from '../enums/AudioVoice.enum';
+import { enumTransform } from '../utils/Enum.utils';
 
 @Pipe({
 	name: 'audioVoice',
@@ -20,21 +21,6 @@ export class AudioVoicePipe implements PipeTransform {
 
 		let label = map[value] ?? String(value);
 
-		switch (format) {
-			case 'uppercase':
-				label = label.toUpperCase();
-				break;
-			case 'lowercase':
-				label = label.toLowerCase();
-				break;
-			case 'camelcase':
-				label = label.charAt(0).toUpperCase() + label.slice(1).toLowerCase();
-				break;
-			case 'snakecase':
-				label = label.replace(/\s+/g, '_').toLowerCase();
-				break;
-		}
-
-		return label;
+		return enumTransform(label, format);
 	}
 }

@@ -1,0 +1,14 @@
+<button class="ncard" type="button" (click)="action()" (mouseover)="readNotification()"
+    [class.unread]="!notification.read">
+    <div class="nhead">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="title">{{ notification.title }}</span>
+    </div>
+
+    <p class="msg">{{ notification.message }}</p>
+
+    <div class="meta">
+        <span class="sender">de {{ notification.sender.name }}</span>
+        <time class="date">{{ notification.date }}</time>
+    </div>
+</button>

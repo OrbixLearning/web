@@ -69,3 +69,64 @@ header {
 .right-header {
 	justify-content: flex-end;
 }
+
+.notif-pop {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	min-width: min(540px, 92vw);
+	max-width: 540px;
+	color: var(--text-color);
+	background: var(--background-color);
+
+	.np-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+
+		.np-title {
+			margin: 0;
+			font-size: 1.05rem;
+			font-weight: 800;
+			color: var(--text-color);
+		}
+
+		.np-actions {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+
+			.np-icon {
+				mat-icon {
+					color: var(--text-color);
+				}
+			}
+
+			.np-icon[disabled],
+			.np-clear[disabled] {
+				opacity: 0.6;
+				pointer-events: none;
+			}
+		}
+	}
+
+	.np-list {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		max-height: min(70vh, 520px);
+		overflow: auto;
+		padding-right: 2px; /* evita “jump” de scrollbar */
+	}
+
+	.np-empty {
+		margin: 0;
+		padding: 12px;
+		border-radius: 10px;
+		border: 1px dashed color-mix(in oklab, var(--text-color) 25%, transparent);
+		background: color-mix(in oklab, var(--secondary-color) 10%, transparent);
+		font-weight: 600;
+		text-align: center;
+	}
+}

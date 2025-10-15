@@ -23,6 +23,40 @@
         <button mat-icon-button (click)="goToReport()">
             <mat-icon>bug_report</mat-icon>
         </button>
+
+        <button mat-icon-button (click)="notPO.toggle($event)" [matBadge]="unreadNotificationsCount"
+            [matBadgeHidden]="unreadNotificationsCount === 0">
+            <mat-icon>notifications</mat-icon>
+        </button>
+        <p-popover #notPO>
+            <div class="notif-pop">
+                <o-loading class="np-loading" [isLoading]="loadingNotifications" />
+
+                <header class="np-header">
+                    <h3 class="np-title">Notificações</h3>
+                    <div class="np-actions">
+                        <button class="np-icon" mat-icon-button (click)="refreshNotifications()"
+                            [disabled]="loadingNotifications">
+                            <mat-icon>refresh</mat-icon>
+                        </button>
+                        <o-text-button class="np-clear" (onclick)="clearNotifications()"
+                            [disabled]="notifications.length === 0 || loadingNotifications">
+                            Limpar notificações
+                        </o-text-button>
+                    </div>
+                </header>
+
+                <div class="np-list" role="list">
+                    @for (notification of notifications; track notification.id) {
+                    <o-notification-card class="np-item" [notification]="notification" role="listitem" />
+                    } @empty {
+                    <p class="np-empty">Tudo limpo por aqui!</p>
+                    }
+                </div>
+            </div>
+        </p-popover>
+
+
         <o-avatar [src]="profilePictureUrl" [id]="ctx.user?.id!" />
     </div>
 </header>

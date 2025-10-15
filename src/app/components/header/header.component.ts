@@ -1,21 +1,41 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Event, NavigationEnd, Router, RouterEvent, RouterModule } from '@angular/router';
+import { PopoverModule } from 'primeng/popover';
 import { SelectModule } from 'primeng/select';
-import { filter } from 'rxjs';
+import { filter, lastValueFrom } from 'rxjs';
 import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
 import { Institution } from '../../models/Institution';
+import { Notification } from '../../models/Notification';
+import { Page } from '../../models/Page';
 import { ContextService } from '../../services/context.service';
 import { InstitutionService } from '../../services/institution.service';
+import { NotificationService } from '../../services/notification.service';
 import { ThemeService } from '../../services/theme.service';
 import { UserService } from '../../services/user.service';
 import { AvatarComponent } from '../avatar/avatar.component';
+import { TextButtonComponent } from '../buttons/text-button/text-button.component';
+import { LoadingComponent } from '../loading/loading.component';
+import { NotificationCardComponent } from '../notification-card/notification-card.component';
 
 @Component({
 	selector: 'o-header',
-	imports: [MatIconModule, MatButtonModule, SelectModule, FormsModule, RouterModule, AvatarComponent],
+	imports: [
+		MatIconModule,
+		MatButtonModule,
+		SelectModule,
+		FormsModule,
+		RouterModule,
+		AvatarComponent,
+		PopoverModule,
+		LoadingComponent,
+		TextButtonComponent,
+		NotificationCardComponent,
+		MatBadgeModule,
+	],
 	templateUrl: './header.component.html',
 	styleUrl: './header.component.scss',
 })
@@ -25,6 +45,7 @@ export class HeaderComponent {
 	theme: ThemeService = inject(ThemeService);
 	institutionService: InstitutionService = inject(InstitutionService);
 	userService: UserService = inject(UserService);
+	notificationService: NotificationService = inject(NotificationService);
 	route: ActivatedRoute = inject(ActivatedRoute);
 
 	@Output() sidebar: EventEmitter<void> = new EventEmitter<void>();
@@ -37,12 +58,15 @@ export class HeaderComponent {
 		style: null,
 	};
 	selectedInstitutionId: string | null = this.personalInstitution.id;
+	notifications: Notification[] = [];
+	loadingNotifications: boolean = false;
 
 	constructor() {
 		this.setInstitution();
 	}
 
 	ngOnInit() {
+		this.refreshNotifications();
 		this.setThemes();
 		// This is used to update the data when the institutionId changes in the URL
 		this.router.events
@@ -79,6 +103,10 @@ export class HeaderComponent {
 	get profilePictureUrl(): string {
 		if (!this.ctx.user) return '';
 		return this.userService.getProfilePictureUrl(this.ctx.user!);
+	}
+
+	get unreadNotificationsCount(): number {
+		return this.notifications.filter(n => !n.read).length;
 	}
 
 	setInstitution() {
@@ -122,5 +150,23 @@ export class HeaderComponent {
 	goToReport() {
 		this.ctx.clearClassroom();
 		this.router.navigate(['/report']);
+	}
+
+	async clearNotifications() {
+		this.loadingNotifications = true;
+		await lastValueFrom(this.notificationService.deletes())
+			.then(() => {
+				this.notifications = [];
+			})
+			.finally(() => (this.loadingNotifications = false));
+	}
+
+	async refreshNotifications() {
+		this.loadingNotifications = true;
+		await lastValueFrom(this.notificationService.get(0, 20))
+			.then((response: Page<Notification>) => {
+				this.notifications = response.content;
+			})
+			.finally(() => (this.loadingNotifications = false));
 	}
 }
