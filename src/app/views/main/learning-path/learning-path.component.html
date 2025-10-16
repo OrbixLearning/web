@@ -14,6 +14,12 @@
             {{ctx.learningPathStudy?.learningPath?.validated ? "Invalidar rota" : "Validar rota"}}
         </o-text-button>
         }
+
+        @if (!ctx.isTeacher && !ctx.learningPathStudy?.learningPath?.validated) {
+        <o-text-button (onclick)="requestLearningPathValidation()" [disabled]="validationRequested">
+            {{validationRequested ? 'Solicitação enviada' : 'Solicitar validação da rota'}}
+        </o-text-button>
+        }
     </div>
 
     @if (mine || ctx.isTeacher) {

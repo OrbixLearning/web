@@ -76,6 +76,7 @@ export class LearningPathComponent {
 	mine: boolean = this.ctx.learningPathStudy?.learningPath.creator.id === this.ctx.user?.id;
 	typeEnum = LearningPathTypeEnum;
 	generationStatusEnum = LearningPathGenerationStatusEnum;
+	validationRequested: boolean = false;
 
 	mode: 'edit' | 'study' = 'study';
 
@@ -167,6 +168,22 @@ export class LearningPathComponent {
 							this.isLoading = false;
 						});
 				}
+			});
+	}
+
+	async requestLearningPathValidation() {
+		this.isLoading = true;
+		await lastValueFrom(this.service.requestValidation(this.ctx.learningPathStudy!.learningPath.id))
+			.then(() => {
+				this.validationRequested = true;
+				this.toast.add({
+					severity: 'success',
+					summary: 'Solicitação enviada',
+					detail: 'A solicitação de validação da rota de aprendizagem foi enviada a um professor.',
+				});
+			})
+			.finally(() => {
+				this.isLoading = false;
 			});
 	}
 

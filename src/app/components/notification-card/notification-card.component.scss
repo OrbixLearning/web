@@ -11,34 +11,58 @@
 	color: var(--text-color);
 	cursor: pointer;
 	transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease, background 0.15s ease;
+	position: relative;
+
+	/* acento lateral quando não lida */
+	&.unread::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 10px;
+		bottom: 10px;
+		width: 4px;
+		border-radius: 4px;
+		background: var(--primary-color);
+	}
 
 	.nhead {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		gap: 8px;
 
-		.dot {
-			width: 8px;
-			height: 8px;
-			border-radius: 999px;
-			background: color-mix(in oklab, var(--primary-color) 60%, transparent);
-			flex: 0 0 8px;
-			opacity: 0; /* some por padrão (lido) */
-			transition: opacity 0.15s ease;
+		.title-wrap {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			min-width: 0;
+
+			.dot {
+				width: 8px;
+				height: 8px;
+				border-radius: 999px;
+				background: color-mix(in oklab, var(--primary-color) 60%, transparent);
+				opacity: 0;
+				transition: opacity 0.15s ease;
+			}
+
+			.title {
+				font-weight: 700;
+				line-height: 1.2;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
 		}
 
-		.title {
-			font-weight: 700;
-			line-height: 1.2;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
+		.btn-delete:hover {
+			background: color-mix(in oklab, var(--primary-color) 15%, transparent);
 		}
 	}
 
 	.msg {
 		margin: 0;
-		line-height: 1.4;
+		line-height: 1.45;
 		white-space: pre-wrap;
 	}
 
@@ -60,6 +84,19 @@
 		}
 	}
 
+	/* estados */
+	&.unread {
+		border-color: color-mix(in oklab, var(--primary-color) 45%, transparent);
+		background: color-mix(in oklab, var(--primary-color) 12%, transparent);
+
+		.title-wrap .dot {
+			opacity: 1;
+		}
+		.title {
+			font-weight: 800;
+		}
+	}
+
 	&:hover {
 		transform: translateY(-1px);
 		border-color: color-mix(in oklab, var(--primary-color) 45%, transparent);
@@ -72,18 +109,5 @@
 	&:active {
 		transform: translateY(0);
 		box-shadow: 0 3px 8px color-mix(in oklab, var(--primary-color) 22%, transparent);
-	}
-}
-
-/* Estado NÃO LIDO (read === false) */
-.ncard.unread {
-	border-color: color-mix(in oklab, var(--primary-color) 45%, transparent);
-	background: color-mix(in oklab, var(--primary-color) 12%, transparent);
-
-	.nhead .dot {
-		opacity: 1;
-	}
-	.nhead .title {
-		font-weight: 800;
 	}
 }

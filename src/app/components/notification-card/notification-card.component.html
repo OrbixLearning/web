@@ -1,14 +1,22 @@
-<button class="ncard" type="button" (click)="action()" (mouseover)="readNotification()"
-    [class.unread]="!notification.read">
+<div class="ncard" role="button" tabindex="0" (click)="action()" (keydown.enter)="action()"
+    (mouseover)="readNotification()" [class.unread]="!notification.read">
     <div class="nhead">
-        <span class="dot" aria-hidden="true"></span>
-        <span class="title">{{ notification.title }}</span>
+        <div class="title-wrap">
+            <span class="dot" aria-hidden="true"></span>
+            <span class="title">{{ notification.title }}</span>
+        </div>
+
+        <button mat-icon-button class="btn-delete" aria-label="Remover notificação"
+            (click)="remove.emit(); $event.stopPropagation()">
+            <mat-icon>close</mat-icon>
+        </button>
     </div>
 
     <p class="msg">{{ notification.message }}</p>
 
     <div class="meta">
-        <span class="sender">de {{ notification.sender.name }}</span>
-        <time class="date">{{ notification.date }}</time>
+        <span class="sender" [style]="notification.sender === null ? 'visibility: hidden' : ''">de {{
+            notification.sender?.name }}</span>
+        <time class="date">{{ formatDate(notification.date) }}</time>
     </div>
-</button>
+</div>

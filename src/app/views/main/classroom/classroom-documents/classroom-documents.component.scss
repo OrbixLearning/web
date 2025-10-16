@@ -30,7 +30,7 @@
 		}
 		.count {
 			font-size: 0.85rem;
-			color: var(--sidebar-text-muted, #9aa0a6);
+			color: var(--text-color);
 			background: color-mix(in oklab, var(--primary-color) 12%, transparent);
 			border: 1px solid color-mix(in oklab, var(--primary-color) 30%, var(--border-color, #3a3a3a));
 			border-radius: 12px;

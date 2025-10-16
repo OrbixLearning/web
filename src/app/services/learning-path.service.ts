@@ -82,4 +82,10 @@ export class LearningPathService {
 	editQuestionLearningPath(learningPathId: string, questions: Question[]): Observable<QuestionLearningPath> {
 		return this.http.put<QuestionLearningPath>(`${this.api}/question/${learningPathId}`, { questions });
 	}
+
+	// VALIDATION
+
+	requestValidation(learningPathId: string): Observable<void> {
+		return this.http.post<void>(`${this.api}/request-validation/${learningPathId}`, {});
+	}
 }

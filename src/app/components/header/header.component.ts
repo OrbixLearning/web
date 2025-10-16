@@ -20,6 +20,8 @@ import { AvatarComponent } from '../avatar/avatar.component';
 import { TextButtonComponent } from '../buttons/text-button/text-button.component';
 import { LoadingComponent } from '../loading/loading.component';
 import { NotificationCardComponent } from '../notification-card/notification-card.component';
+import { ConfirmPopUpComponent, ConfirmPopUpData } from '../pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
 	selector: 'o-header',
@@ -47,6 +49,7 @@ export class HeaderComponent {
 	userService: UserService = inject(UserService);
 	notificationService: NotificationService = inject(NotificationService);
 	route: ActivatedRoute = inject(ActivatedRoute);
+	dialog: MatDialog = inject(MatDialog);
 
 	@Output() sidebar: EventEmitter<void> = new EventEmitter<void>();
 
@@ -153,12 +156,24 @@ export class HeaderComponent {
 	}
 
 	async clearNotifications() {
-		this.loadingNotifications = true;
-		await lastValueFrom(this.notificationService.deletes())
-			.then(() => {
-				this.notifications = [];
-			})
-			.finally(() => (this.loadingNotifications = false));
+		const data: ConfirmPopUpData = {
+			title: 'Tem certeza que deseja remover todas as notificações?',
+			message: 'Essa ação não pode ser desfeita.',
+			confirmButton: 'Remover',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async (result: boolean) => {
+				if (result) {
+					this.loadingNotifications = true;
+					await lastValueFrom(this.notificationService.deletes())
+						.then(() => {
+							this.notifications = [];
+						})
+						.finally(() => (this.loadingNotifications = false));
+				}
+			});
 	}
 
 	async refreshNotifications() {
@@ -168,5 +183,26 @@ export class HeaderComponent {
 				this.notifications = response.content;
 			})
 			.finally(() => (this.loadingNotifications = false));
+	}
+
+	async deleteNotification(notification: Notification) {
+		const data: ConfirmPopUpData = {
+			title: 'Tem certeza que deseja remover essa notificação?',
+			message: 'Essa ação não pode ser desfeita.',
+			confirmButton: 'Remover',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async (result: boolean) => {
+				if (result) {
+					this.loadingNotifications = true;
+					await lastValueFrom(this.notificationService.delete(notification.id))
+						.then(() => {
+							this.notifications = this.notifications.filter(n => n.id !== notification.id);
+						})
+						.finally(() => (this.loadingNotifications = false));
+				}
+			});
 	}
 }

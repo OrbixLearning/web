@@ -1,14 +1,16 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { NotificationTypeEnum } from '../../enums/NotificationType.enum';
 import { Notification } from '../../models/Notification';
 import { NotificationService } from '../../services/notification.service';
 import { DateUtils } from '../../utils/Date.util';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'o-notification-card',
-	imports: [],
+	imports: [MatButtonModule, MatIconModule],
 	templateUrl: './notification-card.component.html',
 	styleUrl: './notification-card.component.scss',
 })
@@ -17,11 +19,13 @@ export class NotificationCardComponent {
 	router: Router = inject(Router);
 
 	@Input() notification!: Notification;
+	@Output() remove = new EventEmitter<Notification>();
+	@Output() closePopover = new EventEmitter<void>();
 
 	readNotification() {
 		if (!this.notification.read) {
 			this.notification.read = true;
-			lastValueFrom(this.service.read([this.notification.id]));
+			lastValueFrom(this.service.read(this.notification.id));
 		}
 	}
 
@@ -41,6 +45,8 @@ export class NotificationCardComponent {
 	}
 
 	goToLink() {
-		this.router.navigate([this.notification.link!]);
+		this.router.navigate([this.notification.link!]).then(() => {
+			this.closePopover.emit();
+		});
 	}
 }

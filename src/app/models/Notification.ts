@@ -9,6 +9,6 @@ export type Notification = {
 	link?: string;
 	type: NotificationTypeEnum;
 	read: boolean;
-	sender: User;
+	sender: User | null;
 	receiver: User;
 };

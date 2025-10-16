@@ -175,7 +175,6 @@ html {
 	--mat-sys-secondary-container: var(--primary-color) !important;
 	--mat-sys-surface-container-high: var(--background-color) !important;
 	--mat-sys-on-secondary-container: var(--text-color) !important;
-	--mat-badge-text-color: var(--text-color) !important;
 
 	--mdc-filled-text-field-input-text-color: var(--text-color);
 	--mdc-filled-text-field-label-text-color: color-mix(in oklch, var(--text-color), transparent 40%);
@@ -207,6 +206,8 @@ html {
 		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
 	}
 
+	--mat-badge-text-color: white !important;
+
 	// NON COLOR OVERRIDES
 
 	.mdc-list-item__primary-text {
@@ -217,6 +218,10 @@ html {
 	.mdc-list-item.mdc-list-item--with-one-line {
 		min-height: 48px !important;
 		height: auto !important;
+	}
+
+	.cdk-overlay-container {
+		z-index: 1003 !important;
 	}
 
 	// TODO: Verify if this is needed

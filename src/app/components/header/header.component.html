@@ -41,14 +41,15 @@
                         </button>
                         <o-text-button class="np-clear" (onclick)="clearNotifications()"
                             [disabled]="notifications.length === 0 || loadingNotifications">
-                            Limpar notificações
+                            Remover notificações
                         </o-text-button>
                     </div>
                 </header>
 
                 <div class="np-list" role="list">
                     @for (notification of notifications; track notification.id) {
-                    <o-notification-card class="np-item" [notification]="notification" role="listitem" />
+                    <o-notification-card class="np-item" [notification]="notification" role="listitem"
+                        (closePopover)="notPO.hide()" (remove)="deleteNotification(notification)" />
                     } @empty {
                     <p class="np-empty">Tudo limpo por aqui!</p>
                     }

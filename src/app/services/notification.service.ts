@@ -19,8 +19,8 @@ export class NotificationService {
 		return this.http.get<Page<Notification>>(this.api, { params });
 	}
 
-	read(notificationIds: string[]): Observable<Notification> {
-		return this.http.post<Notification>(`${this.api}/read`, { notificationIds });
+	read(notificationId: string): Observable<Notification> {
+		return this.http.put<Notification>(`${this.api}/read/${notificationId}`, {});
 	}
 
 	deletes(): Observable<void> {
