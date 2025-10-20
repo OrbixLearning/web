@@ -88,8 +88,13 @@ export class QuestionLearningPathComponent {
 		return this.questionContext?.userAnswer || [];
 	}
 
-	get currentQuestionAnswer(): string {
-		return this.question?.answers.join(', ') || '';
+	get currentQuestionAnswerFormatted(): string {
+		switch (this.question?.type) {
+			case QuestionTypeEnum.TRUE_FALSE:
+				return this.question?.answers[0] === 'true' ? 'Verdadeiro' : 'Falso';
+			default:
+				return this.question?.answers.join(', ') || '';
+		}
 	}
 
 	get hasAnyAnswer(): boolean {

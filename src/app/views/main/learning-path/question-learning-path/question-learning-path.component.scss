@@ -96,10 +96,11 @@
 	}
 
 	.q-correct {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		padding: 6px 10px;
+		display: flex;
+		align-items: flex-start;
+		justify-content: flex-start;
+		gap: 10px;
+		padding: 10px;
 		border-radius: 9999px;
 		background: color-mix(in oklab, var(--primary-color) 12%, transparent);
 		border: 1px solid color-mix(in oklab, var(--primary-color) 40%, transparent);
@@ -107,10 +108,11 @@
 		font-size: 0.9rem;
 
 		.label {
-			font-weight: 700;
+			font-weight: 800;
+			white-space: nowrap;
 		}
 		.value {
-			font-weight: 600;
+			font-weight: 500;
 		}
 	}
 
