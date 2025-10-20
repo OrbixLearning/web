@@ -19,19 +19,18 @@
             </header>
 
             <div class="panel__body filter-row">
-                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full">
-                    <mat-label>Pesquisar</mat-label>
-                    <input matInput [(ngModel)]="filter" />
-                </mat-form-field>
-
                 <o-text-button (click)="syllabuspo.toggle($event)">
                     Ementa ({{ syllabusFilter.length }})
                 </o-text-button>
-
                 <p-popover #syllabuspo>
                     <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter"
                         (syllabusMarked)="markSyllabus($event)" [presets]="ctx.classroom?.presets" />
                 </p-popover>
+
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full">
+                    <mat-label>Pesquisar</mat-label>
+                    <input matInput [(ngModel)]="filter" />
+                </mat-form-field>
             </div>
         </div>
 

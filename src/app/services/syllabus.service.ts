@@ -19,7 +19,7 @@ export class SyllabusService {
 		return this.http.post<Syllabus[]>(`${this.api}/${classroomId}`, { syllabusList });
 	}
 
-	rename(syllabusId: string, name: string): Observable<Syllabus> {
-		return this.http.put<Syllabus>(`${this.api}/rename/${syllabusId}`, { name });
+	edit(syllabusId: string, name: string, description: string): Observable<Syllabus> {
+		return this.http.put<Syllabus>(`${this.api}/edit/${syllabusId}`, { name, description });
 	}
 }

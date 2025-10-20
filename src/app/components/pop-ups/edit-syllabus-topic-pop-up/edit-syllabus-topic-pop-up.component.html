@@ -1,4 +1,4 @@
-<o-pop-up-header [title]="'Renomear ' + data" />
+<o-pop-up-header [title]="'Editar ' + data.name" />
 
 <form class="edit-topic-popup" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="fields">
@@ -6,7 +6,13 @@
             <mat-label>Nome do tópico</mat-label>
             <input matInput type="text" name="name" formControlName="name" />
         </mat-form-field>
+
+        <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-label>Descrição</mat-label>
+            <textarea matInput name="description" formControlName="description" rows="4" maxlength="1000"
+                placeholder="Forneça uma descrição para este tópico. O que será estudado aqui?"></textarea>
+        </mat-form-field>
     </div>
 
-    <o-pop-up-buttons [disable]="form.invalid" type="submit" confirmButton="Renomear" />
+    <o-pop-up-buttons [disable]="form.invalid" type="submit" confirmButton="Editar" />
 </form>

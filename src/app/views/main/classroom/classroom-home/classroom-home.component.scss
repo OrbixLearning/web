@@ -57,13 +57,13 @@
 
 /* Filters row */
 .filter-div .filter-row {
-	display: grid;
-	grid-template-columns: 1fr auto;
+	display: flex;
+	flex-direction: row;
 	gap: 10px;
 	align-items: center;
 
 	.full {
-		grid-column: 1;
+		flex: 1;
 	}
 }
 

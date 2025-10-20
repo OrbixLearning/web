@@ -8,6 +8,12 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-label>Descrição</mat-label>
+            <textarea matInput name="description" formControlName="description" rows="4" maxlength="1000"
+                placeholder="Forneça uma descrição para este tópico. O que será estudado aqui?"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" subscriptSizing="dynamic">
             <mat-label>Tópico pai</mat-label>
             <mat-select formControlName="parent" name="parent" (selectionChange)="parentChange()">
                 <mat-option [value]="undefined">Nenhum (tópico raiz)</mat-option>

@@ -17,7 +17,10 @@ import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
-import { EditSyllabusTopicPopUpComponent } from '../../../../components/pop-ups/edit-syllabus-topic-pop-up/edit-syllabus-topic-pop-up.component';
+import {
+	EditSyllabusTopicPopUpComponent,
+	EditSyllabusTopicPopUpResult,
+} from '../../../../components/pop-ups/edit-syllabus-topic-pop-up/edit-syllabus-topic-pop-up.component';
 import {
 	SyllabusPresetCreationPopUpComponent,
 	SyllabusPresetCreationPopUpData,
@@ -198,17 +201,18 @@ export class ClassroomSettingsComponent {
 	editSyllabus(s: Syllabus) {
 		this.dialog
 			.open(EditSyllabusTopicPopUpComponent, {
-				data: s.name,
+				data: s,
 				minWidth: '500px',
 			})
 			.afterClosed()
-			.subscribe(async (result: string | undefined) => {
+			.subscribe(async (result: EditSyllabusTopicPopUpResult | undefined) => {
 				if (result) {
 					this.isLoading = true;
-					await lastValueFrom(this.syllabusService.rename(s.id!, result))
+					await lastValueFrom(this.syllabusService.edit(s.id!, result.name, result.description))
 						.then(() => {
 							let oldSyllabus: Syllabus = TreeUtils.findItemById(this.syllabus!, s.id!, 'id', 'topics')!;
-							oldSyllabus.name = result;
+							oldSyllabus.name = result.name;
+							oldSyllabus.description = result.description;
 							this.syllabus = [...this.syllabus!]; // Trigger change detection
 						})
 						.finally(() => {

@@ -5,6 +5,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
+import { Syllabus } from '../../../models/Syllabus';
+
+export type EditSyllabusTopicPopUpResult = {
+	name: string;
+	description: string;
+};
 
 @Component({
 	selector: 'o-edit-syllabus-topic-pop-up',
@@ -13,17 +19,18 @@ import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 	styleUrl: './edit-syllabus-topic-pop-up.component.scss',
 })
 export class EditSyllabusTopicPopUpComponent {
-	data: string = inject(MAT_DIALOG_DATA);
+	data: Syllabus = inject(MAT_DIALOG_DATA);
 	dialogRef: MatDialogRef<EditSyllabusTopicPopUpComponent> = inject(MatDialogRef<EditSyllabusTopicPopUpComponent>);
 	formBuilder: FormBuilder = inject(FormBuilder);
 
 	form = this.formBuilder.group({
-		name: [this.data, Validators.required],
+		name: [this.data.name, Validators.required],
+		description: [this.data.description, [Validators.required, Validators.maxLength(1000)]],
 	});
 
 	onSubmit() {
 		if (this.form.valid) {
-			this.dialogRef.close(this.form.get('name')?.value);
+			this.dialogRef.close(this.form.value);
 		}
 	}
 }
