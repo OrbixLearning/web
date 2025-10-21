@@ -36,3 +36,64 @@
 		width: 40%;
 	}
 }
+
+.info-pop {
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+	min-width: min(520px, 92vw);
+	max-width: 520px;
+	color: var(--text-color);
+	background: var(--background-color);
+
+	.ip-head {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+
+		.ip-title {
+			margin: 0;
+			font-size: 1.08rem;
+			font-weight: 800;
+			color: var(--text-color);
+		}
+
+		.ip-creator {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			min-width: 0;
+
+			.ip-creator-text {
+				display: inline-flex;
+				gap: 6px;
+				align-items: baseline;
+				color: var(--text-color);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+
+				strong {
+					font-weight: 700;
+				}
+			}
+		}
+	}
+
+	.ip-body {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+
+		.ip-subtitle {
+			margin: 0;
+			font-weight: 700;
+			opacity: 0.95;
+			color: var(--text-color);
+		}
+
+		.ip-tags {
+			display: block; /* ocupa linha própria */
+		}
+	}
+}

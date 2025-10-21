@@ -4,9 +4,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { PopoverModule } from 'primeng/popover';
+import { ToastModule } from 'primeng/toast';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TooltipModule } from 'primeng/tooltip';
-import { lastValueFrom, Observable } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
+import { AvatarComponent } from '../../../components/avatar/avatar.component';
 import { HighlightButtonComponent } from '../../../components/buttons/highlight-button/highlight-button.component';
 import { TextButtonComponent } from '../../../components/buttons/text-button/text-button.component';
 import { ChatComponent } from '../../../components/chat/chat.component';
@@ -15,9 +19,10 @@ import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { SyllabusTagsComponent } from '../../../components/syllabus-tags/syllabus-tags.component';
 import { LearningPathGenerationStatusEnum } from '../../../enums/LearningPathGenerationStatus.enum';
 import { LearningPathTypeEnum } from '../../../enums/LearningPathType.enum';
-import { LearningPath, TextLearningPath } from '../../../models/LearningPath/LearningPath';
+import { LearningPath } from '../../../models/LearningPath/LearningPath';
 import {
 	AudioLearningPathStudy,
 	FlashCardLearningPathStudy,
@@ -27,13 +32,12 @@ import {
 } from '../../../models/LearningPath/LearningPathStudy';
 import { ContextService } from '../../../services/context.service';
 import { LearningPathService } from '../../../services/learning-path.service';
+import { UserService } from '../../../services/user.service';
 import { AudioLearningPathComponent } from './audio-learning-path/audio-learning-path.component';
 import { FlashCardLearningPathComponent } from './flash-card-learning-path/flash-card-learning-path.component';
 import { QuestionLearningPathComponent } from './question-learning-path/question-learning-path.component';
 import { TextLearningPathComponent } from './text-learning-path/text-learning-path.component';
 import { VideoLearningPathComponent } from './video-learning-path/video-learning-path.component';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
 
 @Component({
 	selector: 'o-learning-path',
@@ -54,6 +58,9 @@ import { MessageService } from 'primeng/api';
 		TextButtonComponent,
 		HighlightButtonComponent,
 		ToastModule,
+		PopoverModule,
+		SyllabusTagsComponent,
+		AvatarComponent,
 	],
 	templateUrl: './learning-path.component.html',
 	styleUrl: './learning-path.component.scss',
@@ -65,6 +72,7 @@ export class LearningPathComponent {
 	dialog: MatDialog = inject(MatDialog);
 	router: Router = inject(Router);
 	toast: MessageService = inject(MessageService);
+	userService: UserService = inject(UserService);
 
 	@ViewChild('text') textComponent?: TextLearningPathComponent;
 	@ViewChild('video') videoComponent?: VideoLearningPathComponent;
@@ -102,6 +110,11 @@ export class LearningPathComponent {
 
 	get learningPathStudyAsVideo(): VideoLearningPathStudy {
 		return this.ctx.learningPathStudy as VideoLearningPathStudy;
+	}
+
+	get creatorProfilePictureUrl(): string {
+		if (!this.ctx.learningPathStudy?.learningPath.creator) return '';
+		return this.userService.getProfilePictureUrl(this.ctx.learningPathStudy?.learningPath.creator!);
 	}
 
 	async toggleMode() {

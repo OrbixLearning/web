@@ -44,12 +44,40 @@
         }
     </div>
 
+    <div>
+        <button mat-icon-button (click)="infoPO.toggle($event)">
+            <mat-icon>info</mat-icon>
+        </button>
+        <p-popover #infoPO>
+            <div class="info-pop">
+                <header class="ip-head">
+                    <h3 class="ip-title">{{ ctx.learningPathStudy?.learningPath?.name }}</h3>
+
+                    <div class="ip-creator">
+                        <o-avatar [id]="ctx.learningPathStudy?.learningPath?.creator?.id!"
+                            [src]="creatorProfilePictureUrl" />
+                        <span class="ip-creator-text">
+                            <strong>{{ ctx.learningPathStudy?.learningPath?.creator?.name }}</strong>
+                        </span>
+                    </div>
+                </header>
+
+                <section class="ip-body">
+                    <p class="ip-subtitle">Tópicos contemplados</p>
+                    <o-syllabus-tags class="ip-tags" [syllabus]="ctx.learningPathStudy?.learningPath?.syllabus || []"
+                        [maxTags]="999" />
+                </section>
+            </div>
+        </p-popover>
+
+
+    </div>
+
     @if (mine && !ctx.learningPathStudy?.learningPath?.shared) {
     <button mat-icon-button (click)="deleteLearningPath()">
         <mat-icon>delete</mat-icon>
     </button>
     }
-
 </header>
 
 <div class="learning-path-content">
