@@ -22,4 +22,18 @@ export class SyllabusService {
 	edit(syllabusId: string, name: string, description: string): Observable<Syllabus> {
 		return this.http.put<Syllabus>(`${this.api}/edit/${syllabusId}`, { name, description });
 	}
+
+	dowloadDefaultSyllabusJson(): Observable<Blob> {
+		return this.http.get(`${this.api}/json`, { responseType: 'blob' });
+	}
+
+	downloadSyllabusJson(classroomId: string): Observable<Blob> {
+		return this.http.get(`${this.api}/json/${classroomId}`, { responseType: 'blob' });
+	}
+
+	validateJsonFormat(file: File): Observable<{ valid: boolean }> {
+		const formData: FormData = new FormData();
+		formData.append('file', file);
+		return this.http.post<{ valid: boolean }>(`${this.api}/validate-json`, formData);
+	}
 }

@@ -55,6 +55,11 @@
                     grupo</o-highlight-button>
                 <o-highlight-button (onclick)="deleteSyllabusPreset()" icon="delete"
                     [disabled]="!presets || presets.length === 0">Excluir grupo</o-highlight-button>
+                @if (syllabus && syllabus.length > 0) {
+                <button mat-icon-button (click)="exportSyllabusJson()">
+                    <mat-icon>download</mat-icon>
+                </button>
+                }
             </div>
         </header>
 
@@ -64,17 +69,30 @@
         </div>
 
         @if (!syllabus || syllabus.length === 0) {
-        <div class="panel__footer upload-area">
+        <div class="panel__footer">
             @if (!syllabusDocument) {
-            <p-fileupload mode="basic" chooseLabel="Criar ementa a partir de um documento" name="logo" [auto]="true"
-                accept=".pdf" [maxFileSize]="MAX_FILE_SIZE" (onSelect)="selectSyllabusDocument($event)" />
+            <div class="select-document-div">
+                <p-fileupload mode="basic" chooseLabel="Criar ementa a partir de um documento" name="logo" [auto]="true"
+                    accept=".pdf,.json" [maxFileSize]="MAX_FILE_SIZE" (onSelect)="selectSyllabusDocument($event)" />
+                <div class="file-hint-div">
+                    <p>Aceitamos arquivos PDF ou JSON.</p>
+                    <p>
+                        Se o arquivo for um JSON no formato padrão, a ementa será criada diretamente.
+                        Caso contrário, a IA irá gerar a ementa automaticamente.
+                    </p>
+                    <o-text-button icon="download" (onclick)="downloadDefaultJson()">Baixar JSON padrão
+                        (exemplo)</o-text-button>
+                </div>
+            </div>
             } @else {
-            <p class="file-name">{{ syllabusDocument.name }}</p>
-            <div class="upload-actions">
-                <o-text-button (onclick)="syllabusDocument = undefined">Cancelar</o-text-button>
-                <o-highlight-button icon="upload" (onclick)="uploadSyllabusDocument()">
-                    Criar ementa com esse documento
-                </o-highlight-button>
+            <div class="selected-document-div">
+                <p class="file-name">{{ syllabusDocument.name }}</p>
+                <div class="upload-actions">
+                    <o-text-button (onclick)="syllabusDocument = undefined">Cancelar</o-text-button>
+                    <o-highlight-button icon="upload" (onclick)="uploadSyllabusDocument()">
+                        Criar ementa com esse documento
+                    </o-highlight-button>
+                </div>
             </div>
             }
         </div>

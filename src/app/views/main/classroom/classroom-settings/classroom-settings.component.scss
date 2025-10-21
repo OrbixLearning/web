@@ -42,7 +42,38 @@
 	}
 	.panel__footer {
 		padding: 12px 14px;
-		border-top: 1px solid var(--border-color, #3a3a3a);
+		border-top: 1px solid gray;
+
+		.select-document-div {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			gap: 20px;
+
+			.file-hint-div {
+				max-width: 40%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: flex-start;
+				gap: 6px;
+				font-size: 14px;
+			}
+		}
+
+		.selected-document-div {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 20px;
+
+			.upload-actions {
+				display: flex;
+				gap: 8px;
+				justify-content: flex-end;
+			}
+		}
 	}
 }
 
@@ -110,21 +141,5 @@
 		line-height: 1;
 		height: 36px;
 		width: 36px;
-	}
-}
-
-/* Syllabus area */
-.upload-area {
-	display: grid;
-	gap: 10px;
-	.file-name {
-		margin: 0;
-		color: var(--text-color);
-	}
-
-	.upload-actions {
-		display: flex;
-		gap: 8px;
-		justify-content: flex-end;
 	}
 }

@@ -40,6 +40,7 @@ import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { SyllabusService } from '../../../../services/syllabus.service';
 import { TreeUtils } from '../../../../utils/Tree.utils';
+import { download } from '../../../../utils/Download.util';
 
 @Component({
 	selector: 'o-classroom-settings',
@@ -115,6 +116,10 @@ export class ClassroomSettingsComponent {
 			return true;
 		}
 		return false;
+	}
+
+	get isSyllabusDocumentJson(): boolean {
+		return this.syllabusDocument?.name.split('.').pop()?.toLowerCase() === 'json';
 	}
 
 	resetForm() {
@@ -263,26 +268,67 @@ export class ClassroomSettingsComponent {
 			});
 	}
 
+	async exportSyllabusJson() {
+		this.isLoading = true;
+		await lastValueFrom(this.syllabusService.downloadSyllabusJson(this.ctx.classroom!.id))
+			.then((blob: Blob) => {
+				download(blob, `Ementa-${this.ctx.classroom!.name}.json`);
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
+
+	async downloadDefaultJson() {
+		this.isLoading = true;
+		await lastValueFrom(this.syllabusService.dowloadDefaultSyllabusJson())
+			.then((blob: Blob) => {
+				download(blob, 'Ementa-padrao.exemplo.json');
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
+
 	selectSyllabusDocument(event: FileSelectEvent) {
 		this.syllabusDocument = event.currentFiles[0];
+		console.log(this.isSyllabusDocumentJson);
+	}
+
+	async validateSyllabusDocumentJson(): Promise<boolean> {
+		if (this.isSyllabusDocumentJson) {
+			this.isLoading = true;
+			return (
+				await lastValueFrom(this.syllabusService.validateJsonFormat(this.syllabusDocument!)).finally(() => {
+					this.isLoading = false;
+				})
+			).valid;
+		} else {
+			return false;
+		}
 	}
 
 	async uploadSyllabusDocument() {
-		if (this.ctx.classroom?.syllabus && this.ctx.classroom?.syllabus.length > 0) {
-			const data: ConfirmPopUpData = {
-				title: 'Tem certeza que deseja alterar a ementa?',
-				message: 'A ementa atual será substituída.',
-				confirmButton: 'Confirmar',
-				cancelButton: 'Cancelar',
-			};
-			let confirmed: boolean = false;
-			await lastValueFrom(this.dialog.open(ConfirmPopUpComponent, { data }).afterClosed()).then(
-				(result: boolean) => {
-					confirmed = result;
-				},
-			);
+		if (this.isSyllabusDocumentJson) {
+			let confirmed: boolean = true;
+			await this.validateSyllabusDocumentJson().then(async valid => {
+				if (!valid) {
+					const data: ConfirmPopUpData = {
+						title: 'O documento JSON não segue o formato padrão. Deseja continuar mesmo assim?',
+						message:
+							'Ao continuar, a ementa será gerada por uma IA que usará o conteúdo do arquivo como referência. O resultado pode não ser perfeito.',
+						confirmButton: 'Continuar',
+					};
+					await lastValueFrom(this.dialog.open(ConfirmPopUpComponent, { data }).afterClosed()).then(
+						(result: boolean) => {
+							confirmed = result;
+						},
+					);
+				}
+			});
 			if (!confirmed) return;
 		}
+
 		this.isLoading = true;
 		await lastValueFrom(this.service.uploadSyllabusDocument(this.ctx.classroom!.id, this.syllabusDocument!))
 			.then((c: Classroom) => {
