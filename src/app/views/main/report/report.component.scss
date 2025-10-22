@@ -56,6 +56,11 @@
 		grid-column: 1 / -1;
 	}
 
+	.description {
+		max-height: 40vh;
+		overflow-y: auto;
+	}
+
 	.actions {
 		grid-column: 1 / -1;
 		display: flex;

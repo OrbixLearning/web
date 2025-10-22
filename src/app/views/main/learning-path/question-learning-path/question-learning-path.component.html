@@ -49,8 +49,8 @@
             @case (questionTypeEnum.OPEN_ENDED) {
             <mat-form-field appearance="outline" subscriptSizing="dynamic" class="open-ended">
                 <mat-label>Resposta</mat-label>
-                <textarea matInput rows="6" [value]="userAnswer[0] || ''"
-                    (input)="updateOpenEndedAnswer($event)"></textarea>
+                <textarea matInput rows="6" [value]="userAnswer[0] || ''" (input)="updateOpenEndedAnswer($event)"
+                    cdkTextareaAutosize></textarea>
             </mat-form-field>
             }
             }
@@ -166,7 +166,8 @@
                 @case (questionTypeEnum.OPEN_ENDED) {
                 <mat-form-field appearance="outline" subscriptSizing="dynamic" class="open-ended">
                     <mat-label>Resposta correta</mat-label>
-                    <textarea matInput rows="6" [value]="question.answers[0]" [disabled]="true"></textarea>
+                    <textarea matInput rows="6" [value]="question.answers[0]" [disabled]="true"
+                        cdkTextareaAutosize></textarea>
                 </mat-form-field>
                 }
                 }
