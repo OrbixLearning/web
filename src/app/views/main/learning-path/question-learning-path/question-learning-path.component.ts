@@ -128,6 +128,16 @@ export class QuestionLearningPathComponent {
 	}
 
 	markSingle(option: string) {
+		// Since mat-button-toggle-group triggers change events twice when clicking the same option,
+		// we need to check if the selected option is already the user answer  or if option is undefined
+		// to avoid unnecessary calls.
+		if (
+			this.questionContext!.question.type === QuestionTypeEnum.TRUE_FALSE &&
+			(this.questionContext!.userAnswer[0] === option || !option)
+		) {
+			return;
+		}
+
 		this.questionContext!.userAnswer = [option];
 		const questionIndex = this.index;
 		const answer = this.questionContext!.userAnswer;
