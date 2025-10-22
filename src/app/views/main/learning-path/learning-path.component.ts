@@ -38,6 +38,7 @@ import { FlashCardLearningPathComponent } from './flash-card-learning-path/flash
 import { QuestionLearningPathComponent } from './question-learning-path/question-learning-path.component';
 import { TextLearningPathComponent } from './text-learning-path/text-learning-path.component';
 import { VideoLearningPathComponent } from './video-learning-path/video-learning-path.component';
+import { LearningPathStudyService } from '../../../services/learning-path-study.service';
 
 @Component({
 	selector: 'o-learning-path',
@@ -73,6 +74,7 @@ export class LearningPathComponent {
 	router: Router = inject(Router);
 	toast: MessageService = inject(MessageService);
 	userService: UserService = inject(UserService);
+	learningPathStudyService: LearningPathStudyService = inject(LearningPathStudyService);
 
 	@ViewChild('text') textComponent?: TextLearningPathComponent;
 	@ViewChild('video') videoComponent?: VideoLearningPathComponent;
@@ -92,46 +94,31 @@ export class LearningPathComponent {
 		return this.ctx.learningPathStudy?.learningPath.generation.status;
 	}
 
-	get learningPathStudyAsAudio(): AudioLearningPathStudy {
-		return this.ctx.learningPathStudy as AudioLearningPathStudy;
-	}
-
-	get learningPathStudyAsFlashCard(): FlashCardLearningPathStudy {
-		return this.ctx.learningPathStudy as FlashCardLearningPathStudy;
-	}
-
-	get learningPathStudyAsQuestion(): QuestionLearningPathStudy {
-		return this.ctx.learningPathStudy as QuestionLearningPathStudy;
-	}
-
-	get learningPathStudyAsText(): TextLearningPathStudy {
-		return this.ctx.learningPathStudy as TextLearningPathStudy;
-	}
-
-	get learningPathStudyAsVideo(): VideoLearningPathStudy {
-		return this.ctx.learningPathStudy as VideoLearningPathStudy;
-	}
-
 	get creatorProfilePictureUrl(): string {
 		if (!this.ctx.learningPathStudy?.learningPath.creator) return '';
 		return this.userService.getProfilePictureUrl(this.ctx.learningPathStudy?.learningPath.creator!);
 	}
 
-	async toggleMode() {
+	async goBackOrCancel() {
 		if (this.mode === 'edit') {
 			this.isLoading = true;
-			if (this.textComponent) {
-				await this.textComponent.save();
-			} else if (this.videoComponent) {
-				await this.videoComponent.save();
-			} else if (this.audioComponent) {
-				await this.audioComponent.save();
-			} else if (this.flashCardComponent) {
-				await this.flashCardComponent.save();
-			} else if (this.questionComponent) {
-				await this.questionComponent.save();
-			}
-			this.isLoading = false;
+			await lastValueFrom(this.learningPathStudyService.get(this.ctx.learningPathStudy!.learningPath.id))
+				.then(learningPathStudy => {
+					this.ctx.learningPathStudy = learningPathStudy;
+					this.resetLearningPath();
+					this.mode = 'study';
+				})
+				.finally(() => {
+					this.isLoading = false;
+				});
+		} else {
+			this.router.navigateByUrl(`/i/${this.ctx.institution?.id}/c/${this.ctx.classroom?.id}`);
+		}
+	}
+
+	async toggleMode() {
+		if (this.mode === 'edit') {
+			await this.saveLearningPath();
 			this.mode = 'study';
 		} else {
 			if (
@@ -154,6 +141,36 @@ export class LearningPathComponent {
 			} else {
 				this.mode = 'edit';
 			}
+		}
+	}
+
+	async saveLearningPath() {
+		this.isLoading = true;
+		if (this.textComponent) {
+			await this.textComponent.save();
+		} else if (this.videoComponent) {
+			await this.videoComponent.save();
+		} else if (this.audioComponent) {
+			await this.audioComponent.save();
+		} else if (this.flashCardComponent) {
+			await this.flashCardComponent.save();
+		} else if (this.questionComponent) {
+			await this.questionComponent.save();
+		}
+		this.isLoading = false;
+	}
+
+	resetLearningPath() {
+		if (this.textComponent) {
+			this.textComponent.reset();
+		} else if (this.videoComponent) {
+			this.videoComponent.reset();
+		} else if (this.audioComponent) {
+			this.audioComponent.reset();
+		} else if (this.flashCardComponent) {
+			this.flashCardComponent.reset();
+		} else if (this.questionComponent) {
+			this.questionComponent.reset();
 		}
 	}
 

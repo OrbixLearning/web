@@ -1,7 +1,7 @@
 <o-loading [isLoading]="isLoading" />
 
 <header class="learning-path-header">
-    <button mat-icon-button [routerLink]="['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id]">
+    <button mat-icon-button (click)="goBackOrCancel()">
         <mat-icon>arrow_back</mat-icon>
     </button>
 
@@ -90,19 +90,19 @@
     <div class="left" [style]="mode === 'study' ? 'width: 60%' : 'width: 100%'">
         @switch (ctx.learningPathStudy!.learningPath!.type) {
         @case (typeEnum.TEXT) {
-        <o-text-learning-path #text [learningPathStudy]="learningPathStudyAsText" [mode]="mode" />
+        <o-text-learning-path #text [mode]="mode" />
         }
         @case (typeEnum.VIDEO) {
-        <o-video-learning-path #video [learningPathStudy]="learningPathStudyAsVideo" [mode]="mode" />
+        <o-video-learning-path #video [mode]="mode" />
         }
         @case (typeEnum.AUDIO) {
-        <o-audio-learning-path #audio [learningPathStudy]="learningPathStudyAsAudio" [mode]="mode" />
+        <o-audio-learning-path #audio [mode]="mode" />
         }
         @case (typeEnum.FLASHCARD) {
-        <o-flash-card-learning-path #flashcard [learningPathStudy]="learningPathStudyAsFlashCard" [mode]="mode" />
+        <o-flash-card-learning-path #flashcard [mode]="mode" />
         }
         @case (typeEnum.QUESTION) {
-        <o-question-learning-path #question [learningPathStudy]="learningPathStudyAsQuestion" [mode]="mode" />
+        <o-question-learning-path #question [mode]="mode" />
         }
         }
     </div>

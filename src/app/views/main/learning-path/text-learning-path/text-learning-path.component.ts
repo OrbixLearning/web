@@ -8,7 +8,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { TextLearningPath } from '../../../../models/LearningPath/LearningPath';
-import { TextLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
+import { ContextService } from '../../../../services/context.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
 
 @Component({
@@ -26,11 +26,11 @@ import { LearningPathService } from '../../../../services/learning-path.service'
 	styleUrl: './text-learning-path.component.scss',
 })
 export class TextLearningPathComponent {
-	@Input() learningPathStudy!: TextLearningPathStudy;
-	@Input() mode: 'edit' | 'study' = 'edit';
-
 	service: LearningPathService = inject(LearningPathService);
 	markdownService: MarkdownService = inject(MarkdownService);
+	ctx: ContextService = inject(ContextService);
+
+	@Input() mode: 'edit' | 'study' = 'edit';
 
 	text: string = '';
 	isLoading: boolean = false;
@@ -55,21 +55,21 @@ export class TextLearningPathComponent {
 	}
 
 	ngOnInit() {
-		this.startData();
+		this.setData();
 	}
 
-	startData() {
-		this.text = (this.learningPathStudy.learningPath as TextLearningPath).text!;
+	setData() {
+		this.text = (this.ctx.learningPathStudy!.learningPath as TextLearningPath).text!;
 	}
 
 	async downloadPdf() {
 		this.isLoading = true;
-		await lastValueFrom(this.service.downloadPdf(this.learningPathStudy.learningPath.id))
+		await lastValueFrom(this.service.downloadPdf(this.ctx.learningPathStudy!.learningPath.id))
 			.then((blob: Blob) => {
 				const url = window.URL.createObjectURL(blob);
 				const a = document.createElement('a');
 				a.href = url;
-				a.download = this.learningPathStudy.learningPath.name + '.pdf';
+				a.download = this.ctx.learningPathStudy!.learningPath.name + '.pdf';
 				a.click();
 				window.URL.revokeObjectURL(url);
 			})
@@ -80,13 +80,17 @@ export class TextLearningPathComponent {
 
 	async save() {
 		this.isLoading = true;
-		await lastValueFrom(this.service.editTextLearningPath(this.learningPathStudy.learningPath.id, this.text))
+		await lastValueFrom(this.service.editTextLearningPath(this.ctx.learningPathStudy!.learningPath.id, this.text))
 			.then((updatedLearningPath: TextLearningPath) => {
-				this.learningPathStudy.learningPath = updatedLearningPath;
+				this.ctx.learningPathStudy!.learningPath = updatedLearningPath;
 				this.text = updatedLearningPath.text!;
 			})
 			.finally(() => {
 				this.isLoading = false;
 			});
+	}
+
+	reset() {
+		this.setData();
 	}
 }

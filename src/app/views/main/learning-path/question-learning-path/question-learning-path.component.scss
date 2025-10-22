@@ -30,7 +30,7 @@
 		color: var(--text-color);
 		line-height: 1.5;
 		font-weight: 600;
-		white-space: pre;
+		white-space: pre-line;
 	}
 
 	/* LISTS / CHOICES */
@@ -47,6 +47,7 @@
 			background: color-mix(in oklab, var(--background-color) 96%, white);
 			color: var(--text-color);
 			min-height: 44px;
+			white-space: pre-line;
 
 			::ng-deep .mdc-list-item__content {
 				padding: 8px 12px;
@@ -345,6 +346,7 @@
 
 						.text {
 							flex: 1;
+							white-space: pre-line;
 						}
 
 						&.is-correct {

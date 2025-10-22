@@ -26,13 +26,14 @@ import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
 import { QuestionLearningPath } from '../../../../models/LearningPath/LearningPath';
 import { QuestionLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { Question } from '../../../../models/LearningPath/Question';
+import { QuestionTypePipe } from '../../../../pipes/question-type.pipe';
+import { ContextService } from '../../../../services/context.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
 import { EditMultipleChoicePopUpComponent } from './edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
 import { EditMultipleSelectionPopUpComponent } from './edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
 import { EditOpenEndedPopUpComponent } from './edit-open-ended-pop-up/edit-open-ended-pop-up.component';
 import { EditTrueFalsePopUpComponent } from './edit-true-false-pop-up/edit-true-false-pop-up.component';
-import { QuestionTypePipe } from '../../../../pipes/question-type.pipe';
 
 type QuestionContext = {
 	question: Question;
@@ -60,13 +61,13 @@ type QuestionContext = {
 	styleUrl: './question-learning-path.component.scss',
 })
 export class QuestionLearningPathComponent {
-	@Input() learningPathStudy!: QuestionLearningPathStudy;
-	@Input() mode: 'edit' | 'study' = 'edit';
-
 	formBuilder: FormBuilder = inject(FormBuilder);
 	dialog: MatDialog = inject(MatDialog);
 	service: LearningPathStudyService = inject(LearningPathStudyService);
 	learningPathService: LearningPathService = inject(LearningPathService);
+	ctx: ContextService = inject(ContextService);
+
+	@Input() mode: 'edit' | 'study' = 'edit';
 
 	isLoading: boolean = false;
 	questions: Question[] = [];
@@ -113,9 +114,9 @@ export class QuestionLearningPathComponent {
 	}
 
 	startData() {
-		this.questions = (this.learningPathStudy.learningPath as QuestionLearningPath).questions!;
+		this.questions = (this.ctx.learningPathStudy!.learningPath as QuestionLearningPath).questions!;
 		const userAnswers =
-			(this.learningPathStudy as QuestionLearningPathStudy).userAnswers || this.questions.map(() => []);
+			(this.ctx.learningPathStudy! as QuestionLearningPathStudy).userAnswers || this.questions.map(() => []);
 		this.questionsContext = [];
 		for (let i = 0; i < this.questions.length; i++) {
 			this.questionsContext.push({
@@ -165,7 +166,7 @@ export class QuestionLearningPathComponent {
 	}
 
 	async saveAnswer(questionIndex: number, answer: string[]) {
-		const id = this.learningPathStudy.id;
+		const id = this.ctx.learningPathStudy!.id;
 		await lastValueFrom(this.service.answer(id, questionIndex, answer));
 	}
 
@@ -268,9 +269,9 @@ export class QuestionLearningPathComponent {
 			.subscribe(async (result: boolean | undefined) => {
 				if (result) {
 					this.isLoading = true;
-					await lastValueFrom(this.service.clearAnswers(this.learningPathStudy.id))
+					await lastValueFrom(this.service.clearAnswers(this.ctx.learningPathStudy!.id))
 						.then((lps: QuestionLearningPathStudy) => {
-							this.learningPathStudy = lps;
+							this.ctx.learningPathStudy! = lps;
 							this.resetData();
 							this.startData();
 						})
@@ -406,14 +407,22 @@ export class QuestionLearningPathComponent {
 	async save() {
 		this.isLoading = true;
 		await lastValueFrom(
-			this.learningPathService.editQuestionLearningPath(this.learningPathStudy.learningPath.id, this.questions),
+			this.learningPathService.editQuestionLearningPath(
+				this.ctx.learningPathStudy!.learningPath.id,
+				this.questions,
+			),
 		)
 			.then((learningPath: QuestionLearningPath) => {
-				this.learningPathStudy.learningPath = learningPath;
+				this.ctx.learningPathStudy!.learningPath = learningPath;
 				this.questions = learningPath.questions!;
 			})
 			.finally(() => {
 				this.isLoading = false;
 			});
+	}
+
+	reset() {
+		this.resetData();
+		this.startData();
 	}
 }
