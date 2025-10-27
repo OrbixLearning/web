@@ -28,7 +28,7 @@
             <div class="separator"></div>
 
             <div class="feed-ai-div">
-                <mat-checkbox formControlName="feedAi">
+                <mat-checkbox formControlName="feedAi" [disabled]="disableFeedAi">
                     Treinar IA
                 </mat-checkbox>
                 <p class="hint">Marque se deseja que este documento seja utilizado pela IA como fonte de conhecimento
