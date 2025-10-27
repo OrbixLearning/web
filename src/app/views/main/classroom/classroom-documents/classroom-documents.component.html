@@ -38,7 +38,12 @@
             <article class="doc-card">
                 <div class="doc-card__head">
                     <h4 class="doc-title" [title]="document.name">{{ document.name }}</h4>
-                    <span class="ext-chip">{{ document.extension }}</span>
+                    <div class="right-info">
+                        @if (document.aiStatus === documentAIUploadStatusEnum.UPLOADED) {
+                        <mat-icon pTooltip="A IA da Orbix tem o conhecimento deste documento">psychology</mat-icon>
+                        }
+                        <span class="ext-chip">{{ document.extension }}</span>
+                    </div>
                 </div>
 
                 <div class="doc-card__tags">

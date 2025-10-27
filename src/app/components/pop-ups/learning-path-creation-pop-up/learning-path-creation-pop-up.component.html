@@ -76,10 +76,6 @@
                     </mat-form-field>
 
                     @if (getFormControl(2,'type').value === learningPathTypeEnum.TEXT) {
-                    <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                        <mat-label>Número aproximado de parágrafos</mat-label>
-                        <input type="number" matInput formControlName="numberOfParagraphs" />
-                    </mat-form-field>
                     <div class="topics-toggle-div">
                         <mat-slide-toggle formControlName="useTopics">Texto em tópicos</mat-slide-toggle>
                     </div>

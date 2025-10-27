@@ -9,9 +9,9 @@
                 <input matInput type="text" name="name" formControlName="name" />
             </mat-form-field>
 
+            @if (!editMode) {
             <div class="separator"></div>
 
-            @if (!editMode) {
             @if (!getFormControl('file').value) {
             <p-fileupload mode="basic" chooseLabel="Selecionar documento" name="document" [auto]="true"
                 [maxFileSize]="MAX_PDF_SIZE" (onSelect)="selectFile($event)" />
@@ -23,17 +23,17 @@
                 </button>
             </div>
             }
-            }
 
             <div class="separator"></div>
 
             <div class="feed-ai-div">
-                <mat-checkbox formControlName="feedAi">
+                <mat-checkbox formControlName="feedAi" [disabled]="disableFeedAi">
                     Treinar IA
                 </mat-checkbox>
                 <p class="hint">Marque se deseja que este documento seja utilizado pela IA como fonte de conhecimento
                 </p>
             </div>
+            }
         </div>
 
         <div class="right">

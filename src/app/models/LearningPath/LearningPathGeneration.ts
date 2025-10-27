@@ -37,7 +37,6 @@ export type GenerateQuestionLearningPathRequest = {
 
 export type GenerateTextLearningPathRequest = {
 	language: string;
-	numberOfParagraphs: number;
 	useTopics: boolean;
 	formality: string;
 };

@@ -18,7 +18,7 @@
             @case (questionTypeEnum.MULTIPLE_CHOICE) {
             <mat-selection-list class="choices" [multiple]="false"
                 (selectionChange)="markSingle($event.options[0].value)">
-                @for (option of question?.options; track $index) {
+                @for (option of question?.options; track option) {
                 <mat-list-option class="choice-item" [selected]="userAnswer.includes(option)" [value]="option"
                     role="radio">
                     {{ option }}
@@ -30,7 +30,7 @@
             @case (questionTypeEnum.MULTIPLE_SELECTION) {
             <mat-selection-list class="choices" [multiple]="true"
                 (selectionChange)="markMulti($event.options[0].value)">
-                @for (option of question?.options; track $index) {
+                @for (option of question?.options; track option) {
                 <mat-list-option class="choice-item" [selected]="userAnswer.includes(option)" [value]="option"
                     role="checkbox">
                     {{ option }}
@@ -49,8 +49,8 @@
             @case (questionTypeEnum.OPEN_ENDED) {
             <mat-form-field appearance="outline" subscriptSizing="dynamic" class="open-ended">
                 <mat-label>Resposta</mat-label>
-                <textarea matInput rows="6" [value]="userAnswer[0] || ''"
-                    (input)="updateOpenEndedAnswer($event)"></textarea>
+                <textarea matInput rows="6" [value]="userAnswer[0] || ''" (input)="updateOpenEndedAnswer($event)"
+                    cdkTextareaAutosize></textarea>
             </mat-form-field>
             }
             }
@@ -166,7 +166,8 @@
                 @case (questionTypeEnum.OPEN_ENDED) {
                 <mat-form-field appearance="outline" subscriptSizing="dynamic" class="open-ended">
                     <mat-label>Resposta correta</mat-label>
-                    <textarea matInput rows="6" [value]="question.answers[0]" [disabled]="true"></textarea>
+                    <textarea matInput rows="6" [value]="question.answers[0]" [disabled]="true"
+                        cdkTextareaAutosize></textarea>
                 </mat-form-field>
                 }
                 }

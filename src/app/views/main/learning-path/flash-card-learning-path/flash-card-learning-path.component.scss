@@ -81,6 +81,7 @@
 		margin: 0;
 		font-weight: 600;
 		color: var(--text-color);
+		white-space: pre-line;
 	}
 
 	.fc-back {
@@ -89,6 +90,7 @@
 		opacity: 0.95;
 		border-top: 1px dashed gray;
 		padding-top: 8px;
+		white-space: pre-line;
 	}
 }
 

@@ -94,14 +94,22 @@
 		text-overflow: ellipsis;
 	}
 
-	.ext-chip {
-		flex: 0 0 auto;
-		padding: 2px 8px;
-		border-radius: 12px;
-		font-size: 0.8rem;
-		color: var(--text-color);
-		background: color-mix(in oklab, var(--primary-color) 15%, transparent);
-		border: 1px solid color-mix(in oklab, var(--primary-color) 35%, var(--border-color, #3a3a3a));
+	.right-info {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 6px;
+
+		.ext-chip {
+			flex: 0 0 auto;
+			padding: 2px 8px;
+			border-radius: 12px;
+			font-size: 0.8rem;
+			color: var(--text-color);
+			background: color-mix(in oklab, var(--primary-color) 15%, transparent);
+			border: 1px solid color-mix(in oklab, var(--primary-color) 35%, var(--border-color, #3a3a3a));
+		}
 	}
 }
 

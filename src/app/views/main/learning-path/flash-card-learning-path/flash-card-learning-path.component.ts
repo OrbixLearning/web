@@ -14,6 +14,7 @@ import {
 import { FlashCard } from '../../../../models/LearningPath/FlashCard';
 import { FlashCardLearningPath } from '../../../../models/LearningPath/LearningPath';
 import { FlashCardLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
+import { ContextService } from '../../../../services/context.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
 import { EditFlashCardPopUpComponent } from './edit-flash-card-pop-up/edit-flash-card-pop-up.component';
@@ -33,8 +34,8 @@ export class FlashCardLearningPathComponent {
 	service: LearningPathStudyService = inject(LearningPathStudyService);
 	learningPathService: LearningPathService = inject(LearningPathService);
 	dialog: MatDialog = inject(MatDialog);
+	ctx: ContextService = inject(ContextService);
 
-	@Input() learningPathStudy!: FlashCardLearningPathStudy;
 	@Input() mode: 'edit' | 'study' = 'edit';
 
 	isLoading: boolean = false;
@@ -52,8 +53,8 @@ export class FlashCardLearningPathComponent {
 	}
 
 	setData() {
-		this.flashCards = (this.learningPathStudy.learningPath as FlashCardLearningPath).flashCards!;
-		const order: number[] = this.learningPathStudy.cardsOrder;
+		this.flashCards = (this.ctx.learningPathStudy!.learningPath as FlashCardLearningPath).flashCards!;
+		const order: number[] = (this.ctx.learningPathStudy as FlashCardLearningPathStudy)!.cardsOrder;
 		if (order && order.length > 0) {
 			this.shuffledFlashCards = order.map(index => this.flashCards[index]);
 		}
@@ -120,9 +121,9 @@ export class FlashCardLearningPathComponent {
 
 	async shuffle() {
 		this.isLoading = true;
-		lastValueFrom(this.service.shuffle(this.learningPathStudy.id))
+		lastValueFrom(this.service.shuffle(this.ctx.learningPathStudy!.id))
 			.then((lps: FlashCardLearningPathStudy) => {
-				this.learningPathStudy = lps;
+				this.ctx.learningPathStudy! = lps;
 				this.fcIndex = 0;
 				this.setData();
 			})
@@ -134,14 +135,22 @@ export class FlashCardLearningPathComponent {
 	async save() {
 		this.isLoading = true;
 		await lastValueFrom(
-			this.learningPathService.editFlashCardLearningPath(this.learningPathStudy.learningPath.id, this.flashCards),
+			this.learningPathService.editFlashCardLearningPath(
+				this.ctx.learningPathStudy!.learningPath.id,
+				this.flashCards,
+			),
 		)
 			.then((learningPath: FlashCardLearningPath) => {
-				this.learningPathStudy.learningPath = learningPath;
+				this.ctx.learningPathStudy!.learningPath = learningPath;
 				this.flashCards = learningPath.flashCards!;
 			})
 			.finally(() => {
 				this.isLoading = false;
 			});
+	}
+
+	reset() {
+		this.fcIndex = 0;
+		this.setData();
 	}
 }

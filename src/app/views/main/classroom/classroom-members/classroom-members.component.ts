@@ -50,7 +50,7 @@ export class ClassroomMembersComponent {
 		let buttons: SubHeaderButton[] = [];
 		if (this.ctx.isTeacher) {
 			buttons.push({
-				text: 'Adicionar pessoas',
+				text: 'Adicionar membros',
 				function: () => this.addMember(),
 				icon: 'person_add',
 				highlighted: true,

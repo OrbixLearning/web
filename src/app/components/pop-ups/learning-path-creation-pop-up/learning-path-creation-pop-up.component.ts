@@ -82,7 +82,6 @@ export class LearningPathCreationPopUpComponent {
 		numberOfVideos: this.formBuilder.control<number>(5, Validators.required),
 	};
 	textForm = {
-		numberOfParagraphs: this.formBuilder.control<number>(5, Validators.required),
 		useTopics: this.formBuilder.control<boolean>(false, Validators.required),
 		formality: this.formBuilder.control<string>('medium', Validators.required),
 	};
@@ -178,7 +177,6 @@ export class LearningPathCreationPopUpComponent {
 					endpoint = 'text';
 					requestBody = {
 						...baseBody,
-						numberOfParagraphs: this.getFormControl(3, 'numberOfParagraphs').value,
 						useTopics: this.getFormControl(3, 'useTopics').value,
 						formality: this.getFormControl(3, 'formality').value,
 					} as GenerateTextLearningPathRequest;

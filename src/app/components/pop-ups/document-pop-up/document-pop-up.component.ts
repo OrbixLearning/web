@@ -52,10 +52,14 @@ export class DocumentPopUpComponent {
 		name: ['', Validators.required],
 		file: this.formBuilder.control<File | undefined>(undefined, Validators.required),
 		syllabus: this.formBuilder.control<Syllabus[]>([]),
-		feedAi: this.formBuilder.control<boolean>(true),
+		feedAi: this.formBuilder.control<boolean>(false),
 	});
 	editMode: boolean = this.data?.document !== undefined;
 	readonly MAX_PDF_SIZE: number = environment.MAX_PDF_SIZE;
+
+	get disableFeedAi(): boolean {
+		return this.getFormControl('syllabus').value.length === 0;
+	}
 
 	ngOnInit() {
 		if (this.editMode) {
@@ -63,8 +67,14 @@ export class DocumentPopUpComponent {
 			this.getFormControl('file').setValidators([]);
 			this.getFormControl('syllabus').setValue(this.data!.document.syllabus || []);
 			this.getFormControl('feedAi').setValue(
-				this.data!.document.aiStatus !== DocumentAIUploadStatusEnum.NOT_UPLOADED,
+				this.data!.document.aiStatus !== DocumentAIUploadStatusEnum.NOT_UPLOADED &&
+					this.data!.document.syllabus?.length! > 0,
 			);
+			if (this.data!.document.syllabus?.length === 0) {
+				this.getFormControl('feedAi').disable();
+			}
+		} else {
+			this.getFormControl('feedAi').disable();
 		}
 	}
 
@@ -74,6 +84,9 @@ export class DocumentPopUpComponent {
 
 	markSyllabus(syllabus: Syllabus[]) {
 		this.getFormControl('syllabus').setValue(syllabus);
+		if (syllabus.length === 0) {
+			this.getFormControl('feedAi').setValue(false);
+		}
 	}
 
 	selectFile(event: FileSelectEvent) {

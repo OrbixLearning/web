@@ -1,8 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { lastValueFrom } from 'rxjs';
 import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
 import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
@@ -12,9 +9,9 @@ import {
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { VideoLearningPath } from '../../../../models/LearningPath/LearningPath';
-import { VideoLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { VideoDetails } from '../../../../models/LearningPath/VideoDetails';
 import { SafeUrlPipe } from '../../../../pipes/safe-url.pipe';
+import { ContextService } from '../../../../services/context.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
 import { EditVideoPopUpComponent } from './edit-video-pop-up/edit-video-pop-up.component';
 
@@ -27,8 +24,8 @@ import { EditVideoPopUpComponent } from './edit-video-pop-up/edit-video-pop-up.c
 export class VideoLearningPathComponent {
 	dialog: MatDialog = inject(MatDialog);
 	service: LearningPathService = inject(LearningPathService);
+	ctx: ContextService = inject(ContextService);
 
-	@Input() learningPathStudy!: VideoLearningPathStudy;
 	@Input() mode: 'edit' | 'study' = 'edit';
 
 	videos: VideoDetails[] = [];
@@ -36,7 +33,11 @@ export class VideoLearningPathComponent {
 	isLoading: boolean = false;
 
 	ngOnInit() {
-		this.videos = (this.learningPathStudy.learningPath as VideoLearningPath).videos!;
+		this.setData();
+	}
+
+	setData() {
+		this.videos = (this.ctx.learningPathStudy!.learningPath as VideoLearningPath).videos!;
 	}
 
 	getUrl(videoId: string): string {
@@ -105,13 +106,19 @@ export class VideoLearningPathComponent {
 
 	async save() {
 		this.isLoading = true;
-		await lastValueFrom(this.service.editVideoLearningPath(this.learningPathStudy.learningPath.id, this.videos))
+		await lastValueFrom(
+			this.service.editVideoLearningPath(this.ctx.learningPathStudy!.learningPath.id, this.videos),
+		)
 			.then((learningPath: VideoLearningPath) => {
-				this.learningPathStudy.learningPath = learningPath;
+				this.ctx.learningPathStudy!.learningPath = learningPath;
 				this.videos = learningPath.videos!;
 			})
 			.finally(() => {
 				this.isLoading = false;
 			});
+	}
+
+	reset() {
+		this.setData();
 	}
 }
