@@ -28,6 +28,7 @@ import { DocumentService } from '../../../../services/document.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
 import { download } from '../../../../utils/Download.util';
 import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
 	selector: 'o-classroom-documents',
@@ -43,6 +44,7 @@ import { TextButtonComponent } from '../../../../components/buttons/text-button/
 		SyllabusTagsComponent,
 		SubHeaderComponent,
 		TextButtonComponent,
+		TooltipModule,
 	],
 	templateUrl: './classroom-documents.component.html',
 	styleUrl: './classroom-documents.component.scss',
