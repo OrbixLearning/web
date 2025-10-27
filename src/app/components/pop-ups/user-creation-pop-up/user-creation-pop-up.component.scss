@@ -4,8 +4,7 @@
 	justify-content: flex-start;
 	align-items: center;
 	gap: 30px;
-	padding: 20px;
-	padding-bottom: 10px;
+	padding: 10px 20px;
 
 	.ucpu-form-row {
 		display: flex;
@@ -25,13 +24,53 @@
 			align-items: center;
 			width: 100%;
 			gap: 10px;
+
+			.ucpu-error-div {
+				color: red;
+				margin-bottom: 1rem;
+				text-align: center;
+				font-size: 14px;
+			}
 		}
 	}
 }
 
-.ucpu-error-div {
-	color: red;
-	margin-bottom: 1rem;
-	text-align: center;
-	font-size: 14px;
+.ucpu-multiple-creation-div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+
+	.select-document-div {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		gap: 40px;
+		width: 100%;
+
+		.file-hint-div {
+			max-width: 50%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: flex-start;
+			gap: 6px;
+			font-size: 14px;
+		}
+	}
+
+	.selected-document-div {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 20px;
+
+		.upload-actions {
+			display: flex;
+			gap: 8px;
+			justify-content: flex-end;
+		}
+	}
 }

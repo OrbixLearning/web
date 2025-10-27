@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
 import { Institution } from '../models/Institution';
+import { MultipleUserCreationResult } from '../components/pop-ups/user-creation-pop-up/user-creation-pop-up.component';
 
 @Injectable({
 	providedIn: 'root',
@@ -51,5 +52,15 @@ export class InstitutionService {
 			formData.append('logo', logo);
 		}
 		return this.http.put<Institution>(this.api, formData).pipe(tap(() => this.bustImageCache()));
+	}
+
+	downloadUserCreationDefault(extension: 'csv' | 'xlsx'): Observable<Blob> {
+		return this.http.get(`${this.api}/user-creation-file/${extension}`, { responseType: 'blob' });
+	}
+
+	createUsersFromFile(id: string, file: File): Observable<MultipleUserCreationResult> {
+		const formData = new FormData();
+		formData.append('file', file);
+		return this.http.post<MultipleUserCreationResult>(`${this.api}/create-users/${id}`, formData);
 	}
 }
