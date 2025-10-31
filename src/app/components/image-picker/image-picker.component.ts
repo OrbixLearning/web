@@ -20,7 +20,6 @@ export class ImagePickerComponent {
 	preview: string | ArrayBuffer | null = null;
 
 	onFileSelect(event: FileSelectEvent) {
-		console.log(event);
 		this.file = event.currentFiles[0];
 		if (this.file) {
 			const reader = new FileReader();
