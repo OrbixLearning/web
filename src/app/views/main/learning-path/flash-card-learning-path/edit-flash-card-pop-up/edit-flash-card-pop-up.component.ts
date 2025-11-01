@@ -29,7 +29,6 @@ export class EditFlashCardPopUpComponent {
 
 	startForm() {
 		if (this.data) {
-            console.log(this.data);
 			this.form.patchValue({
 				front: this.data.front,
 				back: this.data.back,

@@ -292,7 +292,6 @@ export class ClassroomSettingsComponent {
 
 	selectSyllabusDocument(event: FileSelectEvent) {
 		this.syllabusDocument = event.currentFiles[0];
-		console.log(this.isSyllabusDocumentJson);
 	}
 
 	async validateSyllabusDocumentJson(): Promise<boolean> {

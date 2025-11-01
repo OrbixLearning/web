@@ -2,64 +2,95 @@
 
 <o-loading [isLoading]="isLoading" />
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<mat-tab-group>
+    <mat-tab label="Criação única">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="ucpu-form-div">
+                <div class="ucpu-form-row">
+                    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                        <mat-label>Nome completo</mat-label>
+                        <input matInput type="text" name="name" formControlName="name" />
+                    </mat-form-field>
 
-    <div class="ucpu-form-div">
-        <div class="ucpu-form-row">
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Nome completo</mat-label>
-                <input matInput type="text" name="name" formControlName="name" />
-            </mat-form-field>
 
-
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Identificador</mat-label>
-                <input matInput type="text" name="idInInstitution" formControlName="idInInstitution" />
-            </mat-form-field>
-        </div>
-
-        <div class="ucpu-form-row">
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Email</mat-label>
-                <input matInput type="email" name="email" formControlName="email" />
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Cargo</mat-label>
-                <mat-select formControlName="role" name="role">
-                    @for (role of roles; track role) {
-                    <mat-option [value]="role">{{role | institutionRole}}</mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
-        </div>
-
-        <div class="ucpu-form-row">
-            <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                <mat-label>Senha</mat-label>
-                <input matInput [type]="hidePassword ? 'password' : 'text'" name="password"
-                    formControlName="password" />
-                <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' :
-                    'visibility'}}</mat-icon>
-            </mat-form-field>
-
-            <div class="confirm-password-div">
-                <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                    <mat-label>Confirmar Senha</mat-label>
-                    <input matInput [type]="hidePasswordConfirmation ? 'password' : 'text'" name="passwordConfirmation"
-                        formControlName="passwordConfirmation" />
-                    <mat-icon matSuffix
-                        (click)="hidePasswordConfirmation = !hidePasswordConfirmation">{{hidePasswordConfirmation ?
-                        'visibility_off' : 'visibility'}}</mat-icon>
-                </mat-form-field>
-                @if (error !== '') {
-                <div class="ucpu-error-div">
-                    <span>{{error}}</span>
+                    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                        <mat-label>Identificador</mat-label>
+                        <input matInput type="text" name="idInInstitution" formControlName="idInInstitution" />
+                    </mat-form-field>
                 </div>
-                }
-            </div>
-        </div>
-    </div>
 
-    <o-pop-up-buttons [disable]="isLoading || form.invalid" type="submit" confirmButton="Criar usuário" />
-</form>
+                <div class="ucpu-form-row">
+                    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                        <mat-label>Email</mat-label>
+                        <input matInput type="email" name="email" formControlName="email" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                        <mat-label>Cargo</mat-label>
+                        <mat-select formControlName="role" name="role">
+                            @for (role of roles; track role) {
+                            <mat-option [value]="role">{{role | institutionRole}}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="ucpu-form-row">
+                    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                        <mat-label>Senha</mat-label>
+                        <input matInput [type]="hidePassword ? 'password' : 'text'" name="password"
+                            formControlName="password" />
+                        <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' :
+                            'visibility'}}</mat-icon>
+                    </mat-form-field>
+
+                    <div class="confirm-password-div">
+                        <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                            <mat-label>Confirmar Senha</mat-label>
+                            <input matInput [type]="hidePasswordConfirmation ? 'password' : 'text'"
+                                name="passwordConfirmation" formControlName="passwordConfirmation" />
+                            <mat-icon matSuffix
+                                (click)="hidePasswordConfirmation = !hidePasswordConfirmation">{{hidePasswordConfirmation
+                                ?
+                                'visibility_off' : 'visibility'}}</mat-icon>
+                        </mat-form-field>
+                        @if (error !== '') {
+                        <div class="ucpu-error-div">
+                            <span>{{error}}</span>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <o-pop-up-buttons [disable]="isLoading || form.invalid" type="submit" confirmButton="Criar usuário" />
+        </form>
+    </mat-tab>
+    <mat-tab label="Criação múltipla">
+        <div class="ucpu-multiple-creation-div">
+            @if (!usersDocument) {
+            <div class="select-document-div">
+                <p-fileupload mode="basic" chooseLabel="Arquivo de usuários" name="logo" [auto]="true"
+                    accept=".xlsx,.csv" [maxFileSize]="MAX_FILE_SIZE" (onSelect)="selectUsersDocument($event)" />
+                <div class="file-hint-div">
+                    <p>A criação múltipla é feita através de um arquivo formatado. Baixe um dos arquivos padrão abaixo e
+                        preencha os valores dos usuários que deseja criar.</p>
+                    <p> Aceitamos arquivos XLSX ou CSV. </p>
+                    <o-text-button icon="download" (onclick)="downloadDefaultCsv()">Baixar CSV padrão</o-text-button>
+                    <o-text-button icon="download" (onclick)="downloadDefaultXlsx()">Baixar XLSX padrão</o-text-button>
+                </div>
+            </div>
+            } @else {
+            <div class="selected-document-div">
+                <p class="file-name">{{ usersDocument.name }}</p>
+                <div class="upload-actions">
+                    <o-text-button (onclick)="usersDocument = undefined">Cancelar</o-text-button>
+                    <o-highlight-button icon="upload" (onclick)="createUsersFromFile()">
+                        Criar usuários a partir deste arquivo
+                    </o-highlight-button>
+                </div>
+            </div>
+            }
+        </div>
+    </mat-tab>
+</mat-tab-group>

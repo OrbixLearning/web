@@ -1,0 +1,15 @@
+<div class="muce-pu">
+    <mat-icon class="icon">error_outline</mat-icon>
+
+    <h2 class="title">{{ data.message }}</h2>
+
+    @if (data.problematicUsers?.length) {
+    <div class="problematic-users">
+        @for (msg of data.problematicUsers; track msg) {
+        <p class="user-error-message">{{ msg }}</p>
+        }
+    </div>
+    }
+
+    <button mat-raised-button mat-dialog-close class="btn-ok">Ok</button>
+</div>
