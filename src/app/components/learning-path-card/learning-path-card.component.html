@@ -54,8 +54,10 @@
             <span class="lp-chip error">{{ learningPath.type | learningPathType }}</span>
         </div>
         <div class="lp-error-row">
-            <mat-icon>error</mat-icon>
-            <span class="lp-error-text">{{ learningPath.generation.errorMessage }}</span>
+            <div class="error-info-div">
+                <mat-icon>error</mat-icon>
+                <span class="lp-error-text">{{ learningPath.generation.errorMessage }}</span>
+            </div>
             <o-text-button (onclick)="regenerate.emit()">Gerar novamente</o-text-button>
         </div>
     </div>
