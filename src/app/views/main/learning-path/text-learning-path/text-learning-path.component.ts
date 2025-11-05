@@ -122,8 +122,7 @@ export class TextLearningPathComponent {
 		)
 			.then((updatedLearningPath: TextLearningPath) => {
 				this.ctx.learningPathStudy!.learningPath = updatedLearningPath;
-				this.currentAudioStatus = updatedLearningPath.audioGenerationStatus;
-				this.numberOfAudios = updatedLearningPath.numberOfAudios || 0;
+				this.setData();
 			})
 			.finally(() => {
 				this.isLoading = false;
@@ -135,7 +134,7 @@ export class TextLearningPathComponent {
 		await lastValueFrom(this.service.editTextLearningPath(this.ctx.learningPathStudy!.learningPath.id, this.text))
 			.then((updatedLearningPath: TextLearningPath) => {
 				this.ctx.learningPathStudy!.learningPath = updatedLearningPath;
-				this.text = updatedLearningPath.text!;
+				this.setData();
 			})
 			.finally(() => {
 				this.isLoading = false;
