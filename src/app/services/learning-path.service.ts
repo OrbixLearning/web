@@ -13,6 +13,7 @@ import {
 import { GenerateLearningPathRequest } from '../models/LearningPath/LearningPathGeneration';
 import { VideoDetails } from '../models/LearningPath/VideoDetails';
 import { Question } from '../models/LearningPath/Question';
+import { AudioVoiceEnum } from '../enums/AudioVoice.enum';
 
 @Injectable({
 	providedIn: 'root',
@@ -58,6 +59,10 @@ export class LearningPathService {
 	regenerateLearningPath(id: string): Observable<LearningPath> {
 		return this.http.put<LearningPath>(`${this.api}/regenerate/${id}`, {});
 	}
+
+    regenerateAudios(learningPathId: string, voice : AudioVoiceEnum): Observable<TextLearningPath> {
+        return this.http.put<TextLearningPath>(`${this.api}/regenerate-audios/${learningPathId}`, { voice });
+    }
 
 	// DELETE
 

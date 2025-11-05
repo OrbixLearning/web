@@ -10,6 +10,13 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { TextLearningPath } from '../../../../models/LearningPath/LearningPath';
 import { ContextService } from '../../../../services/context.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
+import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
+import { LearningPathGenerationStatusEnum } from '../../../../enums/LearningPathGenerationStatus.enum';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { AudioVoiceEnum } from '../../../../enums/AudioVoice.enum';
+import { AudioVoicePipe } from '../../../../pipes/audio-voice.pipe';
 
 @Component({
 	selector: 'o-text-learning-path',
@@ -21,6 +28,10 @@ import { LearningPathService } from '../../../../services/learning-path.service'
 		FormsModule,
 		EditorModule,
 		TooltipModule,
+		TextButtonComponent,
+		MatFormFieldModule,
+		MatSelectModule,
+		AudioVoicePipe,
 	],
 	templateUrl: './text-learning-path.component.html',
 	styleUrl: './text-learning-path.component.scss',
@@ -34,6 +45,13 @@ export class TextLearningPathComponent {
 
 	text: string = '';
 	isLoading: boolean = false;
+	showAudios: boolean = false;
+	numberOfAudios: number = 0;
+	audioIndex: number = 0;
+	audioStatusEnum = LearningPathGenerationStatusEnum;
+	currentAudioStatus: LearningPathGenerationStatusEnum | null = null;
+	readonly VOICES = Object.values(AudioVoiceEnum) as AudioVoiceEnum[];
+	selectedVoice: AudioVoiceEnum = AudioVoiceEnum.ALLOY;
 
 	readonly EDITOR_OPTIONS = [
 		{ size: ['small', false, 'large', 'huge'] },
@@ -59,7 +77,26 @@ export class TextLearningPathComponent {
 	}
 
 	setData() {
-		this.text = (this.ctx.learningPathStudy!.learningPath as TextLearningPath).text!;
+		let textLearningPath = this.ctx.learningPathStudy!.learningPath as TextLearningPath;
+		this.text = textLearningPath.text!;
+		this.numberOfAudios = textLearningPath.numberOfAudios || 0;
+		this.currentAudioStatus = textLearningPath.audioGenerationStatus;
+	}
+
+	getAudioUrl(number: number): string {
+		return this.service.getAudioUrl(this.ctx.learningPathStudy!.learningPath.id, number);
+	}
+
+	nextAudio() {
+		if (this.audioIndex < this.numberOfAudios - 1) {
+			this.audioIndex++;
+		}
+	}
+
+	previousAudio() {
+		if (this.audioIndex > 0) {
+			this.audioIndex--;
+		}
 	}
 
 	async downloadPdf() {
@@ -78,12 +115,26 @@ export class TextLearningPathComponent {
 			});
 	}
 
+	async generateAudios() {
+		this.isLoading = true;
+		await lastValueFrom(
+			this.service.regenerateAudios(this.ctx.learningPathStudy!.learningPath.id, this.selectedVoice),
+		)
+			.then((updatedLearningPath: TextLearningPath) => {
+				this.ctx.learningPathStudy!.learningPath = updatedLearningPath;
+				this.setData();
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
+
 	async save() {
 		this.isLoading = true;
 		await lastValueFrom(this.service.editTextLearningPath(this.ctx.learningPathStudy!.learningPath.id, this.text))
 			.then((updatedLearningPath: TextLearningPath) => {
 				this.ctx.learningPathStudy!.learningPath = updatedLearningPath;
-				this.text = updatedLearningPath.text!;
+				this.setData();
 			})
 			.finally(() => {
 				this.isLoading = false;

@@ -1,4 +1,5 @@
 import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
+import { LearningPathGenerationStatusEnum } from '../../enums/LearningPathGenerationStatus.enum';
 import { LearningPathTypeEnum } from '../../enums/LearningPathType.enum';
 import { Classroom } from '../Classroom';
 import { Syllabus } from '../Syllabus';
@@ -8,12 +9,7 @@ import { LearningPathGeneration } from './LearningPathGeneration';
 import { Question } from './Question';
 import { VideoDetails } from './VideoDetails';
 
-export type LearningPath =
-	| VideoLearningPath
-	| TextLearningPath
-	| QuestionLearningPath
-	| FlashCardLearningPath
-	| AudioLearningPath;
+export type LearningPath = VideoLearningPath | TextLearningPath | QuestionLearningPath | FlashCardLearningPath;
 
 type LearningPathBase = {
 	id: string;
@@ -35,6 +31,8 @@ export type VideoLearningPath = {
 
 export type TextLearningPath = {
 	text: string | null;
+	numberOfAudios: number | null;
+	audioGenerationStatus: LearningPathGenerationStatusEnum | null;
 } & LearningPathBase;
 
 export type FlashCardLearningPath = {
@@ -43,8 +41,4 @@ export type FlashCardLearningPath = {
 
 export type QuestionLearningPath = {
 	questions: Question[] | null;
-} & LearningPathBase;
-
-export type AudioLearningPath = {
-	numberOfAudios: number | null;
 } & LearningPathBase;

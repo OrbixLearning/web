@@ -9,18 +9,10 @@ export type LearningPathGeneration = {
 };
 
 export type GenerateLearningPathRequest =
-	| GenerateAudioLearningPathRequest
 	| GenerateFlashCardLearningPathRequest
 	| GenerateQuestionLearningPathRequest
 	| GenerateTextLearningPathRequest
 	| GenerateVideoLearningPathRequest;
-
-export type GenerateAudioLearningPathRequest = {
-	language: string;
-	durationInSeconds: number;
-	formality: string;
-	voice: AudioVoiceEnum;
-};
 
 export type GenerateFlashCardLearningPathRequest = {
 	language: string;
@@ -39,6 +31,7 @@ export type GenerateTextLearningPathRequest = {
 	language: string;
 	useTopics: boolean;
 	formality: string;
+	voice: AudioVoiceEnum;
 };
 
 export type GenerateVideoLearningPathRequest = {

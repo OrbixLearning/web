@@ -15,7 +15,6 @@ import { LearningPathTypeEnum } from '../../../enums/LearningPathType.enum';
 import { QuestionTypeEnum } from '../../../enums/QuestionType.enum';
 import { LearningPath } from '../../../models/LearningPath/LearningPath';
 import {
-	GenerateAudioLearningPathRequest,
 	GenerateFlashCardLearningPathRequest,
 	GenerateLearningPathRequest,
 	GenerateQuestionLearningPathRequest,
@@ -23,6 +22,9 @@ import {
 	GenerateVideoLearningPathRequest,
 } from '../../../models/LearningPath/LearningPathGeneration';
 import { Syllabus } from '../../../models/Syllabus';
+import { AudioVoicePipe } from '../../../pipes/audio-voice.pipe';
+import { LearningPathTypePipe } from '../../../pipes/learning-path-type.pipe';
+import { QuestionTypePipe } from '../../../pipes/question-type.pipe';
 import { ContextService } from '../../../services/context.service';
 import { LearningPathService } from '../../../services/learning-path.service';
 import { LoadingComponent } from '../../loading/loading.component';
@@ -30,31 +32,28 @@ import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/success-pop-up.component';
-import { AudioVoicePipe } from '../../../pipes/audio-voice.pipe';
-import { LearningPathTypePipe } from '../../../pipes/learning-path-type.pipe';
-import { QuestionTypePipe } from "../../../pipes/question-type.pipe";
 
 @Component({
 	selector: 'o-learning-path-creation-pop-up',
 	imports: [
-    PopUpHeaderComponent,
-    MatStepperModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    SyllabusComponent,
-    MatInputModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    LoadingComponent,
-    AccordionModule,
-    PopUpButtonsComponent,
-    MatDialogModule,
-    MatIconModule,
-    AudioVoicePipe,
-    LearningPathTypePipe,
-    QuestionTypePipe
-],
+		PopUpHeaderComponent,
+		MatStepperModule,
+		MatButtonModule,
+		MatFormFieldModule,
+		ReactiveFormsModule,
+		SyllabusComponent,
+		MatInputModule,
+		MatSelectModule,
+		MatSlideToggleModule,
+		LoadingComponent,
+		AccordionModule,
+		PopUpButtonsComponent,
+		MatDialogModule,
+		MatIconModule,
+		AudioVoicePipe,
+		LearningPathTypePipe,
+		QuestionTypePipe,
+	],
 	templateUrl: './learning-path-creation-pop-up.component.html',
 	styleUrl: './learning-path-creation-pop-up.component.scss',
 })
@@ -84,16 +83,12 @@ export class LearningPathCreationPopUpComponent {
 	textForm = {
 		useTopics: this.formBuilder.control<boolean>(false, Validators.required),
 		formality: this.formBuilder.control<string>('medium', Validators.required),
+		voice: this.formBuilder.control<AudioVoiceEnum>(this.audioVoiceEnum.ALLOY, Validators.required),
 	};
 	questionForm = {
 		numberOfQuestions: this.formBuilder.control<number>(20, Validators.required),
 		level: this.formBuilder.control<number>(0),
 		questionTypes: this.formBuilder.control<string[]>(this.QUESTION_TYPES, Validators.required),
-	};
-	audioForm = {
-		durationInSeconds: this.formBuilder.control<number>(90, Validators.required),
-		formality: this.formBuilder.control<string>('medium', Validators.required),
-		voice: this.formBuilder.control<AudioVoiceEnum>(this.audioVoiceEnum.ALLOY, Validators.required),
 	};
 	flashCardForm = {
 		numberOfCards: this.formBuilder.control<number>(15, Validators.required),
@@ -138,9 +133,6 @@ export class LearningPathCreationPopUpComponent {
 			case LearningPathTypeEnum.QUESTION:
 				this.setLastFormGroup(this.questionForm);
 				break;
-			case LearningPathTypeEnum.AUDIO:
-				this.setLastFormGroup(this.audioForm);
-				break;
 			case LearningPathTypeEnum.FLASHCARD:
 				this.setLastFormGroup(this.flashCardForm);
 				break;
@@ -179,16 +171,8 @@ export class LearningPathCreationPopUpComponent {
 						...baseBody,
 						useTopics: this.getFormControl(3, 'useTopics').value,
 						formality: this.getFormControl(3, 'formality').value,
-					} as GenerateTextLearningPathRequest;
-					break;
-				case LearningPathTypeEnum.AUDIO:
-					endpoint = 'audio';
-					requestBody = {
-						...baseBody,
-						durationInSeconds: this.getFormControl(3, 'durationInSeconds').value,
-						formality: this.getFormControl(3, 'formality').value,
 						voice: this.getFormControl(3, 'voice').value,
-					} as GenerateAudioLearningPathRequest;
+					} as GenerateTextLearningPathRequest;
 					break;
 				case LearningPathTypeEnum.FLASHCARD:
 					endpoint = 'flashcard';

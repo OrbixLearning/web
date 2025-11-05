@@ -5,10 +5,75 @@
     <button mat-icon-button (click)="downloadPdf()">
         <mat-icon>download</mat-icon>
     </button>
+
+    <o-text-button [icon]="showAudios ? 'close' : 'hearing'" (onclick)="showAudios = !showAudios">
+        {{showAudios ? 'Apenas ler' : 'Ouvir'}}</o-text-button>
 </header>
+
+@if (showAudios) {
+<div class="audios-div">
+    @if (numberOfAudios > 0) {
+
+    <button mat-icon-button (click)="previousAudio()" [disabled]="audioIndex === 0">
+        <mat-icon>chevron_left</mat-icon>
+    </button>
+    <div class="audio-card">
+        <p class="audio-title">Áudio {{ audioIndex + 1 }} / {{numberOfAudios}}</p>
+        <audio [src]="getAudioUrl(audioIndex)" controls></audio>
+    </div>
+    <button mat-icon-button (click)="nextAudio()" [disabled]="audioIndex === numberOfAudios - 1">
+        <mat-icon>chevron_right</mat-icon>
+    </button>
+
+    } @else {
+
+    <div class="audio-status" role="status" aria-live="polite">
+        @if (currentAudioStatus === audioStatusEnum.GENERATED) {
+        <div class="as-row">
+            <mat-icon class="as-icon">library_music</mat-icon>
+            <div class="as-content">
+                <h4 class="as-title">Áudios prontos</h4>
+                <p class="as-desc">Atualize a página para carregá-los.</p>
+            </div>
+        </div>
+        } @else if (currentAudioStatus === audioStatusEnum.GENERATING) {
+        <div class="as-row">
+            <mat-icon class="as-icon pulse">equalizer</mat-icon>
+            <div class="as-content">
+                <h4 class="as-title">Gerando áudios…</h4>
+                <p class="as-desc">Aguarde alguns segundos e depois atualize a página.</p>
+            </div>
+        </div>
+        } @else {
+        <div class="as-row">
+            <mat-icon class="as-icon">music_off</mat-icon>
+            <div class="as-content">
+                <h4 class="as-title">Nenhum áudio gerado</h4>
+                <p class="as-desc">Você pode gerar os áudios deste texto agora.</p>
+            </div>
+            <div class="as-actions">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <mat-label>Voz</mat-label>
+                    <mat-select [value]="selectedVoice">
+                        @for (voice of VOICES; track voice) {
+                        <mat-option [value]="voice">
+                            {{ voice | audioVoice:'camelcase' }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <o-text-button (onclick)="generateAudios()">Gerar áudios</o-text-button>
+            </div>
+        </div>
+        }
+    </div>
+
+    }
+</div>
+}
 }
 
-<section class="text-lp-content">
+<section class="text-lp-content" [style]="'max-height: ' + (showAudios? '65vh' : '75vh') + ';'">
     @if (mode === 'study') {
 
     @if (isTextMarkdown) {

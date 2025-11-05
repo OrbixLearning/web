@@ -87,23 +87,8 @@
                             <mat-option value="informal">Informal</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    }
-
-                    @else if (getFormControl(2,'type').value === learningPathTypeEnum.AUDIO) {
                     <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                        <mat-label>Duração aproximada em segundos</mat-label>
-                        <input type="number" matInput formControlName="durationInSeconds" />
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                        <mat-label>Formalidade</mat-label>
-                        <mat-select formControlName="formality">
-                            <mat-option value="formal">Formal</mat-option>
-                            <mat-option value="medium">Mediana</mat-option>
-                            <mat-option value="informal">Informal</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" subscriptSizing="dynamic">
-                        <mat-label>Voz</mat-label>
+                        <mat-label>Voz para áudio</mat-label>
                         <mat-select formControlName="voice">
                             @for (voice of VOICES; track voice) {
                             <mat-option [value]="voice">
