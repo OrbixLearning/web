@@ -5,8 +5,7 @@ export type LearningPathStudy =
 	| VideoLearningPathStudy
 	| TextLearningPathStudy
 	| QuestionLearningPathStudy
-	| FlashCardLearningPathStudy
-	| AudioLearningPathStudy;
+	| FlashCardLearningPathStudy;
 
 type LearningPathStudyBase = {
 	id: string;
@@ -21,8 +20,6 @@ export type TextLearningPathStudy = {} & LearningPathStudyBase;
 export type FlashCardLearningPathStudy = {
 	cardsOrder: number[];
 } & LearningPathStudyBase;
-
-export type AudioLearningPathStudy = {} & LearningPathStudyBase;
 
 export type QuestionLearningPathStudy = {
 	userAnswers: AnsweredQuestion[];

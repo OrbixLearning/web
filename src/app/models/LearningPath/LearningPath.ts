@@ -9,12 +9,7 @@ import { LearningPathGeneration } from './LearningPathGeneration';
 import { Question } from './Question';
 import { VideoDetails } from './VideoDetails';
 
-export type LearningPath =
-	| VideoLearningPath
-	| TextLearningPath
-	| QuestionLearningPath
-	| FlashCardLearningPath
-	| AudioLearningPath;
+export type LearningPath = VideoLearningPath | TextLearningPath | QuestionLearningPath | FlashCardLearningPath;
 
 type LearningPathBase = {
 	id: string;
@@ -46,8 +41,4 @@ export type FlashCardLearningPath = {
 
 export type QuestionLearningPath = {
 	questions: Question[] | null;
-} & LearningPathBase;
-
-export type AudioLearningPath = {
-	numberOfAudios: number | null;
 } & LearningPathBase;

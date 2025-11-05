@@ -10,7 +10,6 @@ export class LearningPathTypePipe implements PipeTransform {
 		const map: Record<LearningPathTypeEnum, string> = {
 			[LearningPathTypeEnum.TEXT]: 'Texto',
 			[LearningPathTypeEnum.VIDEO]: 'Vídeo',
-			[LearningPathTypeEnum.AUDIO]: 'Áudio',
 			[LearningPathTypeEnum.FLASHCARD]: 'Flash Card',
 			[LearningPathTypeEnum.QUESTION]: 'Questão',
 		};
