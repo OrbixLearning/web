@@ -87,6 +87,16 @@
                             <mat-option value="informal">Informal</mat-option>
                         </mat-select>
                     </mat-form-field>
+                    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                        <mat-label>Voz para áudio</mat-label>
+                        <mat-select formControlName="voice">
+                            @for (voice of VOICES; track voice) {
+                            <mat-option [value]="voice">
+                                {{ voice | audioVoice:'camelcase' }}
+                            </mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
                     }
 
                     @else if (getFormControl(2,'type').value === learningPathTypeEnum.AUDIO) {

@@ -39,6 +39,7 @@ export type GenerateTextLearningPathRequest = {
 	language: string;
 	useTopics: boolean;
 	formality: string;
+	voice: AudioVoiceEnum;
 };
 
 export type GenerateVideoLearningPathRequest = {

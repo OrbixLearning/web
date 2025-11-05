@@ -32,29 +32,29 @@ import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/success-pop-up.component';
 import { AudioVoicePipe } from '../../../pipes/audio-voice.pipe';
 import { LearningPathTypePipe } from '../../../pipes/learning-path-type.pipe';
-import { QuestionTypePipe } from "../../../pipes/question-type.pipe";
+import { QuestionTypePipe } from '../../../pipes/question-type.pipe';
 
 @Component({
 	selector: 'o-learning-path-creation-pop-up',
 	imports: [
-    PopUpHeaderComponent,
-    MatStepperModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    SyllabusComponent,
-    MatInputModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    LoadingComponent,
-    AccordionModule,
-    PopUpButtonsComponent,
-    MatDialogModule,
-    MatIconModule,
-    AudioVoicePipe,
-    LearningPathTypePipe,
-    QuestionTypePipe
-],
+		PopUpHeaderComponent,
+		MatStepperModule,
+		MatButtonModule,
+		MatFormFieldModule,
+		ReactiveFormsModule,
+		SyllabusComponent,
+		MatInputModule,
+		MatSelectModule,
+		MatSlideToggleModule,
+		LoadingComponent,
+		AccordionModule,
+		PopUpButtonsComponent,
+		MatDialogModule,
+		MatIconModule,
+		AudioVoicePipe,
+		LearningPathTypePipe,
+		QuestionTypePipe,
+	],
 	templateUrl: './learning-path-creation-pop-up.component.html',
 	styleUrl: './learning-path-creation-pop-up.component.scss',
 })
@@ -84,6 +84,7 @@ export class LearningPathCreationPopUpComponent {
 	textForm = {
 		useTopics: this.formBuilder.control<boolean>(false, Validators.required),
 		formality: this.formBuilder.control<string>('medium', Validators.required),
+		voice: this.formBuilder.control<AudioVoiceEnum>(this.audioVoiceEnum.ALLOY, Validators.required),
 	};
 	questionForm = {
 		numberOfQuestions: this.formBuilder.control<number>(20, Validators.required),
@@ -179,6 +180,7 @@ export class LearningPathCreationPopUpComponent {
 						...baseBody,
 						useTopics: this.getFormControl(3, 'useTopics').value,
 						formality: this.getFormControl(3, 'formality').value,
+						voice: this.getFormControl(3, 'voice').value,
 					} as GenerateTextLearningPathRequest;
 					break;
 				case LearningPathTypeEnum.AUDIO:

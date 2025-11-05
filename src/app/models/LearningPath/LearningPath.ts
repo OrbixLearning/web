@@ -1,4 +1,5 @@
 import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
+import { LearningPathGenerationStatusEnum } from '../../enums/LearningPathGenerationStatus.enum';
 import { LearningPathTypeEnum } from '../../enums/LearningPathType.enum';
 import { Classroom } from '../Classroom';
 import { Syllabus } from '../Syllabus';
@@ -35,6 +36,8 @@ export type VideoLearningPath = {
 
 export type TextLearningPath = {
 	text: string | null;
+	numberOfAudios: number | null;
+	audioGenerationStatus: LearningPathGenerationStatusEnum | null;
 } & LearningPathBase;
 
 export type FlashCardLearningPath = {
