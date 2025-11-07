@@ -224,6 +224,10 @@ html {
 		z-index: 1003 !important;
 	}
 
+	.mat-mdc-paginator-container {
+		min-height: unset !important;
+	}
+
 	// TODO: Verify if this is needed
 
 	// .mat-accent {
