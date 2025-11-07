@@ -106,7 +106,8 @@
 
     @if (mode === 'study') {
     <div class="right">
-        <o-chat [learningPaths]="[ctx.learningPathStudy!.learningPath]" [showLearningPaths]="false" height="68vh" />
+        <o-chat [learningPaths]="[ctx.learningPathStudy!.learningPath]" [showLearningPaths]="false" height="68vh"
+            [clearButton]="false" message="Esse chat já tem todo o conhecimento dessa Rota de Aprendizagem." />
     </div>
     }
 

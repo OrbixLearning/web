@@ -2,7 +2,7 @@
 
 <div class="chat-main">
     @if (messages && messages.length > 0) {
-    <div class="clear-button-div">
+    <div class="clear-button-div" [style]="clearButton ? '' : 'visibility: hidden;'">
         <button mat-icon-button class="clear-button" (click)="clear()" pTooltip="Limpar chat"
             [disabled]="isSending || isLoading">
             <mat-icon>close</mat-icon>
@@ -32,8 +32,7 @@
         } @else {
         <div class="empty-chat">
             <h1>Este é seu chat com a IA da Orbix.</h1>
-            <h3>Essa IA sabe todo o conteúdo desta turma e pode te ajudar a aprender da maneira mais eficiente e
-                confiável!</h3>
+            <h3>{{message}}</h3>
         </div>
         }
     </div>

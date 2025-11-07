@@ -41,6 +41,8 @@ export class ChatComponent {
 	@Input() learningPaths: LearningPath[] = [];
 	@Input() showLearningPaths: boolean = true;
 	@Input() height: string = '65vh';
+	@Input() clearButton: boolean = true;
+	@Input() message!: string;
 	@Output() removeLearningPath: EventEmitter<LearningPath> = new EventEmitter<LearningPath>();
 
 	messages: AIChatMessage[] = [];

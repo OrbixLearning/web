@@ -5,10 +5,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
 import { PopoverModule } from 'primeng/popover';
 import { lastValueFrom } from 'rxjs';
+import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 import { ChatComponent } from '../../../../components/chat/chat.component';
 import { LearningPathCardComponent } from '../../../../components/learning-path-card/learning-path-card.component';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
@@ -27,7 +29,6 @@ import { ContextService } from '../../../../services/context.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
-import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 
 @Component({
 	selector: 'o-classroom-home',
@@ -46,6 +47,7 @@ import { TextButtonComponent } from '../../../../components/buttons/text-button/
 		ChatComponent,
 		SubHeaderComponent,
 		TextButtonComponent,
+		MatPaginatorModule,
 	],
 	templateUrl: './classroom-home.component.html',
 	styleUrl: './classroom-home.component.scss',
@@ -58,12 +60,28 @@ export class ClassroomHomeComponent {
 	router: Router = inject(Router);
 	route: ActivatedRoute = inject(ActivatedRoute);
 
+	readonly NUMBER_OF_LEARNING_PATH_CARDS_PER_PAGE: number = 5;
+
 	isLoading: boolean = true;
 	myLearningPaths: LearningPath[] = [];
 	sharedLearningPaths: LearningPath[] = [];
 	filter: string = '';
 	syllabusFilter: string[] = [];
 	learningPathsInChat: LearningPath[] = [];
+	myLearningPathsPaginator: { index: number; size: number } = {
+		index: 0,
+		size: this.NUMBER_OF_LEARNING_PATH_CARDS_PER_PAGE,
+	};
+	sharedLearningPathsPaginator: { index: number; size: number } = {
+		index: 0,
+		size: this.NUMBER_OF_LEARNING_PATH_CARDS_PER_PAGE,
+	};
+
+	constructor(private paginator: MatPaginatorIntl) {
+		paginator.getRangeLabel = (page: number, pageSize: number, length: number) => {
+			return `Página ${page + 1} de ${Math.ceil(length / pageSize)}`;
+		};
+	}
 
 	ngOnInit() {
 		// This is used to update the data when the classroomId changes in the URL
@@ -109,6 +127,30 @@ export class ClassroomHomeComponent {
 
 	get filteredTeacherLearningPaths(): LearningPath[] {
 		return this.teacherLearningPaths.filter(this.filterLearningPath);
+	}
+
+	get paginatedFilteredMyGeneratedLearningPaths(): LearningPath[] {
+		const start = this.myLearningPathsPaginator.index * this.myLearningPathsPaginator.size;
+		const end = start + this.myLearningPathsPaginator.size;
+		return this.filteredMyGeneratedLearningPaths.slice(start, end);
+	}
+
+	get paginatedFilteredMyNotGeneratedLearningPaths(): LearningPath[] {
+		const start = this.myLearningPathsPaginator.index * this.myLearningPathsPaginator.size;
+		const end = start + this.myLearningPathsPaginator.size;
+		return this.filteredMyNotGeneratedLearningPaths.slice(start, end);
+	}
+
+	get paginatedFilteredStudentLearningPaths(): LearningPath[] {
+		const start = this.sharedLearningPathsPaginator.index * this.sharedLearningPathsPaginator.size;
+		const end = start + this.sharedLearningPathsPaginator.size;
+		return this.filteredStudentLearningPaths.slice(start, end);
+	}
+
+	get paginatedFilteredTeacherLearningPaths(): LearningPath[] {
+		const start = this.sharedLearningPathsPaginator.index * this.sharedLearningPathsPaginator.size;
+		const end = start + this.sharedLearningPathsPaginator.size;
+		return this.filteredTeacherLearningPaths.slice(start, end);
 	}
 
 	get headerButtons(): SubHeaderButton[] {
@@ -167,6 +209,8 @@ export class ClassroomHomeComponent {
 	resetData() {
 		this.myLearningPaths = [];
 		this.sharedLearningPaths = [];
+		this.myLearningPathsPaginator = { index: 0, size: this.NUMBER_OF_LEARNING_PATH_CARDS_PER_PAGE };
+		this.sharedLearningPathsPaginator = { index: 0, size: this.NUMBER_OF_LEARNING_PATH_CARDS_PER_PAGE };
 	}
 
 	async getData() {
@@ -187,6 +231,11 @@ export class ClassroomHomeComponent {
 
 	markSyllabus(syllabus: Syllabus[]) {
 		this.syllabusFilter = syllabus.map(s => s.id!);
+	}
+
+	paginatorChange(paginator: { index: number; size: number }, event: PageEvent) {
+		paginator.index = event.pageIndex ?? 0;
+		paginator.size = event.pageSize ?? 5;
 	}
 
 	createLearningPath() {

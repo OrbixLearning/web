@@ -7,7 +7,8 @@
     <section class="left-content panel">
         <div class="panel__body">
             <o-chat style="width: 100%" [learningPaths]="learningPathsInChat"
-                (removeLearningPath)="removeLearningPathFromChat($event)" />
+                (removeLearningPath)="removeLearningPathFromChat($event)"
+                message="Essa IA sabe todo o conteúdo desta turma e pode te ajudar a aprender da maneira mais eficiente e confiável!" />
         </div>
     </section>
 
@@ -39,16 +40,17 @@
             <section class="learning-paths panel">
                 <header class="panel__header">
                     <h3>Minhas rotas</h3>
-                    <span class="count">
-                        {{ (filteredMyGeneratedLearningPaths.length || 0) +
-                        (filteredMyNotGeneratedLearningPaths.length || 0) }}
-                    </span>
+                    @if (filteredMyLearningPaths.length > myLearningPathsPaginator.size) {
+                    <mat-paginator (page)="paginatorChange(myLearningPathsPaginator, $event)"
+                        [length]="filteredMyLearningPaths.length" [pageSize]="myLearningPathsPaginator.size"
+                        [pageIndex]="myLearningPathsPaginator.index" [hidePageSize]="true" />
+                    }
                 </header>
 
                 <div class="panel__body lp-list">
                     @if (filteredMyNotGeneratedLearningPaths.length > 0) {
                     <h5 class="group-title">Rotas em geração</h5>
-                    @for (learningPath of filteredMyNotGeneratedLearningPaths; track learningPath.id) {
+                    @for (learningPath of paginatedFilteredMyNotGeneratedLearningPaths; track learningPath.id) {
                     <o-learning-path-card [learningPath]="learningPath"
                         (regenerate)="regenerateLearningPath(learningPath)" [mine]="true" />
                     }
@@ -56,7 +58,7 @@
                     <h5 class="group-title">Rotas geradas</h5>
                     }
 
-                    @for (learningPath of filteredMyGeneratedLearningPaths; track learningPath.id) {
+                    @for (learningPath of paginatedFilteredMyGeneratedLearningPaths; track learningPath.id) {
                     <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
                         [inChat]="isLearningPathIdInChat(learningPath.id)"
                         (addToChat)="addLearningPathToChat(learningPath)" (share)="shareLearningPath(learningPath)"
@@ -69,14 +71,18 @@
             <section class="learning-paths panel">
                 <header class="panel__header">
                     <h3>Rotas compartilhadas</h3>
-                    <span class="count">
-                        {{ (filteredTeacherLearningPaths.length || 0) + (filteredStudentLearningPaths.length || 0) }}
-                    </span>
+                    @if ((filteredTeacherLearningPaths.length || 0) + (filteredStudentLearningPaths.length || 0) >
+                    sharedLearningPathsPaginator.size) {
+                    <mat-paginator (page)="paginatorChange(sharedLearningPathsPaginator, $event)"
+                        [length]="(filteredTeacherLearningPaths.length || 0) + (filteredStudentLearningPaths.length || 0)"
+                        [pageSize]="sharedLearningPathsPaginator.size" [pageIndex]="sharedLearningPathsPaginator.index"
+                        [hidePageSize]="true" />
+                    }
                 </header>
 
                 <div class="panel__body lp-list">
                     <h5 class="group-title">Rotas de professor</h5>
-                    @for (learningPath of filteredTeacherLearningPaths; track learningPath.id) {
+                    @for (learningPath of paginatedFilteredTeacherLearningPaths; track learningPath.id) {
                     <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
                         [inChat]="isLearningPathIdInChat(learningPath.id)"
                         (addToChat)="addLearningPathToChat(learningPath)"
@@ -86,7 +92,7 @@
                     <p-divider />
 
                     <h5 class="group-title">Rotas de alunos</h5>
-                    @for (learningPath of filteredStudentLearningPaths; track learningPath.id) {
+                    @for (learningPath of paginatedFilteredStudentLearningPaths; track learningPath.id) {
                     <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
                         [inChat]="isLearningPathIdInChat(learningPath.id)"
                         (addToChat)="addLearningPathToChat(learningPath)"

@@ -28,15 +28,6 @@
 			font-size: 1rem;
 			color: var(--text-color);
 		}
-
-		.count {
-			font-size: 0.85rem;
-			color: var(--text-color);
-			background: color-mix(in oklab, var(--primary-color) 12%, transparent);
-			border: 1px solid color-mix(in oklab, var(--primary-color) 30%, var(--border-color, #3a3a3a));
-			border-radius: 12px;
-			padding: 2px 8px;
-		}
 	}
 
 	.panel__body {
