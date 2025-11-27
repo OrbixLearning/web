@@ -8,17 +8,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterModule } from '@angular/router';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { DividerModule } from 'primeng/divider';
-import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
-import { LoadingComponent } from '../../../../components/loading/loading.component';
-import { Institution, InstitutionStyle } from '../../../../models/Institution';
-import { ContextService } from '../../../../services/context.service';
-import { InstitutionService } from '../../../../services/institution.service';
-import { ThemeService } from '../../../../services/theme.service';
 import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
 import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 import { ImagePickerComponent } from '../../../../components/image-picker/image-picker.component';
+import { LoadingComponent } from '../../../../components/loading/loading.component';
+import { Institution, InstitutionStyle } from '../../../../models/Institution';
+import { LmsPipe } from '../../../../pipes/lms.pipe';
+import { ContextService } from '../../../../services/context.service';
+import { InstitutionService } from '../../../../services/institution.service';
+import { ThemeService } from '../../../../services/theme.service';
 
 @Component({
 	selector: 'o-institution-settings',
@@ -38,6 +39,7 @@ import { ImagePickerComponent } from '../../../../components/image-picker/image-
 		HighlightButtonComponent,
 		TextButtonComponent,
 		ImagePickerComponent,
+		LmsPipe,
 	],
 	templateUrl: './institution-settings.component.html',
 	styleUrl: './institution-settings.component.scss',
