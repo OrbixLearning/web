@@ -1,0 +1,5 @@
+export enum LMSEnum {
+	CANVAS = 'CANVAS',
+	MOODLE = 'MOODLE',
+	BLACKBOARD = 'BLACKBOARD',
+}

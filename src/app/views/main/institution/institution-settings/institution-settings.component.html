@@ -87,15 +87,26 @@
         </div>
 
         @if (!ctx.institution?.domains || ctx.institution?.domains?.length === 0) {
-        <p>Não há domínios cadastrados na sua instituição.</p>
-        <p><a [routerLink]="['/report']">Entre em contato com o suporte para cadastrar domínios.</a></p>
+        <div>
+            <p>Não há domínios cadastrados na sua instituição.</p>
+            <p><a [routerLink]="['/report']">Entre em contato com o suporte para cadastrar domínios.</a></p>
+        </div>
         } @else {
-        <h3>Domínios:</h3>
-        <ul>
-            @for (domain of ctx.institution?.domains; track domain) {
-            <li>&#64;{{ domain }}</li>
-            }
-        </ul>
+        <div>
+            <h3>Domínios:</h3>
+            <ul>
+                @for (domain of ctx.institution?.domains; track domain) {
+                <li>&#64;{{ domain }}</li>
+                }
+            </ul>
+        </div>
+        }
+
+        @if (ctx.institution?.lms) {
+        <div class="lms-div">
+            <h3>LMS: </h3>
+            <p class="lms">{{ctx.institution?.lms! | lms}}</p>
+        </div>
         }
     </div>
 </div>
