@@ -1,19 +1,31 @@
 <content class="layout-content">
 
-	<!-- Header -->
-	<o-header (sidebar)="drawer.toggle()" />
+    @if (!inLMS) {
+        
+    <!-- Header -->
+    <o-header (sidebar)="drawer.toggle()" [inLMS]="false" />
 
-	<mat-drawer-container class="layout-wrapper">
+    <mat-drawer-container class="layout-wrapper">
 
-		<!-- Sidebar -->
-		<mat-drawer #drawer mode="side" opened class="layout-drawer">
-			<o-sidebar />
-		</mat-drawer>
+        <!-- Sidebar -->
+        <mat-drawer #drawer mode="side" opened class="layout-drawer">
+            <o-sidebar />
+        </mat-drawer>
 
-		<!-- Main Content -->
-		<mat-drawer-content class="layout-main">
-			<router-outlet />
-		</mat-drawer-content>
+        <!-- Main Content -->
+        <mat-drawer-content class="layout-main">
+            <router-outlet />
+        </mat-drawer-content>
 
-	</mat-drawer-container>
+    </mat-drawer-container>
+
+    } @else {
+
+    <o-header [inLMS]="true" />
+
+    <div class="layout-main">
+        <router-outlet />
+    </div>
+
+    }
 </content>

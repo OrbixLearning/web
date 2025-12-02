@@ -1,16 +1,20 @@
 <header>
     <div class="left-header">
+        @if(!inLMS) {
         <button mat-button (click)="sidebar.emit()" class="menu-button">
             <mat-icon>menu</mat-icon>
         </button>
+        }
 
         <button mat-button class="logo-button" (click)="goToHome()">
             <img class="inst-logo" [src]="logo" alt="Institution logo" />
         </button>
 
+        @if(!inLMS) {
         <p-select [options]="institutions" optionValue="id" [(ngModel)]="selectedInstitutionId" [checkmark]="true"
             [loading]="institutions.length === 0" optionLabel="name" placeholder="Selecione uma Instituição"
             class="selector" (ngModelChange)="changeInstitution($event)" />
+        }
 
         @if (canConfigureInstitution) {
         <button mat-icon-button (click)="goToSettings()">
