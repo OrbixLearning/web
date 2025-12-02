@@ -87,6 +87,10 @@ export class ContextService {
 		return this.learningPathStudySignal();
 	}
 
+    get inLMS(): boolean {
+        return window.self !== window.top;
+    }
+
 	// SETTERS
 	set user(value: User | undefined) {
 		this.userSignal.set(value ? { ...value } : undefined);

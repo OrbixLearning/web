@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -51,6 +51,7 @@ export class HeaderComponent {
 	route: ActivatedRoute = inject(ActivatedRoute);
 	dialog: MatDialog = inject(MatDialog);
 
+	@Input() inLMS: boolean = false;
 	@Output() sidebar: EventEmitter<void> = new EventEmitter<void>();
 
 	institutionId?: string;
@@ -64,6 +65,7 @@ export class HeaderComponent {
 	selectedInstitutionId: string | null = this.personalInstitution.id;
 	notifications: Notification[] = [];
 	loadingNotifications: boolean = false;
+	lmsHomePath?: string;
 
 	constructor() {
 		this.setInstitution();
@@ -72,6 +74,7 @@ export class HeaderComponent {
 	ngOnInit() {
 		this.refreshNotifications();
 		this.setThemes();
+		this.setLMSHomePath();
 		// This is used to update the data when the institutionId changes in the URL
 		this.router.events
 			.pipe(filter((e: Event | RouterEvent): e is RouterEvent => e instanceof NavigationEnd))
@@ -124,6 +127,12 @@ export class HeaderComponent {
 		else this.theme.setBaseTheme();
 	}
 
+	setLMSHomePath() {
+		if (this.inLMS) {
+			this.lmsHomePath = this.router.url;
+		}
+	}
+
 	changeInstitution(institutionId: string | null) {
 		this.ctx.institution = this.institutions.find(inst => inst.id === institutionId) || this.personalInstitution;
 		if (institutionId) {
@@ -143,11 +152,15 @@ export class HeaderComponent {
 	}
 
 	goToHome() {
-		this.ctx.clearClassroom();
-		if (this.ctx.institution?.id) {
-			this.router.navigate(['/i/' + this.ctx.institution.id]);
+		if (!this.ctx.inLMS) {
+			this.ctx.clearClassroom();
+			if (this.ctx.institution?.id) {
+				this.router.navigate(['/i/' + this.ctx.institution.id]);
+			} else {
+				this.router.navigate(['/']);
+			}
 		} else {
-			this.router.navigate(['/']);
+			this.router.navigate([this.lmsHomePath]);
 		}
 	}
 
