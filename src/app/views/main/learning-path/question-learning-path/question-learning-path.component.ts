@@ -38,6 +38,7 @@ import { EditTrueFalsePopUpComponent } from './edit-true-false-pop-up/edit-true-
 type QuestionContext = {
 	question: Question;
 	userAnswer: string[];
+	showAnswer: boolean;
 };
 
 @Component({
@@ -74,7 +75,6 @@ export class QuestionLearningPathComponent {
 	questionsContext: QuestionContext[] = [];
 	questionContext?: QuestionContext;
 	index: number = 0;
-	showAnswers: boolean = false;
 	amountOfIncorrectAnswers: number = 0;
 	questionTypeEnum = QuestionTypeEnum;
 	openEndedQuestionsDebounceTimer: any;
@@ -102,6 +102,10 @@ export class QuestionLearningPathComponent {
 		return this.questionsContext.some(q => q.userAnswer.length > 0);
 	}
 
+	get allAnswersShowed(): boolean {
+		return this.questionsContext.every(qc => qc.showAnswer);
+	}
+
 	ngOnInit() {
 		this.resetData();
 		this.startData();
@@ -109,7 +113,6 @@ export class QuestionLearningPathComponent {
 
 	resetData() {
 		this.index = 0;
-		this.showAnswers = false;
 		this.amountOfIncorrectAnswers = 0;
 	}
 
@@ -122,6 +125,7 @@ export class QuestionLearningPathComponent {
 			this.questionsContext.push({
 				question: this.questions[i],
 				userAnswer: userAnswers[i].answer || [],
+				showAnswer: false,
 			});
 		}
 		this.questionContext = this.questionsContext[this.index];
@@ -201,6 +205,12 @@ export class QuestionLearningPathComponent {
 		}
 	}
 
+	hideAllAnswers() {
+		this.questionsContext.forEach(qc => {
+			qc.showAnswer = false;
+		});
+	}
+
 	verifyAnswer(question: Question, currentAnswers: string[]): boolean {
 		const correctAnswers = question.answers;
 
@@ -221,7 +231,27 @@ export class QuestionLearningPathComponent {
 		return this.verifyAnswer(this.questionsContext[i].question, userAnswers);
 	}
 
-	async verifyAnswers() {
+	async showAnswer() {
+		if (this.questionContext?.showAnswer) {
+			this.questionContext.showAnswer = false;
+		} else {
+			if (this.questionContext?.userAnswer.length === 0) {
+				const data: ConfirmPopUpData = {
+					title: 'Esta questão não foi respondida. Deseja ver a resposta correta mesmo assim?',
+					confirmButton: 'Ver resposta',
+				};
+				let checkAnswers: boolean | undefined = await lastValueFrom(
+					this.dialog.open(ConfirmPopUpComponent, { data }).afterClosed(),
+				);
+				if (!checkAnswers) {
+					return;
+				}
+			}
+			this.questionContext!.showAnswer = true;
+		}
+	}
+
+	async showAnswers() {
 		if (this.questionsContext.some(q => q.userAnswer.length === 0)) {
 			const data: ConfirmPopUpData = {
 				title: 'Há questões sem resposta. Deseja verificar as respostas mesmo assim?',
@@ -261,7 +291,9 @@ export class QuestionLearningPathComponent {
 				.open(ConfirmPopUpComponent, { data })
 				.afterClosed()
 				.subscribe((confirmed: boolean | undefined) => {
-					this.showAnswers = !!confirmed;
+					this.questionsContext.forEach(qc => {
+						qc.showAnswer = !!confirmed;
+					});
 					this.amountOfIncorrectAnswers = incorrectAnswers.length;
 				});
 		}

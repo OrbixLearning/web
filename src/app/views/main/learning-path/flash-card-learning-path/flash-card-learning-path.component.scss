@@ -94,13 +94,42 @@
 	}
 }
 
-/* modo estudo (um card por vez) */
 .fc-study {
-	display: grid;
-	gap: 12px;
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+	align-items: flex-start;
+	width: 100%;
+
+	.fc-left {
+		display: grid;
+		gap: 12px;
+		width: 100%;
+	}
+
+	.fc-right {
+		min-width: 200px;
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		padding-left: 16px;
+		border-left: 1px solid color-mix(in oklab, var(--text-color) 25%, transparent);
+		position: sticky;
+		top: 12px;
+		align-self: flex-start;
+		flex: 0 0 200px;
+
+		.menu {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			max-height: 70vh;
+			overflow: auto;
+			padding-right: 4px;
+		}
+	}
 }
 
-/* acessibilidade de texto em dark/light */
 .fc-front,
 .fc-back {
 	word-wrap: break-word;
