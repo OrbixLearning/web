@@ -76,6 +76,12 @@ export class FlashCardLearningPathComponent {
 		}
 	}
 
+	goToFlashCard(i: number) {
+		if (i >= 0 && i < this.fcContext.length) {
+			this.fcIndex = i;
+		}
+	}
+
 	addFlashCard() {
 		this.dialog
 			.open(EditFlashCardPopUpComponent, {

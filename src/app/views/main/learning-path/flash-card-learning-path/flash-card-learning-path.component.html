@@ -31,23 +31,35 @@
     @if (mode === 'study') {
 
     <div class="fc-study">
-        @if (flashCard) {
-        <mat-card class="fc-card fc-card--focus" [class.is-open]="fcContext[fcIndex].opened">
-            <mat-card-content class="fc-card__content">
-                <p class="fc-front">{{ flashCard.front }}</p>
+        <section class="fc-left">
+            @if (flashCard) {
+            <mat-card class="fc-card fc-card--focus" [class.is-open]="fcContext[fcIndex].opened">
+                <mat-card-content class="fc-card__content">
+                    <p class="fc-front">{{ flashCard.front }}</p>
 
-                @if (fcContext[fcIndex].opened) {
-                <p class="fc-back">{{ flashCard.back }}</p>
+                    @if (fcContext[fcIndex].opened) {
+                    <p class="fc-back">{{ flashCard.back }}</p>
+                    }
+                </mat-card-content>
+
+                <mat-card-actions class="fc-card__actions">
+                    <o-highlight-button (onclick)="this.fcContext[fcIndex].opened = !this.fcContext[fcIndex].opened">
+                        {{ fcContext[fcIndex].opened ? 'Fechar' : 'Abrir' }}
+                    </o-highlight-button>
+                </mat-card-actions>
+            </mat-card>
+            }
+        </section>
+
+        <section class="fc-right">
+            <div class="menu">
+                @for (flashCard of flashCards; track $index; let i = $index) {
+                <button mat-stroked-button (click)="goToFlashCard(i)">
+                    <span>Flash Card {{ i + 1 }}</span>
+                </button>
                 }
-            </mat-card-content>
-
-            <mat-card-actions class="fc-card__actions">
-                <o-highlight-button (onclick)="this.fcContext[fcIndex].opened = !this.fcContext[fcIndex].opened">
-                    {{ fcContext[fcIndex].opened ? 'Fechar' : 'Abrir' }}
-                </o-highlight-button>
-            </mat-card-actions>
-        </mat-card>
-        }
+            </div>
+        </section>
     </div>
 
     } @else {
