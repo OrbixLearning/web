@@ -99,14 +99,14 @@
         <o-flash-card-learning-path #flashcard [mode]="mode" />
         }
         @case (typeEnum.QUESTION) {
-        <o-question-learning-path #question [mode]="mode" />
+        <o-question-learning-path #question [mode]="mode" (askExplanation)="askForExplanation($event)" />
         }
         }
     </div>
 
     @if (mode === 'study') {
     <div class="right">
-        <o-chat [learningPaths]="[ctx.learningPathStudy!.learningPath]" [showLearningPaths]="false" height="68vh"
+        <o-chat #chat [learningPaths]="[ctx.learningPathStudy!.learningPath]" [showLearningPaths]="false" height="68vh"
             [clearButton]="false" message="Esse chat já tem todo o conhecimento dessa Rota de Aprendizagem." />
     </div>
     }
