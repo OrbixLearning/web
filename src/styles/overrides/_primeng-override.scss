@@ -31,4 +31,6 @@
 	--p-highlight-focus-background: color-mix(in oklch, var(--primary-color), transparent 50%) !important;
 	--p-highlight-focus-color: var(--text-color) !important;
 	--p-list-option-selected-color: var(--text-color) !important;
+	--p-button-primary-color: var(--text-color) !important;
+	--p-button-primary-hover-color: color-mix(in oklch, var(--text-color), gray 40%) !important;
 }
