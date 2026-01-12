@@ -67,8 +67,9 @@
             </td>
             <td>{{ classroom.syllabus?.length > 0 ? "Sim" : "Não"}}</td>
             <td>
-                <button mat-icon-button [routerLink]="['/i/' + ctx.institution?.id + '/c/' + classroom.id]">
-                    <mat-icon>{{ classroom.icon }}</mat-icon>
+                <button mat-icon-button
+                    [routerLink]="['/i/' + ctx.institution?.id + '/c/' + classroom.id + '/settings']">
+                    <mat-icon>settings</mat-icon>
                 </button>
             </td>
         </tr>
