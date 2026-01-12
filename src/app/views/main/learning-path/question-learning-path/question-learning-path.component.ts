@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -69,6 +69,7 @@ export class QuestionLearningPathComponent {
 	ctx: ContextService = inject(ContextService);
 
 	@Input() mode: 'edit' | 'study' = 'edit';
+	@Output() askExplanation: EventEmitter<string> = new EventEmitter<string>();
 
 	isLoading: boolean = false;
 	questions: Question[] = [];
@@ -322,6 +323,11 @@ export class QuestionLearningPathComponent {
 						});
 				}
 			});
+	}
+
+	askForExplanation() {
+		const text: string = `Explique a questão ${this.index + 1} detalhadamente: "${this.question?.statement}".`;
+		this.askExplanation.emit(text);
 	}
 
 	addQuestion(type: QuestionTypeEnum) {

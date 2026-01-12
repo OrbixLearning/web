@@ -7,8 +7,11 @@
     <section class="q-left">
         <header class="q-header">
             <h3 class="q-title">Questão {{ index + 1 }} de {{ questionsContext.length }}</h3>
-            <o-text-button (onclick)="showAnswer()">{{(questionContext?.showAnswer ?
-                "Esconder" : "Mostrar") + " resposta"}}</o-text-button>
+            <div>
+                <o-text-button (onclick)="askForExplanation()">Pedir explicação</o-text-button>
+                <o-text-button (onclick)="showAnswer()">{{(questionContext?.showAnswer ? "Esconder" : "Mostrar") + "
+                    resposta"}}</o-text-button>
+            </div>
         </header>
 
         <div class="q-statement">

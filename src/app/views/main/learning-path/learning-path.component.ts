@@ -67,6 +67,7 @@ export class LearningPathComponent {
 	userService: UserService = inject(UserService);
 	learningPathStudyService: LearningPathStudyService = inject(LearningPathStudyService);
 
+	@ViewChild('chat') chatComponent?: ChatComponent;
 	@ViewChild('text') textComponent?: TextLearningPathComponent;
 	@ViewChild('video') videoComponent?: VideoLearningPathComponent;
 	@ViewChild('flashcard') flashCardComponent?: FlashCardLearningPathComponent;
@@ -257,5 +258,9 @@ export class LearningPathComponent {
 			summary: 'Link copiado',
 			detail: 'O link da rota de aprendizagem foi copiado para a área de transferência.',
 		});
+	}
+
+	askForExplanation(text: string) {
+		this.chatComponent?.sendInstantMessage(text);
 	}
 }

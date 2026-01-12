@@ -1,20 +1,20 @@
 import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
+import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
 import { AIChatMessage } from '../../models/AIChatMessage';
+import { LearningPath } from '../../models/LearningPath/LearningPath';
 import { AIChatService } from '../../services/aichat.service';
 import { ContextService } from '../../services/context.service';
 import { LoadingComponent } from '../loading/loading.component';
-import { LearningPath } from '../../models/LearningPath/LearningPath';
-import { MatDialog } from '@angular/material/dialog';
 import { ConfirmPopUpComponent, ConfirmPopUpData } from '../pop-ups/confirm-pop-up/confirm-pop-up.component';
-import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
 	selector: 'o-chat',
@@ -99,6 +99,7 @@ export class ChatComponent {
 	}
 
 	async sendMessage() {
+		if (this.isSending) return;
 		const aiChatMessage: AIChatMessage = {
 			content: this.input,
 			userMessage: true,
@@ -149,5 +150,10 @@ export class ChatComponent {
 						});
 				}
 			});
+	}
+
+	sendInstantMessage(message: string) {
+		this.input = message;
+		this.sendMessage();
 	}
 }
