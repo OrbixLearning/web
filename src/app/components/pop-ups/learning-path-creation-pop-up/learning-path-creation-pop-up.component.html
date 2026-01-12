@@ -75,6 +75,15 @@
                         </mat-select>
                     </mat-form-field>
 
+                    <div class="theme-div two-and-three">
+                        <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                            <mat-label>Tema (opcional)</mat-label>
+                            <input matInput formControlName="theme" placeholder="Ex.: Anime, Astronomia, Futebol..." />
+                        </mat-form-field>
+                        <mat-icon
+                            pTooltip="É possível tematizar a rota. Não é garantido que o tema poderá ser aplicado.">help_outline</mat-icon>
+                    </div>
+
                     @if (getFormControl(2,'type').value === learningPathTypeEnum.TEXT) {
                     <div class="topics-toggle-div">
                         <mat-slide-toggle formControlName="useTopics">Texto em tópicos</mat-slide-toggle>

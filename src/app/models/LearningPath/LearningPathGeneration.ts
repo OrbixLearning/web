@@ -16,12 +16,14 @@ export type GenerateLearningPathRequest =
 
 export type GenerateFlashCardLearningPathRequest = {
 	language: string;
+	theme?: string;
 	numberOfCards: number;
 	level: number;
 };
 
 export type GenerateQuestionLearningPathRequest = {
 	language: string;
+	theme?: string;
 	numberOfQuestions: number;
 	level: number;
 	questionTypes: QuestionTypeEnum[];
@@ -29,6 +31,7 @@ export type GenerateQuestionLearningPathRequest = {
 
 export type GenerateTextLearningPathRequest = {
 	language: string;
+	theme?: string;
 	useTopics: boolean;
 	formality: string;
 	voice: AudioVoiceEnum;

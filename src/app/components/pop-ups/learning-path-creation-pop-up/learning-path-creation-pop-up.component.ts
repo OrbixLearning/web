@@ -32,6 +32,7 @@ import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/success-pop-up.component';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
 	selector: 'o-learning-path-creation-pop-up',
@@ -53,6 +54,7 @@ import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/succe
 		AudioVoicePipe,
 		LearningPathTypePipe,
 		QuestionTypePipe,
+		TooltipModule,
 	],
 	templateUrl: './learning-path-creation-pop-up.component.html',
 	styleUrl: './learning-path-creation-pop-up.component.scss',
@@ -76,6 +78,7 @@ export class LearningPathCreationPopUpComponent {
 
 	baseLastForm = {
 		language: this.formBuilder.control<string>('pt-BR', Validators.required),
+		theme: this.formBuilder.control<string>(''),
 	};
 	videoForm = {
 		numberOfVideos: this.formBuilder.control<number>(5, Validators.required),
@@ -154,7 +157,12 @@ export class LearningPathCreationPopUpComponent {
 				syllabusIds.push(syllabus.id!);
 			});
 			let name: string = this.getFormControl(0, 'name').value;
-			const baseBody: any = { syllabusIds, name, language: this.getFormControl(3, 'language').value };
+			const baseBody: any = {
+				syllabusIds,
+				name,
+				language: this.getFormControl(3, 'language').value,
+				theme: this.getFormControl(3, 'theme').value,
+			};
 			let requestBody: GenerateLearningPathRequest | undefined;
 
 			switch (this.getFormControl(2, 'type').value) {

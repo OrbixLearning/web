@@ -75,6 +75,21 @@
 				justify-content: flex-start;
 				align-items: center;
 			}
+
+			.theme-div {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				width: 100%;
+
+				mat-form-field {
+					width: 100%;
+				}
+			}
+
+			.two-and-three {
+				grid-column: 2 / 4;
+			}
 		}
 
 		.lpc-customize > mat-form-field[appearance],
