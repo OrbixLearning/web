@@ -33,7 +33,7 @@
                         <td>{{ student.idInInstitution }}</td>
                         <td>{{ student.user.name }}</td>
                         <td>{{ student.email }}</td>
-                        <td>{{ student.institutionRole }}</td>
+                        <td>{{ student.institutionRole | institutionRole }}</td>
                         @if (ctx.isTeacher) {
                         <td class="col-actions">
                             <button mat-icon-button (click)="removeMember(student)"><mat-icon>close</mat-icon></button>
