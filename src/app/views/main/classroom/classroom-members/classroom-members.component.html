@@ -20,7 +20,6 @@
                         <th>Identificador</th>
                         <th>Nome</th>
                         <th>Email</th>
-                        <th>Cargo</th>
                         @if (ctx.isTeacher) { <th class="col-actions">Ações</th> }
                     </tr>
                 </ng-template>
@@ -33,7 +32,6 @@
                         <td>{{ student.idInInstitution }}</td>
                         <td>{{ student.user.name }}</td>
                         <td>{{ student.email }}</td>
-                        <td>{{ student.institutionRole | institutionRole }}</td>
                         @if (ctx.isTeacher) {
                         <td class="col-actions">
                             <button mat-icon-button (click)="removeMember(student)"><mat-icon>close</mat-icon></button>
@@ -64,7 +62,6 @@
                         <th>Identificador</th>
                         <th>Nome</th>
                         <th>Email</th>
-                        <th>Cargo</th>
                         @if (ctx.isTeacher) { <th class="col-actions">Ações</th> }
                     </tr>
                 </ng-template>
@@ -77,7 +74,6 @@
                         <td>{{ teacher.idInInstitution }}</td>
                         <td>{{ teacher.user.name }}</td>
                         <td>{{ teacher.email }}</td>
-                        <td>{{ teacher.institutionRole }}</td>
                         @if (ctx.isTeacher) {
                         <td class="col-actions">
                             <button mat-icon-button (click)="removeMember(teacher)"><mat-icon>close</mat-icon></button>

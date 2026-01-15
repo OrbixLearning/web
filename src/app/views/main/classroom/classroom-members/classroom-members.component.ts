@@ -14,7 +14,6 @@ import {
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 import { User, UserAccount } from '../../../../models/User';
-import { InstitutionRolePipe } from '../../../../pipes/institution-role.pipe';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
@@ -29,7 +28,6 @@ import { UserService } from '../../../../services/user.service';
 		LoadingComponent,
 		AvatarComponent,
 		SubHeaderComponent,
-		InstitutionRolePipe,
 	],
 	templateUrl: './classroom-members.component.html',
 	styleUrl: './classroom-members.component.scss',
