@@ -1,7 +1,6 @@
+import { Document } from './Document';
 import { Institution } from './Institution';
 import { Syllabus } from './Syllabus';
-import { UserAccount } from './User';
-import { Document } from './Document';
 
 export type Classroom = {
 	id: string;
@@ -12,8 +11,8 @@ export type Classroom = {
 	documents: Document[];
 	presets: SyllabusPreset[];
 
-	students?: UserAccount[];
-	teachers?: UserAccount[];
+	numberOfStudents?: number;
+	numberOfTeachers?: number;
 };
 
 export type SyllabusPreset = {
