@@ -57,6 +57,13 @@
 			}
 		}
 	}
+
+	.feed-ai-div {
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+		width: 100%;
+	}
 }
 
 /* Harmonização leve com Material (escopo local) */

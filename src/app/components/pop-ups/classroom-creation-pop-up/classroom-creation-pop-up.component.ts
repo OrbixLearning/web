@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,6 +24,7 @@ import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/succe
 		MatFormFieldModule,
 		LoadingComponent,
 		MatIconModule,
+		MatCheckboxModule,
 	],
 	templateUrl: './classroom-creation-pop-up.component.html',
 	styleUrl: './classroom-creation-pop-up.component.scss',
@@ -38,6 +40,7 @@ export class ClassroomCreationPopUpComponent {
 	form: FormGroup = this.formBuilder.group({
 		name: ['', Validators.required],
 		icon: ['', Validators.required],
+		selfAdd: [false],
 	});
 
 	getFormControl(name: string): FormControl {
@@ -52,6 +55,7 @@ export class ClassroomCreationPopUpComponent {
 					this.ctx.institution!.id!,
 					this.getFormControl('name').value,
 					this.getFormControl('icon').value,
+					this.getFormControl('selfAdd').value,
 				),
 			)
 				.then((classroom: Classroom) => {

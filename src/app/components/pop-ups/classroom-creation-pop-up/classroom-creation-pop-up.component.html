@@ -27,6 +27,13 @@
             <a href="https://fonts.google.com/icons?icon.set=Material+Icons" target="_blank" rel="noopener">Google
                 Icons</a>
         </p>
+
+        <div class="self-add-div">
+            <mat-checkbox formControlName="selfAdd">
+                <span style="font-weight: bold;"> Serei professor desta turma. </span> <br> Marque se deseja ser
+                adicionado como professor desta turma.
+            </mat-checkbox>
+        </div>
     </section>
 
     <o-pop-up-buttons [disable]="isLoading || form.invalid" type="submit" confirmButton="Criar turma" />
