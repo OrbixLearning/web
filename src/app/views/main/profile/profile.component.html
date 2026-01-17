@@ -51,9 +51,8 @@
 
             <div class="panel__body accounts-list">
                 @for (account of sortedAccounts; track account.id) {
-                <o-account-card [self]="self" [userAccountId]="account.id" [email]="account.email"
-                    [institution]="account.institution" [institutionRole]="account.institutionRole"
-                    [idInInstitution]="account.idInInstitution" />
+                <o-account-card [userAccountId]="account.id" [email]="account.email" [institution]="account.institution"
+                    [institutionRole]="account.institutionRole" [idInInstitution]="account.idInInstitution" />
                 }
 
                 @if (self) {
