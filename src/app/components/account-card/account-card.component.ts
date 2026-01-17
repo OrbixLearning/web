@@ -1,9 +1,11 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs';
+import { AuthMethodEnum } from '../../enums/AuthMethod.enum';
 import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
 import { Institution } from '../../models/Institution';
 import { InstitutionRolePipe } from '../../pipes/institution-role.pipe';
+import { ContextService } from '../../services/context.service';
 import { InstitutionService } from '../../services/institution.service';
 import { UserService } from '../../services/user.service';
 import { TextButtonComponent } from '../buttons/text-button/text-button.component';
@@ -20,8 +22,8 @@ export class AccountCardComponent {
 	service: UserService = inject(UserService);
 	institutionService: InstitutionService = inject(InstitutionService);
 	dialog: MatDialog = inject(MatDialog);
+	ctx: ContextService = inject(ContextService);
 
-	@Input() self?: boolean;
 	@Input() userAccountId?: string;
 	@Input() email?: string;
 	@Input() institution?: Institution | null;
@@ -33,6 +35,12 @@ export class AccountCardComponent {
 
 	ngOnInit() {
 		this.getData();
+	}
+
+	get canChangePassword(): boolean {
+		const account = this.ctx.user?.accounts.find(account => account.id === this.userAccountId);
+		if (!account) return false;
+		return account.authMethod === AuthMethodEnum.EMAIL;
 	}
 
 	get institutionLogoUrl(): string {
