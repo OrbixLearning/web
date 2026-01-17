@@ -32,6 +32,10 @@
                 <span class="value">{{ amountOfClassrooms }}</span>
             </div>
             }
+
+            @if (self) {
+            <o-text-button (onclick)="changePassword()">Alterar senha desta conta</o-text-button>
+            }
         </div>
 
         @if (isLoading) {

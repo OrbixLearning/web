@@ -65,7 +65,7 @@ export class ResetPasswordComponent {
 		}
 		const passwordConfirmation = this.getFormControl('passwordConfirmation').value;
 		if (password !== passwordConfirmation) {
-			this.error = 'As senhas não coincidem';
+			this.error = 'As senhas não coincidem.';
 			return false;
 		}
 		return true;
@@ -91,6 +91,7 @@ export class ResetPasswordComponent {
 						});
 				})
 				.finally(() => {
+					this.error = '';
 					this.isLoading = false;
 				});
 		}
