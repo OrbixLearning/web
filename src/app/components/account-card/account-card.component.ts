@@ -1,22 +1,27 @@
 import { Component, inject, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs';
 import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
 import { Institution } from '../../models/Institution';
+import { InstitutionRolePipe } from '../../pipes/institution-role.pipe';
 import { InstitutionService } from '../../services/institution.service';
 import { UserService } from '../../services/user.service';
+import { TextButtonComponent } from '../buttons/text-button/text-button.component';
 import { LoadingComponent } from '../loading/loading.component';
-import { InstitutionRolePipe } from "../../pipes/institution-role.pipe";
+import { ChangePasswordPopUpComponent } from '../pop-ups/change-password-pop-up/change-password-pop-up.component';
 
 @Component({
 	selector: 'o-account-card',
-	imports: [LoadingComponent, InstitutionRolePipe],
+	imports: [LoadingComponent, InstitutionRolePipe, TextButtonComponent],
 	templateUrl: './account-card.component.html',
 	styleUrl: './account-card.component.scss',
 })
 export class AccountCardComponent {
 	service: UserService = inject(UserService);
 	institutionService: InstitutionService = inject(InstitutionService);
+	dialog: MatDialog = inject(MatDialog);
 
+	@Input() self?: boolean;
 	@Input() userAccountId?: string;
 	@Input() email?: string;
 	@Input() institution?: Institution | null;
@@ -47,5 +52,15 @@ export class AccountCardComponent {
 					this.isLoading = false;
 				});
 		}
+	}
+
+	changePassword() {
+		this.dialog.open(ChangePasswordPopUpComponent, {
+			data: {
+				accountId: this.userAccountId!,
+				email: this.email!,
+			},
+			minWidth: '500px',
+		});
 	}
 }
