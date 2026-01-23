@@ -3,6 +3,9 @@
     <p-tag [value]="topic.name" />
     }
     @if (syllabus.length > maxTags) {
-    <p-tag [value]="'+' + (syllabus.length - maxTags)" styleClass="more-tag" />
+    <p-tag [value]="'+' + (syllabus.length - maxTags)" styleClass="more-tag" [pTooltip]="moreTags" />
+    <ng-template #moreTags>
+        <o-syllabus-tags [syllabus]="syllabus.slice(maxTags)" />
+    </ng-template>
     }
 </div>
