@@ -39,6 +39,9 @@
                 <div class="doc-card__head">
                     <h4 class="doc-title" [title]="document.name">{{ document.name }}</h4>
                     <div class="right-info">
+                        @if (ctx.isTeacher && document.hidden) {
+                        <mat-icon pTooltip="Este documento não é visível para alunos">visibility_off</mat-icon>
+                        }
                         @if (document.aiStatus === documentAIUploadStatusEnum.UPLOADED) {
                         <mat-icon pTooltip="A IA da Orbix tem o conhecimento deste documento">psychology</mat-icon>
                         }

@@ -136,6 +136,7 @@ export class ClassroomDocumentsComponent {
 							response.syllabusIds,
 							this.ctx.classroom!.id,
 							response.feedAi,
+							response.hidden,
 							response.file,
 						),
 					)
@@ -176,10 +177,18 @@ export class ClassroomDocumentsComponent {
 				if (documentResponse) {
 					this.isLoading = true;
 					let syllabusIds: string[] = documentResponse.syllabus!.map(s => s.id!);
-					await lastValueFrom(this.service.update(documentResponse.id, documentResponse.name, syllabusIds))
+					await lastValueFrom(
+						this.service.update(
+							documentResponse.id,
+							documentResponse.name,
+							documentResponse.hidden,
+							syllabusIds,
+						),
+					)
 						.then((documentUpdated: Document) => {
 							let documentInList: Document = this.documents.find(d => d.id === documentUpdated.id)!;
 							documentInList.name = documentUpdated.name;
+							documentInList.hidden = documentUpdated.hidden;
 							documentInList.syllabus = documentUpdated.syllabus;
 						})
 						.finally(() => {

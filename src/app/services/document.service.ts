@@ -24,6 +24,7 @@ export class DocumentService {
 		syllabusIds: string[],
 		classroomId: string,
 		feedAi: boolean,
+		hidden: boolean,
 		file: File,
 	): Observable<Document> {
 		let formData = new FormData();
@@ -31,12 +32,13 @@ export class DocumentService {
 		formData.append('name', name);
 		formData.append('classroomId', classroomId);
 		formData.append('feedAi', String(feedAi));
+		formData.append('hidden', String(hidden));
 		syllabusIds.forEach(id => formData.append('syllabusIds', id));
 		return this.http.post<Document>(this.api, formData);
 	}
 
-	update(documentId: string, name: string, syllabusIds: string[]): Observable<Document> {
-		return this.http.put<Document>(this.api, { documentId, name, syllabusIds });
+	update(documentId: string, name: string, hidden: boolean, syllabusIds: string[]): Observable<Document> {
+		return this.http.put<Document>(`${this.api}/${documentId}`, { name, hidden, syllabusIds });
 	}
 
 	recallAI(id: string): Observable<Document> {

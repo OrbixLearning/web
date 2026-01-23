@@ -9,9 +9,9 @@
                 <input matInput type="text" name="name" formControlName="name" />
             </mat-form-field>
 
-            @if (!editMode) {
             <div class="separator"></div>
 
+            @if (!editMode) {
             @if (!getFormControl('file').value) {
             <p-fileupload mode="basic" chooseLabel="Selecionar documento" name="document" [auto]="true"
                 [maxFileSize]="MAX_PDF_SIZE" (onSelect)="selectFile($event)" />
@@ -26,7 +26,7 @@
 
             <div class="separator"></div>
 
-            <div class="feed-ai-div">
+            <div class="checkbox-div">
                 <mat-checkbox formControlName="feedAi" [disabled]="disableFeedAi">
                     Treinar IA
                 </mat-checkbox>
@@ -34,6 +34,13 @@
                 </p>
             </div>
             }
+
+            <div class="checkbox-div">
+                <mat-checkbox formControlName="hidden">
+                    Ocultar documento
+                </mat-checkbox>
+                <p class="hint">Marque se deseja que este documento não seja visível para alunos </p>
+            </div>
         </div>
 
         <div class="right">
