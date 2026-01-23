@@ -11,5 +11,5 @@ import { Syllabus } from '../../models/Syllabus';
 })
 export class SyllabusTagsComponent {
 	@Input() syllabus: Syllabus[] = [];
-	@Input() maxTags!: number;
+	@Input() maxTags: number = 9999;
 }
