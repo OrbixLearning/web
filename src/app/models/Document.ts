@@ -7,6 +7,7 @@ export type Document = {
 	name: string;
 	extension: string;
 	aiStatus: DocumentAIUploadStatusEnum;
+	hidden: boolean;
 	syllabus?: Syllabus[];
 	classroom?: Classroom[];
 };

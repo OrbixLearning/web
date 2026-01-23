@@ -21,6 +21,7 @@ export type UploadDocumentPopUpResponse = {
 	name: string;
 	syllabusIds: string[];
 	feedAi: boolean;
+	hidden: boolean;
 	file: File;
 };
 
@@ -53,6 +54,7 @@ export class DocumentPopUpComponent {
 		file: this.formBuilder.control<File | undefined>(undefined, Validators.required),
 		syllabus: this.formBuilder.control<Syllabus[]>([]),
 		feedAi: this.formBuilder.control<boolean>(false),
+		hidden: this.formBuilder.control<boolean>(false),
 	});
 	editMode: boolean = this.data?.document !== undefined;
 	readonly MAX_PDF_SIZE: number = environment.MAX_PDF_SIZE;
@@ -70,6 +72,7 @@ export class DocumentPopUpComponent {
 				this.data!.document.aiStatus !== DocumentAIUploadStatusEnum.NOT_UPLOADED &&
 					this.data!.document.syllabus?.length! > 0,
 			);
+			this.getFormControl('hidden').setValue(this.data!.document.hidden);
 			if (this.data!.document.syllabus?.length === 0) {
 				this.getFormControl('feedAi').disable();
 			}
@@ -115,6 +118,7 @@ export class DocumentPopUpComponent {
 					name: this.getFormControl('name').value,
 					extension: this.data!.document.extension,
 					aiStatus: this.data!.document.aiStatus,
+					hidden: this.getFormControl('hidden').value,
 					syllabus: this.getFormControl('syllabus').value,
 					classroom: this.data!.document.classroom,
 				};
@@ -123,6 +127,7 @@ export class DocumentPopUpComponent {
 					name: this.getFormControl('name').value,
 					syllabusIds: (this.getFormControl('syllabus').value as Syllabus[]).map(s => s.id!),
 					feedAi: this.getFormControl('feedAi').value,
+					hidden: this.getFormControl('hidden').value,
 					file: this.getFormControl('file').value,
 				};
 			}
