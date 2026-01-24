@@ -7,7 +7,7 @@
 
     @if (!file) {
     <p-fileupload mode="basic" chooseLabel="Selecionar" name="file" [auto]="true" accept=".png,.svg"
-        [maxFileSize]="MAX_IMAGE_SIZE" (onSelect)="onFileSelect($event)" />
+        (onSelect)="onFileSelect($event)" />
     } @else {
     <div class="frame preview">
         <img [src]="preview" alt="Preview" />
