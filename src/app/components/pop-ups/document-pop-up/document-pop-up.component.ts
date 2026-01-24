@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +14,7 @@ import { Document } from '../../../models/Document';
 import { Syllabus } from '../../../models/Syllabus';
 import { ContextService } from '../../../services/context.service';
 import { SyllabusComponent } from '../../syllabus/syllabus.component';
+import { ErrorPopUpComponent, ErrorPopUpData } from '../error-pop-up/error-pop-up.component';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 
@@ -44,6 +45,7 @@ export type UploadDocumentPopUpResponse = {
 	styleUrl: './document-pop-up.component.scss',
 })
 export class DocumentPopUpComponent {
+	dialog: MatDialog = inject(MatDialog);
 	dialogRef: MatDialogRef<DocumentPopUpComponent> = inject(MatDialogRef<DocumentPopUpComponent>);
 	formBuilder: FormBuilder = inject(FormBuilder);
 	ctx: ContextService = inject(ContextService);
@@ -57,7 +59,6 @@ export class DocumentPopUpComponent {
 		hidden: this.formBuilder.control<boolean>(false),
 	});
 	editMode: boolean = this.data?.document !== undefined;
-	readonly MAX_PDF_SIZE: number = environment.MAX_PDF_SIZE;
 
 	get disableFeedAi(): boolean {
 		return this.getFormControl('syllabus').value.length === 0;
@@ -93,14 +94,21 @@ export class DocumentPopUpComponent {
 	}
 
 	selectFile(event: FileSelectEvent) {
-		this.getFormControl('file').setValue(event.currentFiles[0]);
-		if (!this.getFormControl('name').value) {
-			const lastDotIndex = event.currentFiles[0].name.lastIndexOf('.');
-			const name =
-				lastDotIndex !== -1
-					? event.currentFiles[0].name.substring(0, lastDotIndex)
-					: event.currentFiles[0].name;
-			this.getFormControl('name').setValue(name);
+		const file = event.currentFiles[0];
+		if (file.size > environment.MAX_PDF_SIZE) {
+			const data: ErrorPopUpData = {
+				code: 413,
+				message: `O tamanho do arquivo excede o limite máximo de ${environment.MAX_PDF_SIZE / 1048576} MB.`,
+				buttonText: 'Ok',
+			};
+			this.dialog.open(ErrorPopUpComponent, { data });
+		} else {
+			this.getFormControl('file').setValue(file);
+			if (!this.getFormControl('name').value) {
+				const lastDotIndex = file.name.lastIndexOf('.');
+				const name = lastDotIndex !== -1 ? file.name.substring(0, lastDotIndex) : file.name;
+				this.getFormControl('name').setValue(name);
+			}
 		}
 	}
 
