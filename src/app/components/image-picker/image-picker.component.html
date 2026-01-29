@@ -6,7 +6,7 @@
     <p-divider layout="vertical" />
 
     @if (!file) {
-    <p-fileupload mode="basic" chooseLabel="Selecionar" name="file" [auto]="true" accept=".png,.svg"
+    <p-fileupload mode="basic" chooseLabel="Selecionar" name="file" [auto]="true" accept=".png,.svg,.jpg,.jpeg"
         (onSelect)="onFileSelect($event)" />
     } @else {
     <div class="frame preview">
