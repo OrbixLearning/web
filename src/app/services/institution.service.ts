@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { MultipleUserCreationResult } from '../components/pop-ups/user-creation-pop-up/user-creation-pop-up.component';
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
 import { Institution } from '../models/Institution';
-import { MultipleUserCreationResult } from '../components/pop-ups/user-creation-pop-up/user-creation-pop-up.component';
 
 @Injectable({
 	providedIn: 'root',
@@ -28,6 +28,14 @@ export class InstitutionService {
 
 	private bustImageCache() {
 		this.imageCacheBuster++;
+	}
+
+	getRolesCounts(id: string): Observable<Map<InstitutionRoleEnum, number>> {
+		return this.http.get<Record<string, number>>(`${this.api}/roles-counts/${id}`).pipe(
+			map(response => {
+				return new Map(Object.entries(response)) as Map<InstitutionRoleEnum, number>;
+			}),
+		);
 	}
 
 	update(

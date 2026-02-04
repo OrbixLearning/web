@@ -22,9 +22,10 @@ import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-
 import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
 import { Page } from '../../../../models/Page';
 import { User, UserAccount } from '../../../../models/User';
-import { ContextService } from '../../../../services/context.service';
-import { UserService } from '../../../../services/user.service';
 import { InstitutionRolePipe } from '../../../../pipes/institution-role.pipe';
+import { ContextService } from '../../../../services/context.service';
+import { InstitutionService } from '../../../../services/institution.service';
+import { UserService } from '../../../../services/user.service';
 
 @Component({
 	selector: 'o-institution-users',
@@ -51,6 +52,7 @@ export class InstitutionUsersComponent {
 	service: UserService = inject(UserService);
 	cd: ChangeDetectorRef = inject(ChangeDetectorRef);
 	dialog: MatDialog = inject(MatDialog);
+	institutionService: InstitutionService = inject(InstitutionService);
 
 	isLoading: boolean = false;
 	page?: Page<UserAccount>;
@@ -60,6 +62,7 @@ export class InstitutionUsersComponent {
 	rolesFilter?: InstitutionRoleEnum;
 	selectedUsers: UserAccount[] = [];
 	paginationFirst: number = 0;
+	rolesCounts: Map<InstitutionRoleEnum, number> = new Map<InstitutionRoleEnum, number>();
 
 	get tableStyle() {
 		return {
@@ -86,8 +89,29 @@ export class InstitutionUsersComponent {
 		return buttons;
 	}
 
+	ngOnInit() {
+		this.getRolesCounts();
+	}
+
 	getProfilePictureUrl(user: User): string {
 		return this.service.getProfilePictureUrl(user);
+	}
+
+	async getData() {
+		await Promise.all([this.getRolesCounts(), this.getAccounts()]);
+	}
+
+	async getRolesCounts() {
+		if (!this.ctx.institution?.id) return;
+
+		this.isLoading = true;
+		await lastValueFrom(this.institutionService.getRolesCounts(this.ctx.institution.id))
+			.then((result: Map<InstitutionRoleEnum, number>) => {
+				this.rolesCounts = result;
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
 	}
 
 	async getAccounts(event?: TableLazyLoadEvent) {
@@ -139,7 +163,7 @@ export class InstitutionUsersComponent {
 			.afterClosed()
 			.subscribe(async res => {
 				if (res) {
-					await this.getAccounts();
+					await this.getData();
 				}
 			});
 	}
@@ -162,7 +186,7 @@ export class InstitutionUsersComponent {
 					await lastValueFrom(this.service.deleteUserAccounts(this.selectedUsers.map(u => u.id)))
 						.then(() => {
 							this.selectedUsers = [];
-							this.getAccounts();
+							this.getData();
 						})
 						.finally(() => {
 							this.isLoading = false;
@@ -188,7 +212,7 @@ export class InstitutionUsersComponent {
 		)
 			.then(() => {})
 			.catch(async () => {
-				await this.getAccounts();
+				await this.getData();
 			})
 			.finally(() => {
 				this.isLoading = false;
