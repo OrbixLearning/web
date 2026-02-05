@@ -1,3 +1,24 @@
+.role-counts {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 40px;
+	padding-right: 50px;
+
+	.role-count-chip {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		p {
+			font-size: 14px;
+		}
+	}
+}
+
 /* PrimeNG table polish */
 :host ::ng-deep .p-table {
 	.p-datatable-header,

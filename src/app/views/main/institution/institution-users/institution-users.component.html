@@ -2,6 +2,16 @@
 
 <o-sub-header [backButtonLink]="'/i/' + this.ctx.institution?.id + '/settings'" [buttons]="headerButtons" />
 
+<!-- General Infos -->
+<div class="role-counts">
+    @for(role of roles; track role) {
+    <div class="role-count-chip">
+        <span class="role-chip">{{ role | institutionRole }}</span>
+        <p>: {{rolesCounts.get(role) || 0}}</p>
+    </div>
+    }
+</div>
+
 <!-- Table -->
 <p-table [value]="accounts" size="small" dataKey="id" [lazy]="true" (onLazyLoad)="getAccounts($event)"
     [loading]="isLoading" [(selection)]="selectedUsers" [first]="paginationFirst" [paginator]="true" [rows]="10"
