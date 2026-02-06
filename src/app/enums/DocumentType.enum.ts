@@ -1,0 +1,9 @@
+export enum DocumentTypeEnum {
+	OTHER = 'OTHER',
+	HANDOUT = 'HANDOUT',
+	SLIDE = 'SLIDE',
+	EXERCISE = 'EXERCISE',
+	PAST_EXAM = 'PAST_EXAM',
+	PAPER = 'PAPER',
+	LECTURE = 'LECTURE',
+}
