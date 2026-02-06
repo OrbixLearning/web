@@ -18,6 +18,18 @@
                 </mat-form-field>
             </div>
 
+            <div class="search-row">
+                <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                    <mat-label>Tipo do documento</mat-label>
+                    <mat-select [(ngModel)]="typeFilter">
+                        <mat-option [value]="null">--</mat-option>
+                        @for(type of types; track type) {
+                        <mat-option [value]="type">{{type | documentType}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
             <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter" (syllabusMarked)="markSyllabus($event)"
                 [presets]="ctx.classroom?.presets" />
             } @else {
@@ -39,13 +51,15 @@
                 <div class="doc-card__head">
                     <h4 class="doc-title" [title]="document.name">{{ document.name }}</h4>
                     <div class="right-info">
+                        <span class="ext-chip" pTooltip="Tipo do documento" tooltipPosition="left">{{ document.type |
+                            documentType }}</span>
                         @if (ctx.isTeacher && document.hidden) {
                         <mat-icon pTooltip="Este documento não é visível para alunos">visibility_off</mat-icon>
                         }
                         @if (document.aiStatus === documentAIUploadStatusEnum.UPLOADED) {
                         <mat-icon pTooltip="A IA da Orbix tem o conhecimento deste documento">psychology</mat-icon>
                         }
-                        <span class="ext-chip">{{ document.extension }}</span>
+                        <span class="ext-chip" pTooltip="Extensão do documento">{{ document.extension }}</span>
                     </div>
                 </div>
 

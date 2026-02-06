@@ -10,6 +10,7 @@ import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
 import { environment } from '../../../../environments/environment';
 import { DocumentAIUploadStatusEnum } from '../../../enums/DocumentAIUploadStatus.enum';
+import { DocumentTypeEnum } from '../../../enums/DocumentType.enum';
 import { Document } from '../../../models/Document';
 import { Syllabus } from '../../../models/Syllabus';
 import { ContextService } from '../../../services/context.service';
@@ -17,30 +18,35 @@ import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { ErrorPopUpComponent, ErrorPopUpData } from '../error-pop-up/error-pop-up.component';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
+import { MatSelectModule } from '@angular/material/select';
+import { DocumentTypePipe } from "../../../pipes/document-type.pipe";
 
 export type UploadDocumentPopUpResponse = {
 	name: string;
 	syllabusIds: string[];
 	feedAi: boolean;
 	hidden: boolean;
+	type: DocumentTypeEnum;
 	file: File;
 };
 
 @Component({
 	selector: 'o-document-pop-up',
 	imports: [
-		PopUpHeaderComponent,
-		PopUpButtonsComponent,
-		SyllabusComponent,
-		MatFormFieldModule,
-		ReactiveFormsModule,
-		FileUploadModule,
-		MatButtonModule,
-		MatIconModule,
-		MatInputModule,
-		MatCheckboxModule,
-		TooltipModule,
-	],
+    PopUpHeaderComponent,
+    PopUpButtonsComponent,
+    SyllabusComponent,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    FileUploadModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatCheckboxModule,
+    TooltipModule,
+    MatSelectModule,
+    DocumentTypePipe
+],
 	templateUrl: './document-pop-up.component.html',
 	styleUrl: './document-pop-up.component.scss',
 })
@@ -57,8 +63,10 @@ export class DocumentPopUpComponent {
 		syllabus: this.formBuilder.control<Syllabus[]>([]),
 		feedAi: this.formBuilder.control<boolean>(false),
 		hidden: this.formBuilder.control<boolean>(false),
+		type: this.formBuilder.control<DocumentTypeEnum>(DocumentTypeEnum.OTHER, Validators.required),
 	});
 	editMode: boolean = this.data?.document !== undefined;
+	types: DocumentTypeEnum[] = Object.values(DocumentTypeEnum);
 
 	get disableFeedAi(): boolean {
 		return this.getFormControl('syllabus').value.length === 0;
@@ -74,6 +82,7 @@ export class DocumentPopUpComponent {
 					this.data!.document.syllabus?.length! > 0,
 			);
 			this.getFormControl('hidden').setValue(this.data!.document.hidden);
+			this.getFormControl('type').setValue(this.data!.document.type);
 			if (this.data!.document.syllabus?.length === 0) {
 				this.getFormControl('feedAi').disable();
 			}
@@ -127,6 +136,7 @@ export class DocumentPopUpComponent {
 					extension: this.data!.document.extension,
 					aiStatus: this.data!.document.aiStatus,
 					hidden: this.getFormControl('hidden').value,
+					type: this.getFormControl('type').value,
 					syllabus: this.getFormControl('syllabus').value,
 					classroom: this.data!.document.classroom,
 				};
@@ -136,6 +146,7 @@ export class DocumentPopUpComponent {
 					syllabusIds: (this.getFormControl('syllabus').value as Syllabus[]).map(s => s.id!),
 					feedAi: this.getFormControl('feedAi').value,
 					hidden: this.getFormControl('hidden').value,
+					type: this.getFormControl('type').value,
 					file: this.getFormControl('file').value,
 				};
 			}

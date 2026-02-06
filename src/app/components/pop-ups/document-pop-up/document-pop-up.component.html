@@ -11,6 +11,17 @@
 
             <div class="separator"></div>
 
+            <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Tipo do documento</mat-label>
+                <mat-select formControlName="type">
+                    @for(type of types; track type) {
+                    <mat-option [value]="type">{{type | documentType}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <div class="separator"></div>
+
             @if (!editMode) {
             @if (!getFormControl('file').value) {
             <p-fileupload mode="basic" chooseLabel="Selecionar documento" name="document" [auto]="true"

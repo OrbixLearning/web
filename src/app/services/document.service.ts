@@ -1,8 +1,9 @@
-import { inject, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { Document } from '../models/Document';
+import { DocumentTypeEnum } from '../enums/DocumentType.enum';
 
 @Injectable({
 	providedIn: 'root',
@@ -25,6 +26,7 @@ export class DocumentService {
 		classroomId: string,
 		feedAi: boolean,
 		hidden: boolean,
+		type: DocumentTypeEnum,
 		file: File,
 	): Observable<Document> {
 		let formData = new FormData();
@@ -33,12 +35,19 @@ export class DocumentService {
 		formData.append('classroomId', classroomId);
 		formData.append('feedAi', String(feedAi));
 		formData.append('hidden', String(hidden));
+		formData.append('type', type);
 		syllabusIds.forEach(id => formData.append('syllabusIds', id));
 		return this.http.post<Document>(this.api, formData);
 	}
 
-	update(documentId: string, name: string, hidden: boolean, syllabusIds: string[]): Observable<Document> {
-		return this.http.put<Document>(`${this.api}/${documentId}`, { name, hidden, syllabusIds });
+	update(
+		documentId: string,
+		name: string,
+		hidden: boolean,
+		type: DocumentTypeEnum,
+		syllabusIds: string[],
+	): Observable<Document> {
+		return this.http.put<Document>(`${this.api}/${documentId}`, { name, hidden, type, syllabusIds });
 	}
 
 	recallAI(id: string): Observable<Document> {

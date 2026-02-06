@@ -5,8 +5,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
+import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
+import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
 	ConfirmPopUpComponent,
@@ -20,15 +23,15 @@ import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-
 import { SyllabusTagsComponent } from '../../../../components/syllabus-tags/syllabus-tags.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
 import { DocumentAIUploadStatusEnum } from '../../../../enums/DocumentAIUploadStatus.enum';
+import { DocumentTypeEnum } from '../../../../enums/DocumentType.enum';
 import { Document } from '../../../../models/Document';
 import { Syllabus } from '../../../../models/Syllabus';
+import { DocumentTypePipe } from '../../../../pipes/document-type.pipe';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { DocumentService } from '../../../../services/document.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
 import { download } from '../../../../utils/Download.util';
-import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
-import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
 	selector: 'o-classroom-documents',
@@ -45,6 +48,8 @@ import { TooltipModule } from 'primeng/tooltip';
 		SubHeaderComponent,
 		TextButtonComponent,
 		TooltipModule,
+		DocumentTypePipe,
+		MatSelectModule,
 	],
 	templateUrl: './classroom-documents.component.html',
 	styleUrl: './classroom-documents.component.scss',
@@ -57,6 +62,8 @@ export class ClassroomDocumentsComponent {
 
 	isLoading: boolean = false;
 	filter: string = '';
+	typeFilter: DocumentTypeEnum | null = null;
+	types: DocumentTypeEnum[] = Object.values(DocumentTypeEnum);
 	markedSyllabus: Syllabus[] = [];
 	documentAIUploadStatusEnum = DocumentAIUploadStatusEnum;
 
@@ -95,7 +102,9 @@ export class ClassroomDocumentsComponent {
 
 				const filteredByName = d.name.toLowerCase().includes(this.filter.toLowerCase());
 
-				return filteredBySyllabus && filteredByName;
+				const filteredByType = !this.typeFilter || d.type === this.typeFilter;
+
+				return filteredBySyllabus && filteredByName && filteredByType;
 			})
 			.sort((a, b) => {
 				const statusA =
@@ -137,6 +146,7 @@ export class ClassroomDocumentsComponent {
 							this.ctx.classroom!.id,
 							response.feedAi,
 							response.hidden,
+							response.type,
 							response.file,
 						),
 					)
@@ -182,6 +192,7 @@ export class ClassroomDocumentsComponent {
 							documentResponse.id,
 							documentResponse.name,
 							documentResponse.hidden,
+							documentResponse.type,
 							syllabusIds,
 						),
 					)
@@ -189,6 +200,7 @@ export class ClassroomDocumentsComponent {
 							let documentInList: Document = this.documents.find(d => d.id === documentUpdated.id)!;
 							documentInList.name = documentUpdated.name;
 							documentInList.hidden = documentUpdated.hidden;
+							documentInList.type = documentUpdated.type;
 							documentInList.syllabus = documentUpdated.syllabus;
 						})
 						.finally(() => {
