@@ -18,10 +18,15 @@ import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { EditMultipleChoicePopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
+import { EditMultipleSelectionPopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
+import { EditOpenEndedPopUpComponent } from '../../../../components/pop-ups/questions/edit-open-ended-pop-up/edit-open-ended-pop-up.component';
+import { EditTrueFalsePopUpComponent } from '../../../../components/pop-ups/questions/edit-true-false-pop-up/edit-true-false-pop-up.component';
 import {
 	SuccessPopUpComponent,
 	SuccessPopUpData,
 } from '../../../../components/pop-ups/success-pop-up/success-pop-up.component';
+import { QuestionCardComponent } from '../../../../components/question-card/question-card.component';
 import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
 import { QuestionLearningPath } from '../../../../models/LearningPath/LearningPath';
 import { QuestionLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
@@ -30,10 +35,7 @@ import { QuestionTypePipe } from '../../../../pipes/question-type.pipe';
 import { ContextService } from '../../../../services/context.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
-import { EditOpenEndedPopUpComponent } from '../../../../components/pop-ups/questions/edit-open-ended-pop-up/edit-open-ended-pop-up.component';
-import { EditMultipleChoicePopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
-import { EditMultipleSelectionPopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
-import { EditTrueFalsePopUpComponent } from '../../../../components/pop-ups/questions/edit-true-false-pop-up/edit-true-false-pop-up.component';
+import { QuestionUtils } from '../../../../utils/Question.utils';
 
 type QuestionContext = {
 	question: Question;
@@ -57,6 +59,7 @@ type QuestionContext = {
 		LoadingComponent,
 		MatMenuModule,
 		QuestionTypePipe,
+		QuestionCardComponent,
 	],
 	templateUrl: './question-learning-path.component.html',
 	styleUrl: './question-learning-path.component.scss',
@@ -213,18 +216,7 @@ export class QuestionLearningPathComponent {
 	}
 
 	verifyAnswer(question: Question, currentAnswers: string[]): boolean {
-		const correctAnswers = question.answers;
-
-		if (currentAnswers.length !== correctAnswers.length) {
-			return false;
-		}
-
-		// TODO: Verify open-ended answers
-		if (question.type === QuestionTypeEnum.OPEN_ENDED) {
-			return true;
-		}
-
-		return currentAnswers.every((answer: string) => correctAnswers.includes(answer));
+		return QuestionUtils.verifyAnswer(question, currentAnswers);
 	}
 
 	verifyUserAnswer(i: number): boolean {

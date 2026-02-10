@@ -47,9 +47,8 @@
 
         <div class="panel__body question-list">
             @for (questionData of filteredQuestions; track questionData.id) {
-            <article class="question-card">
-
-            </article>
+            <o-question-card [question]="questionData.question" [questionData]="questionData" [showSelect]="false"
+                (edit)="editQuestion(questionData)" (remove)="deleteQuestion(questionData)" />
             } @empty {
             <p class="empty">Nenhuma questão encontrada.</p>
             }

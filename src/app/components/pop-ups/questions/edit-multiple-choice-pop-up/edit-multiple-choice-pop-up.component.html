@@ -51,7 +51,7 @@
         <section class="qp-syllabus">
             <h4>Tópicos contemplados na questão</h4>
             <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="select" (syllabusMarked)="markSyllabus($event)"
-                [presets]="ctx.classroom?.presets" />
+                [presets]="ctx.classroom?.presets" [preMarkedSyllabus]="data.syllabus" />
         </section>
         }
 

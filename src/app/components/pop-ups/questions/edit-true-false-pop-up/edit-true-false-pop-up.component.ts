@@ -8,21 +8,21 @@ import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
 import { Question } from '../../../../models/Question';
 import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
-import { SyllabusComponent } from "../../../syllabus/syllabus.component";
+import { SyllabusComponent } from '../../../syllabus/syllabus.component';
 import { PopUpButtonsComponent } from '../../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.component';
 
 @Component({
 	selector: 'o-edit-true-false-pop-up',
 	imports: [
-    PopUpHeaderComponent,
-    PopUpButtonsComponent,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonToggleModule,
-    SyllabusComponent
-],
+		PopUpHeaderComponent,
+		PopUpButtonsComponent,
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatButtonToggleModule,
+		SyllabusComponent,
+	],
 	templateUrl: './edit-true-false-pop-up.component.html',
 	styleUrl: './edit-true-false-pop-up.component.scss',
 })
@@ -55,18 +55,14 @@ export class EditTrueFalsePopUpComponent {
 
 	startForm() {
 		if (this.hasIndex) {
-			if (this.isEdit) {
-				this.form.addControl('index', this.formBuilder.control(1, Validators.min(1)));
-			} else {
-				this.form.addControl('index', this.formBuilder.control(this.data.index! + 1, Validators.min(1)));
-			}
+			this.form.addControl('index', this.formBuilder.control(this.data.index! + 1, Validators.min(1)));
 		}
 
 		if (this.hasSyllabus) {
 			if (this.isEdit) {
-				this.form.addControl('syllabus', this.formBuilder.control([], Validators.required));
-			} else {
 				this.form.addControl('syllabus', this.formBuilder.control(this.data.syllabus!, Validators.required));
+			} else {
+				this.form.addControl('syllabus', this.formBuilder.control([], Validators.required));
 			}
 		}
 

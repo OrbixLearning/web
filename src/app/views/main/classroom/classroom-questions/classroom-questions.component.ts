@@ -1,26 +1,32 @@
+import { ComponentType } from '@angular/cdk/overlay';
 import { Component, inject, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { EditMultipleChoicePopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
 import { EditMultipleSelectionPopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
 import { EditOpenEndedPopUpComponent } from '../../../../components/pop-ups/questions/edit-open-ended-pop-up/edit-open-ended-pop-up.component';
 import { EditTrueFalsePopUpComponent } from '../../../../components/pop-ups/questions/edit-true-false-pop-up/edit-true-false-pop-up.component';
+import { QuestionCardComponent } from '../../../../components/question-card/question-card.component';
 import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
+import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
+import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
 import { Question } from '../../../../models/Question';
 import { QuestionData } from '../../../../models/QuestionData';
 import { Syllabus } from '../../../../models/Syllabus';
+import { QuestionTypePipe } from '../../../../pipes/question-type.pipe';
 import { ContextService } from '../../../../services/context.service';
 import { QuestionDataService } from '../../../../services/question-data.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
-import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
-import { FormsModule } from '@angular/forms';
-import { QuestionTypePipe } from '../../../../pipes/question-type.pipe';
 import { ArrayUtils } from '../../../../utils/Array.utils';
+import {
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
+} from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 
 @Component({
 	selector: 'o-classroom-questions',
@@ -34,6 +40,7 @@ import { ArrayUtils } from '../../../../utils/Array.utils';
 		SyllabusComponent,
 		FormsModule,
 		QuestionTypePipe,
+		QuestionCardComponent,
 	],
 	templateUrl: './classroom-questions.component.html',
 	styleUrl: './classroom-questions.component.scss',
@@ -64,25 +71,25 @@ export class ClassroomQuestionsComponent {
 			{
 				text: 'Múltipla Escolha',
 				icon: 'add',
-				function: () => this.createMultipleChoiceQuestion(),
+				function: () => this.createQuestion(EditMultipleChoicePopUpComponent),
 				highlighted: true,
 			},
 			{
 				text: 'Múltipla Seleção',
 				icon: 'add',
-				function: () => this.createMultipleSelectionQuestion(),
+				function: () => this.createQuestion(EditMultipleSelectionPopUpComponent),
 				highlighted: true,
 			},
 			{
 				text: 'Verdadeiro ou Falso',
 				icon: 'add',
-				function: () => this.createTrueFalseQuestion(),
+				function: () => this.createQuestion(EditTrueFalsePopUpComponent),
 				highlighted: true,
 			},
 			{
 				text: 'Questão Aberta',
 				icon: 'add',
-				function: () => this.createOpenEndedQuestion(),
+				function: () => this.createQuestion(EditOpenEndedPopUpComponent),
 				highlighted: true,
 			},
 		];
@@ -121,63 +128,108 @@ export class ClassroomQuestionsComponent {
 			});
 	}
 
-	createMultipleChoiceQuestion() {
+	createQuestion(component: ComponentType<unknown>) {
 		this.dialog
-			.open(EditMultipleChoicePopUpComponent, {
+			.open(component, {
 				minWidth: '1000px',
 				data: { syllabus: [] },
 			})
 			.afterClosed()
-			.subscribe((result: { question: Question; syllabus: Syllabus[] } | undefined) => {
+			.subscribe(async (result: { question: Question; syllabus: Syllabus[] } | undefined) => {
 				if (result) {
-					// TODO
-				}
-			});
-	}
-
-	createMultipleSelectionQuestion() {
-		this.dialog
-			.open(EditMultipleSelectionPopUpComponent, {
-				minWidth: '1000px',
-				data: { syllabus: [] },
-			})
-			.afterClosed()
-			.subscribe((result: { question: Question; syllabus: Syllabus[] } | undefined) => {
-				if (result) {
-					// TODO
-				}
-			});
-	}
-
-	createTrueFalseQuestion() {
-		this.dialog
-			.open(EditTrueFalsePopUpComponent, {
-				minWidth: '1000px',
-				data: { syllabus: [] },
-			})
-			.afterClosed()
-			.subscribe((result: { question: Question; syllabus: Syllabus[] } | undefined) => {
-				if (result) {
-					// TODO
-				}
-			});
-	}
-
-	createOpenEndedQuestion() {
-		this.dialog
-			.open(EditOpenEndedPopUpComponent, {
-				minWidth: '1000px',
-				data: { syllabus: [] },
-			})
-			.afterClosed()
-			.subscribe((result: { question: Question; syllabus: Syllabus[] } | undefined) => {
-				if (result) {
-					// TODO
+					this.isLoading = true;
+					await lastValueFrom(
+						this.service.create(
+							result.question,
+							this.ctx.classroom!.id,
+							result.syllabus.map(s => s.id!),
+						),
+					)
+						.then((q: QuestionData) => {
+							this.ctx.classroom!.questions.unshift(q);
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
 				}
 			});
 	}
 
 	markSyllabus(syllabus: Syllabus[]) {
 		this.markedSyllabus = syllabus;
+	}
+
+	async editQuestion(questionData: QuestionData) {
+		let editionPopUp: any;
+		switch (questionData.question.type) {
+			case QuestionTypeEnum.MULTIPLE_CHOICE:
+				editionPopUp = EditMultipleChoicePopUpComponent;
+				break;
+			case QuestionTypeEnum.MULTIPLE_SELECTION:
+				editionPopUp = EditMultipleSelectionPopUpComponent;
+				break;
+			case QuestionTypeEnum.TRUE_FALSE:
+				editionPopUp = EditTrueFalsePopUpComponent;
+				break;
+			case QuestionTypeEnum.OPEN_ENDED:
+				editionPopUp = EditOpenEndedPopUpComponent;
+				break;
+		}
+		this.dialog
+			.open(editionPopUp, {
+				data: {
+					question: questionData.question,
+					syllabus: questionData.syllabus,
+				},
+				minWidth: '1000px',
+			})
+			.afterClosed()
+			.subscribe(async (result: { question: Question; syllabus: Syllabus[] } | undefined) => {
+				if (result) {
+					this.isLoading = true;
+					await lastValueFrom(
+						this.service.update(
+							questionData.id,
+							result.question,
+							result.syllabus.map(s => s.id!),
+						),
+					)
+						.then((updatedQuestionData: QuestionData) => {
+							let questionInList: QuestionData = this.questions.find(
+								q => q.id === updatedQuestionData.id,
+							)!;
+							questionInList.question = updatedQuestionData.question;
+							questionInList.syllabus = updatedQuestionData.syllabus;
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				}
+			});
+	}
+
+	async deleteQuestion(question: QuestionData) {
+		const data: ConfirmPopUpData = {
+			title: 'Tem certeza que deseja excluir essa questão?',
+			message: 'Essa ação não pode ser desfeita.',
+			confirmButton: 'Excluir',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async (result: boolean) => {
+				if (result) {
+					this.isLoading = true;
+					await lastValueFrom(this.service.delete(question.id))
+						.then(() => {
+							this.ctx.classroom!.questions = this.ctx.classroom!.questions.filter(
+								q => q.id !== question.id,
+							);
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				}
+			});
 	}
 }

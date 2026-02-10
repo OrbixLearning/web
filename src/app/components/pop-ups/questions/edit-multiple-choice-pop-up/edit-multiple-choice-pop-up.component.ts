@@ -70,18 +70,14 @@ export class EditMultipleChoicePopUpComponent {
 
 	startForm() {
 		if (this.hasIndex) {
-			if (this.isEdit) {
-				this.form.addControl('index', this.formBuilder.control(1, Validators.min(1)));
-			} else {
-				this.form.addControl('index', this.formBuilder.control(this.data.index! + 1, Validators.min(1)));
-			}
+			this.form.addControl('index', this.formBuilder.control(this.data.index! + 1, Validators.min(1)));
 		}
 
 		if (this.hasSyllabus) {
 			if (this.isEdit) {
-				this.form.addControl('syllabus', this.formBuilder.control([], Validators.required));
-			} else {
 				this.form.addControl('syllabus', this.formBuilder.control(this.data.syllabus!, Validators.required));
+			} else {
+				this.form.addControl('syllabus', this.formBuilder.control([], Validators.required));
 			}
 		}
 

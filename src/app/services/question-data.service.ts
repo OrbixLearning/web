@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Question } from '../models/Question';
 import { QuestionData } from '../models/QuestionData';
-import { Syllabus } from '../models/Syllabus';
 
 @Injectable({
 	providedIn: 'root',
@@ -17,12 +16,12 @@ export class QuestionDataService {
 		return this.http.get<QuestionData[]>(`${this.api}/${classroomId}`);
 	}
 
-	create(questionData: QuestionData, classroomId: string, syllabus: Syllabus[]): Observable<QuestionData> {
-		return this.http.post<QuestionData>(this.api, { questionData, classroomId, syllabus });
+	create(question: Question, classroomId: string, syllabusIds: string[]): Observable<QuestionData> {
+		return this.http.post<QuestionData>(this.api, { question, classroomId, syllabusIds });
 	}
 
-	update(id: string, question: Question, syllabus: Syllabus[]): Observable<QuestionData> {
-		return this.http.put<QuestionData>(`${this.api}/${id}`, { question, syllabus });
+	update(id: string, question: Question, syllabusIds: string[]): Observable<QuestionData> {
+		return this.http.put<QuestionData>(`${this.api}/${id}`, { question, syllabusIds });
 	}
 
 	delete(id: string): Observable<void> {

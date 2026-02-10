@@ -11,24 +11,24 @@ import { Question } from '../../../../models/Question';
 import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
 import { TextButtonComponent } from '../../../buttons/text-button/text-button.component';
-import { SyllabusComponent } from "../../../syllabus/syllabus.component";
+import { SyllabusComponent } from '../../../syllabus/syllabus.component';
 import { PopUpButtonsComponent } from '../../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.component';
 
 @Component({
 	selector: 'o-edit-multiple-selection-pop-up',
 	imports: [
-    PopUpHeaderComponent,
-    PopUpButtonsComponent,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    TextButtonComponent,
-    MatCheckboxModule,
-    MatIconModule,
-    MatButtonModule,
-    SyllabusComponent
-],
+		PopUpHeaderComponent,
+		PopUpButtonsComponent,
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInputModule,
+		TextButtonComponent,
+		MatCheckboxModule,
+		MatIconModule,
+		MatButtonModule,
+		SyllabusComponent,
+	],
 	templateUrl: './edit-multiple-selection-pop-up.component.html',
 	styleUrl: './edit-multiple-selection-pop-up.component.scss',
 })
@@ -36,7 +36,7 @@ export class EditMultipleSelectionPopUpComponent {
 	data: { question?: Question; index?: number; syllabus?: Syllabus[] } = inject(MAT_DIALOG_DATA);
 	formBuilder = inject(FormBuilder);
 	dialogRef = inject(MatDialogRef<EditMultipleSelectionPopUpComponent>);
-    ctx: ContextService = inject(ContextService);
+	ctx: ContextService = inject(ContextService);
 
 	form: FormGroup = this.formBuilder.group({
 		statement: ['', Validators.required],
@@ -78,18 +78,14 @@ export class EditMultipleSelectionPopUpComponent {
 
 	startForm() {
 		if (this.hasIndex) {
-			if (this.isEdit) {
-				this.form.addControl('index', this.formBuilder.control(1, Validators.min(1)));
-			} else {
-				this.form.addControl('index', this.formBuilder.control(this.data.index! + 1, Validators.min(1)));
-			}
+			this.form.addControl('index', this.formBuilder.control(this.data.index! + 1, Validators.min(1)));
 		}
 
 		if (this.hasSyllabus) {
 			if (this.isEdit) {
-				this.form.addControl('syllabus', this.formBuilder.control([], Validators.required));
-			} else {
 				this.form.addControl('syllabus', this.formBuilder.control(this.data.syllabus!, Validators.required));
+			} else {
+				this.form.addControl('syllabus', this.formBuilder.control([], Validators.required));
 			}
 		}
 

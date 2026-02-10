@@ -12,5 +12,5 @@ export class TextButtonComponent {
 	@Input() icon?: string;
 	@Input() disabled: boolean = false;
 	@Input() type: 'button' | 'submit' | 'reset' = 'button';
-	@Output() onclick: EventEmitter<PointerEvent> = new EventEmitter<PointerEvent>();
+	@Output() onclick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 }

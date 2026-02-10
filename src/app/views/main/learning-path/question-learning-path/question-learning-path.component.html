@@ -121,64 +121,8 @@
 
     <div class="vm-list" role="list">
         @for (question of questions; track $index; let i = $index) {
-        <article class="q-card">
-            <header class="qc-head">
-                <div class="qc-left">
-                    <span class="idx">Questão {{ i + 1 }}</span>
-                    <span class="type">{{ question.type | questionType }}</span>
-                </div>
-                <div class="qc-right">
-                    <o-text-button (onclick)="editQuestion(i)">Editar</o-text-button>
-                    <o-text-button (onclick)="deleteQuestion(i)">Remover</o-text-button>
-                </div>
-            </header>
-
-            <section class="qc-body">
-                <div class="statement">
-                    <p>{{ question.statement }}</p>
-                </div>
-
-                @switch (question.type) {
-                @case (questionTypeEnum.MULTIPLE_CHOICE) {
-                <ul class="options">
-                    @for (opt of question.options; track opt) {
-                    <li class="option" [class.is-correct]="verifyAnswer(question, [opt])">
-                        <span class="bullet"></span>
-                        <span class="text">{{ opt }}</span>
-                    </li>
-                    }
-                </ul>
-                }
-
-                @case (questionTypeEnum.MULTIPLE_SELECTION) {
-                <ul class="options">
-                    @for (opt of question.options; track opt) {
-                    <li class="option" [class.is-correct]="question.answers.includes(opt)">
-                        <span class="check"></span>
-                        <span class="text">{{ opt }}</span>
-                    </li>
-                    }
-                </ul>
-                }
-
-                @case (questionTypeEnum.TRUE_FALSE) {
-                <div class="tf">
-                    <span class="chip" [class.is-correct]="verifyAnswer(question, ['true'])">Verdadeiro</span>
-                    <span class="chip" [class.is-correct]="verifyAnswer(question, ['false'])">Falso</span>
-                </div>
-                }
-
-                @case (questionTypeEnum.OPEN_ENDED) {
-                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="open-ended">
-                    <mat-label>Resposta correta</mat-label>
-                    <textarea matInput rows="6" [value]="question.answers[0]" [disabled]="true"
-                        cdkTextareaAutosize></textarea>
-                </mat-form-field>
-                }
-                }
-            </section>
-
-        </article>
+        <o-question-card [index]="i" [question]="question" [showSelect]="false" (edit)="editQuestion(i)"
+            (remove)="deleteQuestion(i)" />
         }
     </div>
 </section>
