@@ -351,6 +351,7 @@ export class QuestionLearningPathComponent {
 		this.dialog
 			.open(EditMultipleChoicePopUpComponent, {
 				minWidth: '600px',
+				data: { index: this.questions.length },
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
@@ -364,6 +365,7 @@ export class QuestionLearningPathComponent {
 		this.dialog
 			.open(EditMultipleSelectionPopUpComponent, {
 				minWidth: '600px',
+				data: { index: this.questions.length },
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
@@ -377,6 +379,7 @@ export class QuestionLearningPathComponent {
 		this.dialog
 			.open(EditTrueFalsePopUpComponent, {
 				minWidth: '600px',
+				data: { index: this.questions.length },
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
@@ -390,6 +393,7 @@ export class QuestionLearningPathComponent {
 		this.dialog
 			.open(EditOpenEndedPopUpComponent, {
 				minWidth: '600px',
+				data: { index: this.questions.length },
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
