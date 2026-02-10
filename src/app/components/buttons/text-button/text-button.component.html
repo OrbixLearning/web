@@ -1,4 +1,4 @@
-<button mat-button class="ghost-button" (click)="onclick.emit()" [type]="type" [disabled]="disabled">
+<button mat-button class="ghost-button" (click)="onclick.emit($event)" [type]="type" [disabled]="disabled">
     @if(icon) {
     <mat-icon>{{ icon }}</mat-icon>
     }
