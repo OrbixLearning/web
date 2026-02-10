@@ -6,11 +6,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { TextButtonComponent } from '../../../../../components/buttons/text-button/text-button.component';
-import { PopUpButtonsComponent } from '../../../../../components/pop-ups/pop-up-buttons/pop-up-buttons.component';
-import { PopUpHeaderComponent } from '../../../../../components/pop-ups/pop-up-header/pop-up-header.component';
-import { QuestionTypeEnum } from '../../../../../enums/QuestionType.enum';
-import { Question } from '../../../../../models/Question';
+import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
+import { Question } from '../../../../models/Question';
+import { TextButtonComponent } from '../../../buttons/text-button/text-button.component';
+import { PopUpButtonsComponent } from '../../pop-up-buttons/pop-up-buttons.component';
+import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.component';
 
 @Component({
 	selector: 'o-edit-multiple-choice-pop-up',
@@ -34,10 +34,10 @@ export class EditMultipleChoicePopUpComponent {
 	dialogRef = inject(MatDialogRef<EditMultipleChoicePopUpComponent>);
 
 	form = this.formBuilder.group({
+		index: [1, Validators.min(1)],
 		statement: ['', Validators.required],
 		options: this.formBuilder.array<string>(['', ''], Validators.required),
 		answer: this.formBuilder.control<number | undefined>(undefined, Validators.required),
-		index: [1, Validators.min(1)],
 	});
 
 	get optionsFormArray(): FormArray {

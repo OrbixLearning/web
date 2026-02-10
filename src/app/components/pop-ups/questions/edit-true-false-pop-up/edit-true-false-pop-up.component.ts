@@ -4,10 +4,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { PopUpButtonsComponent } from '../../../../../components/pop-ups/pop-up-buttons/pop-up-buttons.component';
-import { PopUpHeaderComponent } from '../../../../../components/pop-ups/pop-up-header/pop-up-header.component';
-import { QuestionTypeEnum } from '../../../../../enums/QuestionType.enum';
-import { Question } from '../../../../../models/Question';
+import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
+import { Question } from '../../../../models/Question';
+import { PopUpButtonsComponent } from '../../pop-up-buttons/pop-up-buttons.component';
+import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.component';
 
 @Component({
 	selector: 'o-edit-true-false-pop-up',
