@@ -8,10 +8,12 @@ import { Question } from '../../../../models/Question';
 import { Syllabus } from '../../../../models/Syllabus';
 import { PopUpButtonsComponent } from '../../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.component';
+import { ContextService } from '../../../../services/context.service';
+import { SyllabusComponent } from "../../../syllabus/syllabus.component";
 
 @Component({
 	selector: 'o-edit-open-ended-pop-up',
-	imports: [PopUpHeaderComponent, PopUpButtonsComponent, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
+	imports: [PopUpHeaderComponent, PopUpButtonsComponent, ReactiveFormsModule, MatFormFieldModule, MatInputModule, SyllabusComponent],
 	templateUrl: './edit-open-ended-pop-up.component.html',
 	styleUrl: './edit-open-ended-pop-up.component.scss',
 })
@@ -19,6 +21,7 @@ export class EditOpenEndedPopUpComponent {
 	data: { question?: Question; index?: number; syllabus?: Syllabus[] } = inject(MAT_DIALOG_DATA);
 	formBuilder = inject(FormBuilder);
 	dialogRef = inject(MatDialogRef<EditOpenEndedPopUpComponent>);
+    ctx: ContextService = inject(ContextService);
 
 	form: FormGroup = this.formBuilder.group({
 		statement: ['', Validators.required],
@@ -54,7 +57,7 @@ export class EditOpenEndedPopUpComponent {
 			if (this.isEdit) {
 				this.form.addControl('syllabus', this.formBuilder.control([], Validators.required));
 			} else {
-				this.form.addControl('syllabus', this.formBuilder.control(this.data.syllabus![0], Validators.required));
+				this.form.addControl('syllabus', this.formBuilder.control(this.data.syllabus!, Validators.required));
 			}
 		}
 
@@ -64,6 +67,10 @@ export class EditOpenEndedPopUpComponent {
 				answer: this.data.question!.answers[0],
 			});
 		}
+	}
+
+	markSyllabus(syllabus: Syllabus[]) {
+		this.form.patchValue({ syllabus });
 	}
 
 	onSubmit() {

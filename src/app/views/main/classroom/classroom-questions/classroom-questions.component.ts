@@ -44,25 +44,25 @@ export class ClassroomQuestionsComponent {
 			{
 				text: 'Múltipla Escolha',
 				icon: 'add',
-				function: () => this.addMultipleChoiceQuestion(),
+				function: () => this.createMultipleChoiceQuestion(),
 				highlighted: true,
 			},
 			{
 				text: 'Múltipla Seleção',
 				icon: 'add',
-				function: () => this.addMultipleSelectionQuestion(),
+				function: () => this.createMultipleSelectionQuestion(),
 				highlighted: true,
 			},
 			{
 				text: 'Verdadeiro ou Falso',
 				icon: 'add',
-				function: () => this.addTrueFalseQuestion(),
+				function: () => this.createTrueFalseQuestion(),
 				highlighted: true,
 			},
 			{
 				text: 'Questão Aberta',
 				icon: 'add',
-				function: () => this.addOpenEndedQuestion(),
+				function: () => this.createOpenEndedQuestion(),
 				highlighted: true,
 			},
 		];
@@ -79,10 +79,10 @@ export class ClassroomQuestionsComponent {
 			});
 	}
 
-	addMultipleChoiceQuestion() {
+	createMultipleChoiceQuestion() {
 		this.dialog
 			.open(EditMultipleChoicePopUpComponent, {
-				minWidth: '600px',
+				minWidth: '800px',
 				data: { syllabus: [] },
 			})
 			.afterClosed()
@@ -93,10 +93,10 @@ export class ClassroomQuestionsComponent {
 			});
 	}
 
-	addMultipleSelectionQuestion() {
+	createMultipleSelectionQuestion() {
 		this.dialog
 			.open(EditMultipleSelectionPopUpComponent, {
-				minWidth: '600px',
+				minWidth: '800px',
 				data: { syllabus: [] },
 			})
 			.afterClosed()
@@ -107,10 +107,10 @@ export class ClassroomQuestionsComponent {
 			});
 	}
 
-	addTrueFalseQuestion() {
+	createTrueFalseQuestion() {
 		this.dialog
 			.open(EditTrueFalsePopUpComponent, {
-				minWidth: '600px',
+				minWidth: '800px',
 				data: { syllabus: [] },
 			})
 			.afterClosed()
@@ -121,10 +121,10 @@ export class ClassroomQuestionsComponent {
 			});
 	}
 
-	addOpenEndedQuestion() {
+	createOpenEndedQuestion() {
 		this.dialog
 			.open(EditOpenEndedPopUpComponent, {
-				minWidth: '600px',
+				minWidth: '800px',
 				data: { syllabus: [] },
 			})
 			.afterClosed()

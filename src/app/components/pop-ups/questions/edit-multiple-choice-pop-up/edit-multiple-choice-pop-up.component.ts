@@ -12,6 +12,8 @@ import { Syllabus } from '../../../../models/Syllabus';
 import { TextButtonComponent } from '../../../buttons/text-button/text-button.component';
 import { PopUpButtonsComponent } from '../../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.component';
+import { ContextService } from '../../../../services/context.service';
+import { SyllabusComponent } from '../../../syllabus/syllabus.component';
 
 @Component({
 	selector: 'o-edit-multiple-choice-pop-up',
@@ -25,6 +27,7 @@ import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.componen
 		MatIconModule,
 		MatButtonModule,
 		TextButtonComponent,
+		SyllabusComponent,
 	],
 	templateUrl: './edit-multiple-choice-pop-up.component.html',
 	styleUrl: './edit-multiple-choice-pop-up.component.scss',
@@ -33,6 +36,7 @@ export class EditMultipleChoicePopUpComponent {
 	data: { question?: Question; index?: number; syllabus?: Syllabus[] } = inject(MAT_DIALOG_DATA);
 	formBuilder = inject(FormBuilder);
 	dialogRef = inject(MatDialogRef<EditMultipleChoicePopUpComponent>);
+	ctx: ContextService = inject(ContextService);
 
 	form: FormGroup = this.formBuilder.group({
 		statement: ['', Validators.required],
@@ -77,7 +81,7 @@ export class EditMultipleChoicePopUpComponent {
 			if (this.isEdit) {
 				this.form.addControl('syllabus', this.formBuilder.control([], Validators.required));
 			} else {
-				this.form.addControl('syllabus', this.formBuilder.control(this.data.syllabus![0], Validators.required));
+				this.form.addControl('syllabus', this.formBuilder.control(this.data.syllabus!, Validators.required));
 			}
 		}
 
@@ -106,6 +110,10 @@ export class EditMultipleChoicePopUpComponent {
 
 	addOption() {
 		this.optionsFormArray.push(this.formBuilder.control<string>('', Validators.required));
+	}
+
+	markSyllabus(syllabus: Syllabus[]) {
+		this.form.patchValue({ syllabus });
 	}
 
 	onSubmit() {
