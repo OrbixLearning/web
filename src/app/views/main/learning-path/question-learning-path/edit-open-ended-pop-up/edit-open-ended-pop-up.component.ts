@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { PopUpButtonsComponent } from '../../../../../components/pop-ups/pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../../../../../components/pop-ups/pop-up-header/pop-up-header.component';
 import { QuestionTypeEnum } from '../../../../../enums/QuestionType.enum';
-import { Question } from '../../../../../models/LearningPath/Question';
+import { Question } from '../../../../../models/Question';
 
 @Component({
 	selector: 'o-edit-open-ended-pop-up',

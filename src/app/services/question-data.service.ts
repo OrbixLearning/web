@@ -14,7 +14,7 @@ export class QuestionDataService {
 	http: HttpClient = inject(HttpClient);
 
 	getByClassroom(classroomId: string): Observable<QuestionData[]> {
-		return this.http.get<QuestionData[]>(`${this.api}/classroom/${classroomId}`);
+		return this.http.get<QuestionData[]>(`${this.api}/${classroomId}`);
 	}
 
 	create(questionData: QuestionData, classroomId: string, syllabus: Syllabus[]): Observable<QuestionData> {

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { AudioVoiceEnum } from '../enums/AudioVoice.enum';
 import { FlashCard } from '../models/LearningPath/FlashCard';
 import {
 	FlashCardLearningPath,
@@ -12,8 +13,7 @@ import {
 } from '../models/LearningPath/LearningPath';
 import { GenerateLearningPathRequest } from '../models/LearningPath/LearningPathGeneration';
 import { VideoDetails } from '../models/LearningPath/VideoDetails';
-import { Question } from '../models/LearningPath/Question';
-import { AudioVoiceEnum } from '../enums/AudioVoice.enum';
+import { Question } from '../models/Question';
 
 @Injectable({
 	providedIn: 'root',
@@ -60,9 +60,9 @@ export class LearningPathService {
 		return this.http.put<LearningPath>(`${this.api}/regenerate/${id}`, {});
 	}
 
-    regenerateAudios(learningPathId: string, voice : AudioVoiceEnum): Observable<TextLearningPath> {
-        return this.http.put<TextLearningPath>(`${this.api}/regenerate-audios/${learningPathId}`, { voice });
-    }
+	regenerateAudios(learningPathId: string, voice: AudioVoiceEnum): Observable<TextLearningPath> {
+		return this.http.put<TextLearningPath>(`${this.api}/regenerate-audios/${learningPathId}`, { voice });
+	}
 
 	// DELETE
 
