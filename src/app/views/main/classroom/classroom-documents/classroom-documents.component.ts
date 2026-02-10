@@ -100,7 +100,7 @@ export class ClassroomDocumentsComponent {
 							this.markedSyllabus.map(r => r.id),
 						));
 
-				const filteredByName = d.name.toLowerCase().includes(this.filter.toLowerCase());
+				const filteredByName = d.name.toLowerCase().trim().includes(this.filter.toLowerCase().trim());
 
 				const filteredByType = !this.typeFilter || d.type === this.typeFilter;
 

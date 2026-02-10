@@ -13,10 +13,28 @@ import { QuestionData } from '../../../../models/QuestionData';
 import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
 import { QuestionDataService } from '../../../../services/question-data.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
+import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
+import { FormsModule } from '@angular/forms';
+import { QuestionTypePipe } from '../../../../pipes/question-type.pipe';
+import { ArrayUtils } from '../../../../utils/Array.utils';
 
 @Component({
 	selector: 'o-classroom-questions',
-	imports: [LoadingComponent, SubHeaderComponent, MatMenuModule],
+	imports: [
+		LoadingComponent,
+		SubHeaderComponent,
+		MatMenuModule,
+		MatFormFieldModule,
+		MatSelectModule,
+		MatInputModule,
+		SyllabusComponent,
+		FormsModule,
+		QuestionTypePipe,
+	],
 	templateUrl: './classroom-questions.component.html',
 	styleUrl: './classroom-questions.component.scss',
 })
@@ -28,7 +46,10 @@ export class ClassroomQuestionsComponent {
 	@ViewChild('menuTrigger') trigger!: MatMenuTrigger;
 
 	isLoading: boolean = false;
-	filter: string = '';
+	statementFilter: string = '';
+	typeFilter: QuestionTypeEnum | null = null;
+	types: QuestionTypeEnum[] = Object.values(QuestionTypeEnum);
+	markedSyllabus: Syllabus[] = [];
 
 	ngOnInit() {
 		this.getData();
@@ -67,6 +88,28 @@ export class ClassroomQuestionsComponent {
 		];
 	}
 
+	// TODO: Do a performance test later to see if this the filtering should be async or not
+	get filteredQuestions(): QuestionData[] {
+		return this.questions.filter(q => {
+			const filteredBySyllabus =
+				this.markedSyllabus.length === 0 ||
+				(q.syllabus &&
+					ArrayUtils.hasAllItems(
+						q.syllabus.map(r => r.id),
+						this.markedSyllabus.map(r => r.id),
+					));
+
+			const filteredByStatement = q.question.statement
+				.toLowerCase()
+				.trim()
+				.includes(this.statementFilter.toLowerCase().trim());
+
+			const filteredByType = !this.typeFilter || q.question.type === this.typeFilter;
+
+			return filteredBySyllabus && filteredByStatement && filteredByType;
+		});
+	}
+
 	async getData() {
 		this.isLoading = true;
 		await lastValueFrom(this.service.getByClassroom(this.ctx.classroom!.id))
@@ -81,7 +124,7 @@ export class ClassroomQuestionsComponent {
 	createMultipleChoiceQuestion() {
 		this.dialog
 			.open(EditMultipleChoicePopUpComponent, {
-				minWidth: '800px',
+				minWidth: '1000px',
 				data: { syllabus: [] },
 			})
 			.afterClosed()
@@ -95,7 +138,7 @@ export class ClassroomQuestionsComponent {
 	createMultipleSelectionQuestion() {
 		this.dialog
 			.open(EditMultipleSelectionPopUpComponent, {
-				minWidth: '800px',
+				minWidth: '1000px',
 				data: { syllabus: [] },
 			})
 			.afterClosed()
@@ -109,7 +152,7 @@ export class ClassroomQuestionsComponent {
 	createTrueFalseQuestion() {
 		this.dialog
 			.open(EditTrueFalsePopUpComponent, {
-				minWidth: '800px',
+				minWidth: '1000px',
 				data: { syllabus: [] },
 			})
 			.afterClosed()
@@ -123,7 +166,7 @@ export class ClassroomQuestionsComponent {
 	createOpenEndedQuestion() {
 		this.dialog
 			.open(EditOpenEndedPopUpComponent, {
-				minWidth: '800px',
+				minWidth: '1000px',
 				data: { syllabus: [] },
 			})
 			.afterClosed()
@@ -132,5 +175,9 @@ export class ClassroomQuestionsComponent {
 					// TODO
 				}
 			});
+	}
+
+	markSyllabus(syllabus: Syllabus[]) {
+		this.markedSyllabus = syllabus;
 	}
 }

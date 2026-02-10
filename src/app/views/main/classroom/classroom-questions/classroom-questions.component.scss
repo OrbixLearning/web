@@ -1,0 +1,69 @@
+.questions {
+	display: grid;
+	grid-template-columns: 1.2fr 2fr;
+	gap: 20px;
+	width: 100%;
+	align-items: start;
+}
+
+/* Panel base */
+.panel {
+	background: var(--surface, color-mix(in oklab, var(--background-color) 90%, white));
+	border: 1px solid var(--border-color, #3a3a3a);
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+	overflow: hidden;
+
+	.panel__header {
+		padding: 10px 12px;
+		border-bottom: 1px solid var(--border-color, #3a3a3a);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+
+		h3 {
+			margin: 0;
+			font-weight: 700;
+			font-size: 1rem;
+			color: var(--text-color);
+		}
+		.count {
+			font-size: 0.85rem;
+			color: var(--text-color);
+			background: color-mix(in oklab, var(--primary-color) 12%, transparent);
+			border: 1px solid color-mix(in oklab, var(--primary-color) 30%, var(--border-color, #3a3a3a));
+			border-radius: 12px;
+			padding: 2px 8px;
+		}
+	}
+
+	.panel__body {
+		padding: 12px;
+	}
+}
+
+/* Left column */
+.left .search-row {
+	display: grid;
+	gap: 8px;
+	margin-bottom: 10px;
+}
+.left .full {
+	width: 100%;
+}
+.muted {
+	color: var(--sidebar-text-muted, #9aa0a6);
+	margin: 0;
+}
+
+/* Right column */
+.question-list {
+	display: grid;
+	gap: 12px;
+
+	.empty {
+		color: var(--sidebar-text-muted, #9aa0a6);
+		margin: 0;
+	}
+}

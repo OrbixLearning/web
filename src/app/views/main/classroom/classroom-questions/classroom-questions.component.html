@@ -4,5 +4,55 @@
     [buttons]="headerButtons" />
 
 <div class="questions">
+    <!-- Left: filters/syllabus -->
+    <aside class="panel left">
+        <header class="panel__header">
+            <h3>Filtrar questões</h3>
+        </header>
+        <div class="panel__body">
+            @if (questions.length > 0) {
+            <div class="search-row">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full">
+                    <mat-label>Pesquisar por enunciado</mat-label>
+                    <input matInput [(ngModel)]="statementFilter" />
+                </mat-form-field>
+            </div>
 
+            <div class="search-row">
+                <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                    <mat-label>Tipo de questão</mat-label>
+                    <mat-select [(ngModel)]="typeFilter">
+                        <mat-option [value]="null">--</mat-option>
+                        @for(type of types; track type) {
+                        <mat-option [value]="type">{{type | questionType}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter" (syllabusMarked)="markSyllabus($event)"
+                [presets]="ctx.classroom?.presets" />
+            } @else {
+            <p class="muted">Nenhuma questão disponível para filtrar.</p>
+            }
+        </div>
+    </aside>
+
+    <!-- Right: question list -->
+    <section class="panel right">
+        <header class="panel__header">
+            <h3>Questões</h3>
+            <span class="count">{{ filteredQuestions.length || 0 }}</span>
+        </header>
+
+        <div class="panel__body question-list">
+            @for (questionData of filteredQuestions; track questionData.id) {
+            <article class="question-card">
+
+            </article>
+            } @empty {
+            <p class="empty">Nenhuma questão encontrada.</p>
+            }
+        </div>
+    </section>
 </div>
