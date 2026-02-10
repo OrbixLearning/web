@@ -84,7 +84,7 @@
             @for (context of questionsContext; track $index; let i = $index) {
             <button mat-stroked-button class="q-item" (click)="goToQuestion(i)"
                 [class.answered]="context.userAnswer.length > 0"
-                [class.incorrect]="context.showAnswer && !verifyUserAnswer(i)" role="listitem">
+                [class.incorrect]="context.showAnswer && !verifyUserAnswer(i)">
                 <mat-icon>{{ context.userAnswer.length > 0 ? 'check' : 'close' }}</mat-icon>
                 <span>Questão {{ i + 1 }} {{ context.userAnswer.length > 0 ? '' : '(não respondida)' }}</span>
             </button>
@@ -121,7 +121,7 @@
 
     <div class="vm-list" role="list">
         @for (question of questions; track $index; let i = $index) {
-        <article class="q-card" role="listitem">
+        <article class="q-card">
             <header class="qc-head">
                 <div class="qc-left">
                     <span class="idx">Questão {{ i + 1 }}</span>
