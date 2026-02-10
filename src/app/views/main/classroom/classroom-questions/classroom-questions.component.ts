@@ -1,19 +1,18 @@
 import { Component, inject, ViewChild } from '@angular/core';
-import { LoadingComponent } from '../../../../components/loading/loading.component';
-import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
-import { ContextService } from '../../../../services/context.service';
-import { QuestionDataService } from '../../../../services/question-data.service';
 import { MatDialog } from '@angular/material/dialog';
-import { QuestionData } from '../../../../models/QuestionData';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { lastValueFrom } from 'rxjs';
-import { MatMenu, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
-import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
+import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { EditMultipleChoicePopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
 import { EditMultipleSelectionPopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
-import { EditTrueFalsePopUpComponent } from '../../../../components/pop-ups/questions/edit-true-false-pop-up/edit-true-false-pop-up.component';
 import { EditOpenEndedPopUpComponent } from '../../../../components/pop-ups/questions/edit-open-ended-pop-up/edit-open-ended-pop-up.component';
-import { Syllabus } from '../../../../models/Syllabus';
+import { EditTrueFalsePopUpComponent } from '../../../../components/pop-ups/questions/edit-true-false-pop-up/edit-true-false-pop-up.component';
+import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 import { Question } from '../../../../models/Question';
+import { QuestionData } from '../../../../models/QuestionData';
+import { Syllabus } from '../../../../models/Syllabus';
+import { ContextService } from '../../../../services/context.service';
+import { QuestionDataService } from '../../../../services/question-data.service';
 
 @Component({
 	selector: 'o-classroom-questions',

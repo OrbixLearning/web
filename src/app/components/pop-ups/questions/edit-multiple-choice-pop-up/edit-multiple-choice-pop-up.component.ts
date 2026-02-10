@@ -9,11 +9,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
 import { Question } from '../../../../models/Question';
 import { Syllabus } from '../../../../models/Syllabus';
+import { ContextService } from '../../../../services/context.service';
 import { TextButtonComponent } from '../../../buttons/text-button/text-button.component';
+import { SyllabusComponent } from '../../../syllabus/syllabus.component';
 import { PopUpButtonsComponent } from '../../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.component';
-import { ContextService } from '../../../../services/context.service';
-import { SyllabusComponent } from '../../../syllabus/syllabus.component';
 
 @Component({
 	selector: 'o-edit-multiple-choice-pop-up',

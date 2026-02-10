@@ -6,10 +6,10 @@ import { MatInputModule } from '@angular/material/input';
 import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
 import { Question } from '../../../../models/Question';
 import { Syllabus } from '../../../../models/Syllabus';
-import { PopUpButtonsComponent } from '../../pop-up-buttons/pop-up-buttons.component';
-import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.component';
 import { ContextService } from '../../../../services/context.service';
 import { SyllabusComponent } from "../../../syllabus/syllabus.component";
+import { PopUpButtonsComponent } from '../../pop-up-buttons/pop-up-buttons.component';
+import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.component';
 
 @Component({
 	selector: 'o-edit-open-ended-pop-up',
