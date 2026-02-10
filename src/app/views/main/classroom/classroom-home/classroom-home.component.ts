@@ -175,6 +175,12 @@ export class ClassroomHomeComponent {
 		});
 		if (this.ctx.isTeacher) {
 			buttons.push({
+				text: 'Base de Questões',
+				icon: 'question_answer',
+				function: () => this.router.navigateByUrl(this.baseUrl + '/questions'),
+				highlighted: true,
+			});
+			buttons.push({
 				text: 'Dashboard',
 				icon: 'insights',
 				function: () => this.router.navigateByUrl(this.baseUrl + '/dashboard'),
