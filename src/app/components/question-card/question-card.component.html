@@ -12,8 +12,8 @@
             </p-popover>
             @if (questionData.document) {
             <span class="doc-name"
-                [pTooltip]="'Esta questão foi gerada a partir do documento ' + questionData.document!.name">{{
-                questionData.document!.name }}</span>
+                [pTooltip]="'Esta questão foi gerada a partir do documento \'' + questionData.document!.name + '.' + questionData.document.extension + '\''">
+                {{ questionData.document!.name + '.' + questionData.document.extension }}</span>
             }
             }
         </div>

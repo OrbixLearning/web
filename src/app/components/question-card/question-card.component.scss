@@ -32,8 +32,7 @@
 			}
 			.doc-name {
 				padding: 2px 8px;
-				border-radius: 999px;
-				font-weight: 700;
+				border-radius: 10px;
 				border: 1px solid color-mix(in oklab, var(--text-color) 25%, transparent);
 				background: color-mix(in oklab, var(--secondary-color) 12%, transparent);
 			}
