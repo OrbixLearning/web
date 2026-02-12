@@ -8,6 +8,10 @@ import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
+import {
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
+} from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { EditMultipleChoicePopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
 import { EditMultipleSelectionPopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
 import { EditOpenEndedPopUpComponent } from '../../../../components/pop-ups/questions/edit-open-ended-pop-up/edit-open-ended-pop-up.component';
@@ -16,17 +20,15 @@ import { QuestionCardComponent } from '../../../../components/question-card/ques
 import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
 import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
+import { Document } from '../../../../models/Document';
 import { Question } from '../../../../models/Question';
 import { QuestionData } from '../../../../models/QuestionData';
 import { Syllabus } from '../../../../models/Syllabus';
 import { QuestionTypePipe } from '../../../../pipes/question-type.pipe';
 import { ContextService } from '../../../../services/context.service';
+import { DocumentService } from '../../../../services/document.service';
 import { QuestionDataService } from '../../../../services/question-data.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
-import {
-	ConfirmPopUpComponent,
-	ConfirmPopUpData,
-} from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 
 @Component({
 	selector: 'o-classroom-questions',
@@ -48,6 +50,7 @@ import {
 export class ClassroomQuestionsComponent {
 	ctx: ContextService = inject(ContextService);
 	service: QuestionDataService = inject(QuestionDataService);
+	documentService: DocumentService = inject(DocumentService);
 	dialog: MatDialog = inject(MatDialog);
 
 	@ViewChild('menuTrigger') trigger!: MatMenuTrigger;
@@ -56,6 +59,8 @@ export class ClassroomQuestionsComponent {
 	statementFilter: string = '';
 	typeFilter: QuestionTypeEnum | null = null;
 	types: QuestionTypeEnum[] = Object.values(QuestionTypeEnum);
+	documentFilter: Document | null = null;
+	documents: Document[] = [];
 	markedSyllabus: Syllabus[] = [];
 
 	ngOnInit() {
@@ -113,15 +118,32 @@ export class ClassroomQuestionsComponent {
 
 			const filteredByType = !this.typeFilter || q.question.type === this.typeFilter;
 
-			return filteredBySyllabus && filteredByStatement && filteredByType;
+			const filteredByDocument = !this.documentFilter || q.document?.id === this.documentFilter.id;
+
+			return filteredBySyllabus && filteredByStatement && filteredByType && filteredByDocument;
 		});
 	}
 
 	async getData() {
+		await Promise.all([this.getQuestions(), this.getDocuments()]);
+	}
+
+	async getQuestions() {
 		this.isLoading = true;
 		await lastValueFrom(this.service.getByClassroom(this.ctx.classroom!.id))
 			.then((qs: QuestionData[]) => {
 				this.ctx.classroom!.questions = qs;
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
+
+	async getDocuments() {
+		this.isLoading = true;
+		await lastValueFrom(this.documentService.getQuestionDocumentsByClassroom(this.ctx.classroom!.id))
+			.then((docs: Document[]) => {
+				this.documents = docs;
 			})
 			.finally(() => {
 				this.isLoading = false;

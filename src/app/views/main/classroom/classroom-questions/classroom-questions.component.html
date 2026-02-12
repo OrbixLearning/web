@@ -30,6 +30,18 @@
                 </mat-form-field>
             </div>
 
+            <div class="search-row">
+                <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                    <mat-label>Documento</mat-label>
+                    <mat-select [(ngModel)]="documentFilter">
+                        <mat-option [value]="null">--</mat-option>
+                        @for(doc of documents; track doc.id) {
+                        <mat-option [value]="doc">{{doc.name + '.' + doc.extension}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
             <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="filter" (syllabusMarked)="markSyllabus($event)"
                 [presets]="ctx.classroom?.presets" />
             } @else {
