@@ -58,6 +58,10 @@ export class DocumentService {
 		return this.http.put<Document>(`${this.api}/recall-ai/${id}`, {});
 	}
 
+	validateDocumentQuestions(documentId: string): Observable<Document> {
+		return this.http.put<Document>(`${this.api}/validate-questions/${documentId}`, {});
+	}
+
 	delete(documentId: string): Observable<void> {
 		return this.http.delete<void>(`${this.api}/${documentId}`);
 	}

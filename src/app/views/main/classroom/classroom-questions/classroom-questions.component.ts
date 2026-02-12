@@ -29,6 +29,7 @@ import { ContextService } from '../../../../services/context.service';
 import { DocumentService } from '../../../../services/document.service';
 import { QuestionDataService } from '../../../../services/question-data.service';
 import { ArrayUtils } from '../../../../utils/Array.utils';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
 	selector: 'o-classroom-questions',
@@ -52,6 +53,7 @@ export class ClassroomQuestionsComponent {
 	service: QuestionDataService = inject(QuestionDataService);
 	documentService: DocumentService = inject(DocumentService);
 	dialog: MatDialog = inject(MatDialog);
+	route: ActivatedRoute = inject(ActivatedRoute);
 
 	@ViewChild('menuTrigger') trigger!: MatMenuTrigger;
 
@@ -64,7 +66,15 @@ export class ClassroomQuestionsComponent {
 	markedSyllabus: Syllabus[] = [];
 
 	ngOnInit() {
-		this.getData();
+		this.getData().then(() => {
+			this.route.queryParams.subscribe(params => {
+				const documentQueryId: string | null = params['documentQueryId'] || null;
+				this.documentFilter = this.documents.find(d => d.id === documentQueryId) || null;
+				if (this.documentFilter && !this.documentFilter.questionsValidated) {
+					this.validateDocumentQuestions(this.documentFilter.id);
+				}
+			});
+		});
 	}
 
 	get questions(): QuestionData[] {
@@ -148,6 +158,13 @@ export class ClassroomQuestionsComponent {
 			.finally(() => {
 				this.isLoading = false;
 			});
+	}
+
+	async validateDocumentQuestions(documentId: string) {
+		this.isLoading = true;
+		await lastValueFrom(this.documentService.validateDocumentQuestions(documentId)).finally(() => {
+			this.isLoading = false;
+		});
 	}
 
 	createQuestion(component: ComponentType<unknown>) {

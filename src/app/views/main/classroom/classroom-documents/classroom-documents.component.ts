@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
 import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
@@ -59,6 +59,7 @@ export class ClassroomDocumentsComponent {
 	service: DocumentService = inject(DocumentService);
 	classroomService: ClassroomService = inject(ClassroomService);
 	dialog: MatDialog = inject(MatDialog);
+	router: Router = inject(Router);
 
 	isLoading: boolean = false;
 	filter: string = '';
@@ -244,5 +245,13 @@ export class ClassroomDocumentsComponent {
 			.finally(() => {
 				this.isLoading = false;
 			});
+	}
+
+	goToQuestionValidation(doc: Document) {
+		this.router.navigate(['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id + '/questions'], {
+			queryParams: {
+				documentQueryId: doc.id,
+			},
+		});
 	}
 }

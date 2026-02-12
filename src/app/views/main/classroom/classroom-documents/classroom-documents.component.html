@@ -93,6 +93,13 @@
                     <p>Adicionando documento à IA...</p>
                     <o-loading [isLoading]="true" [local]="true" size="24px" />
                 </div>
+                } @else if (document.aiStatus === documentAIUploadStatusEnum.UPLOADED &&
+                document.questionsValidated != null &&
+                !document.questionsValidated) {
+                <div class="ai-row ai-uploaded">
+                    <p>Questões prontas!</p>
+                    <o-text-button (onclick)="goToQuestionValidation(document)">Validar questões</o-text-button>
+                </div>
                 }
                 }
             </article>

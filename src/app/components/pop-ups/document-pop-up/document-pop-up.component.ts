@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
 import { environment } from '../../../../environments/environment';
@@ -13,13 +14,12 @@ import { DocumentAIUploadStatusEnum } from '../../../enums/DocumentAIUploadStatu
 import { DocumentTypeEnum } from '../../../enums/DocumentType.enum';
 import { Document } from '../../../models/Document';
 import { Syllabus } from '../../../models/Syllabus';
+import { DocumentTypePipe } from '../../../pipes/document-type.pipe';
 import { ContextService } from '../../../services/context.service';
 import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { ErrorPopUpComponent, ErrorPopUpData } from '../error-pop-up/error-pop-up.component';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
-import { MatSelectModule } from '@angular/material/select';
-import { DocumentTypePipe } from "../../../pipes/document-type.pipe";
 
 export type UploadDocumentPopUpResponse = {
 	name: string;
@@ -33,20 +33,20 @@ export type UploadDocumentPopUpResponse = {
 @Component({
 	selector: 'o-document-pop-up',
 	imports: [
-    PopUpHeaderComponent,
-    PopUpButtonsComponent,
-    SyllabusComponent,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    FileUploadModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatCheckboxModule,
-    TooltipModule,
-    MatSelectModule,
-    DocumentTypePipe
-],
+		PopUpHeaderComponent,
+		PopUpButtonsComponent,
+		SyllabusComponent,
+		MatFormFieldModule,
+		ReactiveFormsModule,
+		FileUploadModule,
+		MatButtonModule,
+		MatIconModule,
+		MatInputModule,
+		MatCheckboxModule,
+		TooltipModule,
+		MatSelectModule,
+		DocumentTypePipe,
+	],
 	templateUrl: './document-pop-up.component.html',
 	styleUrl: './document-pop-up.component.scss',
 })
@@ -139,6 +139,8 @@ export class DocumentPopUpComponent {
 					type: this.getFormControl('type').value,
 					syllabus: this.getFormControl('syllabus').value,
 					classroom: this.data!.document.classroom,
+					questions: this.data!.document.questions,
+					questionsValidated: this.data!.document.questionsValidated,
 				};
 			} else {
 				response = {
