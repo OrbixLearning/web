@@ -165,6 +165,15 @@ export class ClassroomDocumentsComponent {
 		this.markedSyllabus = syllabus;
 	}
 
+	showValidateQuestionsButton(doc: Document): boolean {
+		return (
+			doc.aiStatus === DocumentAIUploadStatusEnum.UPLOADED &&
+			doc.questionsValidated !== null &&
+			(doc.type === DocumentTypeEnum.EXERCISE || doc.type === DocumentTypeEnum.PAST_EXAM) &&
+			!doc.questionsValidated
+		);
+	}
+
 	async downloadDocument(documentId: string, documentName: string) {
 		this.isLoading = true;
 		await lastValueFrom(this.service.getFile(documentId))
@@ -199,10 +208,7 @@ export class ClassroomDocumentsComponent {
 					)
 						.then((documentUpdated: Document) => {
 							let documentInList: Document = this.documents.find(d => d.id === documentUpdated.id)!;
-							documentInList.name = documentUpdated.name;
-							documentInList.hidden = documentUpdated.hidden;
-							documentInList.type = documentUpdated.type;
-							documentInList.syllabus = documentUpdated.syllabus;
+							documentInList = Object.assign(documentInList, documentUpdated);
 						})
 						.finally(() => {
 							this.isLoading = false;
