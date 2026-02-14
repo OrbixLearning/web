@@ -19,6 +19,10 @@ import {
 	DocumentPopUpComponent,
 	UploadDocumentPopUpResponse,
 } from '../../../../components/pop-ups/document-pop-up/document-pop-up.component';
+import {
+	SuccessPopUpComponent,
+	SuccessPopUpData,
+} from '../../../../components/pop-ups/success-pop-up/success-pop-up.component';
 import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 import { SyllabusTagsComponent } from '../../../../components/syllabus-tags/syllabus-tags.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
@@ -153,6 +157,15 @@ export class ClassroomDocumentsComponent {
 					)
 						.then((document: Document) => {
 							this.ctx.classroom!.documents.push(document);
+							if (
+								document.type === DocumentTypeEnum.EXERCISE ||
+								document.type === DocumentTypeEnum.PAST_EXAM
+							) {
+								const data: SuccessPopUpData = {
+									title: 'O envio deste documento gerará questões automaticamente pela IA. Recomendamos fazer a verificação dessas questões. A IA pode cometer erros.',
+								};
+								this.dialog.open(SuccessPopUpComponent, { data });
+							}
 						})
 						.finally(() => {
 							this.isLoading = false;
