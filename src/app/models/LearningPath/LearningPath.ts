@@ -2,11 +2,11 @@ import { InstitutionRoleEnum } from '../../enums/InstitutionRole.enum';
 import { LearningPathGenerationStatusEnum } from '../../enums/LearningPathGenerationStatus.enum';
 import { LearningPathTypeEnum } from '../../enums/LearningPathType.enum';
 import { Classroom } from '../Classroom';
+import { Question } from '../Question';
 import { Syllabus } from '../Syllabus';
 import { User } from '../User';
 import { FlashCard } from './FlashCard';
 import { LearningPathGeneration } from './LearningPathGeneration';
-import { Question } from './Question';
 import { VideoDetails } from './VideoDetails';
 
 export type LearningPath = VideoLearningPath | TextLearningPath | QuestionLearningPath | FlashCardLearningPath;

@@ -6,20 +6,22 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
+import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { DocumentAIUploadStatusEnum } from '../../../enums/DocumentAIUploadStatus.enum';
 import { DocumentTypeEnum } from '../../../enums/DocumentType.enum';
 import { Document } from '../../../models/Document';
 import { Syllabus } from '../../../models/Syllabus';
+import { DocumentTypePipe } from '../../../pipes/document-type.pipe';
 import { ContextService } from '../../../services/context.service';
 import { SyllabusComponent } from '../../syllabus/syllabus.component';
+import { ConfirmPopUpComponent, ConfirmPopUpData } from '../confirm-pop-up/confirm-pop-up.component';
 import { ErrorPopUpComponent, ErrorPopUpData } from '../error-pop-up/error-pop-up.component';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
-import { MatSelectModule } from '@angular/material/select';
-import { DocumentTypePipe } from "../../../pipes/document-type.pipe";
 
 export type UploadDocumentPopUpResponse = {
 	name: string;
@@ -33,20 +35,20 @@ export type UploadDocumentPopUpResponse = {
 @Component({
 	selector: 'o-document-pop-up',
 	imports: [
-    PopUpHeaderComponent,
-    PopUpButtonsComponent,
-    SyllabusComponent,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    FileUploadModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatCheckboxModule,
-    TooltipModule,
-    MatSelectModule,
-    DocumentTypePipe
-],
+		PopUpHeaderComponent,
+		PopUpButtonsComponent,
+		SyllabusComponent,
+		MatFormFieldModule,
+		ReactiveFormsModule,
+		FileUploadModule,
+		MatButtonModule,
+		MatIconModule,
+		MatInputModule,
+		MatCheckboxModule,
+		TooltipModule,
+		MatSelectModule,
+		DocumentTypePipe,
+	],
 	templateUrl: './document-pop-up.component.html',
 	styleUrl: './document-pop-up.component.scss',
 })
@@ -125,11 +127,45 @@ export class DocumentPopUpComponent {
 		this.getFormControl('file').setValue(undefined);
 	}
 
-	onSubmit() {
+	isQuestionDocumentType(type: DocumentTypeEnum): boolean {
+		return type === DocumentTypeEnum.EXERCISE || type === DocumentTypeEnum.PAST_EXAM;
+	}
+
+	async warnDocumentTypeChange(): Promise<boolean> {
+		const oldType = this.data!.document.type;
+		const newType = this.getFormControl('type').value as DocumentTypeEnum;
+		if (oldType !== newType) {
+			let data: ConfirmPopUpData | undefined = undefined;
+			if (this.isQuestionDocumentType(oldType) && !this.isQuestionDocumentType(newType)) {
+				data = {
+					title: 'Você está alterando o tipo do documento para um tipo que não gera questões. Tem certeza que deseja continuar?',
+					message: 'As questões geradas relacionadas a este documento serão removidas.',
+				};
+			} else if (!this.isQuestionDocumentType(oldType) && this.isQuestionDocumentType(newType)) {
+				data = {
+					title: 'Você está alterando o tipo do documento para um tipo que gera questões. Tem certeza que deseja continuar?',
+					message:
+						'O conteúdo do documento será quebrado em questões automaticamente pela IA. Informações que não sejam questões serão desconsideradas.',
+				};
+			}
+			if (data) {
+				const confirmation = !!(await lastValueFrom(
+					this.dialog.open(ConfirmPopUpComponent, { data }).afterClosed(),
+				));
+				return confirmation;
+			}
+		}
+		return true;
+	}
+
+	async onSubmit() {
 		if (this.form.valid) {
 			let response: UploadDocumentPopUpResponse | Document | undefined = undefined;
 
 			if (this.editMode) {
+				const typeWarnConfirmation = await this.warnDocumentTypeChange();
+				if (!typeWarnConfirmation) return;
+
 				response = {
 					id: this.data!.document.id,
 					name: this.getFormControl('name').value,
@@ -139,6 +175,8 @@ export class DocumentPopUpComponent {
 					type: this.getFormControl('type').value,
 					syllabus: this.getFormControl('syllabus').value,
 					classroom: this.data!.document.classroom,
+					questions: this.data!.document.questions,
+					questionsValidated: this.data!.document.questionsValidated,
 				};
 			} else {
 				response = {

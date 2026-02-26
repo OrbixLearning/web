@@ -13,7 +13,7 @@ import {
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { FlashCard } from '../../../../models/LearningPath/FlashCard';
 import { FlashCardLearningPath } from '../../../../models/LearningPath/LearningPath';
-import { FlashCardLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
+import { FlashCardLearningPathStudy, LearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
 import { ContextService } from '../../../../services/context.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
@@ -145,14 +145,16 @@ export class FlashCardLearningPathComponent {
 				this.ctx.learningPathStudy!.learningPath.id,
 				this.flashCards,
 			),
-		)
-			.then((learningPath: FlashCardLearningPath) => {
-				this.ctx.learningPathStudy!.learningPath = learningPath;
-				this.flashCards = learningPath.flashCards!;
-			})
-			.finally(() => {
-				this.isLoading = false;
-			});
+		).then(async (learningPath: FlashCardLearningPath) => {
+			await lastValueFrom(this.service.get(learningPath.id))
+				.then((lps: LearningPathStudy) => {
+					this.ctx.learningPathStudy = lps;
+					this.reset();
+				})
+				.finally(() => {
+					this.isLoading = false;
+				});
+		});
 	}
 
 	reset() {

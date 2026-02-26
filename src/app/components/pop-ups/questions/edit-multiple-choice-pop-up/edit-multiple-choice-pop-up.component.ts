@@ -1,16 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { TextButtonComponent } from '../../../../../components/buttons/text-button/text-button.component';
-import { PopUpButtonsComponent } from '../../../../../components/pop-ups/pop-up-buttons/pop-up-buttons.component';
-import { PopUpHeaderComponent } from '../../../../../components/pop-ups/pop-up-header/pop-up-header.component';
-import { QuestionTypeEnum } from '../../../../../enums/QuestionType.enum';
-import { Question } from '../../../../../models/LearningPath/Question';
+import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
+import { Question } from '../../../../models/Question';
+import { Syllabus } from '../../../../models/Syllabus';
+import { ContextService } from '../../../../services/context.service';
+import { TextButtonComponent } from '../../../buttons/text-button/text-button.component';
+import { SyllabusComponent } from '../../../syllabus/syllabus.component';
+import { PopUpButtonsComponent } from '../../pop-up-buttons/pop-up-buttons.component';
+import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.component';
 
 @Component({
 	selector: 'o-edit-multiple-choice-pop-up',
@@ -24,20 +27,21 @@ import { Question } from '../../../../../models/LearningPath/Question';
 		MatIconModule,
 		MatButtonModule,
 		TextButtonComponent,
+		SyllabusComponent,
 	],
 	templateUrl: './edit-multiple-choice-pop-up.component.html',
 	styleUrl: './edit-multiple-choice-pop-up.component.scss',
 })
 export class EditMultipleChoicePopUpComponent {
-	data: { question: Question; index: number } | undefined = inject(MAT_DIALOG_DATA);
+	data: { question?: Question; index?: number; syllabus?: Syllabus[] } = inject(MAT_DIALOG_DATA);
 	formBuilder = inject(FormBuilder);
 	dialogRef = inject(MatDialogRef<EditMultipleChoicePopUpComponent>);
+	ctx: ContextService = inject(ContextService);
 
-	form = this.formBuilder.group({
+	form: FormGroup = this.formBuilder.group({
 		statement: ['', Validators.required],
 		options: this.formBuilder.array<string>(['', ''], Validators.required),
 		answer: this.formBuilder.control<number | undefined>(undefined, Validators.required),
-		index: [1, Validators.min(1)],
 	});
 
 	get optionsFormArray(): FormArray {
@@ -48,19 +52,42 @@ export class EditMultipleChoicePopUpComponent {
 		return this.optionsFormArray.controls as FormControl[];
 	}
 
+	get isEdit(): boolean {
+		return this.data.question !== undefined;
+	}
+
+	get hasIndex(): boolean {
+		return this.data.index !== undefined;
+	}
+
+	get hasSyllabus(): boolean {
+		return this.data.syllabus !== undefined;
+	}
+
 	ngOnInit() {
 		this.startForm();
 	}
 
 	startForm() {
-		if (this.data) {
+		if (this.hasIndex) {
+			this.form.addControl('index', this.formBuilder.control(this.data.index! + 1, Validators.min(1)));
+		}
+
+		if (this.hasSyllabus) {
+			if (this.isEdit) {
+				this.form.addControl('syllabus', this.formBuilder.control(this.data.syllabus!, Validators.required));
+			} else {
+				this.form.addControl('syllabus', this.formBuilder.control([], Validators.required));
+			}
+		}
+
+		if (this.isEdit) {
 			this.form.patchValue({
-				statement: this.data.question.statement,
-				answer: this.data.question.options.indexOf(this.data.question.answers[0]),
-				index: this.data.index + 1,
+				statement: this.data.question!.statement,
+				answer: this.data.question!.options.indexOf(this.data.question!.answers[0]),
 			});
 			this.optionsFormArray.clear();
-			this.data.question.options.forEach(option => {
+			this.data.question!.options.forEach(option => {
 				this.optionsFormArray.push(this.formBuilder.control<string>(option, Validators.required));
 			});
 		}
@@ -81,6 +108,10 @@ export class EditMultipleChoicePopUpComponent {
 		this.optionsFormArray.push(this.formBuilder.control<string>('', Validators.required));
 	}
 
+	markSyllabus(syllabus: Syllabus[]) {
+		this.form.patchValue({ syllabus });
+	}
+
 	onSubmit() {
 		if (this.form.valid) {
 			const question: Question = {
@@ -89,7 +120,14 @@ export class EditMultipleChoicePopUpComponent {
 				answers: [this.form.value.options![this.form.value.answer!] as string],
 				type: QuestionTypeEnum.MULTIPLE_CHOICE,
 			};
-			this.dialogRef.close({ question, index: this.form.value.index! - 1 });
+			let response: any = question;
+			if (this.hasIndex) {
+				response = { question: response, index: this.form.value.index! - 1 };
+			}
+			if (this.hasSyllabus) {
+				response = { question: response, syllabus: this.form.value.syllabus };
+			}
+			this.dialogRef.close(response);
 		}
 	}
 }

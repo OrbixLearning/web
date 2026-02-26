@@ -15,25 +15,37 @@ import { HighlightButtonComponent } from '../../../../components/buttons/highlig
 import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
-	ConfirmPopUpComponent,
-	ConfirmPopUpData,
+    ConfirmPopUpComponent,
+    ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import {
-	SuccessPopUpComponent,
-	SuccessPopUpData,
+    ErrorPopUpComponent,
+    ErrorPopUpData,
+} from '../../../../components/pop-ups/error-pop-up/error-pop-up.component';
+import { EditMultipleChoicePopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
+import { EditMultipleSelectionPopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
+import { EditOpenEndedPopUpComponent } from '../../../../components/pop-ups/questions/edit-open-ended-pop-up/edit-open-ended-pop-up.component';
+import { EditTrueFalsePopUpComponent } from '../../../../components/pop-ups/questions/edit-true-false-pop-up/edit-true-false-pop-up.component';
+import { SelectQuestionPopUpComponent } from '../../../../components/pop-ups/select-question-pop-up/select-question-pop-up.component';
+import {
+    SuccessPopUpComponent,
+    SuccessPopUpData,
 } from '../../../../components/pop-ups/success-pop-up/success-pop-up.component';
+import { QuestionCardComponent } from '../../../../components/question-card/question-card.component';
 import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
+import { Document } from '../../../../models/Document';
 import { QuestionLearningPath } from '../../../../models/LearningPath/LearningPath';
-import { QuestionLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
-import { Question } from '../../../../models/LearningPath/Question';
+import { LearningPathStudy, QuestionLearningPathStudy } from '../../../../models/LearningPath/LearningPathStudy';
+import { Question } from '../../../../models/Question';
+import { QuestionData } from '../../../../models/QuestionData';
 import { QuestionTypePipe } from '../../../../pipes/question-type.pipe';
 import { ContextService } from '../../../../services/context.service';
+import { DocumentService } from '../../../../services/document.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
-import { EditMultipleChoicePopUpComponent } from './edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
-import { EditMultipleSelectionPopUpComponent } from './edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
-import { EditOpenEndedPopUpComponent } from './edit-open-ended-pop-up/edit-open-ended-pop-up.component';
-import { EditTrueFalsePopUpComponent } from './edit-true-false-pop-up/edit-true-false-pop-up.component';
+import { QuestionDataService } from '../../../../services/question-data.service';
+import { ArrayUtils } from '../../../../utils/Array.utils';
+import { QuestionUtils } from '../../../../utils/Question.utils';
 
 type QuestionContext = {
 	question: Question;
@@ -57,6 +69,7 @@ type QuestionContext = {
 		LoadingComponent,
 		MatMenuModule,
 		QuestionTypePipe,
+		QuestionCardComponent,
 	],
 	templateUrl: './question-learning-path.component.html',
 	styleUrl: './question-learning-path.component.scss',
@@ -67,6 +80,8 @@ export class QuestionLearningPathComponent {
 	service: LearningPathStudyService = inject(LearningPathStudyService);
 	learningPathService: LearningPathService = inject(LearningPathService);
 	ctx: ContextService = inject(ContextService);
+	questionDataService: QuestionDataService = inject(QuestionDataService);
+	documentService: DocumentService = inject(DocumentService);
 
 	@Input() mode: 'edit' | 'study' = 'edit';
 	@Output() askExplanation: EventEmitter<string> = new EventEmitter<string>();
@@ -213,18 +228,7 @@ export class QuestionLearningPathComponent {
 	}
 
 	verifyAnswer(question: Question, currentAnswers: string[]): boolean {
-		const correctAnswers = question.answers;
-
-		if (currentAnswers.length !== correctAnswers.length) {
-			return false;
-		}
-
-		// TODO: Verify open-ended answers
-		if (question.type === QuestionTypeEnum.OPEN_ENDED) {
-			return true;
-		}
-
-		return currentAnswers.every((answer: string) => correctAnswers.includes(answer));
+		return QuestionUtils.verifyAnswer(question, currentAnswers);
 	}
 
 	verifyUserAnswer(i: number): boolean {
@@ -351,6 +355,7 @@ export class QuestionLearningPathComponent {
 		this.dialog
 			.open(EditMultipleChoicePopUpComponent, {
 				minWidth: '600px',
+				data: { index: this.questions.length },
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
@@ -364,6 +369,7 @@ export class QuestionLearningPathComponent {
 		this.dialog
 			.open(EditMultipleSelectionPopUpComponent, {
 				minWidth: '600px',
+				data: { index: this.questions.length },
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
@@ -377,6 +383,7 @@ export class QuestionLearningPathComponent {
 		this.dialog
 			.open(EditTrueFalsePopUpComponent, {
 				minWidth: '600px',
+				data: { index: this.questions.length },
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
@@ -390,12 +397,84 @@ export class QuestionLearningPathComponent {
 		this.dialog
 			.open(EditOpenEndedPopUpComponent, {
 				minWidth: '600px',
+				data: { index: this.questions.length },
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
 				if (result) {
 					this.questions.splice(result.index, 0, result.question);
 				}
+			});
+	}
+
+	async importQuestion() {
+		this.isLoading = true;
+
+		await Promise.all([this.getQuestions(), this.getDocuments()]).then((results: any[]) => {
+			let questionsData: QuestionData[] = results[0] as QuestionData[];
+			let documents: Document[] = results[1] as Document[];
+
+			const syllabus = this.ctx.learningPathStudy!.learningPath.syllabus || [];
+			questionsData = questionsData.filter(qd => {
+				return (
+					syllabus.length === 0 ||
+					(qd.syllabus &&
+						ArrayUtils.hasAllItems(
+							qd.syllabus.map(r => r.id),
+							syllabus.map(r => r.id),
+						))
+				);
+			});
+
+			this.isLoading = false;
+
+			if (questionsData.length === 0) {
+				const data: ErrorPopUpData = {
+					message:
+						'Não há questões disponíveis para importação nesta Rota de Aprendizagem. Verifique os tópicos contemplados pela rota.',
+				};
+				this.dialog.open(ErrorPopUpComponent, {
+					data,
+				});
+			} else {
+				this.dialog
+					.open(SelectQuestionPopUpComponent, {
+						data: {
+							learningPath: this.ctx.learningPathStudy?.learningPath,
+							questions: questionsData,
+							docs: documents,
+						},
+						minWidth: '1000px',
+					})
+					.afterClosed()
+					.subscribe((result: Question | undefined) => {
+						if (result) {
+							this.questions.push(result);
+						}
+					});
+			}
+		});
+	}
+
+	async getQuestions(): Promise<QuestionData[]> {
+		this.isLoading = true;
+		return await lastValueFrom(this.questionDataService.getByClassroom(this.ctx.classroom!.id))
+			.then((qs: QuestionData[]) => {
+				return qs;
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
+	}
+
+	async getDocuments(): Promise<Document[]> {
+		this.isLoading = true;
+		return await lastValueFrom(this.documentService.getQuestionDocumentsByClassroom(this.ctx.classroom!.id))
+			.then((docs: Document[]) => {
+				return docs;
+			})
+			.finally(() => {
+				this.isLoading = false;
 			});
 	}
 
@@ -452,6 +531,35 @@ export class QuestionLearningPathComponent {
 			});
 	}
 
+	exportQuestion(index: number) {
+		const data: ConfirmPopUpData = {
+			title: `Deseja exportar a questão ${index + 1} para a base de questões da turma?`,
+			message: 'Você pode alterá-la ou excluí-la da base de questões a qualquer momento.',
+			confirmButton: 'Exportar',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async result => {
+				if (result) {
+					this.isLoading = true;
+					const question = this.questions[index];
+					const classroomId = this.ctx.classroom!.id;
+					const syllabusIds = this.ctx.learningPathStudy!.learningPath.syllabus.map(s => s.id!);
+					await lastValueFrom(this.questionDataService.create(question, classroomId, syllabusIds)).then(
+						() => {
+							this.isLoading = false;
+							const data: SuccessPopUpData = {
+								title: 'Questão exportada para a base de questões da turma!',
+								message: 'Você pode editá-la ou excluí-la da base de questões a qualquer momento.',
+							};
+							this.dialog.open(SuccessPopUpComponent, { data });
+						},
+					);
+				}
+			});
+	}
+
 	async save() {
 		this.isLoading = true;
 		await lastValueFrom(
@@ -459,14 +567,16 @@ export class QuestionLearningPathComponent {
 				this.ctx.learningPathStudy!.learningPath.id,
 				this.questions,
 			),
-		)
-			.then((learningPath: QuestionLearningPath) => {
-				this.ctx.learningPathStudy!.learningPath = learningPath;
-				this.questions = learningPath.questions!;
-			})
-			.finally(() => {
-				this.isLoading = false;
-			});
+		).then(async (learningPath: QuestionLearningPath) => {
+			await lastValueFrom(this.service.get(learningPath.id))
+				.then((lps: LearningPathStudy) => {
+					this.ctx.learningPathStudy = lps;
+					this.reset();
+				})
+				.finally(() => {
+					this.isLoading = false;
+				});
+		});
 	}
 
 	reset() {

@@ -1,6 +1,7 @@
 import { DocumentAIUploadStatusEnum } from '../enums/DocumentAIUploadStatus.enum';
 import { DocumentTypeEnum } from '../enums/DocumentType.enum';
 import { Classroom } from './Classroom';
+import { QuestionData } from './QuestionData';
 import { Syllabus } from './Syllabus';
 
 export type Document = {
@@ -12,4 +13,6 @@ export type Document = {
 	type: DocumentTypeEnum;
 	syllabus?: Syllabus[];
 	classroom?: Classroom[];
+	questions?: QuestionData[];
+	questionsValidated: boolean | null;
 };

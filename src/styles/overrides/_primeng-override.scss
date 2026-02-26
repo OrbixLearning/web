@@ -34,3 +34,7 @@
 	--p-button-primary-color: var(--text-color) !important;
 	--p-button-primary-hover-color: color-mix(in oklch, var(--text-color), gray 40%) !important;
 }
+
+div.p-popover {
+	z-index: 1004 !important; /* Ensure popovers appear above other elements */
+}

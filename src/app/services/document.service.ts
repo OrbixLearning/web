@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Document } from '../models/Document';
 import { DocumentTypeEnum } from '../enums/DocumentType.enum';
+import { Document } from '../models/Document';
 
 @Injectable({
 	providedIn: 'root',
@@ -18,6 +18,10 @@ export class DocumentService {
 
 	getByClassroom(classroomId: string): Observable<Document[]> {
 		return this.http.get<Document[]>(`${this.api}/classroom/${classroomId}`);
+	}
+
+	getQuestionDocumentsByClassroom(classroomId: string): Observable<Document[]> {
+		return this.http.get<Document[]>(`${this.api}/question/classroom/${classroomId}`);
 	}
 
 	uploadFile(
@@ -52,6 +56,10 @@ export class DocumentService {
 
 	recallAI(id: string): Observable<Document> {
 		return this.http.put<Document>(`${this.api}/recall-ai/${id}`, {});
+	}
+
+	validateDocumentQuestions(documentId: string): Observable<Document> {
+		return this.http.put<Document>(`${this.api}/validate-questions/${documentId}`, {});
 	}
 
 	delete(documentId: string): Observable<void> {

@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
 import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
@@ -19,6 +19,10 @@ import {
 	DocumentPopUpComponent,
 	UploadDocumentPopUpResponse,
 } from '../../../../components/pop-ups/document-pop-up/document-pop-up.component';
+import {
+	SuccessPopUpComponent,
+	SuccessPopUpData,
+} from '../../../../components/pop-ups/success-pop-up/success-pop-up.component';
 import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 import { SyllabusTagsComponent } from '../../../../components/syllabus-tags/syllabus-tags.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
@@ -59,6 +63,7 @@ export class ClassroomDocumentsComponent {
 	service: DocumentService = inject(DocumentService);
 	classroomService: ClassroomService = inject(ClassroomService);
 	dialog: MatDialog = inject(MatDialog);
+	router: Router = inject(Router);
 
 	isLoading: boolean = false;
 	filter: string = '';
@@ -100,7 +105,7 @@ export class ClassroomDocumentsComponent {
 							this.markedSyllabus.map(r => r.id),
 						));
 
-				const filteredByName = d.name.toLowerCase().includes(this.filter.toLowerCase());
+				const filteredByName = d.name.toLowerCase().trim().includes(this.filter.toLowerCase().trim());
 
 				const filteredByType = !this.typeFilter || d.type === this.typeFilter;
 
@@ -152,6 +157,15 @@ export class ClassroomDocumentsComponent {
 					)
 						.then((document: Document) => {
 							this.ctx.classroom!.documents.push(document);
+							if (
+								document.type === DocumentTypeEnum.EXERCISE ||
+								document.type === DocumentTypeEnum.PAST_EXAM
+							) {
+								const data: SuccessPopUpData = {
+									title: 'O envio deste documento gerará questões automaticamente pela IA. Recomendamos fazer a verificação dessas questões. A IA pode cometer erros.',
+								};
+								this.dialog.open(SuccessPopUpComponent, { data });
+							}
 						})
 						.finally(() => {
 							this.isLoading = false;
@@ -162,6 +176,15 @@ export class ClassroomDocumentsComponent {
 
 	markSyllabus(syllabus: Syllabus[]) {
 		this.markedSyllabus = syllabus;
+	}
+
+	showValidateQuestionsButton(doc: Document): boolean {
+		return (
+			doc.aiStatus === DocumentAIUploadStatusEnum.UPLOADED &&
+			doc.questionsValidated !== null &&
+			(doc.type === DocumentTypeEnum.EXERCISE || doc.type === DocumentTypeEnum.PAST_EXAM) &&
+			!doc.questionsValidated
+		);
 	}
 
 	async downloadDocument(documentId: string, documentName: string) {
@@ -198,10 +221,7 @@ export class ClassroomDocumentsComponent {
 					)
 						.then((documentUpdated: Document) => {
 							let documentInList: Document = this.documents.find(d => d.id === documentUpdated.id)!;
-							documentInList.name = documentUpdated.name;
-							documentInList.hidden = documentUpdated.hidden;
-							documentInList.type = documentUpdated.type;
-							documentInList.syllabus = documentUpdated.syllabus;
+							documentInList = Object.assign(documentInList, documentUpdated);
 						})
 						.finally(() => {
 							this.isLoading = false;
@@ -244,5 +264,13 @@ export class ClassroomDocumentsComponent {
 			.finally(() => {
 				this.isLoading = false;
 			});
+	}
+
+	goToQuestionValidation(doc: Document) {
+		this.router.navigate(['/i/' + this.ctx.institution?.id + '/c/' + this.ctx.classroom?.id + '/questions'], {
+			queryParams: {
+				documentQueryId: doc.id,
+			},
+		});
 	}
 }

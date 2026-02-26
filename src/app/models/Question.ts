@@ -1,4 +1,4 @@
-import { QuestionTypeEnum } from '../../enums/QuestionType.enum';
+import { QuestionTypeEnum } from '../enums/QuestionType.enum';
 
 export type Question = {
 	statement: string;

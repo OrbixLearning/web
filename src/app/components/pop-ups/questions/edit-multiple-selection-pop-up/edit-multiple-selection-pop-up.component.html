@@ -1,0 +1,61 @@
+<o-pop-up-header [title]="(isEdit ? 'Editar' : 'Adicionar') + ' questão de múltipla seleção'" />
+
+<form class="question-popup" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="qp-content">
+
+        <section class="qp-body">
+            @if (hasIndex) {
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-fixed">
+                <mat-label>Número</mat-label>
+                <input matInput type="number" formControlName="index" />
+            </mat-form-field>
+            }
+
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-grow">
+                <mat-label>Enunciado</mat-label>
+                <textarea matInput formControlName="statement" rows="4" cdkTextareaAutosize></textarea>
+            </mat-form-field>
+
+            <div class="options">
+                <div formArrayName="options" class="texts">
+                    @for (option of optionsFormControls; track $index) {
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                        <input matInput type="text" [formControl]="option"
+                            [placeholder]="'Alternativa ' + ($index + 1)" />
+                    </mat-form-field>
+                    }
+                </div>
+
+                <div class="checks">
+                    @for (answer of answersFormControls; track $index) {
+                    <mat-checkbox [checked]="answer.value" (change)="selectAnswer($index)"></mat-checkbox>
+                    }
+                </div>
+
+                <div class="deletes">
+                    @for (_ of optionsFormControls; track $index) {
+                    <button mat-icon-button (click)="deleteOption($index)" type="button"
+                        [style]="optionsFormControls.length <= 2 ? 'visibility: hidden' : ''">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    }
+                </div>
+            </div>
+
+            <div class="add-option">
+                <o-text-button (onclick)="addOption()" icon="add">Adicionar alternativa</o-text-button>
+            </div>
+
+        </section>
+
+        @if (hasSyllabus) {
+        <section class="qp-syllabus">
+            <h4>Tópicos contemplados na questão</h4>
+            <o-syllabus [syllabus]="ctx.classroom?.syllabus" mode="select" (syllabusMarked)="markSyllabus($event)"
+                [presets]="ctx.classroom?.presets" [preMarkedSyllabus]="data.syllabus" />
+        </section>
+        }
+    </div>
+
+    <o-pop-up-buttons [confirmButton]="isEdit ? 'Editar' : 'Adicionar'" [disable]="form.invalid" type="submit" />
+</form>

@@ -93,6 +93,11 @@
                     <p>Adicionando documento à IA...</p>
                     <o-loading [isLoading]="true" [local]="true" size="24px" />
                 </div>
+                } @else if (showValidateQuestionsButton(document)) {
+                <div class="ai-row ai-uploaded">
+                    <p>Questões prontas!</p>
+                    <o-text-button (onclick)="goToQuestionValidation(document)">Validar questões</o-text-button>
+                </div>
                 }
                 }
             </article>

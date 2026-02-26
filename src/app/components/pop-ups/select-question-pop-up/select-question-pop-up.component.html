@@ -1,0 +1,63 @@
+<o-loading [isLoading]="isLoading" />
+
+<o-pop-up-header [title]="'Importar questão para a Rota ' + learningPath.name" />
+
+<mat-dialog-content class="select-question-pop-up">
+
+    <!-- Left: filters/syllabus -->
+    <aside class="panel left">
+        <header class="panel__header">
+            <h3>Filtrar questões</h3>
+        </header>
+        <div class="panel__body">
+            <div class="search-row">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full">
+                    <mat-label>Pesquisar por enunciado</mat-label>
+                    <input matInput [(ngModel)]="statementFilter" />
+                </mat-form-field>
+            </div>
+
+            <div class="search-row">
+                <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                    <mat-label>Tipo de questão</mat-label>
+                    <mat-select [(ngModel)]="typeFilter">
+                        <mat-option [value]="null">--</mat-option>
+                        @for(type of types; track type) {
+                        <mat-option [value]="type">{{type | questionType}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="search-row">
+                <mat-form-field appearance="fill" subscriptSizing="dynamic">
+                    <mat-label>Documento</mat-label>
+                    <mat-select [(ngModel)]="documentFilter">
+                        <mat-option [value]="null">--</mat-option>
+                        @for(doc of documents; track doc.id) {
+                        <mat-option [value]="doc">{{doc.name + '.' + doc.extension}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Right: question list -->
+    <section class="panel right">
+        <header class="panel__header">
+            <h3>Questões</h3>
+            <span class="count">{{ filteredQuestions.length || 0 }}</span>
+        </header>
+
+        <div class="panel__body question-list">
+            @for (questionData of filteredQuestions; track questionData.id) {
+            <o-question-card [question]="questionData.question" [questionData]="questionData" [showSelect]="false"
+                [showEdit]="false" [showRemove]="false" [clickable]="true" (onclick)="selectQuestion(questionData)" />
+            } @empty {
+            <p class="empty">Nenhuma questão encontrada.</p>
+            }
+        </div>
+    </section>
+
+</mat-dialog-content>

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { TreeNode } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { TreeModule } from 'primeng/tree';
 import { SyllabusPreset } from '../../models/Classroom';
 import { Syllabus } from '../../models/Syllabus';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { TextButtonComponent } from '../buttons/text-button/text-button.component';
 
 @Component({
