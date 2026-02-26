@@ -1,3 +1,5 @@
+import { ArrayUtils } from './Array.utils';
+
 export class TreeUtils {
 	static findItemById(tree: any[], id: string, idFieldName: string, childrenFieldName: string): any | undefined {
 		for (const item of tree) {
@@ -36,5 +38,14 @@ export class TreeUtils {
 			}
 		});
 		return flatList;
+	}
+
+	static hasItemInCommon(tree1: any[], tree2: any[], idFieldName: string, childrenFieldName: string): boolean {
+		const flatTree1 = this.flattenTree(tree1, childrenFieldName);
+		const flatTree2 = this.flattenTree(tree2, childrenFieldName);
+		return ArrayUtils.hasItemInCommon(
+			flatTree1.map(item => item[idFieldName]),
+			flatTree2.map(item => item[idFieldName]),
+		);
 	}
 }

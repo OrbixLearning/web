@@ -15,12 +15,12 @@ import { HighlightButtonComponent } from '../../../../components/buttons/highlig
 import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
-    ConfirmPopUpComponent,
-    ConfirmPopUpData,
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import {
-    ErrorPopUpComponent,
-    ErrorPopUpData,
+	ErrorPopUpComponent,
+	ErrorPopUpData,
 } from '../../../../components/pop-ups/error-pop-up/error-pop-up.component';
 import { EditMultipleChoicePopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
 import { EditMultipleSelectionPopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
@@ -28,8 +28,8 @@ import { EditOpenEndedPopUpComponent } from '../../../../components/pop-ups/ques
 import { EditTrueFalsePopUpComponent } from '../../../../components/pop-ups/questions/edit-true-false-pop-up/edit-true-false-pop-up.component';
 import { SelectQuestionPopUpComponent } from '../../../../components/pop-ups/select-question-pop-up/select-question-pop-up.component';
 import {
-    SuccessPopUpComponent,
-    SuccessPopUpData,
+	SuccessPopUpComponent,
+	SuccessPopUpData,
 } from '../../../../components/pop-ups/success-pop-up/success-pop-up.component';
 import { QuestionCardComponent } from '../../../../components/question-card/question-card.component';
 import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
@@ -419,9 +419,9 @@ export class QuestionLearningPathComponent {
 				return (
 					syllabus.length === 0 ||
 					(qd.syllabus &&
-						ArrayUtils.hasAllItems(
-							qd.syllabus.map(r => r.id),
+						ArrayUtils.hasItemInCommon(
 							syllabus.map(r => r.id),
+							qd.syllabus.map(r => r.id),
 						))
 				);
 			});
