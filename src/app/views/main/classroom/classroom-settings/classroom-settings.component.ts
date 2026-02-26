@@ -39,8 +39,8 @@ import { Syllabus } from '../../../../models/Syllabus';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { SyllabusService } from '../../../../services/syllabus.service';
-import { TreeUtils } from '../../../../utils/Tree.utils';
 import { download } from '../../../../utils/Download.util';
+import { TreeUtils } from '../../../../utils/Tree.utils';
 
 @Component({
 	selector: 'o-classroom-settings',
@@ -74,9 +74,6 @@ export class ClassroomSettingsComponent {
 	hadSyllabus: boolean = this.ctx.classroom?.syllabus ? true : false;
 	syllabus: Syllabus[] | undefined = this.ctx.classroom?.syllabus
 		? Object.assign([], this.ctx.classroom?.syllabus)
-		: undefined;
-	presets: SyllabusPreset[] | undefined = this.ctx.classroom?.presets
-		? Object.assign([], this.ctx.classroom?.presets)
 		: undefined;
 	MAX_FILE_SIZE: number = environment.MAX_PDF_SIZE;
 	syllabusDocument?: File;
@@ -120,6 +117,10 @@ export class ClassroomSettingsComponent {
 
 	get isSyllabusDocumentJson(): boolean {
 		return this.syllabusDocument?.name.split('.').pop()?.toLowerCase() === 'json';
+	}
+
+	get presets(): SyllabusPreset[] {
+		return this.ctx.classroom?.presets || [];
 	}
 
 	resetForm() {
@@ -188,17 +189,19 @@ export class ClassroomSettingsComponent {
 			.afterClosed()
 			.subscribe(async (result: SyllabusPresetCreationPopUpResult | undefined) => {
 				if (result) {
-					let preset: SyllabusPreset = {
+					const preset: SyllabusPreset = {
 						name: result.name,
 						syllabusIds: result.syllabus.map(s => s.id!),
 					};
-					this.presets?.push(preset);
 					this.isLoading = true;
-					await lastValueFrom(this.service.updatePresets(this.ctx.classroom!.id, this.presets!)).finally(
-						() => {
+					const updatedPresets = [...this.presets, preset];
+					await lastValueFrom(this.service.updatePresets(this.ctx.classroom!.id, updatedPresets))
+						.then((c: Classroom) => {
+							this.ctx.classroom = c;
+						})
+						.finally(() => {
 							this.isLoading = false;
-						},
-					);
+						});
 				}
 			});
 	}
@@ -245,14 +248,9 @@ export class ClassroomSettingsComponent {
 	}
 
 	deleteSyllabusPreset() {
-		this.dialog
-			.open(SyllabusPresetDeletionPopUpComponent, {
-				minWidth: '500px',
-			})
-			.afterClosed()
-			.subscribe(() => {
-				this.presets = this.ctx.classroom?.presets;
-			});
+		this.dialog.open(SyllabusPresetDeletionPopUpComponent, {
+			minWidth: '500px',
+		});
 	}
 
 	async updateSyllabus() {
