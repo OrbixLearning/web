@@ -197,7 +197,7 @@ export class QuestionLearningPathComponent {
 
 	async saveAnswer(questionIndex: number, answer: string[]) {
 		const id = this.ctx.learningPathStudy!.id;
-		await lastValueFrom(this.service.answer(id, questionIndex, answer));
+		this.ctx.learningPathStudy = await lastValueFrom(this.service.answer(id, questionIndex, answer));
 	}
 
 	nextQuestion() {
