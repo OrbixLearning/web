@@ -15,12 +15,12 @@ import { HighlightButtonComponent } from '../../../../components/buttons/highlig
 import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
-	ConfirmPopUpComponent,
-	ConfirmPopUpData,
+    ConfirmPopUpComponent,
+    ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import {
-	ErrorPopUpComponent,
-	ErrorPopUpData,
+    ErrorPopUpComponent,
+    ErrorPopUpData,
 } from '../../../../components/pop-ups/error-pop-up/error-pop-up.component';
 import { EditMultipleChoicePopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
 import { EditMultipleSelectionPopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
@@ -28,8 +28,8 @@ import { EditOpenEndedPopUpComponent } from '../../../../components/pop-ups/ques
 import { EditTrueFalsePopUpComponent } from '../../../../components/pop-ups/questions/edit-true-false-pop-up/edit-true-false-pop-up.component';
 import { SelectQuestionPopUpComponent } from '../../../../components/pop-ups/select-question-pop-up/select-question-pop-up.component';
 import {
-	SuccessPopUpComponent,
-	SuccessPopUpData,
+    SuccessPopUpComponent,
+    SuccessPopUpData,
 } from '../../../../components/pop-ups/success-pop-up/success-pop-up.component';
 import { QuestionCardComponent } from '../../../../components/question-card/question-card.component';
 import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
@@ -527,6 +527,35 @@ export class QuestionLearningPathComponent {
 			.subscribe(async result => {
 				if (result) {
 					this.questions.splice(index, 1);
+				}
+			});
+	}
+
+	exportQuestion(index: number) {
+		const data: ConfirmPopUpData = {
+			title: `Deseja exportar a questão ${index + 1} para a base de questões da turma?`,
+			message: 'Você pode alterá-la ou excluí-la da base de questões a qualquer momento.',
+			confirmButton: 'Exportar',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, { data })
+			.afterClosed()
+			.subscribe(async result => {
+				if (result) {
+					this.isLoading = true;
+					const question = this.questions[index];
+					const classroomId = this.ctx.classroom!.id;
+					const syllabusIds = this.ctx.learningPathStudy!.learningPath.syllabus.map(s => s.id!);
+					await lastValueFrom(this.questionDataService.create(question, classroomId, syllabusIds)).then(
+						() => {
+							this.isLoading = false;
+							const data: SuccessPopUpData = {
+								title: 'Questão exportada para a base de questões da turma!',
+								message: 'Você pode editá-la ou excluí-la da base de questões a qualquer momento.',
+							};
+							this.dialog.open(SuccessPopUpComponent, { data });
+						},
+					);
 				}
 			});
 	}

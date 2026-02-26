@@ -124,8 +124,8 @@
 
     <div class="vm-list" role="list">
         @for (question of questions; track $index; let i = $index) {
-        <o-question-card [index]="i" [question]="question" [showSelect]="false" (edit)="editQuestion(i)"
-            (remove)="deleteQuestion(i)" />
+        <o-question-card [index]="i" [question]="question" [showSelect]="false" [showExport]="ctx.isTeacher"
+            (edit)="editQuestion(i)" (remove)="deleteQuestion(i)" (export)="exportQuestion(i)" />
         }
     </div>
 </section>

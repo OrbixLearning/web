@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { PopoverModule } from 'primeng/popover';
-import { Tooltip, TooltipModule } from 'primeng/tooltip';
+import { TooltipModule } from 'primeng/tooltip';
 import { QuestionTypeEnum } from '../../enums/QuestionType.enum';
 import { Question } from '../../models/Question';
 import { QuestionData } from '../../models/QuestionData';
@@ -24,8 +26,9 @@ import { SyllabusTagsComponent } from '../syllabus-tags/syllabus-tags.component'
 		MatSelectModule,
 		PopoverModule,
 		SyllabusTagsComponent,
-		Tooltip,
 		TooltipModule,
+		MatIconModule,
+		MatButtonModule,
 	],
 	templateUrl: './question-card.component.html',
 	styleUrl: './question-card.component.scss',
@@ -40,11 +43,13 @@ export class QuestionCardComponent {
 	@Input() showSelect: boolean = true;
 	@Input() showEdit: boolean = true;
 	@Input() showRemove: boolean = true;
+	@Input() showExport: boolean = false;
 	@Input() clickable: boolean = false;
 
 	@Output() select: EventEmitter<void> = new EventEmitter<void>();
 	@Output() edit: EventEmitter<void> = new EventEmitter<void>();
 	@Output() remove: EventEmitter<void> = new EventEmitter<void>();
+	@Output() export: EventEmitter<void> = new EventEmitter<void>();
 	@Output() onclick: EventEmitter<void> = new EventEmitter<void>();
 
 	questionTypeEnum = QuestionTypeEnum;

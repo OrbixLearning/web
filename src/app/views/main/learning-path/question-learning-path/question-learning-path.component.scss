@@ -246,7 +246,8 @@
 	}
 
 	.vm-list {
-		max-width: 900px;
+		width: 80%;
+		min-width: 600px;
 		display: flex;
 		flex-direction: column;
 		gap: 30px;

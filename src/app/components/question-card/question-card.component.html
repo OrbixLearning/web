@@ -19,6 +19,12 @@
             }
         </div>
         <div class="qc-right">
+            @if (showExport) {
+            <button mat-icon-button pTooltip="Exportar questão para base de questões"
+                (click)="$event.stopPropagation(); export.emit()">
+                <mat-icon>backup</mat-icon>
+            </button>
+            }
             @if (showSelect) {
             <mat-checkbox [checked]="selected" (change)="select.emit()"></mat-checkbox>
             }
