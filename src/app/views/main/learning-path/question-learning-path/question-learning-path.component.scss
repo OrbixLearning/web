@@ -228,10 +228,10 @@
 	.vm-header {
 		display: flex;
 		flex-direction: row;
-		justify-content: space-between;
+		justify-content: flex-start;
 		align-items: center;
 		width: 100%;
-		gap: 8px;
+		gap: 20px;
 
 		.vm-title {
 			margin: 0;

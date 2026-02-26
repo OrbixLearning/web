@@ -156,3 +156,11 @@
 		}
 	}
 }
+
+.clickable-q-card {
+	cursor: pointer;
+
+	&:hover {
+		background: color-mix(in oklab, var(--background-color) 80%, gray);
+	}
+}

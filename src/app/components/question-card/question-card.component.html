@@ -1,4 +1,4 @@
-<article class="q-card">
+<article [class]="'q-card ' + (clickable ? 'clickable-q-card' : '')" (click)="$event.stopPropagation(); onclick.emit()">
     <header class="qc-head">
         <div class="qc-left">
             @if (hasIndex) {
@@ -6,7 +6,8 @@
             }
             <span class="type">{{ question.type | questionType }}</span>
             @if (questionData) {
-            <o-text-button (onclick)="syllabusInfoPO.toggle($event);">Tópicos contemplados</o-text-button>
+            <o-text-button (onclick)="$event.stopPropagation(); syllabusInfoPO.toggle($event);">Tópicos
+                contemplados</o-text-button>
             <p-popover #syllabusInfoPO>
                 <o-syllabus-tags [syllabus]="questionData.syllabus || []" />
             </p-popover>
@@ -22,10 +23,10 @@
             <mat-checkbox [checked]="selected" (change)="select.emit()"></mat-checkbox>
             }
             @if (showEdit) {
-            <o-text-button (onclick)="edit.emit()">Editar</o-text-button>
+            <o-text-button (onclick)="$event.stopPropagation(); edit.emit()">Editar</o-text-button>
             }
             @if (showRemove) {
-            <o-text-button (onclick)="remove.emit()">Excluir</o-text-button>
+            <o-text-button (onclick)="$event.stopPropagation(); remove.emit()">Excluir</o-text-button>
             }
         </div>
     </header>

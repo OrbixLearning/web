@@ -111,12 +111,15 @@
 
 <section class="edit-mode">
     <header class="vm-header">
-        <o-highlight-button icon="add" matButton [matMenuTriggerFor]="menu">Adicionar questão</o-highlight-button>
+        <o-highlight-button icon="add" matButton [matMenuTriggerFor]="menu">Criar questão</o-highlight-button>
         <mat-menu #menu="matMenu">
             @for (type of QUESTION_TYPES; track type) {
             <button mat-menu-item (click)="addQuestion(type)">{{ type | questionType }}</button>
             }
         </mat-menu>
+        @if (ctx.isTeacher) {
+        <o-highlight-button icon="save_alt" (onclick)="importQuestion()">Importar questão</o-highlight-button>
+        }
     </header>
 
     <div class="vm-list" role="list">

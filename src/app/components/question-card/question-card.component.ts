@@ -4,6 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { PopoverModule } from 'primeng/popover';
+import { Tooltip, TooltipModule } from 'primeng/tooltip';
 import { QuestionTypeEnum } from '../../enums/QuestionType.enum';
 import { Question } from '../../models/Question';
 import { QuestionData } from '../../models/QuestionData';
@@ -11,7 +12,6 @@ import { QuestionTypePipe } from '../../pipes/question-type.pipe';
 import { QuestionUtils } from '../../utils/Question.utils';
 import { TextButtonComponent } from '../buttons/text-button/text-button.component';
 import { SyllabusTagsComponent } from '../syllabus-tags/syllabus-tags.component';
-import { Tooltip, TooltipModule } from 'primeng/tooltip';
 
 @Component({
 	selector: 'o-question-card',
@@ -40,10 +40,12 @@ export class QuestionCardComponent {
 	@Input() showSelect: boolean = true;
 	@Input() showEdit: boolean = true;
 	@Input() showRemove: boolean = true;
+	@Input() clickable: boolean = false;
 
 	@Output() select: EventEmitter<void> = new EventEmitter<void>();
 	@Output() edit: EventEmitter<void> = new EventEmitter<void>();
 	@Output() remove: EventEmitter<void> = new EventEmitter<void>();
+	@Output() onclick: EventEmitter<void> = new EventEmitter<void>();
 
 	questionTypeEnum = QuestionTypeEnum;
 
