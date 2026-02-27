@@ -64,9 +64,9 @@ export class AuthService {
 		return this.http.post(`${this.api}/oauth-login`, { code, redirectUri });
 	}
 
-	validateAccountLink(email: string): Observable<UserAccount> {
+	validateAccountLink(email: string, password: string): Observable<UserAccount> {
 		email = email.trim().toLowerCase();
-		return this.http.post<UserAccount>(`${this.api}/link/validate-account-link`, { email });
+		return this.http.post<UserAccount>(`${this.api}/link/validate-account-link`, { email, password });
 	}
 
 	linkAccount(email: string, password: string): Observable<User> {
