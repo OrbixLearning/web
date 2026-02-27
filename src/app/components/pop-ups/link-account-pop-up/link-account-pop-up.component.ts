@@ -48,7 +48,12 @@ export class LinkAccountPopUpComponent {
 	async onSubmit() {
 		if (this.form.valid) {
 			this.isLoading = true;
-			await lastValueFrom(this.service.validateAccountLink(this.getFormControl('email').value))
+			await lastValueFrom(
+				this.service.validateAccountLink(
+					this.getFormControl('email').value,
+					this.getFormControl('password').value,
+				),
+			)
 				.then((auth: UserAccount) => {
 					this.dialog
 						.open(ConfirmPopUpComponent, {
