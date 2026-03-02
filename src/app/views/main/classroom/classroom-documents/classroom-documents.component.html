@@ -54,12 +54,15 @@
                         <span class="ext-chip" pTooltip="Tipo do documento" tooltipPosition="left">{{ document.type |
                             documentType }}</span>
                         @if (ctx.isTeacher && document.hidden) {
-                        <mat-icon pTooltip="Este documento não é visível para alunos">visibility_off</mat-icon>
+                        <mat-icon pTooltip="Este documento não é visível para alunos"
+                            tooltipPosition="left">visibility_off</mat-icon>
                         }
                         @if (document.aiStatus === documentAIUploadStatusEnum.UPLOADED) {
-                        <mat-icon pTooltip="A IA da Orbix tem o conhecimento deste documento">psychology</mat-icon>
+                        <mat-icon pTooltip="A IA da Orbix tem o conhecimento deste documento"
+                            tooltipPosition="left">psychology</mat-icon>
                         }
-                        <span class="ext-chip" pTooltip="Extensão do documento">{{ document.extension }}</span>
+                        <span class="ext-chip" pTooltip="Extensão do documento" tooltipPosition="left">{{
+                            document.extension }}</span>
                     </div>
                 </div>
 
