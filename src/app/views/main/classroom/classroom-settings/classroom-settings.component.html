@@ -73,7 +73,8 @@
             @if (!syllabusDocument) {
             <div class="select-document-div">
                 <p-fileupload mode="basic" chooseLabel="Criar ementa a partir de um documento" name="logo" [auto]="true"
-                    accept=".pdf,.json" [maxFileSize]="MAX_FILE_SIZE" (onSelect)="selectSyllabusDocument($event)" />
+                    accept=".pdf,.json,.txt" [maxFileSize]="MAX_FILE_SIZE"
+                    (onSelect)="selectSyllabusDocument($event)" />
                 <div class="file-hint-div">
                     <p>Aceitamos arquivos PDF ou JSON.</p>
                     <p>
