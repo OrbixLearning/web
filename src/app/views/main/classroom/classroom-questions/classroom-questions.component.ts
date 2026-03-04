@@ -6,11 +6,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
+import { ActivatedRoute } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
-	ConfirmPopUpComponent,
-	ConfirmPopUpData,
+    ConfirmPopUpComponent,
+    ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { EditMultipleChoicePopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
 import { EditMultipleSelectionPopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
@@ -28,8 +29,7 @@ import { QuestionTypePipe } from '../../../../pipes/question-type.pipe';
 import { ContextService } from '../../../../services/context.service';
 import { DocumentService } from '../../../../services/document.service';
 import { QuestionDataService } from '../../../../services/question-data.service';
-import { ArrayUtils } from '../../../../utils/Array.utils';
-import { ActivatedRoute } from '@angular/router';
+import { TreeUtils } from '../../../../utils/Tree.utils';
 
 @Component({
 	selector: 'o-classroom-questions',
@@ -115,11 +115,7 @@ export class ClassroomQuestionsComponent {
 		return this.questions.filter(q => {
 			const filteredBySyllabus =
 				this.markedSyllabus.length === 0 ||
-				(q.syllabus &&
-					ArrayUtils.hasAllItems(
-						q.syllabus.map(r => r.id),
-						this.markedSyllabus.map(r => r.id),
-					));
+				(q.syllabus && TreeUtils.hasItemInCommon(this.markedSyllabus, q.syllabus, 'id', 'topics'));
 
 			const filteredByStatement = q.question.statement
 				.toLowerCase()

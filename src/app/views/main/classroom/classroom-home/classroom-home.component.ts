@@ -28,7 +28,7 @@ import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
-import { ArrayUtils } from '../../../../utils/Array.utils';
+import { TreeUtils } from '../../../../utils/Tree.utils';
 
 @Component({
 	selector: 'o-classroom-home',
@@ -66,7 +66,7 @@ export class ClassroomHomeComponent {
 	myLearningPaths: LearningPath[] = [];
 	sharedLearningPaths: LearningPath[] = [];
 	filter: string = '';
-	syllabusFilter: string[] = [];
+	syllabusFilter: Syllabus[] = [];
 	learningPathsInChat: LearningPath[] = [];
 	myLearningPathsPaginator: { index: number; size: number } = {
 		index: 0,
@@ -200,10 +200,7 @@ export class ClassroomHomeComponent {
 	filterLearningPath = (learningPath: LearningPath): boolean => {
 		const filteredBySyllabus =
 			this.syllabusFilter.length === 0 ||
-			ArrayUtils.hasAllItems(
-				learningPath.syllabus.map(r => r.id),
-				this.syllabusFilter,
-			);
+			TreeUtils.hasItemInCommon(this.syllabusFilter, learningPath.syllabus, 'id', 'topics');
 
 		const filteredByName =
 			learningPath.name.toLowerCase().includes(this.filter.toLowerCase()) ||
@@ -236,7 +233,7 @@ export class ClassroomHomeComponent {
 	}
 
 	markSyllabus(syllabus: Syllabus[]) {
-		this.syllabusFilter = syllabus.map(s => s.id!);
+		this.syllabusFilter = syllabus;
 	}
 
 	paginatorChange(paginator: { index: number; size: number }, event: PageEvent) {

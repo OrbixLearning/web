@@ -44,8 +44,8 @@ import { DocumentService } from '../../../../services/document.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
 import { QuestionDataService } from '../../../../services/question-data.service';
-import { ArrayUtils } from '../../../../utils/Array.utils';
 import { QuestionUtils } from '../../../../utils/Question.utils';
+import { TreeUtils } from '../../../../utils/Tree.utils';
 
 type QuestionContext = {
 	question: Question;
@@ -418,11 +418,7 @@ export class QuestionLearningPathComponent {
 			questionsData = questionsData.filter(qd => {
 				return (
 					syllabus.length === 0 ||
-					(qd.syllabus &&
-						ArrayUtils.hasItemInCommon(
-							syllabus.map(r => r.id),
-							qd.syllabus.map(r => r.id),
-						))
+					(qd.syllabus && TreeUtils.hasItemInCommon(syllabus, qd.syllabus, 'id', 'topics'))
 				);
 			});
 
