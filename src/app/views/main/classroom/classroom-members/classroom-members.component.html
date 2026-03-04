@@ -17,7 +17,9 @@
                 <ng-template #header>
                     <tr>
                         <th class="col-avatar">Perfil</th>
+                        @if (showStudentIdInInstitutionColumn) {
                         <th>Identificador</th>
+                        }
                         <th>Nome</th>
                         <th>Email</th>
                         @if (ctx.isTeacher) { <th class="col-actions">Ações</th> }
@@ -29,7 +31,9 @@
                         <td class="col-avatar">
                             <o-avatar [src]="getProfilePictureUrl(student.user)" [id]="student.user.id" [size]="28" />
                         </td>
+                        @if (showStudentIdInInstitutionColumn) {
                         <td>{{ student.idInInstitution }}</td>
+                        }
                         <td>{{ student.user.name }}</td>
                         <td>{{ student.email }}</td>
                         @if (ctx.isTeacher) {
@@ -59,7 +63,9 @@
                 <ng-template #header>
                     <tr>
                         <th class="col-avatar">Perfil</th>
+                        @if (showTeacherIdInInstitutionColumn) {
                         <th>Identificador</th>
+                        }
                         <th>Nome</th>
                         <th>Email</th>
                         @if (ctx.isTeacher) { <th class="col-actions">Ações</th> }
@@ -71,7 +77,9 @@
                         <td class="col-avatar">
                             <o-avatar [src]="getProfilePictureUrl(teacher.user)" [id]="teacher.user.id" [size]="28" />
                         </td>
+                        @if (showTeacherIdInInstitutionColumn) {
                         <td>{{ teacher.idInInstitution }}</td>
+                        }
                         <td>{{ teacher.user.name }}</td>
                         <td>{{ teacher.email }}</td>
                         @if (ctx.isTeacher) {

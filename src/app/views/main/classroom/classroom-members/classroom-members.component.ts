@@ -67,6 +67,14 @@ export class ClassroomMembersComponent {
 		return this.teachers.sort((a, b) => a.email.localeCompare(b.email));
 	}
 
+	get showStudentIdInInstitutionColumn(): boolean {
+		return this.students.some(student => student.idInInstitution);
+	}
+
+	get showTeacherIdInInstitutionColumn(): boolean {
+		return this.teachers.some(teacher => teacher.idInInstitution);
+	}
+
 	ngOnInit() {
 		this.getData();
 	}
