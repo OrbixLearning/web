@@ -79,12 +79,21 @@
 	flex: 0 0 auto;
 }
 
-.node-main .node-label {
+.node-main .node-label,
+.node-main .selected-node-label {
 	color: var(--text-color);
-	font-weight: 500;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.node-main .node-label {
+	font-weight: 500;
+}
+
+.node-main .selected-node-label {
+	font-weight: 800;
+	text-decoration: underline;
 }
 
 /* Right side (inline actions) — rendered only on type='edit' */

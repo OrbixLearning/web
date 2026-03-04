@@ -19,6 +19,7 @@ import {
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { LearningPathCreationPopUpComponent } from '../../../../components/pop-ups/learning-path-creation-pop-up/learning-path-creation-pop-up.component';
+import { SyllabusViewerPopUpComponent } from '../../../../components/pop-ups/syllabus-viewer-pop-up/syllabus-viewer-pop-up.component';
 import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
 import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
@@ -192,6 +193,13 @@ export class ClassroomHomeComponent {
 				function: () => this.router.navigateByUrl(this.baseUrl + '/settings'),
 				highlighted: true,
 			});
+		} else {
+			buttons.push({
+				text: 'Ementa',
+				icon: 'menu_book',
+				function: () => this.showSyllabusPopUp(),
+				highlighted: false,
+			});
 		}
 		return buttons;
 	}
@@ -239,6 +247,12 @@ export class ClassroomHomeComponent {
 	paginatorChange(paginator: { index: number; size: number }, event: PageEvent) {
 		paginator.index = event.pageIndex ?? 0;
 		paginator.size = event.pageSize ?? 5;
+	}
+
+	showSyllabusPopUp() {
+		this.dialog.open(SyllabusViewerPopUpComponent, {
+			minWidth: '700px',
+		});
 	}
 
 	createLearningPath() {

@@ -52,6 +52,10 @@ export class SyllabusComponent {
 		return 'checkbox';
 	}
 
+	isNodeSelected(node: TreeNode): boolean {
+		return this.selection?.map(s => s.key).includes(node.key) || false;
+	}
+
 	buildSyllabusTree(): TreeNode[] {
 		if (!this.syllabus) return [];
 		return this.recursiveSyllabusTreeBuildCall(this.syllabus, 0);
@@ -66,6 +70,7 @@ export class SyllabusComponent {
 				data: s,
 				leaf: s.topics ? s.topics.length === 0 : true,
 				selectable: true,
+				checked: false,
 				type: this.mode,
 				expanded: depth < this.TREE_INITIAL_EXPAND_DEPTH,
 				children: this.recursiveSyllabusTreeBuildCall(s.topics, depth + 1),
@@ -74,9 +79,11 @@ export class SyllabusComponent {
 	}
 
 	loadPreset(preset: SyllabusPreset) {
+		if (this.mode === 'edit') return;
 		this.selection = [];
 		this.addNodesToSelectionRecursively(preset.syllabusIds, this.syllabus || []);
 		this.selectionChange(this.selection);
+		console.log(this.selection);
 	}
 
 	addNodesToSelectionRecursively(ids: string[], syllabus: Syllabus[]) {
@@ -106,11 +113,9 @@ export class SyllabusComponent {
 	}
 
 	selectionChange(node: any) {
-		if (this.mode !== 'view') {
-			let nodeTree = node as TreeNode[];
-			let syllabus: Syllabus[] = nodeTree.map(n => n.data as Syllabus);
-			this.topicMarked(syllabus);
-		}
+		let nodeTree = node as TreeNode[];
+		let syllabus: Syllabus[] = nodeTree.map(n => n.data as Syllabus);
+		this.topicMarked(syllabus);
 	}
 
 	topicMarked(syllabus: Syllabus[]) {
