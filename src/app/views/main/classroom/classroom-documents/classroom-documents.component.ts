@@ -34,8 +34,8 @@ import { DocumentTypePipe } from '../../../../pipes/document-type.pipe';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { DocumentService } from '../../../../services/document.service';
-import { ArrayUtils } from '../../../../utils/Array.utils';
 import { download } from '../../../../utils/Download.util';
+import { TreeUtils } from '../../../../utils/Tree.utils';
 
 @Component({
 	selector: 'o-classroom-documents',
@@ -99,11 +99,7 @@ export class ClassroomDocumentsComponent {
 			.filter(d => {
 				const filteredBySyllabus =
 					this.markedSyllabus.length === 0 ||
-					(d.syllabus &&
-						ArrayUtils.hasAllItems(
-							d.syllabus.map(r => r.id),
-							this.markedSyllabus.map(r => r.id),
-						));
+					(d.syllabus && TreeUtils.hasItemInCommon(this.markedSyllabus, d.syllabus, 'id', 'topics'));
 
 				const filteredByName = d.name.toLowerCase().trim().includes(this.filter.toLowerCase().trim());
 

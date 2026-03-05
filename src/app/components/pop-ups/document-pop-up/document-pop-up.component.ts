@@ -98,9 +98,14 @@ export class DocumentPopUpComponent {
 	}
 
 	markSyllabus(syllabus: Syllabus[]) {
+		const lengthBefore = this.getFormControl('syllabus').value.length;
 		this.getFormControl('syllabus').setValue(syllabus);
 		if (syllabus.length === 0) {
 			this.getFormControl('feedAi').setValue(false);
+		} else {
+			if (lengthBefore === 0) {
+				this.getFormControl('feedAi').setValue(true);
+			}
 		}
 	}
 

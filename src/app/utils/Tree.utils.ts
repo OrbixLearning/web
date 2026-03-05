@@ -48,4 +48,13 @@ export class TreeUtils {
 			flatTree2.map(item => item[idFieldName]),
 		);
 	}
+
+	static hasAllItems(bigTree: any[], smallTree: any[], idFieldName: string, childrenFieldName: string): boolean {
+		const flatBigTree = this.flattenTree(bigTree, childrenFieldName);
+		const flatSmallTree = this.flattenTree(smallTree, childrenFieldName);
+		return ArrayUtils.hasAllItems(
+			flatBigTree.map(item => item[idFieldName]),
+			flatSmallTree.map(item => item[idFieldName]),
+		);
+	}
 }

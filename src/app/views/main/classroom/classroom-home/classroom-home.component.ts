@@ -19,6 +19,7 @@ import {
 	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { LearningPathCreationPopUpComponent } from '../../../../components/pop-ups/learning-path-creation-pop-up/learning-path-creation-pop-up.component';
+import { SyllabusViewerPopUpComponent } from '../../../../components/pop-ups/syllabus-viewer-pop-up/syllabus-viewer-pop-up.component';
 import { SubHeaderButton, SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
 import { SyllabusComponent } from '../../../../components/syllabus/syllabus.component';
 import { InstitutionRoleEnum } from '../../../../enums/InstitutionRole.enum';
@@ -28,7 +29,7 @@ import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
-import { ArrayUtils } from '../../../../utils/Array.utils';
+import { TreeUtils } from '../../../../utils/Tree.utils';
 
 @Component({
 	selector: 'o-classroom-home',
@@ -66,7 +67,7 @@ export class ClassroomHomeComponent {
 	myLearningPaths: LearningPath[] = [];
 	sharedLearningPaths: LearningPath[] = [];
 	filter: string = '';
-	syllabusFilter: string[] = [];
+	syllabusFilter: Syllabus[] = [];
 	learningPathsInChat: LearningPath[] = [];
 	myLearningPathsPaginator: { index: number; size: number } = {
 		index: 0,
@@ -192,6 +193,13 @@ export class ClassroomHomeComponent {
 				function: () => this.router.navigateByUrl(this.baseUrl + '/settings'),
 				highlighted: true,
 			});
+		} else {
+			buttons.push({
+				text: 'Ementa',
+				icon: 'menu_book',
+				function: () => this.showSyllabusPopUp(),
+				highlighted: false,
+			});
 		}
 		return buttons;
 	}
@@ -200,10 +208,7 @@ export class ClassroomHomeComponent {
 	filterLearningPath = (learningPath: LearningPath): boolean => {
 		const filteredBySyllabus =
 			this.syllabusFilter.length === 0 ||
-			ArrayUtils.hasAllItems(
-				learningPath.syllabus.map(r => r.id),
-				this.syllabusFilter,
-			);
+			TreeUtils.hasItemInCommon(this.syllabusFilter, learningPath.syllabus, 'id', 'topics');
 
 		const filteredByName =
 			learningPath.name.toLowerCase().includes(this.filter.toLowerCase()) ||
@@ -236,12 +241,18 @@ export class ClassroomHomeComponent {
 	}
 
 	markSyllabus(syllabus: Syllabus[]) {
-		this.syllabusFilter = syllabus.map(s => s.id!);
+		this.syllabusFilter = syllabus;
 	}
 
 	paginatorChange(paginator: { index: number; size: number }, event: PageEvent) {
 		paginator.index = event.pageIndex ?? 0;
 		paginator.size = event.pageSize ?? 5;
+	}
+
+	showSyllabusPopUp() {
+		this.dialog.open(SyllabusViewerPopUpComponent, {
+			minWidth: '700px',
+		});
 	}
 
 	createLearningPath() {
