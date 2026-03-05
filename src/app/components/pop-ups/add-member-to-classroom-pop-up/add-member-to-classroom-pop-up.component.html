@@ -31,7 +31,8 @@
             @for (userAccount of filteredUsers; track userAccount.id) {
             <button mat-raised-button class="result-item" [disabled]="isAlreadySelected(userAccount)"
                 (click)="selectUser(userAccount)">
-                {{ userAccount.user.name }} • {{ userAccount.idInInstitution }}
+                {{ userAccount.user.name }} • {{ userAccount.idInInstitution ? userAccount.idInInstitution :
+                userAccount.email }}
             </button>
             }
         </div>
@@ -42,7 +43,8 @@
     <mat-chip-set>
         @for (userAccount of selectedUsers; track userAccount.id) {
         <mat-chip [removable]="true" (removed)="removeUser(userAccount)">
-            {{ userAccount.user.name }} • {{ userAccount.idInInstitution }}
+            {{ userAccount.user.name }} • {{ userAccount.idInInstitution ? userAccount.idInInstitution :
+            userAccount.email }}
             <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
             </button>

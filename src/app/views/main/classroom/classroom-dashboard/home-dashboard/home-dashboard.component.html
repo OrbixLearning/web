@@ -53,7 +53,8 @@
                 [title]="student.user.name">
                 <o-avatar [src]="getProfilePictureUrl(student.user)" [id]="student.user.id" [size]="28"
                     [clickable]="false" />
-                <p class="ellipsis">{{ student.user.name }} • {{student.idInInstitution}}</p>
+                <p class="ellipsis">{{ student.user.name }} • {{student.idInInstitution ? student.idInInstitution :
+                    student.email}}</p>
             </button>
             }
         </div>

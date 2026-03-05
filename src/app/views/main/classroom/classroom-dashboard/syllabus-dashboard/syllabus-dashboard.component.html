@@ -41,7 +41,8 @@
             <a class="rank-item" [routerLink]="[dashboardBaseUrl + '/student/' + item.student.id]"
                 [title]="item.student.user.name">
                 <span class="position">{{ $index + 1 }}</span>
-                <span class="name ellipsis">{{ item.student.user.name }} • {{item.student.idInInstitution}}</span>
+                <span class="name ellipsis">{{ item.student.user.name }} • {{item.student.idInInstitution ?
+                    item.student.idInInstitution : item.student.email}}</span>
                 <span class="value">{{ item.value }}</span>
             </a>
             }
