@@ -63,19 +63,33 @@ export class SyllabusComponent {
 
 	recursiveSyllabusTreeBuildCall(syllabus: Syllabus[] | null, depth: number): TreeNode[] {
 		if (!syllabus) return [];
-		return syllabus.map(s => {
+		let treeNode: TreeNode[] = syllabus.map(s => {
 			return {
 				key: s.id!,
 				label: s.name,
 				data: s,
 				leaf: s.topics ? s.topics.length === 0 : true,
 				selectable: true,
-				checked: false,
+				checked: this.preMarkedSyllabus ? this.preMarkedSyllabus.map(ps => ps.id).includes(s.id!) : false,
 				type: this.mode,
 				expanded: depth < this.TREE_INITIAL_EXPAND_DEPTH,
 				children: this.recursiveSyllabusTreeBuildCall(s.topics, depth + 1),
 			};
 		});
+		treeNode.forEach(node => this.applyPartiallySelectedParents(node));
+		return treeNode;
+	}
+
+	applyPartiallySelectedParents(treeNode: TreeNode): boolean | undefined {
+		if (treeNode.children) {
+			treeNode.children.forEach(child => {
+				const childChecked = this.applyPartiallySelectedParents(child);
+				if (childChecked && !treeNode.checked) {
+					treeNode.partialSelected = true;
+				}
+			});
+		}
+		return treeNode.partialSelected || treeNode.checked;
 	}
 
 	loadPreset(preset: SyllabusPreset) {
