@@ -4,7 +4,8 @@
 
 <div class="student-dashboard-div">
     <div class="header">
-        <h2>Dashboard do aluno {{studentAccount?.user?.name}} ({{studentAccount?.idInInstitution}})</h2>
+        <h2>Dashboard do aluno {{studentAccount?.user?.name}} ({{studentAccount?.idInInstitution ?
+            studentAccount?.idInInstitution : studentAccount?.email}})</h2>
         <o-avatar [src]="profilePictureUrl" [id]="studentAccount?.user?.id || ''" [size]="58" />
     </div>
 

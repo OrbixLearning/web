@@ -206,7 +206,7 @@ export class InstitutionUsersComponent {
 			this.service.updateAccount(
 				account.id,
 				account.email,
-				account.idInInstitution || '',
+				account.idInInstitution || null,
 				account.institutionRole!,
 			),
 		)

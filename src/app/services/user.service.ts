@@ -50,7 +50,7 @@ export class UserService {
 	updateAccount(
 		id: string,
 		email: string,
-		idInInstitution: string,
+		idInInstitution: string | null,
 		institutionRole: InstitutionRoleEnum,
 	): Observable<UserAccount> {
 		return this.http.put<UserAccount>(`${this.api}/account/${id}`, {
@@ -82,7 +82,7 @@ export class UserService {
 		name: string,
 		password: string,
 		role: InstitutionRoleEnum,
-		idInInstitution: string,
+		idInInstitution: string | null,
 	): Observable<UserAccount> {
 		return this.http.post<UserAccount>(`${this.api}/institution/${institutionId}`, {
 			email,
