@@ -159,6 +159,7 @@ export class InstitutionUsersComponent {
 		this.dialog
 			.open(UserCreationPopUpComponent, {
 				minWidth: '600px',
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe(async res => {

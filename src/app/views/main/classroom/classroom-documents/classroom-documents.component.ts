@@ -135,6 +135,7 @@ export class ClassroomDocumentsComponent {
 		this.dialog
 			.open(DocumentPopUpComponent, {
 				minWidth: '800px',
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe(async (response: UploadDocumentPopUpResponse | undefined) => {
@@ -200,6 +201,7 @@ export class ClassroomDocumentsComponent {
 				data: {
 					document: documentParam,
 				},
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe(async (documentResponse: Document | undefined) => {

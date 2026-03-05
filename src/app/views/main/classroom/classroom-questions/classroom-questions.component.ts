@@ -10,8 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
-    ConfirmPopUpComponent,
-    ConfirmPopUpData,
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { EditMultipleChoicePopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-choice-pop-up/edit-multiple-choice-pop-up.component';
 import { EditMultipleSelectionPopUpComponent } from '../../../../components/pop-ups/questions/edit-multiple-selection-pop-up/edit-multiple-selection-pop-up.component';
@@ -217,6 +217,7 @@ export class ClassroomQuestionsComponent {
 					syllabus: questionData.syllabus,
 				},
 				minWidth: '1000px',
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe(async (result: { question: Question; syllabus: Syllabus[] } | undefined) => {

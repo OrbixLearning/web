@@ -1,13 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { Syllabus } from '../../../models/Syllabus';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
-import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Syllabus } from '../../../models/Syllabus';
+import { SyllabusComponent } from '../../syllabus/syllabus.component';
+import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
+import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 
 export type SyllabusPresetCreationPopUpData = {
 	syllabus: Syllabus[];

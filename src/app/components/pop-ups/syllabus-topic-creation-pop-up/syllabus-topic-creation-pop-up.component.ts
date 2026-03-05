@@ -5,9 +5,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Syllabus } from '../../../models/Syllabus';
+import { TreeUtils } from '../../../utils/Tree.utils';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
-import { TreeUtils } from '../../../utils/Tree.utils';
 
 export type SyllabusTopicCreationPopUpData = {
 	syllabus?: Syllabus[];
