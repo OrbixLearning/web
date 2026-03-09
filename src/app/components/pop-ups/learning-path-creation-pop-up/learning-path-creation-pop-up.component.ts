@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AccordionModule } from 'primeng/accordion';
+import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
 import { AudioVoiceEnum } from '../../../enums/AudioVoice.enum';
 import { LearningPathTypeEnum } from '../../../enums/LearningPathType.enum';
@@ -32,7 +33,6 @@ import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
 import { SuccessPopUpComponent, SuccessPopUpData } from '../success-pop-up/success-pop-up.component';
-import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
 	selector: 'o-learning-path-creation-pop-up',

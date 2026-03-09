@@ -356,6 +356,7 @@ export class QuestionLearningPathComponent {
 			.open(EditMultipleChoicePopUpComponent, {
 				minWidth: '600px',
 				data: { index: this.questions.length },
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
@@ -370,6 +371,7 @@ export class QuestionLearningPathComponent {
 			.open(EditMultipleSelectionPopUpComponent, {
 				minWidth: '600px',
 				data: { index: this.questions.length },
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
@@ -384,6 +386,7 @@ export class QuestionLearningPathComponent {
 			.open(EditTrueFalsePopUpComponent, {
 				minWidth: '600px',
 				data: { index: this.questions.length },
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
@@ -398,6 +401,7 @@ export class QuestionLearningPathComponent {
 			.open(EditOpenEndedPopUpComponent, {
 				minWidth: '600px',
 				data: { index: this.questions.length },
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {
@@ -497,6 +501,7 @@ export class QuestionLearningPathComponent {
 					index: index,
 				},
 				minWidth: '600px',
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe((result: { question: Question; index: number } | undefined) => {

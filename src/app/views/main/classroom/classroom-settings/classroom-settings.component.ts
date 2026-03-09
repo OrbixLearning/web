@@ -159,6 +159,7 @@ export class ClassroomSettingsComponent {
 			.open(SyllabusTopicCreationPopUpComponent, {
 				data,
 				minWidth: '500px',
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe(async (result: SyllabusTopicCreationPopUpResult | undefined) => {
@@ -185,6 +186,7 @@ export class ClassroomSettingsComponent {
 			.open(SyllabusPresetCreationPopUpComponent, {
 				data,
 				minWidth: '500px',
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe(async (result: SyllabusPresetCreationPopUpResult | undefined) => {

@@ -86,6 +86,7 @@ export class FlashCardLearningPathComponent {
 		this.dialog
 			.open(EditFlashCardPopUpComponent, {
 				minWidth: '600px',
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe((result: FlashCard | undefined) => {
@@ -100,6 +101,7 @@ export class FlashCardLearningPathComponent {
 			.open(EditFlashCardPopUpComponent, {
 				data: this.flashCards[index],
 				minWidth: '600px',
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe((result: FlashCard | undefined) => {

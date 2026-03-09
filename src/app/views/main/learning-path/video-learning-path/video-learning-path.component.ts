@@ -52,6 +52,7 @@ export class VideoLearningPathComponent {
 		this.dialog
 			.open(EditVideoPopUpComponent, {
 				minWidth: '800px',
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe((result: { video: VideoDetails; index: number } | undefined) => {
@@ -70,6 +71,7 @@ export class VideoLearningPathComponent {
 			.open(EditVideoPopUpComponent, {
 				data: { video, index },
 				minWidth: '800px',
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe((result: { video: VideoDetails; index: number } | undefined) => {

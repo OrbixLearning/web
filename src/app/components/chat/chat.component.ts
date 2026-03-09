@@ -51,6 +51,7 @@ export class ChatComponent {
 	error: boolean = false;
 	page: number = 0;
 	scrollDone: boolean = false;
+	file?: File;
 
 	ngOnInit() {
 		// This is used to update the data when the classroomId changes in the URL
@@ -103,13 +104,15 @@ export class ChatComponent {
 		const aiChatMessage: AIChatMessage = {
 			content: this.input,
 			userMessage: true,
+			containsFile: !!this.file,
 		};
 		this.messages.unshift(aiChatMessage);
 		const learningPathIds = this.learningPaths.map(lp => lp.id!) || [];
 		this.scrollToBottom();
-		await lastValueFrom(this.service.chat(this.ctx.classroom!.id, this.input, learningPathIds))
+		await lastValueFrom(this.service.chat(this.ctx.classroom!.id, this.input, learningPathIds, this.file))
 			.then(data => {
-				this.messages.unshift(data);
+				this.messages[0].id = data.userMessageId;
+				this.messages.unshift(data.aiMessage);
 				this.input = '';
 				this.error = false;
 			})
