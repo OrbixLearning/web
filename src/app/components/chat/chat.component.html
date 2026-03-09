@@ -51,13 +51,6 @@
     }
 
     <div class="chat-input">
-        <button mat-icon-button (click)="sendMessage()" [disabled]="isSending" type="button">
-            @if (file) {
-            <mat-icon>attach_file</mat-icon>
-            } @else {
-            <mat-icon>image</mat-icon>
-            }
-        </button>
 
         <mat-form-field appearance="outline" subscriptSizing="dynamic" class="input-field">
             <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
