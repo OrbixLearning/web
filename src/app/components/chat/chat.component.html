@@ -16,6 +16,13 @@
             @for (message of messages; track $index) {
             @if (message.userMessage) {
             <div class="user-message-div">
+                @if (message.containsFile) {
+                @if (message.id) {
+                <img [src]="getMessageImage(message)" alt="Imagem" />
+                } @else {
+                <img [src]="preview" alt="Preview da imagem" />
+                }
+                }
                 <div class="user-message">{{ message.content }}</div>
             </div>
             } @else {
@@ -37,8 +44,12 @@
         }
     </div>
 
-    @if (learningPaths.length > 0 && showLearningPaths) {
-    <div class="learning-paths">
+    <div class="chat-attachments">
+        @if (file && !isSending) {
+        <img [src]="preview" alt="Preview da imagem" />
+        }
+
+        @if (learningPaths.length > 0 && showLearningPaths) {
         @for (learningPath of learningPaths; track learningPath.id) {
         <div class="learning-path">
             <p>{{ learningPath.name }}</p>
@@ -47,10 +58,19 @@
             </button>
         </div>
         }
+        }
     </div>
-    }
 
     <div class="chat-input">
+        @if (file) {
+        <button mat-icon-button (click)="removeFile()" [disabled]="isSending" type="button" pTooltip="Remover imagem">
+            <mat-icon>close</mat-icon>
+        </button>
+        } @else {
+        <button mat-icon-button (click)="attachFile()" [disabled]="isSending" type="button" pTooltip="Anexar imagem">
+            <mat-icon>image</mat-icon>
+        </button>
+        }
 
         <mat-form-field appearance="outline" subscriptSizing="dynamic" class="input-field">
             <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
