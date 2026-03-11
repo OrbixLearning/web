@@ -52,6 +52,7 @@ export class ChatComponent {
 	page: number = 0;
 	scrollDone: boolean = false;
 	file?: File;
+	preview: string | ArrayBuffer | null = null;
 
 	ngOnInit() {
 		// This is used to update the data when the classroomId changes in the URL
@@ -99,6 +100,37 @@ export class ChatComponent {
 		});
 	}
 
+	getMessageImage(message: AIChatMessage) {
+		return this.service.getMessageImage(message);
+	}
+
+	attachFile() {
+		const input = document.createElement('input');
+		input.type = 'file';
+		input.accept = 'image/*';
+
+		input.onchange = (event: Event) => {
+			const target = event.target as HTMLInputElement;
+			if (target.files && target.files.length > 0) {
+				this.file = target.files[0];
+			}
+			if (this.file) {
+				const reader = new FileReader();
+				reader.onload = () => {
+					this.preview = reader.result;
+				};
+				reader.readAsDataURL(this.file);
+			}
+		};
+
+		input.click();
+	}
+
+	removeFile() {
+		this.file = undefined;
+		this.preview = null;
+	}
+
 	async sendMessage() {
 		if (this.isSending) return;
 		const aiChatMessage: AIChatMessage = {
@@ -114,6 +146,8 @@ export class ChatComponent {
 				this.messages[0].id = data.userMessageId;
 				this.messages.unshift(data.aiMessage);
 				this.input = '';
+				this.file = undefined;
+				this.preview = null;
 				this.error = false;
 			})
 			.catch(() => {
