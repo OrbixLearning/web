@@ -8,13 +8,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { lastValueFrom } from 'rxjs';
 import { UserAccount } from '../../../models/User';
+import { ClassroomService } from '../../../services/classroom.service';
 import { ContextService } from '../../../services/context.service';
 import { UserService } from '../../../services/user.service';
 import { LoadingComponent } from '../../loading/loading.component';
 import { ErrorPopUpComponent, ErrorPopUpData } from '../error-pop-up/error-pop-up.component';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../pop-up-header/pop-up-header.component';
-import { ClassroomService } from '../../../services/classroom.service';
 
 @Component({
 	selector: 'o-add-member-to-classroom-pop-up',

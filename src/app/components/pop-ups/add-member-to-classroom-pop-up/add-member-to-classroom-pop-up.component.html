@@ -40,7 +40,8 @@
     </div>
 
     <!-- Selected chips -->
-    <mat-chip-set>
+    @if (selectedUsers.length > 0) {
+    <mat-chip-set class="selected">
         @for (userAccount of selectedUsers; track userAccount.id) {
         <mat-chip [removable]="true" (removed)="removeUser(userAccount)">
             {{ userAccount.user.name }} • {{ userAccount.idInInstitution ? userAccount.idInInstitution :
@@ -51,6 +52,7 @@
         </mat-chip>
         }
     </mat-chip-set>
+    }
 
 </mat-dialog-content>
 
