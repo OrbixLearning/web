@@ -2,12 +2,12 @@
 
 <o-sub-header [buttons]="headerButtons" />
 
-<div class="classroom-home">
+<div class="classroom-home" [style]="chatExpanded ? '' : 'grid-template-columns: minmax(0, 1fr) minmax(0, 6fr);'">
     <!-- Left: chat -->
     <section class="left-content panel">
         <div class="panel__body">
             <o-chat style="width: 100%" [learningPaths]="learningPathsInChat"
-                (removeLearningPath)="removeLearningPathFromChat($event)"
+                (removeLearningPath)="removeLearningPathFromChat($event)" (expandedChange)="chatExpanded = $event"
                 message="Essa IA sabe todo o conteúdo desta turma e pode te ajudar a aprender da maneira mais eficiente e confiável!" />
         </div>
     </section>

@@ -7,13 +7,13 @@
 	background: color-mix(in oklab, var(--background-color) 96%, white);
 }
 
-.clear-button-div {
+.menu-button-div {
 	display: flex;
 	justify-content: flex-start;
 	width: 100%;
 	position: relative;
 
-	.clear-button {
+	.menu-button {
 		position: absolute;
 		top: -6px;
 		left: -6px;

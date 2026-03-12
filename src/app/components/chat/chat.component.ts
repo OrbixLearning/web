@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { ActivatedRoute } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
 import { TooltipModule } from 'primeng/tooltip';
@@ -13,6 +14,7 @@ import { AIChatMessage } from '../../models/AIChatMessage';
 import { LearningPath } from '../../models/LearningPath/LearningPath';
 import { AIChatService } from '../../services/aichat.service';
 import { ContextService } from '../../services/context.service';
+import { HighlightButtonComponent } from '../buttons/highlight-button/highlight-button.component';
 import { LoadingComponent } from '../loading/loading.component';
 import { ConfirmPopUpComponent, ConfirmPopUpData } from '../pop-ups/confirm-pop-up/confirm-pop-up.component';
 
@@ -27,6 +29,8 @@ import { ConfirmPopUpComponent, ConfirmPopUpData } from '../pop-ups/confirm-pop-
 		MatIconModule,
 		MarkdownModule,
 		TooltipModule,
+		MatMenuModule,
+		HighlightButtonComponent,
 	],
 	templateUrl: './chat.component.html',
 	styleUrl: './chat.component.scss',
@@ -41,9 +45,9 @@ export class ChatComponent {
 	@Input() learningPaths: LearningPath[] = [];
 	@Input() showLearningPaths: boolean = true;
 	@Input() height: string = '65vh';
-	@Input() clearButton: boolean = true;
 	@Input() message!: string;
 	@Output() removeLearningPath: EventEmitter<LearningPath> = new EventEmitter<LearningPath>();
+	@Output() expandedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	messages: AIChatMessage[] = [];
 	input: string = '';
@@ -53,6 +57,7 @@ export class ChatComponent {
 	scrollDone: boolean = false;
 	file?: File;
 	preview: string | ArrayBuffer | null = null;
+	expanded: boolean = true;
 
 	ngOnInit() {
 		// This is used to update the data when the classroomId changes in the URL
@@ -98,6 +103,11 @@ export class ChatComponent {
 			top: this.messagesWrapper.nativeElement.scrollHeight,
 			behavior: 'instant',
 		});
+	}
+
+	toggleExpanded() {
+		this.expanded = !this.expanded;
+		this.expandedChange.emit(this.expanded);
 	}
 
 	getMessageImage(message: AIChatMessage) {
@@ -188,6 +198,8 @@ export class ChatComponent {
 				}
 			});
 	}
+
+	openSettings() {}
 
 	sendInstantMessage(message: string) {
 		this.input = message;

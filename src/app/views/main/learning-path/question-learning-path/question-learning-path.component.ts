@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
+import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
 import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
 import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
@@ -70,6 +71,7 @@ type QuestionContext = {
 		MatMenuModule,
 		QuestionTypePipe,
 		QuestionCardComponent,
+		TooltipModule,
 	],
 	templateUrl: './question-learning-path.component.html',
 	styleUrl: './question-learning-path.component.scss',

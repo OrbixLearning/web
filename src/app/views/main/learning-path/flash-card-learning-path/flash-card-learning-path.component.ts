@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { DividerModule } from 'primeng/divider';
+import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
 import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
@@ -26,7 +27,15 @@ type FlashCardContext = {
 
 @Component({
 	selector: 'o-flash-card-learning-path',
-	imports: [MatCardModule, MatButtonModule, MatIconModule, DividerModule, LoadingComponent, HighlightButtonComponent],
+	imports: [
+		MatCardModule,
+		MatButtonModule,
+		MatIconModule,
+		DividerModule,
+		LoadingComponent,
+		HighlightButtonComponent,
+		TooltipModule,
+	],
 	templateUrl: './flash-card-learning-path.component.html',
 	styleUrl: './flash-card-learning-path.component.scss',
 })

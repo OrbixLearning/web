@@ -52,7 +52,8 @@
         </section>
 
         <section class="fc-right" [style]="expandedMenu ? '' : 'width: auto;'">
-            <button mat-icon-button (click)="expandedMenu = !expandedMenu">
+            <button mat-icon-button (click)="expandedMenu = !expandedMenu"
+                [pTooltip]="expandedMenu ? 'Fechar menu' : 'Expandir menu'">
                 <mat-icon>{{expandedMenu ? 'zoom_in_map' : 'zoom_out_map'}}</mat-icon>
             </button>
             @if (expandedMenu) {

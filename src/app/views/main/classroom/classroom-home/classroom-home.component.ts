@@ -77,6 +77,7 @@ export class ClassroomHomeComponent {
 		index: 0,
 		size: this.NUMBER_OF_LEARNING_PATH_CARDS_PER_PAGE,
 	};
+	chatExpanded: boolean = true;
 
 	constructor(private paginator: MatPaginatorIntl) {
 		paginator.getRangeLabel = (page: number, pageSize: number, length: number) => {

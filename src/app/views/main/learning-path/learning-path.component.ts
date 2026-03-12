@@ -78,6 +78,7 @@ export class LearningPathComponent {
 	typeEnum = LearningPathTypeEnum;
 	generationStatusEnum = LearningPathGenerationStatusEnum;
 	validationRequested: boolean = false;
+	expandedChat: boolean = true;
 
 	mode: 'edit' | 'study' = 'study';
 
