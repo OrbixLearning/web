@@ -4,7 +4,7 @@
 
 <div class="study-mode">
     <!-- LEFT: current question -->
-    <section class="q-left">
+    <section class="q-left" [style]="expandedMenu ? '' : 'width: 100%;'">
         <header class="q-header">
             <h3 class="q-title">Questão {{ index + 1 }} de {{ questionsContext.length }}</h3>
             <div>
@@ -79,7 +79,12 @@
     </section>
 
     <!-- RIGHT: list + actions -->
-    <aside class="q-right">
+    <aside class="q-right" [style]="expandedMenu ? '' : 'width: auto;'">
+        <button mat-icon-button (click)="expandedMenu = !expandedMenu">
+            <mat-icon>{{expandedMenu ? 'zoom_in_map' : 'zoom_out_map'}}</mat-icon>
+        </button>
+
+        @if (expandedMenu) {
         <div class="questions-menu" role="list">
             @for (context of questionsContext; track $index; let i = $index) {
             <button mat-stroked-button class="q-item" (click)="goToQuestion(i)"
@@ -104,6 +109,7 @@
             </o-text-button>
             }
         </div>
+        }
     </aside>
 </div>
 

@@ -94,6 +94,7 @@ export class QuestionLearningPathComponent {
 	amountOfIncorrectAnswers: number = 0;
 	questionTypeEnum = QuestionTypeEnum;
 	openEndedQuestionsDebounceTimer: any;
+	expandedMenu: boolean = true;
 
 	readonly QUESTION_TYPES = Object.values(QuestionTypeEnum) as QuestionTypeEnum[];
 

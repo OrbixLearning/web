@@ -43,6 +43,7 @@ export class FlashCardLearningPathComponent {
 	shuffledFlashCards: FlashCard[] = [];
 	fcIndex: number = 0;
 	fcContext: FlashCardContext[] = [];
+	expandedMenu: boolean = true;
 
 	get flashCard(): FlashCard {
 		return this.shuffledFlashCards[this.fcIndex];
