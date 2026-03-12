@@ -211,7 +211,9 @@ export class InstitutionUsersComponent {
 				account.institutionRole!,
 			),
 		)
-			.then(() => {})
+			.then(async () => {
+				await this.getRolesCounts();
+			})
 			.catch(async () => {
 				await this.getData();
 			})
