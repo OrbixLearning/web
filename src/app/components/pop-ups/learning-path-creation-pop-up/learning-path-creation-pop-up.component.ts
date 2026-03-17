@@ -28,6 +28,7 @@ import { LearningPathTypePipe } from '../../../pipes/learning-path-type.pipe';
 import { QuestionTypePipe } from '../../../pipes/question-type.pipe';
 import { ContextService } from '../../../services/context.service';
 import { LearningPathService } from '../../../services/learning-path.service';
+import { UserService } from '../../../services/user.service';
 import { LoadingComponent } from '../../loading/loading.component';
 import { SyllabusComponent } from '../../syllabus/syllabus.component';
 import { PopUpButtonsComponent } from '../pop-up-buttons/pop-up-buttons.component';
@@ -63,6 +64,7 @@ export class LearningPathCreationPopUpComponent {
 	ctx: ContextService = inject(ContextService);
 	formBuilder: FormBuilder = inject(FormBuilder);
 	service: LearningPathService = inject(LearningPathService);
+	userService: UserService = inject(UserService);
 	dialog: MatDialog = inject(MatDialog);
 	dialogRef: MatDialogRef<LearningPathCreationPopUpComponent> = inject(
 		MatDialogRef<LearningPathCreationPopUpComponent>,
@@ -113,6 +115,25 @@ export class LearningPathCreationPopUpComponent {
 
 	getFormControl(i: number, name: string): FormControl {
 		return this.forms.at(i).get(name) as FormControl;
+	}
+
+	ngOnInit() {
+		this.startData();
+	}
+
+	async startData() {
+		if (!this.ctx.user?.aiPreferences) {
+			this.isLoading = true;
+			await lastValueFrom(this.userService.getUserAIPreferences())
+				.then(preferences => {
+					this.ctx.user!.aiPreferences = preferences;
+				})
+				.finally(() => {
+					this.isLoading = false;
+				});
+		}
+		this.baseLastForm.language.setValue(this.ctx.user?.aiPreferences?.learningPathsDefaultLanguage || 'pt-BR');
+		this.textForm.formality.setValue(this.ctx.user?.aiPreferences?.formality || 'medium');
 	}
 
 	markSyllabus(syllabus: Syllabus[]) {

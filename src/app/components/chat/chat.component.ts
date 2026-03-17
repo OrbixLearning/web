@@ -199,8 +199,6 @@ export class ChatComponent {
 			});
 	}
 
-	openSettings() {}
-
 	sendInstantMessage(message: string) {
 		this.input = message;
 		this.sendMessage();

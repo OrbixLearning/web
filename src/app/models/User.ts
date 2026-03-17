@@ -9,6 +9,7 @@ export type User = {
 	name: string;
 	role: Role;
 	profilePictureUrl: string | null;
+	aiPreferences: UserAIPreferences | null;
 };
 
 export type UserAccount = {
@@ -20,4 +21,10 @@ export type UserAccount = {
 	idInInstitution: string | null;
 	user: User;
 	active: boolean;
+};
+
+export type UserAIPreferences = {
+	aiAnswerSize: string;
+	formality: string;
+	learningPathsDefaultLanguage: string;
 };
