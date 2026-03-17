@@ -76,15 +76,11 @@
 <section class="text-lp-content" [style]="'max-height: ' + (showAudios? '65vh' : '75vh') + ';'">
     @if (mode === 'study') {
 
-    @if (isTextMarkdown) {
     <markdown class="text">{{ text }}</markdown>
-    } @else {
-    <div class="text" [innerHTML]="text"></div>
-    }
 
     } @else {
     <div class="editor-div">
-        <p-editor class="editor" [(ngModel)]="text">
+        <p-editor class="editor" [(ngModel)]="htmlText">
             <ng-template #header>
                 <span class="ql-formats">
                     <select class="ql-size" pTooltip="Tamanho do texto" tooltipPosition="top">

@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MarkdownModule, MarkdownService } from 'ngx-markdown';
-import { EditorModule } from 'primeng/editor';
+import { EditorModule, EditorTextChangeEvent } from 'primeng/editor';
 import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
@@ -44,6 +44,7 @@ export class TextLearningPathComponent {
 	@Input() mode: 'edit' | 'study' = 'edit';
 
 	text: string = '';
+	htmlText: string = '';
 	isLoading: boolean = false;
 	showAudios: boolean = false;
 	numberOfAudios: number = 0;
@@ -68,19 +69,27 @@ export class TextLearningPathComponent {
 		'formula',
 	];
 
-	get isTextMarkdown(): boolean {
-		return !this.text.startsWith('<');
-	}
-
 	ngOnInit() {
 		this.setData();
 	}
 
-	setData() {
+	async setData() {
 		let textLearningPath = this.ctx.learningPathStudy!.learningPath as TextLearningPath;
 		this.text = textLearningPath.text!;
 		this.numberOfAudios = textLearningPath.numberOfAudios || 0;
 		this.currentAudioStatus = textLearningPath.audioGenerationStatus;
+		await this.setHtmlText();
+	}
+
+	async setHtmlText() {
+		this.isLoading = true;
+		await lastValueFrom(this.service.getLearningPathTextInHtml(this.ctx.learningPathStudy!.learningPath.id))
+			.then(response => {
+				this.htmlText = response.htmlText;
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
 	}
 
 	getAudioUrl(number: number): string {
@@ -131,7 +140,9 @@ export class TextLearningPathComponent {
 
 	async save() {
 		this.isLoading = true;
-		await lastValueFrom(this.service.editTextLearningPath(this.ctx.learningPathStudy!.learningPath.id, this.text))
+		await lastValueFrom(
+			this.service.editTextLearningPath(this.ctx.learningPathStudy!.learningPath.id, this.htmlText),
+		)
 			.then((updatedLearningPath: TextLearningPath) => {
 				this.ctx.learningPathStudy!.learningPath = updatedLearningPath;
 				this.setData();

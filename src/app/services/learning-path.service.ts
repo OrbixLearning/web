@@ -40,6 +40,10 @@ export class LearningPathService {
 		return this.http.get(`${this.api}/pdf/${learningPathId}`, { responseType: 'blob' });
 	}
 
+	getLearningPathTextInHtml(learningPathId: string): Observable<{ htmlText: string }> {
+		return this.http.get<{ htmlText: string }>(`${this.api}/html-text/${learningPathId}`);
+	}
+
 	// UPDATE
 
 	shareLearningPath(id: string): Observable<LearningPath> {
@@ -72,8 +76,8 @@ export class LearningPathService {
 
 	// EDITING
 
-	editTextLearningPath(learningPathId: string, text: string): Observable<TextLearningPath> {
-		return this.http.put<TextLearningPath>(`${this.api}/text/${learningPathId}`, { text });
+	editTextLearningPath(learningPathId: string, htmlText: string): Observable<TextLearningPath> {
+		return this.http.put<TextLearningPath>(`${this.api}/text/${learningPathId}`, { htmlText });
 	}
 
 	editVideoLearningPath(learningPathId: string, videoDetails: VideoDetails[]): Observable<VideoLearningPath> {
