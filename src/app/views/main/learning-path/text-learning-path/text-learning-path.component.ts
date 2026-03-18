@@ -1,27 +1,25 @@
 import { Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MarkdownModule, MarkdownService } from 'ngx-markdown';
-import { EditorModule, EditorTextChangeEvent } from 'primeng/editor';
+import { MatSelectModule } from '@angular/material/select';
+import { EditorModule } from 'primeng/editor';
 import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
+import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
+import { MarkdownComponent } from '../../../../components/markdown/markdown.component';
+import { AudioVoiceEnum } from '../../../../enums/AudioVoice.enum';
+import { LearningPathGenerationStatusEnum } from '../../../../enums/LearningPathGenerationStatus.enum';
 import { TextLearningPath } from '../../../../models/LearningPath/LearningPath';
+import { AudioVoicePipe } from '../../../../pipes/audio-voice.pipe';
 import { ContextService } from '../../../../services/context.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
-import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
-import { LearningPathGenerationStatusEnum } from '../../../../enums/LearningPathGenerationStatus.enum';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatOptionModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
-import { AudioVoiceEnum } from '../../../../enums/AudioVoice.enum';
-import { AudioVoicePipe } from '../../../../pipes/audio-voice.pipe';
 
 @Component({
 	selector: 'o-text-learning-path',
 	imports: [
-		MarkdownModule,
 		MatButtonModule,
 		MatIconModule,
 		LoadingComponent,
@@ -32,13 +30,13 @@ import { AudioVoicePipe } from '../../../../pipes/audio-voice.pipe';
 		MatFormFieldModule,
 		MatSelectModule,
 		AudioVoicePipe,
+		MarkdownComponent,
 	],
 	templateUrl: './text-learning-path.component.html',
 	styleUrl: './text-learning-path.component.scss',
 })
 export class TextLearningPathComponent {
 	service: LearningPathService = inject(LearningPathService);
-	markdownService: MarkdownService = inject(MarkdownService);
 	ctx: ContextService = inject(ContextService);
 
 	@Input() mode: 'edit' | 'study' = 'edit';

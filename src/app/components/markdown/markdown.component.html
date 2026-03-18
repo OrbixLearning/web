@@ -1,0 +1,16 @@
+<remark [markdown]="text" [processor]="processor">
+    <ng-template [remarkTemplate]="'code'" let-node>
+        @if(node.lang === 'mermaid') {
+        <remark-mermaid [code]="node.value" />
+        }
+        @else {
+        <remark-prism [code]="node.value" [language]="node.lang" />
+        }
+    </ng-template>
+
+    <remark-katex *remarkTemplate="'math'; let node" [expr]="node.value"></remark-katex>
+    <remark-katex *remarkTemplate="'inlineMath'; let node" [expr]="node.value"></remark-katex>
+
+    <remark-heading *remarkTemplate="'heading'; let node" [node]="node"></remark-heading>
+
+</remark>

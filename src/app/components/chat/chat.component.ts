@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { ActivatedRoute } from '@angular/router';
-import { MarkdownModule } from 'ngx-markdown';
+import { RemarkModule } from 'ngx-remark';
 import { TooltipModule } from 'primeng/tooltip';
 import { lastValueFrom } from 'rxjs';
 import { AIChatMessage } from '../../models/AIChatMessage';
@@ -17,21 +17,23 @@ import { ContextService } from '../../services/context.service';
 import { HighlightButtonComponent } from '../buttons/highlight-button/highlight-button.component';
 import { LoadingComponent } from '../loading/loading.component';
 import { ConfirmPopUpComponent, ConfirmPopUpData } from '../pop-ups/confirm-pop-up/confirm-pop-up.component';
+import { MarkdownComponent } from "../markdown/markdown.component";
 
 @Component({
 	selector: 'o-chat',
 	imports: [
-		LoadingComponent,
-		MatButtonModule,
-		MatInputModule,
-		FormsModule,
-		MatFormFieldModule,
-		MatIconModule,
-		MarkdownModule,
-		TooltipModule,
-		MatMenuModule,
-		HighlightButtonComponent,
-	],
+    LoadingComponent,
+    MatButtonModule,
+    MatInputModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    TooltipModule,
+    MatMenuModule,
+    HighlightButtonComponent,
+    RemarkModule,
+    MarkdownComponent
+],
 	templateUrl: './chat.component.html',
 	styleUrl: './chat.component.scss',
 })
