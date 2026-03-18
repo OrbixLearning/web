@@ -16,24 +16,24 @@ import { AIChatService } from '../../services/aichat.service';
 import { ContextService } from '../../services/context.service';
 import { HighlightButtonComponent } from '../buttons/highlight-button/highlight-button.component';
 import { LoadingComponent } from '../loading/loading.component';
+import { MarkdownComponent } from '../markdown/markdown.component';
 import { ConfirmPopUpComponent, ConfirmPopUpData } from '../pop-ups/confirm-pop-up/confirm-pop-up.component';
-import { MarkdownComponent } from "../markdown/markdown.component";
 
 @Component({
 	selector: 'o-chat',
 	imports: [
-    LoadingComponent,
-    MatButtonModule,
-    MatInputModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatIconModule,
-    TooltipModule,
-    MatMenuModule,
-    HighlightButtonComponent,
-    RemarkModule,
-    MarkdownComponent
-],
+		LoadingComponent,
+		MatButtonModule,
+		MatInputModule,
+		FormsModule,
+		MatFormFieldModule,
+		MatIconModule,
+		TooltipModule,
+		MatMenuModule,
+		HighlightButtonComponent,
+		RemarkModule,
+		MarkdownComponent,
+	],
 	templateUrl: './chat.component.html',
 	styleUrl: './chat.component.scss',
 })
@@ -56,17 +56,29 @@ export class ChatComponent {
 	isLoading: boolean = false;
 	error: boolean = false;
 	page: number = 0;
-	scrollDone: boolean = false;
 	file?: File;
 	preview: string | ArrayBuffer | null = null;
 	expanded: boolean = true;
+	blockAutoScroll: boolean = false;
+	readonly CHAT_PAGE_SIZE: number = 30;
 
 	ngOnInit() {
 		// This is used to update the data when the classroomId changes in the URL
 		this.route.params.subscribe(params => {
 			this.reset();
-			this.getData();
+			this.getData(false);
 		});
+	}
+
+	ngAfterViewInit() {
+		// This is used to observe changes in the chat and scroll to the bottom when something changes
+		const observer = new MutationObserver(() => {
+			console.log('From Mutation Observer', this.blockAutoScroll);
+			if (!this.blockAutoScroll) {
+				this.scrollToBottom();
+			}
+		});
+		observer.observe(this.messagesWrapper.nativeElement, { childList: true, subtree: true });
 	}
 
 	get isInputEmpty(): boolean {
@@ -85,18 +97,35 @@ export class ChatComponent {
 		this.isLoading = false;
 	}
 
-	async getData() {
+	async getData(shouldBlockAutoScroll: boolean = true) {
 		this.isLoading = true;
-		const LIMIT = 30;
-		await lastValueFrom(this.service.getChatHistory(this.ctx.classroom!.id, this.page, LIMIT))
+		this.blockAutoScroll = shouldBlockAutoScroll;
+
+		let scrollContainer: HTMLDivElement | undefined;
+		let oldScrollHeight: number | undefined;
+		if (this.messagesWrapper) {
+			scrollContainer = this.messagesWrapper.nativeElement;
+			oldScrollHeight = scrollContainer.scrollHeight;
+		}
+
+		await lastValueFrom(this.service.getChatHistory(this.ctx.classroom!.id, this.page, this.CHAT_PAGE_SIZE))
 			.then(data => {
 				this.messages.push(...data);
-				if (data.length === LIMIT) {
-					this.page++;
-				}
+				this.page++;
 			})
 			.finally(() => {
+				if (scrollContainer && oldScrollHeight !== undefined) {
+					const newScrollHeight = scrollContainer.scrollHeight;
+					this.messagesWrapper.nativeElement.scrollTo({
+						top: newScrollHeight - oldScrollHeight,
+						behavior: 'instant',
+					});
+				}
 				this.isLoading = false;
+				// Waiting for the view to update with the new messages before calculating the new scroll height and scrolling
+				setTimeout(() => {
+					this.blockAutoScroll = false;
+				}, 200);
 			});
 	}
 
@@ -105,6 +134,14 @@ export class ChatComponent {
 			top: this.messagesWrapper.nativeElement.scrollHeight,
 			behavior: 'instant',
 		});
+	}
+
+	chatScrollRolled(event: Event) {
+		const element = event.target as HTMLElement;
+		if (element.scrollTop === 0 && this.messages.length >= this.CHAT_PAGE_SIZE * this.page) {
+			this.getData();
+			element.scrollTop = 1;
+		}
 	}
 
 	toggleExpanded() {

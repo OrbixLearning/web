@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { HeadingComponent, KatexComponent, MermaidComponent, PrismComponent, RemarkModule } from 'ngx-remark';
+import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import remarkParse from 'remark-parse';
 import { unified } from 'unified';
@@ -27,5 +28,5 @@ import { unified } from 'unified';
 export class MarkdownComponent {
 	@Input() text: string = '';
 
-	processor = unified().use(remarkParse).use(remarkMath);
+	processor = unified().use(remarkParse).use(remarkGfm).use(remarkMath);
 }

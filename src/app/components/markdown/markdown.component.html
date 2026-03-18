@@ -1,4 +1,4 @@
-<remark [markdown]="text" [processor]="processor">
+<remark [markdown]="text" [processor]="processor" class="markdown">
     <ng-template [remarkTemplate]="'code'" let-node>
         @if(node.lang === 'mermaid') {
         <remark-mermaid [code]="node.value" />

@@ -18,7 +18,7 @@
         </mat-menu>
     </div>
 
-    <div class="messages-wrapper" #messagesWrapper [style]="'height: ' + height">
+    <div class="messages-wrapper" #messagesWrapper [style]="'height: ' + height" (scroll)="chatScrollRolled($event)">
         @if (messages.length > 0) {
         <div class="messages">
             @for (message of messages; track $index) {
@@ -35,8 +35,7 @@
             </div>
             } @else {
             <div class="assistant-message-div">
-                <!-- <remark class="assistant-message" (ready)="scrollToBottom()" [markdown]="message.content" /> -->
-                <o-markdown [text]="message.content" (rendered)="scrollToBottom()" />
+                <o-markdown [text]="message.content" />
             </div>
             }
             }

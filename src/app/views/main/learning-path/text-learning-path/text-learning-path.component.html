@@ -76,10 +76,6 @@
 <section class="text-lp-content" [style]="'max-height: ' + (showAudios? '65vh' : '75vh') + ';'">
     @if (mode === 'study') {
 
-    <!-- <remark class="text" [markdown]="text">
-        <remark-katex *remarkTemplate="'math'; let node" [expr]="node.value" class="d-block mb-3"></remark-katex>
-        <remark-katex *remarkTemplate="'inlineMath'; let node" [expr]="node.value"></remark-katex>
-    </remark> -->
     <o-markdown [text]="text" />
 
     } @else {
