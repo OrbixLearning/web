@@ -97,7 +97,6 @@ export class SyllabusComponent {
 		this.selection = [];
 		this.addNodesToSelectionRecursively(preset.syllabusIds, this.syllabus || []);
 		this.selectionChange(this.selection);
-		console.log(this.selection);
 	}
 
 	addNodesToSelectionRecursively(ids: string[], syllabus: Syllabus[]) {

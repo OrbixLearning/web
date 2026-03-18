@@ -73,7 +73,6 @@ export class ChatComponent {
 	ngAfterViewInit() {
 		// This is used to observe changes in the chat and scroll to the bottom when something changes
 		const observer = new MutationObserver(() => {
-			console.log('From Mutation Observer', this.blockAutoScroll);
 			if (!this.blockAutoScroll) {
 				this.scrollToBottom();
 			}
@@ -125,7 +124,7 @@ export class ChatComponent {
 				// Waiting for the view to update with the new messages before calculating the new scroll height and scrolling
 				setTimeout(() => {
 					this.blockAutoScroll = false;
-				}, 200);
+				}, 500);
 			});
 	}
 
