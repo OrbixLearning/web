@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { HeadingComponent, KatexComponent, MermaidComponent, PrismComponent, RemarkModule } from 'ngx-remark';
+import { KatexComponent, MermaidComponent, PrismComponent, RemarkModule } from 'ngx-remark';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import remarkParse from 'remark-parse';
@@ -21,7 +21,7 @@ import { unified } from 'unified';
 
 @Component({
 	selector: 'o-markdown',
-	imports: [RemarkModule, KatexComponent, MermaidComponent, PrismComponent, HeadingComponent, KatexComponent],
+	imports: [RemarkModule, KatexComponent, MermaidComponent, PrismComponent, KatexComponent],
 	templateUrl: './markdown.component.html',
 	styleUrl: './markdown.component.scss',
 })

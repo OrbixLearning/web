@@ -1,5 +1,4 @@
 import { Component, inject, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,6 +15,8 @@ import { TextLearningPath } from '../../../../models/LearningPath/LearningPath';
 import { AudioVoicePipe } from '../../../../pipes/audio-voice.pipe';
 import { ContextService } from '../../../../services/context.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
+import { MarkdownEditorComponent } from '../../../../components/markdown-editor/markdown-editor.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
 	selector: 'o-text-learning-path',
@@ -23,7 +24,6 @@ import { LearningPathService } from '../../../../services/learning-path.service'
 		MatButtonModule,
 		MatIconModule,
 		LoadingComponent,
-		FormsModule,
 		EditorModule,
 		TooltipModule,
 		TextButtonComponent,
@@ -31,6 +31,7 @@ import { LearningPathService } from '../../../../services/learning-path.service'
 		MatSelectModule,
 		AudioVoicePipe,
 		MarkdownComponent,
+		MarkdownEditorComponent,
 	],
 	templateUrl: './text-learning-path.component.html',
 	styleUrl: './text-learning-path.component.scss',
@@ -42,7 +43,6 @@ export class TextLearningPathComponent {
 	@Input() mode: 'edit' | 'study' = 'edit';
 
 	text: string = '';
-	htmlText: string = '';
 	isLoading: boolean = false;
 	showAudios: boolean = false;
 	numberOfAudios: number = 0;
@@ -52,42 +52,15 @@ export class TextLearningPathComponent {
 	readonly VOICES = Object.values(AudioVoiceEnum) as AudioVoiceEnum[];
 	selectedVoice: AudioVoiceEnum = AudioVoiceEnum.ALLOY;
 
-	readonly EDITOR_OPTIONS = [
-		{ size: ['small', false, 'large', 'huge'] },
-		'bold',
-		'italic',
-		'underline',
-		'strike',
-		'code',
-		'code-block',
-		'link',
-		'script',
-		'blockquote',
-		[{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
-		'formula',
-	];
-
 	ngOnInit() {
 		this.setData();
 	}
 
-	async setData() {
+	setData() {
 		let textLearningPath = this.ctx.learningPathStudy!.learningPath as TextLearningPath;
 		this.text = textLearningPath.text!;
 		this.numberOfAudios = textLearningPath.numberOfAudios || 0;
 		this.currentAudioStatus = textLearningPath.audioGenerationStatus;
-		await this.setHtmlText();
-	}
-
-	async setHtmlText() {
-		this.isLoading = true;
-		await lastValueFrom(this.service.getLearningPathTextInHtml(this.ctx.learningPathStudy!.learningPath.id))
-			.then(response => {
-				this.htmlText = response.htmlText;
-			})
-			.finally(() => {
-				this.isLoading = false;
-			});
 	}
 
 	getAudioUrl(number: number): string {
@@ -138,9 +111,7 @@ export class TextLearningPathComponent {
 
 	async save() {
 		this.isLoading = true;
-		await lastValueFrom(
-			this.service.editTextLearningPath(this.ctx.learningPathStudy!.learningPath.id, this.htmlText),
-		)
+		await lastValueFrom(this.service.editTextLearningPath(this.ctx.learningPathStudy!.learningPath.id, this.text))
 			.then((updatedLearningPath: TextLearningPath) => {
 				this.ctx.learningPathStudy!.learningPath = updatedLearningPath;
 				this.setData();

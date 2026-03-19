@@ -21,6 +21,7 @@
     "@angular/router": "^20.3.18",
     "@primeng/themes": "^19.1.0",
     "@primeuix/themes": "^2.0.3",
+    "angular-markdown-editor": "^3.1.1",
     "chart.js": "^4.5.0",
     "ngx-remark": "^0.2.2",
     "primeicons": "^7.0.0",

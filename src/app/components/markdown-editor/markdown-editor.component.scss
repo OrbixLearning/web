@@ -1,0 +1,34 @@
+:host {
+	width: 100%;
+	height: 100%;
+}
+.editor-div {
+	width: 100%;
+	height: 100%;
+
+	::ng-deep .editor {
+		.md-header {
+			background: color-mix(in oklch, var(--primary-color), transparent 40%) !important;
+		}
+
+		.btn {
+			color: var(--text-color) !important;
+
+			&:hover {
+				background: color-mix(in oklch, var(--primary-color), transparent 40%) !important;
+			}
+		}
+
+		textarea {
+			color: var(--text-color) !important;
+			min-height: 70vh;
+			background-color: var(--background-color) !important;
+			background: var(--background-color) !important;
+		}
+	}
+
+	// Removed buttons
+	::ng-deep [data-handler='bootstrap-markdown-cmdPreview'] {
+		display: none !important;
+	}
+}
