@@ -4,7 +4,7 @@
         <remark-mermaid [code]="node.value" />
         }
         @else {
-        <remark-prism [code]="node.value" [language]="node.lang" />
+        <remark-prism [code]="node.value" [language]="sanitizeLanguage(node.lang)" />
         }
     </ng-template>
 
