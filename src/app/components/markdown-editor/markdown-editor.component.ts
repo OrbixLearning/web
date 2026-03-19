@@ -65,5 +65,23 @@ export class MarkdownEditorComponent {
 			enable: false,
 			icons: {},
 		},
+		onShow: (e: any) => {
+			const textarea = e.$editor.find('textarea')[0];
+
+			// Enable tab key support in the textarea
+			textarea.addEventListener('keydown', (event: KeyboardEvent) => {
+				if (event.key === 'Tab') {
+					event.preventDefault();
+					const selected = e.getSelection();
+					const tabCharacter = '\t';
+					const newPos = textarea.selectionStart + tabCharacter.length;
+					e.replaceSelection(tabCharacter);
+					e.setSelection(selected.start + tabCharacter.length, selected.start + tabCharacter.length);
+					setTimeout(() => {
+						textarea.selectionStart = textarea.selectionEnd = newPos;
+					}, 150);
+				}
+			});
+		},
 	};
 }
