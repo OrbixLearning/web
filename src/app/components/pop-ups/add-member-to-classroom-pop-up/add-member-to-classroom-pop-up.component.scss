@@ -67,4 +67,18 @@
 			}
 		}
 	}
+
+	.selected {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		padding: 2px;
+		overflow-y: auto;
+		height: 20vh;
+
+		mat-chip {
+			background-color: var(--primary-color);
+			color: var(--text-color);
+		}
+	}
 }

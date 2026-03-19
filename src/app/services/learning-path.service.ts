@@ -72,8 +72,8 @@ export class LearningPathService {
 
 	// EDITING
 
-	editTextLearningPath(learningPathId: string, text: string): Observable<TextLearningPath> {
-		return this.http.put<TextLearningPath>(`${this.api}/text/${learningPathId}`, { text });
+	editTextLearningPath(learningPathId: string, markdownText: string): Observable<TextLearningPath> {
+		return this.http.put<TextLearningPath>(`${this.api}/text/${learningPathId}`, { markdownText });
 	}
 
 	editVideoLearningPath(learningPathId: string, videoDetails: VideoDetails[]): Observable<VideoLearningPath> {

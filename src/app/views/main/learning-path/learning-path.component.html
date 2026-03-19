@@ -86,7 +86,7 @@
 
     } @else if (generationStatus === generationStatusEnum.GENERATED) {
 
-    <div class="left" [style]="mode === 'study' ? 'width: 60%' : 'width: 100%'">
+    <div class="left" [style]="mode === 'edit' ? 'width: 100%' : (expandedChat ? 'width: 60%' : 'width: 85%')">
         @switch (ctx.learningPathStudy!.learningPath!.type) {
         @case (typeEnum.TEXT) {
         <o-text-learning-path #text [mode]="mode" />
@@ -104,9 +104,10 @@
     </div>
 
     @if (mode === 'study') {
-    <div class="right">
+    <div class="right" [style]="expandedChat ? '' : 'width: 15%'">
         <o-chat #chat [learningPaths]="[ctx.learningPathStudy!.learningPath]" [showLearningPaths]="false" height="68vh"
-            [clearButton]="false" message="Esse chat já tem todo o conhecimento dessa Rota de Aprendizagem." />
+            (expandedChange)="expandedChat = $event"
+            message="Esse chat já tem todo o conhecimento dessa Rota de Aprendizagem." />
     </div>
     }
 

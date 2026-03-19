@@ -3,8 +3,8 @@
 	"cli": {
 		"cache": {
 			"enabled": false
-    },
-    "analytics": "dab6dfd3-3862-47f1-aa06-5468d6e1176b"
+		},
+		"analytics": "dab6dfd3-3862-47f1-aa06-5468d6e1176b"
 	},
 	"version": 1,
 	"newProjectRoot": "projects",
@@ -21,7 +21,7 @@
 			"prefix": "o",
 			"architect": {
 				"build": {
-					"builder": "@angular-devkit/build-angular:application",
+					"builder": "@angular/build:application",
 					"options": {
 						"outputPath": "dist/web",
 						"index": "src/index.html",
@@ -36,8 +36,16 @@
 							},
 							"src/assets"
 						],
-						"styles": ["src/styles.scss"],
-						"scripts": []
+						"styles": [
+							"src/styles.scss",
+							"node_modules/bootstrap/dist/css/bootstrap.css",
+							"node_modules/bootstrap-markdown/css/bootstrap-markdown.min.css",
+							"node_modules/font-awesome/css/font-awesome.css"
+						],
+						"scripts": [
+							"node_modules/jquery/dist/jquery.js",
+							"node_modules/bootstrap-markdown/js/bootstrap-markdown.js"
+						]
 					},
 					"configurations": {
 						"prod": {
@@ -119,7 +127,7 @@
 					"defaultConfiguration": "dev"
 				},
 				"serve": {
-					"builder": "@angular-devkit/build-angular:dev-server",
+					"builder": "@angular/build:dev-server",
 					"configurations": {
 						"prod": {
 							"buildTarget": "web:build:prod"
@@ -140,10 +148,10 @@
 					"defaultConfiguration": "dev"
 				},
 				"extract-i18n": {
-					"builder": "@angular-devkit/build-angular:extract-i18n"
+					"builder": "@angular/build:extract-i18n"
 				},
 				"test": {
-					"builder": "@angular-devkit/build-angular:karma",
+					"builder": "@angular/build:karma",
 					"options": {
 						"polyfills": ["zone.js", "zone.js/testing"],
 						"tsConfig": "tsconfig.spec.json",
@@ -159,6 +167,32 @@
 					}
 				}
 			}
+		}
+	},
+	"schematics": {
+		"@schematics/angular:component": {
+			"type": "component"
+		},
+		"@schematics/angular:directive": {
+			"type": "directive"
+		},
+		"@schematics/angular:service": {
+			"type": "service"
+		},
+		"@schematics/angular:guard": {
+			"typeSeparator": "."
+		},
+		"@schematics/angular:interceptor": {
+			"typeSeparator": "."
+		},
+		"@schematics/angular:module": {
+			"typeSeparator": "."
+		},
+		"@schematics/angular:pipe": {
+			"typeSeparator": "."
+		},
+		"@schematics/angular:resolver": {
+			"typeSeparator": "."
 		}
 	}
 }

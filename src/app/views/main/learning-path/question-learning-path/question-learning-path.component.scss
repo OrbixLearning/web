@@ -10,8 +10,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 14px;
-		min-width: 0;
-		flex: 1 1 60%;
+		width: 60%;
 	}
 
 	.q-header {
@@ -95,7 +94,7 @@
 	}
 
 	.open-ended {
-		width: min(800px, 100%);
+		width: 100%;
 
 		textarea[matInput] {
 			color: var(--text-color);
@@ -136,7 +135,6 @@
 
 	/* RIGHT */
 	.q-right {
-		min-width: 280px;
 		display: flex;
 		flex-direction: column;
 		gap: 14px;
@@ -145,7 +143,7 @@
 		position: sticky;
 		top: 12px;
 		align-self: flex-start;
-		flex: 0 0 360px;
+		width: 40%;
 	}
 
 	.questions-menu {
@@ -202,15 +200,12 @@
 		}
 	}
 
-	@media (max-width: 1100px) {
+	@media (max-width: 1200px) {
 		flex-direction: column;
 
+		.q-left,
 		.q-right {
-			position: static;
-			max-height: none;
-			border-left: 0;
-			padding-left: 0;
-			flex: 1 1 auto;
+			width: 100%;
 		}
 	}
 }

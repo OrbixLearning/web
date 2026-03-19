@@ -1,0 +1,43 @@
+@if (isLoading) {
+<o-loading [isLoading]="isLoading" />
+}
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="aipreferences-form">
+    <mat-form-field subscriptSizing="dynamic" appearance="outline">
+        <mat-label>Tamanho das respostas</mat-label>
+        <mat-select formControlName="aiAnswerSize">
+            <mat-option value="medium">Normal</mat-option>
+            <mat-option value="detailed">Detalhada</mat-option>
+            <mat-option value="short">Curta</mat-option>
+            <mat-option value="straight-forward">Direto ao ponto</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field subscriptSizing="dynamic" appearance="outline">
+        <mat-label>Formalidade</mat-label>
+        <mat-select formControlName="formality">
+            <mat-option value="formal">Formal</mat-option>
+            <mat-option value="medium">Mediana</mat-option>
+            <mat-option value="informal">Informal</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field subscriptSizing="dynamic" appearance="outline">
+        <mat-label>Idioma padrão das Rotas de Aprendizagem</mat-label>
+        <mat-select formControlName="learningPathsDefaultLanguage">
+            <mat-option value="pt-BR">Português</mat-option>
+            <mat-option value="en-US">Inglês</mat-option>
+            <mat-option value="es-ES">Espanhol</mat-option>
+            <mat-option value="de-DE">Alemão</mat-option>
+            <mat-option value="fr-FR">Francês</mat-option>
+            <mat-option value="it-IT">Italiano</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <section class="buttons">
+        <o-text-button (onclick)="resetForm()">Cancelar</o-text-button>
+        <o-highlight-button icon="save" type="submit" [disabled]="disableSaveButton">
+            Salvar preferências
+        </o-highlight-button>
+    </section>
+</form>

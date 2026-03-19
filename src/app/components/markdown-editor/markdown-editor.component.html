@@ -1,0 +1,4 @@
+<div class="editor-div">
+    <angular-markdown-editor class="editor" [textareaId]="id" [name]="id" [rows]="rows" [(ngModel)]="startingText"
+        (ngModelChange)="textChange.emit($event)" [options]="EDITOR_OPTIONS" [locale]="customLocale" />
+</div>

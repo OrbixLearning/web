@@ -31,7 +31,7 @@
     @if (mode === 'study') {
 
     <div class="fc-study">
-        <section class="fc-left">
+        <section class="fc-left" [style]="expandedMenu ? '' : 'width: 100%;'">
             @if (flashCard) {
             <mat-card class="fc-card fc-card--focus" [class.is-open]="fcContext[fcIndex].opened">
                 <mat-card-content class="fc-card__content">
@@ -51,7 +51,12 @@
             }
         </section>
 
-        <section class="fc-right">
+        <section class="fc-right" [style]="expandedMenu ? '' : 'width: auto;'">
+            <button mat-icon-button (click)="expandedMenu = !expandedMenu"
+                [pTooltip]="expandedMenu ? 'Fechar menu' : 'Expandir menu'">
+                <mat-icon>{{expandedMenu ? 'zoom_in_map' : 'zoom_out_map'}}</mat-icon>
+            </button>
+            @if (expandedMenu) {
             <div class="menu">
                 @for (flashCard of flashCards; track $index; let i = $index) {
                 <button mat-stroked-button (click)="goToFlashCard(i)">
@@ -59,6 +64,7 @@
                 </button>
                 }
             </div>
+            }
         </section>
     </div>
 

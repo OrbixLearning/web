@@ -75,52 +75,8 @@
 
 <section class="text-lp-content" [style]="'max-height: ' + (showAudios? '65vh' : '75vh') + ';'">
     @if (mode === 'study') {
-
-    @if (isTextMarkdown) {
-    <markdown class="text">{{ text }}</markdown>
+    <o-markdown [text]="text" />
     } @else {
-    <div class="text" [innerHTML]="text"></div>
-    }
-
-    } @else {
-    <div class="editor-div">
-        <p-editor class="editor" [(ngModel)]="text">
-            <ng-template #header>
-                <span class="ql-formats">
-                    <select class="ql-size" pTooltip="Tamanho do texto" tooltipPosition="top">
-                        <option value="huge">Título</option>
-                        <option value="large">Subtítulo</option>
-                        <option selected></option>
-                    </select>
-                    <button type="button" class="ql-bold" aria-label="bold" pTooltip="Negrito"
-                        tooltipPosition="top"></button>
-                    <button type="button" class="ql-italic" aria-label="italic" pTooltip="Itálico"
-                        tooltipPosition="top"></button>
-                    <button type="button" class="ql-underline" aria-label="underline" pTooltip="Sublinhado"
-                        tooltipPosition="top"></button>
-                    <button type="button" class="ql-strike" aria-label="strike" pTooltip="Riscado"
-                        tooltipPosition="top"></button>
-                    <button type="button" class="ql-code" aria-label="code" pTooltip="Código"
-                        tooltipPosition="top"></button>
-                    <button type="button" class="ql-link" aria-label="link" pTooltip="Link"
-                        tooltipPosition="top"></button>
-                    <button type="button" class="ql-script" value="sub" aria-label="script" pTooltip="Subscrito"
-                        tooltipPosition="top"></button>
-                    <button type="button" class="ql-script" value="super" aria-label="script" pTooltip="Sobrescrito"
-                        tooltipPosition="top"></button>
-                    <button type="button" class="ql-blockquote" aria-label="blockquote" pTooltip="Citação"
-                        tooltipPosition="top"></button>
-                    <button type="button" class="ql-list" value="ordered" aria-label="list" pTooltip="Lista ordenada"
-                        tooltipPosition="top"></button>
-                    <button type="button" class="ql-list" value="bullet" aria-label="list" pTooltip="Lista não ordenada"
-                        tooltipPosition="top"></button>
-                    <button type="button" class="ql-formula" aria-label="formula" pTooltip="Fórmula"
-                        tooltipPosition="top"></button>
-                    <button type="button" class="ql-clean" aria-label="clean" pTooltip="Remover formatação"
-                        tooltipPosition="top"></button>
-                </span>
-            </ng-template>
-        </p-editor>
-    </div>
+    <o-markdown-editor [startingText]="text" (textChange)="text = $event" />
     }
 </section>

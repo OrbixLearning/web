@@ -4,7 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { InstitutionRoleEnum } from '../enums/InstitutionRole.enum';
 import { Page } from '../models/Page';
-import { User, UserAccount } from '../models/User';
+import { User, UserAccount, UserAIPreferences } from '../models/User';
 
 @Injectable({
 	providedIn: 'root',
@@ -24,6 +24,10 @@ export class UserService {
 
 	getAmountOfClassroomsInInstitutionByUserAccount(userAccountId: string, institutionId: string): Observable<number> {
 		return this.http.get<number>(`${this.api}/${userAccountId}/classrooms-amount/${institutionId}`);
+	}
+
+	getUserAIPreferences(): Observable<UserAIPreferences> {
+		return this.http.get<UserAIPreferences>(`${this.api}/ai-preferences`);
 	}
 
 	getProfilePictureUrl(user: User): string {
@@ -58,6 +62,10 @@ export class UserService {
 			idInInstitution,
 			institutionRole,
 		});
+	}
+
+	updateAIPreferences(userAiPreferences: UserAIPreferences): Observable<UserAIPreferences> {
+		return this.http.put<UserAIPreferences>(`${this.api}/ai-preferences`, userAiPreferences);
 	}
 
 	deleteUserAccounts(ids: string[]): Observable<void> {

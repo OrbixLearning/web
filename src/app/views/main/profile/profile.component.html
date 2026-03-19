@@ -1,4 +1,4 @@
-<div class="profile-settings">
+<div class="profile-settings" [style]="self ? 'grid-template-columns: 3fr 2fr;' : 'grid-template-columns: 1fr;'">
     @if (isLoading) {
     <o-loading [isLoading]="isLoading" />
     }
@@ -70,14 +70,16 @@
     </form>
 
     <!-- Right column -->
+    @if (self) {
     <aside class="right-column">
         <section class="panel sticky">
             <header class="panel__header">
-                <h3>Gamificação</h3>
+                <h3>Configuração da Inteligência Artificial</h3>
             </header>
             <div class="panel__body">
-                <o-game-card [user]="user" />
+                <o-aipreferences-form />
             </div>
         </section>
     </aside>
+    }
 </div>

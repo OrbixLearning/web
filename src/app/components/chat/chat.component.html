@@ -1,16 +1,24 @@
 <o-loading [isLoading]="isLoading" />
 
-<div class="chat-main">
-    @if (messages && messages.length > 0) {
-    <div class="clear-button-div" [style]="clearButton ? '' : 'visibility: hidden;'">
-        <button mat-icon-button class="clear-button" (click)="clear()" pTooltip="Limpar chat"
-            [disabled]="isSending || isLoading">
-            <mat-icon>close</mat-icon>
+<div class="chat-main" [style]="expanded ? '' : 'width: auto'">
+    @if (expanded) {
+    <div class="menu-button-div">
+        <button mat-icon-button class="menu-button" [matMenuTriggerFor]="menu" [disabled]="isSending || isLoading">
+            <mat-icon>more_vert</mat-icon>
         </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="clear()" [disabled]="!messages || messages.length === 0">
+                <mat-icon>close</mat-icon>
+                <span>Limpar chat</span>
+            </button>
+            <button mat-menu-item (click)="toggleExpanded()">
+                <mat-icon>zoom_in_map</mat-icon>
+                <span>Fechar</span>
+            </button>
+        </mat-menu>
     </div>
-    }
 
-    <div class="messages-wrapper" #messagesWrapper [style]="'height: ' + height">
+    <div class="messages-wrapper" #messagesWrapper [style]="'height: ' + height" (scroll)="chatScrollRolled($event)">
         @if (messages.length > 0) {
         <div class="messages">
             @for (message of messages; track $index) {
@@ -27,7 +35,7 @@
             </div>
             } @else {
             <div class="assistant-message-div">
-                <markdown class="assistant-message" (ready)="scrollToBottom()">{{ message.content }}</markdown>
+                <o-markdown [text]="message.content" />
             </div>
             }
             }
@@ -82,4 +90,7 @@
             <mat-icon>{{ isSending ? 'stop' : 'send' }}</mat-icon>
         </button>
     </div>
+    } @else {
+    <o-highlight-button (onclick)="toggleExpanded()" icon="zoom_out_map">Abrir chat</o-highlight-button>
+    }
 </div>

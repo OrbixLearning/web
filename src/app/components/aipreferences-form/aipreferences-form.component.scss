@@ -1,0 +1,18 @@
+.aipreferences-form {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	width: 100%;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-wrap: wrap;
+
+	.buttons {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 15px;
+	}
+}

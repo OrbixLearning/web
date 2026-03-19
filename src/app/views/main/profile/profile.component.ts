@@ -11,9 +11,9 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { AccountCardComponent } from '../../../components/account-card/account-card.component';
+import { AIPreferencesFormComponent } from '../../../components/aipreferences-form/aipreferences-form.component';
 import { HighlightButtonComponent } from '../../../components/buttons/highlight-button/highlight-button.component';
 import { TextButtonComponent } from '../../../components/buttons/text-button/text-button.component';
-import { GameCardComponent } from '../../../components/game-card/game-card.component';
 import { ImagePickerComponent } from '../../../components/image-picker/image-picker.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { LinkAccountPopUpComponent } from '../../../components/pop-ups/link-account-pop-up/link-account-pop-up.component';
@@ -34,11 +34,11 @@ import { UserService } from '../../../services/user.service';
 		LoadingComponent,
 		ReactiveFormsModule,
 		AccountCardComponent,
-		GameCardComponent,
 		DividerModule,
 		TextButtonComponent,
 		HighlightButtonComponent,
 		ImagePickerComponent,
+		AIPreferencesFormComponent,
 	],
 	templateUrl: './profile.component.html',
 	styleUrl: './profile.component.scss',

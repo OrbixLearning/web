@@ -1,0 +1,117 @@
+:host {
+	width: 100%;
+}
+
+.markdown {
+	display: block;
+	width: 100%;
+	color: var(--text-color);
+	line-height: 1.6;
+
+	// Titles
+	::ng-deep h1 {
+		line-height: 70px;
+		margin-bottom: 1rem;
+	}
+	::ng-deep h2 {
+		line-height: 60px;
+		margin-bottom: 1rem;
+	}
+	::ng-deep h3 {
+		line-height: 50px;
+		margin-bottom: 0.75rem;
+	}
+	::ng-deep h4 {
+		line-height: 40px;
+		margin-bottom: 0.5rem;
+	}
+
+	// Code (Inline)
+	::ng-deep :not(pre) > code {
+		background-color: color-mix(in oklch, var(--primary-color), transparent 90%);
+		color: var(--primary-color);
+		padding: 0.2rem 0.4rem;
+		border-radius: 4px;
+		font-family: monospace;
+		font-size: 1.1em;
+	}
+
+	// Code blocks
+	::ng-deep pre {
+		background-color: black;
+		color: white;
+		padding: 1rem;
+		border-radius: 8px;
+		border: 1px solid var(--primary-color);
+		overflow-x: auto;
+		margin: 1.5rem 0;
+		font-size: 1em;
+
+		code {
+			font-family: monospace;
+			background: none;
+			padding: 0;
+			color: inherit;
+		}
+	}
+
+	// Lists
+	::ng-deep ul,
+	::ng-deep ol {
+		margin: 1rem 0;
+		padding-left: 2rem;
+
+		li {
+			margin-bottom: 0.5rem;
+		}
+	}
+
+	// Links
+	::ng-deep a {
+		color: var(--primary-color);
+		text-decoration: none;
+		font-weight: 500;
+
+		&:hover {
+			text-decoration: underline;
+			filter: brightness(0.8);
+		}
+	}
+
+	// Images
+	::ng-deep img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 8px;
+		margin: 1.5rem 0;
+		display: block;
+	}
+
+	// Blockquote (Citações)
+	::ng-deep blockquote {
+		border-left: 4px solid var(--primary-color);
+		margin: 1.5rem 0;
+		padding: 0.5rem 0 0.5rem 1rem;
+		background-color: color-mix(in oklch, var(--primary-color), transparent 95%);
+		color: inherit;
+		font-style: italic;
+	}
+
+	// Table
+	::ng-deep table {
+		width: 100%;
+		border-collapse: collapse;
+
+		th,
+		td {
+			border: 1px solid var(--primary-color);
+			text-align: center !important;
+			padding: 2px;
+		}
+
+		th {
+			background-color: color-mix(in oklch, var(--primary-color), transparent 50%) !important;
+			font-weight: bold;
+		}
+	}
+}

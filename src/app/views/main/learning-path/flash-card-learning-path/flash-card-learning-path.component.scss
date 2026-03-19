@@ -104,11 +104,10 @@
 	.fc-left {
 		display: grid;
 		gap: 12px;
-		width: 100%;
+		width: 70%;
 	}
 
 	.fc-right {
-		min-width: 200px;
 		display: flex;
 		flex-direction: column;
 		gap: 14px;
@@ -117,7 +116,7 @@
 		position: sticky;
 		top: 12px;
 		align-self: flex-start;
-		flex: 0 0 200px;
+		width: 30%;
 
 		.menu {
 			display: flex;
@@ -126,6 +125,15 @@
 			max-height: 70vh;
 			overflow: auto;
 			padding-right: 4px;
+		}
+	}
+
+	@media (max-width: 1200px) {
+		flex-direction: column;
+
+		.fc-left,
+		.fc-right {
+			width: 100%;
 		}
 	}
 }

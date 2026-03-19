@@ -7,13 +7,13 @@
 	background: color-mix(in oklab, var(--background-color) 96%, white);
 }
 
-.clear-button-div {
+.menu-button-div {
 	display: flex;
 	justify-content: flex-start;
 	width: 100%;
 	position: relative;
 
-	.clear-button {
+	.menu-button {
 		position: absolute;
 		top: -6px;
 		left: -6px;
@@ -61,52 +61,9 @@
 	.assistant-message-div {
 		display: flex;
 		justify-content: center;
+		align-items: center;
 		width: 100%;
-
-		.assistant-message {
-			max-width: min(820px, 90%);
-			background: color-mix(in oklab, var(--background-color) 94%, white);
-			padding: 10px 20px;
-			color: var(--text-color);
-			overflow-x: auto;
-			line-height: 25px;
-
-			p {
-				margin: 0.5rem 0;
-			}
-			pre,
-			code {
-				font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
-			}
-			pre {
-				background: color-mix(in oklab, var(--background-color) 90%, white);
-				border-radius: 8px;
-				padding: 10px;
-				overflow: auto;
-			}
-			ul,
-			ol {
-				padding-left: 1.1rem;
-			}
-			h1,
-			h2,
-			h3 {
-				margin: 0.6rem 0 0.3rem;
-			}
-			table {
-				width: 100%;
-				border-collapse: collapse;
-			}
-			table,
-			th,
-			td {
-				border: 1px solid gray;
-			}
-			th,
-			td {
-				padding: 6px 8px;
-			}
-		}
+		padding: 10px 20px;
 	}
 
 	.thinking {
