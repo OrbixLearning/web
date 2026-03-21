@@ -108,6 +108,7 @@
 		display: flex;
 		align-items: flex-start;
 		justify-content: flex-start;
+		flex-direction: column;
 		gap: 10px;
 		padding: 10px;
 		background: color-mix(in oklab, var(--primary-color) 12%, transparent);
@@ -118,11 +119,6 @@
 		.label {
 			font-weight: 800;
 			white-space: nowrap;
-		}
-		.value {
-			max-width: fit-content;
-			font-weight: 500;
-			white-space: pre-line;
 		}
 	}
 

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +8,7 @@ import { QuestionTypeEnum } from '../../../../enums/QuestionType.enum';
 import { Question } from '../../../../models/Question';
 import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
+import { MarkdownEditorComponent } from '../../../markdown-editor/markdown-editor.component';
 import { SyllabusComponent } from '../../../syllabus/syllabus.component';
 import { PopUpButtonsComponent } from '../../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.component';
@@ -22,6 +23,7 @@ import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.componen
 		MatInputModule,
 		MatButtonToggleModule,
 		SyllabusComponent,
+		MarkdownEditorComponent,
 	],
 	templateUrl: './edit-true-false-pop-up.component.html',
 	styleUrl: './edit-true-false-pop-up.component.scss',
@@ -51,6 +53,10 @@ export class EditTrueFalsePopUpComponent {
 
 	ngOnInit() {
 		this.startForm();
+	}
+
+	getFormControl(name: string): FormControl {
+		return this.form.get(name) as FormControl;
 	}
 
 	startForm() {

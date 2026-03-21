@@ -1,3 +1,4 @@
+@if (text) {
 <remark [markdown]="text" [processor]="processor" class="markdown">
     <ng-template [remarkTemplate]="'code'" let-node>
         @if(node.lang === 'mermaid') {
@@ -11,3 +12,4 @@
     <remark-katex *remarkTemplate="'math'; let node" [expr]="node.value"></remark-katex>
     <remark-katex *remarkTemplate="'inlineMath'; let node" [expr]="node.value"></remark-katex>
 </remark>
+}

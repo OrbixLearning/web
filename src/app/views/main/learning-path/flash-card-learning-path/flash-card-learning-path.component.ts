@@ -19,6 +19,7 @@ import { ContextService } from '../../../../services/context.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
 import { EditFlashCardPopUpComponent } from './edit-flash-card-pop-up/edit-flash-card-pop-up.component';
+import { MarkdownComponent } from "../../../../components/markdown/markdown.component";
 
 type FlashCardContext = {
 	flashCard: FlashCard;
@@ -28,14 +29,15 @@ type FlashCardContext = {
 @Component({
 	selector: 'o-flash-card-learning-path',
 	imports: [
-		MatCardModule,
-		MatButtonModule,
-		MatIconModule,
-		DividerModule,
-		LoadingComponent,
-		HighlightButtonComponent,
-		TooltipModule,
-	],
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    DividerModule,
+    LoadingComponent,
+    HighlightButtonComponent,
+    TooltipModule,
+    MarkdownComponent
+],
 	templateUrl: './flash-card-learning-path.component.html',
 	styleUrl: './flash-card-learning-path.component.scss',
 })

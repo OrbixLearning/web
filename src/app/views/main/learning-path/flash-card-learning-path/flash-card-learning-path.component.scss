@@ -76,22 +76,6 @@
 		justify-content: flex-end;
 		gap: 10px;
 	}
-
-	.fc-front {
-		margin: 0;
-		font-weight: 600;
-		color: var(--text-color);
-		white-space: pre-line;
-	}
-
-	.fc-back {
-		margin: 0;
-		color: var(--text-color);
-		opacity: 0.95;
-		border-top: 1px dashed gray;
-		padding-top: 8px;
-		white-space: pre-line;
-	}
 }
 
 .fc-study {
@@ -136,13 +120,6 @@
 			width: 100%;
 		}
 	}
-}
-
-.fc-front,
-.fc-back {
-	word-wrap: break-word;
-	overflow-wrap: anywhere;
-	line-height: 1.45;
 }
 
 /* responsivo opcional */

@@ -15,14 +15,13 @@
 			flex-direction: column;
 			gap: 14px;
 			width: 100%;
-			padding-top: 5px;
 
-			padding-bottom: 6px; // Scrollbar compensation
+			padding: 5px 5px 6px 5px; // Scrollbar compensation
 
 			max-height: 70vh;
 			overflow-y: auto;
 		}
-        
+
 		.qp-syllabus {
 			width: 100%;
 			display: flex;

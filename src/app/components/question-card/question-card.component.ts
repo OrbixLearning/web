@@ -13,6 +13,7 @@ import { QuestionData } from '../../models/QuestionData';
 import { QuestionTypePipe } from '../../pipes/question-type.pipe';
 import { QuestionUtils } from '../../utils/Question.utils';
 import { TextButtonComponent } from '../buttons/text-button/text-button.component';
+import { MarkdownComponent } from '../markdown/markdown.component';
 import { SyllabusTagsComponent } from '../syllabus-tags/syllabus-tags.component';
 
 @Component({
@@ -29,6 +30,7 @@ import { SyllabusTagsComponent } from '../syllabus-tags/syllabus-tags.component'
 		TooltipModule,
 		MatIconModule,
 		MatButtonModule,
+		MarkdownComponent,
 	],
 	templateUrl: './question-card.component.html',
 	styleUrl: './question-card.component.scss',

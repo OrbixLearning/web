@@ -15,43 +15,24 @@
 			flex-direction: column;
 			gap: 14px;
 			width: 100%;
-			padding-top: 5px;
-
-			padding-bottom: 6px; // Scrollbar compensation
+			padding: 5px 5px 6px 5px; // Scrollbar compensation
 
 			max-height: 70vh;
 			overflow-y: auto;
 
 			.options {
 				display: flex;
-				flex-direction: row;
+				flex-direction: column;
 				align-items: center;
-				justify-content: space-between;
-				gap: 5px;
+				justify-content: flex-start;
+				gap: 20px;
 
-				.texts {
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					align-items: center;
-					gap: 10px;
+				.option {
 					width: 100%;
-
-					mat-form-field {
-						display: flex;
-						flex-direction: column;
-						justify-content: center;
-						align-items: center;
-						height: 56px;
-						width: 100%;
-					}
-				}
-
-				.checks {
 					display: flex;
-					flex-direction: column;
-					justify-content: center;
+					flex-direction: row;
 					align-items: center;
+					justify-content: flex-start;
 					gap: 10px;
 
 					mat-checkbox {
@@ -62,16 +43,8 @@
 						height: 56px;
 						width: 56px;
 					}
-				}
 
-				.deletes {
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					align-items: center;
-					gap: 10px;
-
-					button {
+					.delete-button {
 						display: flex;
 						flex-direction: column;
 						justify-content: center;
@@ -82,7 +55,7 @@
 				}
 			}
 		}
-        
+
 		.qp-syllabus {
 			width: 100%;
 			display: flex;

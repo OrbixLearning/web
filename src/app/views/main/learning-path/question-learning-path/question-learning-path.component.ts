@@ -47,6 +47,7 @@ import { LearningPathService } from '../../../../services/learning-path.service'
 import { QuestionDataService } from '../../../../services/question-data.service';
 import { QuestionUtils } from '../../../../utils/Question.utils';
 import { TreeUtils } from '../../../../utils/Tree.utils';
+import { MarkdownComponent } from "../../../../components/markdown/markdown.component";
 
 type QuestionContext = {
 	question: Question;
@@ -57,22 +58,23 @@ type QuestionContext = {
 @Component({
 	selector: 'o-question-learning-path',
 	imports: [
-		MatButtonModule,
-		MatRadioModule,
-		MatCheckboxModule,
-		MatButtonToggleModule,
-		MatFormFieldModule,
-		MatInputModule,
-		MatIconModule,
-		HighlightButtonComponent,
-		TextButtonComponent,
-		MatListModule,
-		LoadingComponent,
-		MatMenuModule,
-		QuestionTypePipe,
-		QuestionCardComponent,
-		TooltipModule,
-	],
+    MatButtonModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatButtonToggleModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    HighlightButtonComponent,
+    TextButtonComponent,
+    MatListModule,
+    LoadingComponent,
+    MatMenuModule,
+    QuestionTypePipe,
+    QuestionCardComponent,
+    TooltipModule,
+    MarkdownComponent
+],
 	templateUrl: './question-learning-path.component.html',
 	styleUrl: './question-learning-path.component.scss',
 })

@@ -35,10 +35,10 @@
             @if (flashCard) {
             <mat-card class="fc-card fc-card--focus" [class.is-open]="fcContext[fcIndex].opened">
                 <mat-card-content class="fc-card__content">
-                    <p class="fc-front">{{ flashCard.front }}</p>
-
+                    <o-markdown [text]="flashCard.front" />
                     @if (fcContext[fcIndex].opened) {
-                    <p class="fc-back">{{ flashCard.back }}</p>
+                    <p-divider />
+                    <o-markdown [text]="flashCard.back" />
                     }
                 </mat-card-content>
 
@@ -78,8 +78,9 @@
             </div>
             <mat-card-content class="fc-card__content">
                 <div class="fc-card__text">
-                    <p class="fc-front">{{ flashCard.front }}</p>
-                    <p class="fc-back">{{ flashCard.back }}</p>
+                    <o-markdown [text]="flashCard.front" />
+                    <p-divider />
+                    <o-markdown [text]="flashCard.back" />
                 </div>
 
                 <mat-card-actions class="fc-card__actions">

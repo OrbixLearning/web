@@ -11,6 +11,7 @@ import { Question } from '../../../../models/Question';
 import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
 import { TextButtonComponent } from '../../../buttons/text-button/text-button.component';
+import { MarkdownEditorComponent } from '../../../markdown-editor/markdown-editor.component';
 import { SyllabusComponent } from '../../../syllabus/syllabus.component';
 import { PopUpButtonsComponent } from '../../pop-up-buttons/pop-up-buttons.component';
 import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.component';
@@ -28,6 +29,7 @@ import { PopUpHeaderComponent } from '../../pop-up-header/pop-up-header.componen
 		MatButtonModule,
 		TextButtonComponent,
 		SyllabusComponent,
+		MarkdownEditorComponent,
 	],
 	templateUrl: './edit-multiple-choice-pop-up.component.html',
 	styleUrl: './edit-multiple-choice-pop-up.component.scss',
@@ -66,6 +68,10 @@ export class EditMultipleChoicePopUpComponent {
 
 	ngOnInit() {
 		this.startForm();
+	}
+
+	getFormControl(name: string): FormControl {
+		return this.form.get(name) as FormControl;
 	}
 
 	startForm() {

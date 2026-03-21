@@ -15,7 +15,7 @@
         </header>
 
         <div class="q-statement">
-            <p>{{ question?.statement }}</p>
+            <o-markdown [text]="question?.statement" />
         </div>
 
         <div class="q-choices">
@@ -26,7 +26,7 @@
                 @for (option of question?.options; track option) {
                 <mat-list-option class="choice-item" [selected]="userAnswer.includes(option)" [value]="option"
                     role="radio">
-                    {{ option }}
+                    <o-markdown [text]="option" />
                 </mat-list-option>
                 }
             </mat-selection-list>
@@ -38,7 +38,7 @@
                 @for (option of question?.options; track option) {
                 <mat-list-option class="choice-item" [selected]="userAnswer.includes(option)" [value]="option"
                     role="checkbox">
-                    {{ option }}
+                    <o-markdown [text]="option" />
                 </mat-list-option>
                 }
             </mat-selection-list>
@@ -64,7 +64,7 @@
         @if (questionContext?.showAnswer) {
         <div class="q-correct">
             <span class="label">Resposta correta:</span>
-            <span class="value">{{ currentQuestionAnswerFormatted }}</span>
+            <o-markdown [text]="currentQuestionAnswerFormatted" />
         </div>
         }
 
