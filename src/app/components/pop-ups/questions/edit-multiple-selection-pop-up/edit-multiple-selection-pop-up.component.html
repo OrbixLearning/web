@@ -11,35 +11,25 @@
             </mat-form-field>
             }
 
-            <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-grow">
-                <mat-label>Enunciado</mat-label>
-                <textarea matInput formControlName="statement" rows="4" cdkTextareaAutosize></textarea>
-            </mat-form-field>
+            <h4>Enunciado</h4>
+            <o-markdown-editor [startingText]="getFormControl('statement').value" height="10vh"
+                (textChange)="getFormControl('statement').setValue($event)" editorId="editorStatement"
+                resize="vertical" />
 
+            <h4>Alternativas</h4>
             <div class="options">
-                <div formArrayName="options" class="texts">
-                    @for (option of optionsFormControls; track $index) {
-                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                        <input matInput type="text" [formControl]="option"
-                            [placeholder]="'Alternativa ' + ($index + 1)" />
-                    </mat-form-field>
-                    }
-                </div>
-
-                <div class="checks">
-                    @for (answer of answersFormControls; track $index) {
-                    <mat-checkbox [checked]="answer.value" (change)="selectAnswer($index)"></mat-checkbox>
-                    }
-                </div>
-
-                <div class="deletes">
-                    @for (_ of optionsFormControls; track $index) {
-                    <button mat-icon-button (click)="deleteOption($index)" type="button"
+                @for (option of optionsFormControls; track $index) {
+                <div class="option">
+                    <o-markdown-editor [startingText]="option.value || 'Alternativa ' + ($index + 1)" height="40px"
+                        (textChange)="option.setValue($event)" [editorId]="'editorOption' + $index" resize="vertical" />
+                    <mat-checkbox [checked]="getFormControl('answers').value[$index]"
+                        (change)="selectAnswer($index)"></mat-checkbox>
+                    <button mat-icon-button (click)="deleteOption($index)" type="button" class="delete-button"
                         [style]="optionsFormControls.length <= 2 ? 'visibility: hidden' : ''">
                         <mat-icon>delete</mat-icon>
                     </button>
-                    }
                 </div>
+                }
             </div>
 
             <div class="add-option">

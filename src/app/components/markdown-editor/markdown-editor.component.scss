@@ -7,23 +7,30 @@
 	height: 100%;
 
 	::ng-deep .editor {
-		.md-header {
-			background: color-mix(in oklch, var(--primary-color), transparent 40%) !important;
-		}
+		.md-editor {
+			--md-editor-border-radius: 10px;
+			border-radius: var(--md-editor-border-radius);
 
-		.btn {
-			color: var(--text-color) !important;
-
-			&:hover {
+			.md-header {
 				background: color-mix(in oklch, var(--primary-color), transparent 40%) !important;
+				border-radius: var(--md-editor-border-radius) var(--md-editor-border-radius) 0 0;
 			}
-		}
 
-		textarea {
-			color: var(--text-color) !important;
-			min-height: 70vh;
-			background-color: var(--background-color) !important;
-			background: var(--background-color) !important;
+			.btn {
+				color: var(--text-color) !important;
+
+				&:hover {
+					background: color-mix(in oklch, var(--primary-color), transparent 40%) !important;
+				}
+			}
+
+			textarea {
+				color: var(--text-color) !important;
+				min-height: var(--markdown-textarea-min-height, 70vh);
+				background-color: var(--background-color) !important;
+				background: var(--background-color) !important;
+				border-radius: 0 0 var(--md-editor-border-radius) var(--md-editor-border-radius);
+			}
 		}
 	}
 

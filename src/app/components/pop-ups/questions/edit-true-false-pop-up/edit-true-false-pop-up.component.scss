@@ -15,9 +15,8 @@
 			flex-direction: column;
 			gap: 14px;
 			width: 100%;
-			padding-top: 5px;
 
-			padding-bottom: 6px; // Scrollbar compensation
+			padding: 5px 5px 6px 5px; // Scrollbar compensation
 
 			max-height: 70vh;
 			overflow-y: auto;
@@ -25,8 +24,8 @@
 			.tf-group {
 				border-radius: 10px;
 				border: 1px solid color-mix(in oklab, var(--text-color) 25%, transparent);
-				overflow: hidden;
 				width: 100%;
+				height: stretch; // Strange Angular Material behavior fix
 
 				mat-button-toggle {
 					flex: 1;

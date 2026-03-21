@@ -11,10 +11,10 @@
             </mat-form-field>
             }
 
-            <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-grow">
-                <mat-label>Enunciado</mat-label>
-                <textarea matInput formControlName="statement" rows="4" cdkTextareaAutosize></textarea>
-            </mat-form-field>
+            <h4>Enunciado</h4>
+            <o-markdown-editor [startingText]="getFormControl('statement').value" height="10vh"
+                (textChange)="getFormControl('statement').setValue($event)" editorId="editorStatement"
+                resize="vertical" />
 
             <mat-button-toggle-group class="tf-group" formControlName="answer">
                 <mat-button-toggle [value]="true">Verdadeiro</mat-button-toggle>

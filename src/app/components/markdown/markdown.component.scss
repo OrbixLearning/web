@@ -8,6 +8,11 @@
 	color: var(--text-color);
 	line-height: 1.6;
 
+	// Paragraphs
+	::ng-deep p {
+		margin: 0;
+	}
+
 	// Titles
 	::ng-deep h1 {
 		line-height: 70px;

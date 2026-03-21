@@ -10,8 +10,10 @@ import { AngularMarkdownEditorModule, EditorLocale, EditorOption } from 'angular
 })
 export class MarkdownEditorComponent {
 	@Input() startingText: string = '';
-	@Input() id: string = 'markdownEditor';
-	@Input() rows: number = 12;
+	@Input() editorId: string = 'markdownEditor';
+	@Input() rows: number = 2;
+	@Input() height: string = '70vh';
+	@Input() resize: 'vertical' | 'horizontal' | 'both' | 'none' = 'none';
 	@Output() textChange = new EventEmitter<string>();
 
 	customLocale: EditorLocale = {
@@ -57,7 +59,7 @@ export class MarkdownEditorComponent {
 		},
 	};
 
-	readonly EDITOR_OPTIONS: EditorOption = {
+	EDITOR_OPTIONS: EditorOption = {
 		autofocus: true,
 		initialstate: 'editor',
 		language: 'pt',
@@ -65,6 +67,7 @@ export class MarkdownEditorComponent {
 			enable: false,
 			icons: {},
 		},
+		resize: this.resize,
 		onShow: (e: any) => {
 			const textarea = e.$editor.find('textarea')[0];
 
@@ -84,4 +87,8 @@ export class MarkdownEditorComponent {
 			});
 		},
 	};
+
+	ngOnInit() {
+		this.EDITOR_OPTIONS.resize = this.resize;
+	}
 }

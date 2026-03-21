@@ -26,7 +26,7 @@ import { unified } from 'unified';
 	styleUrl: './markdown.component.scss',
 })
 export class MarkdownComponent {
-	@Input() text: string = '';
+	@Input() text?: string;
 
 	processor = unified().use(remarkParse).use(remarkGfm).use(remarkMath);
 

@@ -39,7 +39,7 @@
 
     <section class="qc-body">
         <div class="statement">
-            <p>{{ question.statement }}</p>
+            <o-markdown [text]="question.statement" />
         </div>
 
         @switch (question.type) {
@@ -48,7 +48,7 @@
             @for (opt of question.options; track opt) {
             <li class="option" [class.is-correct]="verifyAnswer(question, [opt])">
                 <span class="bullet"></span>
-                <span class="text">{{ opt }}</span>
+                <o-markdown [text]="opt" />
             </li>
             }
         </ul>
@@ -59,7 +59,7 @@
             @for (opt of question.options; track opt) {
             <li class="option" [class.is-correct]="question.answers.includes(opt)">
                 <span class="check"></span>
-                <span class="text">{{ opt }}</span>
+                <o-markdown [text]="opt" />
             </li>
             }
         </ul>
@@ -73,10 +73,10 @@
         }
 
         @case (questionTypeEnum.OPEN_ENDED) {
-        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="open-ended">
-            <mat-label>Resposta correta</mat-label>
-            <textarea matInput rows="4" [value]="question.answers[0]" [disabled]="true" cdkTextareaAutosize></textarea>
-        </mat-form-field>
+        <div class="open-ended">
+            <span class="oe-title">Resposta correta</span>
+            <o-markdown [text]="question.answers[0]" />
+        </div>
         }
         }
     </section>

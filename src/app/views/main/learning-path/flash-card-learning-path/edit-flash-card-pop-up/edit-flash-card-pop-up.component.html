@@ -2,16 +2,12 @@
 
 <form class="card-popup" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
     <section class="cp-body">
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Frente</mat-label>
-            <textarea matInput formControlName="front" rows="2" cdkTextareaAutosize></textarea>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Verso</mat-label>
-            <textarea matInput formControlName="back" rows="4" cdkTextareaAutosize></textarea>
-        </mat-form-field>
+        <h4>Frente</h4>
+        <o-markdown-editor [startingText]="getFormControl('front').value" height="20vh"
+            (textChange)="getFormControl('front').setValue($event)" editorId="editorFront" resize="vertical" />
+        <h4>Verso</h4>
+        <o-markdown-editor [startingText]="getFormControl('back').value" height="20vh"
+            (textChange)="getFormControl('back').setValue($event)" editorId="editorBack" resize="vertical" />
     </section>
-
     <o-pop-up-buttons [confirmButton]="data ? 'Editar' : 'Adicionar'" [disable]="form.invalid" type="submit" />
 </form>
