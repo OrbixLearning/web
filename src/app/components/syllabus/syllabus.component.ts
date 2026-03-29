@@ -38,6 +38,7 @@ export class SyllabusComponent {
 				selectable: true,
 				type: this.mode,
 			}));
+			this.syllabusComponentTree = this.buildSyllabusTree();
 		}
 	}
 
@@ -70,7 +71,7 @@ export class SyllabusComponent {
 				data: s,
 				leaf: s.topics ? s.topics.length === 0 : true,
 				selectable: true,
-				checked: this.preMarkedSyllabus ? this.preMarkedSyllabus.map(ps => ps.id).includes(s.id!) : false,
+				checked: this.selection?.map(s => s.key).includes(s.id!) || false,
 				type: this.mode,
 				expanded: depth < this.TREE_INITIAL_EXPAND_DEPTH,
 				children: this.recursiveSyllabusTreeBuildCall(s.topics, depth + 1),
@@ -96,6 +97,7 @@ export class SyllabusComponent {
 		if (this.mode === 'edit') return;
 		this.selection = [];
 		this.addNodesToSelectionRecursively(preset.syllabusIds, this.syllabus || []);
+		this.syllabusComponentTree = this.buildSyllabusTree();
 		this.selectionChange(this.selection);
 	}
 
@@ -122,6 +124,7 @@ export class SyllabusComponent {
 
 	clearSelection() {
 		this.selection = [];
+		this.syllabusComponentTree = this.buildSyllabusTree();
 		this.selectionChange(this.selection);
 	}
 
