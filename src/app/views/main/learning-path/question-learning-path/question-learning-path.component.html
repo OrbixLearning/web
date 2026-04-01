@@ -24,8 +24,8 @@
             <mat-selection-list class="choices" [multiple]="false"
                 (selectionChange)="markSingle($event.options[0].value)">
                 @for (option of question?.options; track option) {
-                <mat-list-option class="choice-item" [selected]="userAnswer.includes(option)" [value]="option"
-                    role="radio">
+                <mat-list-option [class]="'choice-item ' + addClassToOption(option)"
+                    [selected]="userAnswer.includes(option)" [value]="option" role="radio">
                     <o-markdown [text]="option" />
                 </mat-list-option>
                 }
@@ -36,8 +36,8 @@
             <mat-selection-list class="choices" [multiple]="true"
                 (selectionChange)="markMulti($event.options[0].value)">
                 @for (option of question?.options; track option) {
-                <mat-list-option class="choice-item" [selected]="userAnswer.includes(option)" [value]="option"
-                    role="checkbox">
+                <mat-list-option [class]="'choice-item ' + addClassToOption(option)"
+                    [selected]="userAnswer.includes(option)" [value]="option" role="checkbox">
                     <o-markdown [text]="option" />
                 </mat-list-option>
                 }
@@ -46,8 +46,10 @@
 
             @case (questionTypeEnum.TRUE_FALSE) {
             <mat-button-toggle-group class="tf-group" (valueChange)="markSingle($event)">
-                <mat-button-toggle [checked]="userAnswer.includes('true')" value="true">Verdadeiro</mat-button-toggle>
-                <mat-button-toggle [checked]="userAnswer.includes('false')" value="false">Falso</mat-button-toggle>
+                <mat-button-toggle [class]="addClassToOption('true')" [checked]="userAnswer.includes('true')"
+                    value="true">Verdadeiro</mat-button-toggle>
+                <mat-button-toggle [class]="addClassToOption('false')" [checked]="userAnswer.includes('false')"
+                    value="false">Falso</mat-button-toggle>
             </mat-button-toggle-group>
             }
 

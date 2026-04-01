@@ -15,6 +15,7 @@ import { lastValueFrom } from 'rxjs';
 import { HighlightButtonComponent } from '../../../../components/buttons/highlight-button/highlight-button.component';
 import { TextButtonComponent } from '../../../../components/buttons/text-button/text-button.component';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
+import { MarkdownComponent } from '../../../../components/markdown/markdown.component';
 import {
 	ConfirmPopUpComponent,
 	ConfirmPopUpData,
@@ -47,7 +48,6 @@ import { LearningPathService } from '../../../../services/learning-path.service'
 import { QuestionDataService } from '../../../../services/question-data.service';
 import { QuestionUtils } from '../../../../utils/Question.utils';
 import { TreeUtils } from '../../../../utils/Tree.utils';
-import { MarkdownComponent } from "../../../../components/markdown/markdown.component";
 
 type QuestionContext = {
 	question: Question;
@@ -58,23 +58,23 @@ type QuestionContext = {
 @Component({
 	selector: 'o-question-learning-path',
 	imports: [
-    MatButtonModule,
-    MatRadioModule,
-    MatCheckboxModule,
-    MatButtonToggleModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    HighlightButtonComponent,
-    TextButtonComponent,
-    MatListModule,
-    LoadingComponent,
-    MatMenuModule,
-    QuestionTypePipe,
-    QuestionCardComponent,
-    TooltipModule,
-    MarkdownComponent
-],
+		MatButtonModule,
+		MatRadioModule,
+		MatCheckboxModule,
+		MatButtonToggleModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatIconModule,
+		HighlightButtonComponent,
+		TextButtonComponent,
+		MatListModule,
+		LoadingComponent,
+		MatMenuModule,
+		QuestionTypePipe,
+		QuestionCardComponent,
+		TooltipModule,
+		MarkdownComponent,
+	],
 	templateUrl: './question-learning-path.component.html',
 	styleUrl: './question-learning-path.component.scss',
 })
@@ -152,6 +152,17 @@ export class QuestionLearningPathComponent {
 		this.questionContext = this.questionsContext[this.index];
 	}
 
+	addClassToOption(option: string): string {
+		if (this.questionContext?.showAnswer) {
+			if (this.questionContext.question.answers.includes(option)) {
+				return 'correct-option';
+			} else if (this.questionContext.userAnswer.includes(option)) {
+				return 'incorrect-option';
+			}
+		}
+		return '';
+	}
+
 	markSingle(option: string) {
 		// Since mat-button-toggle-group triggers change events twice when clicking the same option,
 		// we need to check if the selected option is already the user answer  or if option is undefined
@@ -171,7 +182,9 @@ export class QuestionLearningPathComponent {
 
 	markMulti(option: string) {
 		if (this.questionContext!.userAnswer.includes(option)) {
-			this.questionContext!.userAnswer.filter((answer: string) => answer !== option);
+			this.questionContext!.userAnswer = this.questionContext!.userAnswer.filter(
+				(answer: string) => answer !== option,
+			);
 		} else {
 			this.questionContext!.userAnswer = [...this.questionContext!.userAnswer, option];
 		}
