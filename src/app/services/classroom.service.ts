@@ -35,6 +35,10 @@ export class ClassroomService {
 		return this.http.post<Classroom>(`${this.api}/${institutionId}`, { name, icon, selfAdd });
 	}
 
+	duplicate(classroomId: string): Observable<Classroom> {
+		return this.http.post<Classroom>(`${this.api}/duplicate/${classroomId}`, {});
+	}
+
 	removeMember(classroomId: string, userAccountId: string): Observable<Classroom> {
 		return this.http.put<Classroom>(`${this.api}/${classroomId}/remove-member/${userAccountId}`, {});
 	}

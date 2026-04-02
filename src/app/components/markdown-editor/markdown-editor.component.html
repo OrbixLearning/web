@@ -1,3 +1,5 @@
+<o-loading [isLoading]="isLoading" />
+
 <div class="editor-div" [style.--markdown-textarea-min-height]="height">
     <angular-markdown-editor class="editor" [textareaId]="editorId" [name]="editorId" [rows]="rows"
         [(ngModel)]="startingText" (ngModelChange)="textChange.emit($event)" [options]="EDITOR_OPTIONS"

@@ -142,6 +142,32 @@ export class InstitutionClassroomsComponent {
 			});
 	}
 
+	async duplicateClassroom(classroom: Classroom) {
+		const data: ConfirmPopUpData = {
+			title: `Deseja duplicar a turma "${classroom.name}"? Esse processo pode demorar um pouco.`,
+			message: `Duplicar uma turma copia sua ementa, documentos e questões, mas não copia os alunos ou professores. Essa ação pode ser útil para criar uma nova turma com a mesma configuração de uma turma existente.`,
+			confirmButton: 'Duplicar',
+		};
+		this.dialog
+			.open(ConfirmPopUpComponent, {
+				data,
+			})
+			.afterClosed()
+			.subscribe(async res => {
+				if (res) {
+					this.isLoading = true;
+					await lastValueFrom(this.service.duplicate(classroom.id))
+						.then(async () => {
+							await this.ctx.loadClassroomList();
+							await this.getClassrooms();
+						})
+						.finally(() => {
+							this.isLoading = false;
+						});
+				}
+			});
+	}
+
 	async updateClassroom(classroom: Classroom) {
 		this.isLoading = true;
 		this.cd.detectChanges();

@@ -74,6 +74,16 @@
 				outline-offset: 2px;
 			}
 		}
+
+		.correct-option {
+			border-color: color-mix(in oklab, var(--primary-color) 40%, transparent);
+			background: color-mix(in oklab, var(--primary-color) 14%, transparent);
+		}
+
+		.incorrect-option {
+			background: color-mix(in oklab, red 20%, transparent);
+			border-color: color-mix(in oklab, var(--text-color) 35%, transparent);
+		}
 	}
 
 	.tf-group {
@@ -85,11 +95,15 @@
 			min-width: 120px;
 			font-weight: 600;
 			color: var(--text-color);
+			border: 3px solid transparent;
+		}
+
+		.correct-option {
+			border: 3px solid var(--primary-color) !important;
 		}
 
 		::ng-deep .mat-button-toggle-checked {
 			background: color-mix(in oklab, var(--primary-color) 16%, transparent) !important;
-			border-color: color-mix(in oklab, var(--primary-color) 45%, transparent) !important;
 		}
 	}
 

@@ -1,20 +1,28 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AngularMarkdownEditorModule, EditorLocale, EditorOption } from 'angular-markdown-editor';
+import { lastValueFrom } from 'rxjs';
+import { LoadingComponent } from '../loading/loading.component';
+import { RichTextService } from '../../services/rich-text.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
 	selector: 'o-markdown-editor',
-	imports: [AngularMarkdownEditorModule, FormsModule],
+	imports: [AngularMarkdownEditorModule, FormsModule, LoadingComponent],
 	templateUrl: './markdown-editor.component.html',
 	styleUrl: './markdown-editor.component.scss',
 })
 export class MarkdownEditorComponent {
+	service: RichTextService = inject(RichTextService);
+
 	@Input() startingText: string = '';
 	@Input() editorId: string = 'markdownEditor';
 	@Input() rows: number = 2;
 	@Input() height: string = '70vh';
 	@Input() resize: 'vertical' | 'horizontal' | 'both' | 'none' = 'none';
 	@Output() textChange = new EventEmitter<string>();
+
+	isLoading: boolean = false;
 
 	customLocale: EditorLocale = {
 		language: 'pt',
@@ -69,26 +77,94 @@ export class MarkdownEditorComponent {
 		},
 		resize: this.resize,
 		onShow: (e: any) => {
-			const textarea = e.$editor.find('textarea')[0];
-
-			// Enable tab key support in the textarea
-			textarea.addEventListener('keydown', (event: KeyboardEvent) => {
-				if (event.key === 'Tab') {
-					event.preventDefault();
-					const selected = e.getSelection();
-					const tabCharacter = '\t';
-					const newPos = textarea.selectionStart + tabCharacter.length;
-					e.replaceSelection(tabCharacter);
-					e.setSelection(selected.start + tabCharacter.length, selected.start + tabCharacter.length);
-					setTimeout(() => {
-						textarea.selectionStart = textarea.selectionEnd = newPos;
-					}, 150);
-				}
-			});
+			this.addTabSupport(e);
+			this.handleImageInput(e);
 		},
 	};
 
+	get imageInputId(): string {
+		return `imageInput-${this.editorId}`;
+	}
+
 	ngOnInit() {
 		this.EDITOR_OPTIONS.resize = this.resize;
+	}
+
+	addTabSupport(e: any) {
+		const textarea = e.$editor.find('textarea')[0];
+		textarea.addEventListener('keydown', (event: KeyboardEvent) => {
+			if (event.key === 'Tab') {
+				event.preventDefault();
+				const selected = e.getSelection();
+				const tabCharacter = '\t';
+				const newPos = textarea.selectionStart + tabCharacter.length;
+				e.replaceSelection(tabCharacter);
+				e.setSelection(selected.start + tabCharacter.length, selected.start + tabCharacter.length);
+				setTimeout(() => {
+					textarea.selectionStart = textarea.selectionEnd = newPos;
+				}, 150);
+			}
+		});
+	}
+
+	handleImageInput(e: any) {
+		const defaultImageHandler = '[data-handler="bootstrap-markdown-cmdImage"]';
+		const btnImage = e.$editor.find(defaultImageHandler);
+		const textarea = e.$editor.find('textarea')[0];
+		if (btnImage.length > 0) {
+			btnImage.off('click');
+			btnImage.on('click', (event: Event) => {
+				event.preventDefault();
+				event.stopPropagation();
+
+				let cursorPos = textarea.selectionStart;
+
+				this.isLoading = true;
+				this.uploadRichTextImage()
+					.then((response: { imageUrl: string; imageName: string } | undefined) => {
+						if (response) {
+							const markdownImage = `![${response.imageName}](${response.imageUrl})`;
+							e.replaceSelection(markdownImage);
+							cursorPos += markdownImage.length;
+							this.textChange.emit(e.getContent());
+						}
+					})
+					.finally(() => {
+						e.$element.focus();
+						setTimeout(() => {
+							textarea.selectionStart = textarea.selectionEnd = cursorPos;
+						}, 150);
+						this.isLoading = false;
+					});
+			});
+		}
+	}
+
+	async uploadRichTextImage(): Promise<{ imageUrl: string; imageName: string } | undefined> {
+		return new Promise(resolve => {
+			const input = document.createElement('input');
+			input.type = 'file';
+			input.accept = 'image/*';
+
+			input.onchange = async (event: Event) => {
+				const target = event.target as HTMLInputElement;
+				if (target.files && target.files.length > 0) {
+					let file = target.files[0];
+					if (file) {
+						let imagePath = (await lastValueFrom(this.service.uploadRichTextImage(file))).imagePath;
+						const urlResponse = `${environment.API_URL}/${imagePath}`;
+						resolve({ imageUrl: urlResponse, imageName: file.name });
+						return;
+					}
+				}
+				resolve(undefined);
+			};
+
+			input.addEventListener('cancel', () => {
+				resolve(undefined);
+			});
+
+			input.click();
+		});
 	}
 }
