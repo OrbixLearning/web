@@ -20,7 +20,7 @@
             <mat-radio-group formControlName="answer" class="options">
                 @for (option of optionsFormControls; track $index) {
                 <div class="option">
-                    <o-markdown-editor [startingText]="option.value || 'Alternativa ' + ($index + 1)" height="40px"
+                    <o-markdown-editor [startingText]="option.value" height="40px"
                         (textChange)="option.setValue($event)" [editorId]="'editorOption' + $index" resize="vertical" />
                     <mat-radio-button [value]="$index"></mat-radio-button>
                     <button mat-icon-button (click)="deleteOption($index)" type="button" class="delete-button"

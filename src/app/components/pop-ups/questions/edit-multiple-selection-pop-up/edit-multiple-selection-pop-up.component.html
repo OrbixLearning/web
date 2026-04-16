@@ -20,7 +20,7 @@
             <div class="options">
                 @for (option of optionsFormControls; track $index) {
                 <div class="option">
-                    <o-markdown-editor [startingText]="option.value || 'Alternativa ' + ($index + 1)" height="40px"
+                    <o-markdown-editor [startingText]="option.value" height="40px"
                         (textChange)="option.setValue($event)" [editorId]="'editorOption' + $index" resize="vertical" />
                     <mat-checkbox [checked]="getFormControl('answers').value[$index]"
                         (change)="selectAnswer($index)"></mat-checkbox>
