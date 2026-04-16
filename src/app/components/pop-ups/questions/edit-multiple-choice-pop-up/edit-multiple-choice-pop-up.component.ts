@@ -42,7 +42,7 @@ export class EditMultipleChoicePopUpComponent {
 
 	form: FormGroup = this.formBuilder.group({
 		statement: ['', Validators.required],
-		options: this.formBuilder.array<string>(['', ''], Validators.required),
+		options: this.formBuilder.array<string>(['Alternativa 1', 'Alternativa 2'], Validators.required),
 		answer: this.formBuilder.control<number | undefined>(undefined, Validators.required),
 	});
 
