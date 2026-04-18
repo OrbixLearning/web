@@ -8,8 +8,8 @@
 
 /* Generic panel */
 .panel {
-	background: var(--surface, color-mix(in oklab, var(--background-color) 90%, white));
-	border: 1px solid var(--border-color, #3a3a3a);
+	background: color-mix(in oklab, var(--background-color) 90%, gray);
+	border: 1px solid color-mix(in oklab, var(--background-color) 30%, gray);
 	border-radius: 12px;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 	overflow: hidden;
@@ -20,7 +20,7 @@
 		justify-content: space-between;
 		gap: 12px;
 		padding: 12px 14px;
-		border-bottom: 1px solid var(--border-color, #3a3a3a);
+		border-bottom: 1px solid color-mix(in oklab, var(--background-color) 30%, gray);
 
 		h2,
 		h3 {
@@ -124,7 +124,7 @@
 	width: 64px;
 	height: 64px;
 	border-radius: 16px;
-	border: 1px solid var(--border-color, #3a3a3a);
+	border: 1px solid color-mix(in oklab, var(--background-color) 30%, gray);
 	background: transparent;
 	display: flex;
 	align-items: center;
