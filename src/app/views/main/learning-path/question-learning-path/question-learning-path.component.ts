@@ -130,6 +130,7 @@ export class QuestionLearningPathComponent {
 	ngOnInit() {
 		this.resetData();
 		this.startData();
+		this.goToCurrentQuestion();
 	}
 
 	resetData() {
@@ -150,6 +151,15 @@ export class QuestionLearningPathComponent {
 			});
 		}
 		this.questionContext = this.questionsContext[this.index];
+	}
+
+	goToCurrentQuestion() {
+		for (let i = 0; i < this.questionsContext.length; i++) {
+			if (this.questionsContext[i].userAnswer.length === 0) {
+				this.goToQuestion(i);
+				return;
+			}
+		}
 	}
 
 	addClassToOption(option: string): string {
