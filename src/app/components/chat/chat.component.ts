@@ -129,10 +129,17 @@ export class ChatComponent {
 	}
 
 	scrollToBottom() {
-		this.messagesWrapper.nativeElement.scrollTo({
-			top: this.messagesWrapper.nativeElement.scrollHeight,
-			behavior: 'instant',
-		});
+		const firstMessage = this.messages[0];
+
+		if (firstMessage?.userMessage) {
+			this.messagesWrapper.nativeElement.scrollTo({
+				top: this.messagesWrapper.nativeElement.scrollHeight,
+				behavior: 'instant',
+			});
+		} else {
+			const firstMessageElement = this.messagesWrapper.nativeElement.querySelector('.assistant-message-div');
+			firstMessageElement?.scrollIntoView({ behavior: 'instant', block: 'start' });
+		}
 	}
 
 	chatScrollRolled(event: Event) {
