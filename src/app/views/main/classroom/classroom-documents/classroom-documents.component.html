@@ -47,63 +47,7 @@
 
         <div class="panel__body doc-list">
             @for (document of filteredDocuments; track document.id) {
-            <article class="doc-card">
-                <div class="doc-card__head">
-                    <h4 class="doc-title" [title]="document.name">{{ document.name }}</h4>
-                    <div class="right-info">
-                        <span class="ext-chip" pTooltip="Tipo do documento" tooltipPosition="left">{{ document.type |
-                            documentType }}</span>
-                        @if (ctx.isTeacher && document.hidden) {
-                        <mat-icon pTooltip="Este documento não é visível para alunos"
-                            tooltipPosition="left">visibility_off</mat-icon>
-                        }
-                        @if (document.aiStatus === documentAIUploadStatusEnum.UPLOADED) {
-                        <mat-icon pTooltip="A IA da Orbix tem o conhecimento deste documento"
-                            tooltipPosition="left">psychology</mat-icon>
-                        }
-                        <span class="ext-chip" pTooltip="Extensão do documento" tooltipPosition="left">{{
-                            document.extension }}</span>
-                    </div>
-                </div>
-
-                <div class="doc-card__tags">
-                    <o-syllabus-tags [syllabus]="document.syllabus || []" [maxTags]="3" />
-                </div>
-
-                <div class="doc-card__actions">
-                    <button mat-icon-button (click)="downloadDocument(document.id, document.name)">
-                        <mat-icon>download</mat-icon>
-                    </button>
-
-                    @if (ctx.isTeacher) {
-                    <button mat-icon-button (click)="updateDocument(document)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="deleteDocument(document.id)">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                    }
-                </div>
-
-                @if (ctx.isTeacher) {
-                @if (document.aiStatus === documentAIUploadStatusEnum.FAILED) {
-                <div class="ai-row ai-failed">
-                    <p>Ocorreu um erro ao alimentar a IA com este documento.</p>
-                    <o-text-button (onclick)="recallDocumentAI(document)">Tentar novamente</o-text-button>
-                </div>
-                } @else if (document.aiStatus === documentAIUploadStatusEnum.UPLOADING) {
-                <div class="ai-row ai-uploading">
-                    <p>Adicionando documento à IA...</p>
-                    <o-loading [isLoading]="true" [local]="true" size="24px" />
-                </div>
-                } @else if (showValidateQuestionsButton(document)) {
-                <div class="ai-row ai-uploaded">
-                    <p>Questões prontas!</p>
-                    <o-text-button (onclick)="goToQuestionValidation(document)">Validar questões</o-text-button>
-                </div>
-                }
-                }
-            </article>
+            <o-document-card [document]="document" (aiRecalled)="getData()" />
             } @empty {
             <p class="empty">Nenhum documento encontrado.</p>
             }

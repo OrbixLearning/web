@@ -96,6 +96,7 @@ export class QuestionLearningPathComponent {
 	questionContext?: QuestionContext;
 	index: number = 0;
 	amountOfIncorrectAnswers: number = 0;
+	correctAnswersPercentage: number = 0;
 	questionTypeEnum = QuestionTypeEnum;
 	openEndedQuestionsDebounceTimer: any;
 	expandedMenu: boolean = true;
@@ -130,11 +131,13 @@ export class QuestionLearningPathComponent {
 	ngOnInit() {
 		this.resetData();
 		this.startData();
+		this.goToCurrentQuestion();
 	}
 
 	resetData() {
 		this.index = 0;
 		this.amountOfIncorrectAnswers = 0;
+		this.correctAnswersPercentage = 0;
 	}
 
 	startData() {
@@ -150,6 +153,15 @@ export class QuestionLearningPathComponent {
 			});
 		}
 		this.questionContext = this.questionsContext[this.index];
+	}
+
+	goToCurrentQuestion() {
+		for (let i = 0; i < this.questionsContext.length; i++) {
+			if (this.questionsContext[i].userAnswer.length === 0) {
+				this.goToQuestion(i);
+				return;
+			}
+		}
 	}
 
 	addClassToOption(option: string): string {
@@ -318,6 +330,9 @@ export class QuestionLearningPathComponent {
 						qc.showAnswer = !!confirmed;
 					});
 					this.amountOfIncorrectAnswers = incorrectAnswers.length;
+					this.correctAnswersPercentage = Math.round(
+						((this.questionsContext.length - incorrectAnswers.length) / this.questionsContext.length) * 100,
+					);
 				});
 		}
 	}

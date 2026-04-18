@@ -117,23 +117,25 @@ export class MarkdownEditorComponent {
 				event.preventDefault();
 				event.stopPropagation();
 
-				let cursorPos = textarea.selectionStart;
-
 				this.isLoading = true;
 				this.uploadRichTextImage()
 					.then((response: { imageUrl: string; imageName: string } | undefined) => {
 						if (response) {
 							const markdownImage = `![${response.imageName}](${response.imageUrl})`;
-							e.replaceSelection(markdownImage);
-							cursorPos += markdownImage.length;
-							this.textChange.emit(e.getContent());
+							const scrollTop = textarea.scrollTop;
+							const cursorPos = textarea.selectionStart;
+
+							const value = textarea.value;
+							textarea.value = value.slice(0, cursorPos) + markdownImage + value.slice(cursorPos);
+
+							textarea.selectionStart = textarea.selectionEnd = cursorPos + markdownImage.length;
+							textarea.scrollTop = scrollTop;
+
+							this.textChange.emit(textarea.value);
 						}
 					})
 					.finally(() => {
 						e.$element.focus();
-						setTimeout(() => {
-							textarea.selectionStart = textarea.selectionEnd = cursorPos;
-						}, 150);
 						this.isLoading = false;
 					});
 			});

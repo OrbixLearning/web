@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AudioVoiceEnum } from '../enums/AudioVoice.enum';
+import { Document } from '../models/Document';
 import { FlashCard } from '../models/LearningPath/FlashCard';
 import {
 	FlashCardLearningPath,

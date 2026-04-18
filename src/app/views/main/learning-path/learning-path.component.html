@@ -66,6 +66,15 @@
                     <p class="ip-subtitle">Tópicos contemplados</p>
                     <o-syllabus-tags class="ip-tags" [syllabus]="ctx.learningPathStudy?.learningPath?.syllabus || []" />
                 </section>
+
+                <section class="ip-body">
+                    <p class="ip-subtitle">Documentos</p>
+                    @for (doc of documents; track doc.id) {
+                    <o-document-card [document]="doc" [showActions]="false" [showSyllabus]="false" />
+                    } @empty {
+                    <p>Nenhum documento foi usado nesta Rota de Aprendizagem.</p>
+                    }
+                </section>
             </div>
         </p-popover>
 

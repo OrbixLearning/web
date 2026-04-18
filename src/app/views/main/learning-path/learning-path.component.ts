@@ -14,19 +14,23 @@ import { AvatarComponent } from '../../../components/avatar/avatar.component';
 import { HighlightButtonComponent } from '../../../components/buttons/highlight-button/highlight-button.component';
 import { TextButtonComponent } from '../../../components/buttons/text-button/text-button.component';
 import { ChatComponent } from '../../../components/chat/chat.component';
+import { DocumentCardComponent } from '../../../components/document-card/document-card.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import {
-	ConfirmPopUpComponent,
-	ConfirmPopUpData,
+    ConfirmPopUpComponent,
+    ConfirmPopUpData,
 } from '../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { SyllabusTagsComponent } from '../../../components/syllabus-tags/syllabus-tags.component';
 import { LearningPathGenerationStatusEnum } from '../../../enums/LearningPathGenerationStatus.enum';
 import { LearningPathTypeEnum } from '../../../enums/LearningPathType.enum';
+import { Document } from '../../../models/Document';
 import { LearningPath } from '../../../models/LearningPath/LearningPath';
 import { ContextService } from '../../../services/context.service';
+import { DocumentService } from '../../../services/document.service';
 import { LearningPathStudyService } from '../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../services/learning-path.service';
 import { UserService } from '../../../services/user.service';
+import { TreeUtils } from '../../../utils/Tree.utils';
 import { FlashCardLearningPathComponent } from './flash-card-learning-path/flash-card-learning-path.component';
 import { QuestionLearningPathComponent } from './question-learning-path/question-learning-path.component';
 import { TextLearningPathComponent } from './text-learning-path/text-learning-path.component';
@@ -53,6 +57,7 @@ import { VideoLearningPathComponent } from './video-learning-path/video-learning
 		PopoverModule,
 		SyllabusTagsComponent,
 		AvatarComponent,
+		DocumentCardComponent,
 	],
 	templateUrl: './learning-path.component.html',
 	styleUrl: './learning-path.component.scss',
@@ -65,6 +70,7 @@ export class LearningPathComponent {
 	router: Router = inject(Router);
 	toast: MessageService = inject(MessageService);
 	userService: UserService = inject(UserService);
+	documentService: DocumentService = inject(DocumentService);
 	learningPathStudyService: LearningPathStudyService = inject(LearningPathStudyService);
 
 	@ViewChild('chat') chatComponent?: ChatComponent;
@@ -79,6 +85,7 @@ export class LearningPathComponent {
 	generationStatusEnum = LearningPathGenerationStatusEnum;
 	validationRequested: boolean = false;
 	expandedChat: boolean = true;
+	documents: Document[] = [];
 
 	mode: 'edit' | 'study' = 'study';
 
@@ -89,6 +96,27 @@ export class LearningPathComponent {
 	get creatorProfilePictureUrl(): string {
 		if (!this.ctx.learningPathStudy?.learningPath.creator) return '';
 		return this.userService.getProfilePictureUrl(this.ctx.learningPathStudy?.learningPath.creator!);
+	}
+
+	ngOnInit() {
+		this.getDocuments();
+	}
+
+	async getDocuments() {
+		this.isLoading = false;
+		await lastValueFrom(this.documentService.getByClassroom(this.ctx.classroom!.id))
+			.then((documents: Document[]) => {
+				// TODO: Check if filtering this in the backend is worth it
+				const syllabus = this.ctx.learningPathStudy?.learningPath.syllabus || [];
+				this.documents = documents.filter(
+					d =>
+						syllabus.length === 0 ||
+						(d.syllabus && TreeUtils.hasItemInCommon(syllabus, d.syllabus, 'id', 'topics')),
+				);
+			})
+			.finally(() => {
+				this.isLoading = false;
+			});
 	}
 
 	async goBackOrCancel() {

@@ -168,6 +168,7 @@ export class ClassroomQuestionsComponent {
 			.open(component, {
 				minWidth: '1000px',
 				data: { syllabus: [] },
+				disableClose: true,
 			})
 			.afterClosed()
 			.subscribe(async (result: { question: Question; syllabus: Syllabus[] } | undefined) => {

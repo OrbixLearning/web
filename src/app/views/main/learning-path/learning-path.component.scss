@@ -78,6 +78,8 @@
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
+		max-height: 30vh;
+		overflow-y: auto;
 
 		.ip-subtitle {
 			margin: 0;
@@ -87,7 +89,7 @@
 		}
 
 		.ip-tags {
-			display: block; /* ocupa linha própria */
+			display: block;
 		}
 	}
 }
