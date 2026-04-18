@@ -96,6 +96,7 @@ export class QuestionLearningPathComponent {
 	questionContext?: QuestionContext;
 	index: number = 0;
 	amountOfIncorrectAnswers: number = 0;
+	correctAnswersPercentage: number = 0;
 	questionTypeEnum = QuestionTypeEnum;
 	openEndedQuestionsDebounceTimer: any;
 	expandedMenu: boolean = true;
@@ -136,6 +137,7 @@ export class QuestionLearningPathComponent {
 	resetData() {
 		this.index = 0;
 		this.amountOfIncorrectAnswers = 0;
+		this.correctAnswersPercentage = 0;
 	}
 
 	startData() {
@@ -328,6 +330,9 @@ export class QuestionLearningPathComponent {
 						qc.showAnswer = !!confirmed;
 					});
 					this.amountOfIncorrectAnswers = incorrectAnswers.length;
+					this.correctAnswersPercentage = Math.round(
+						((this.questionsContext.length - incorrectAnswers.length) / this.questionsContext.length) * 100,
+					);
 				});
 		}
 	}

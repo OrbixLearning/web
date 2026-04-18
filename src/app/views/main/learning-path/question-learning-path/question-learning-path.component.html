@@ -104,6 +104,7 @@
             <o-highlight-button (onclick)="showAnswers()">Verificar todas as respostas</o-highlight-button>
             } @else {
             <p class="q-summary">{{ amountOfIncorrectAnswers }} respostas incorretas</p>
+            <p class="q-summary">{{ correctAnswersPercentage }}% de acerto</p>
             <o-text-button (onclick)="hideAllAnswers()">Esconder todas as respostas</o-text-button>
             }
             @if (hasAnyAnswer) {
