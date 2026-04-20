@@ -1,0 +1,31 @@
+<mat-stepper #stepper>
+
+    <mat-step [stepControl]="syllabusSetupForm" label="Defina a ementa">
+        <div>
+            <div>
+                <button matButton matStepperNext>Next</button>
+            </div>
+            <o-classroom-settings />
+        </div>
+    </mat-step>
+
+    <mat-step [stepControl]="documentsSetupForm" label="Adicione documentos" optional>
+        <div>
+            <div>
+                <button matButton matStepperPrevious>Back</button>
+                <button matButton matStepperNext>Next</button>
+            </div>
+            <o-classroom-documents />
+        </div>
+    </mat-step>
+
+    <mat-step [stepControl]="membersSetupForm" label="Adicione membros" optional>
+        <div>
+            <div>
+                <button matButton matStepperPrevious>Back</button>
+                <button matButton matStepperNext>Next</button>
+            </div>
+            <o-classroom-members />
+        </div>
+    </mat-step>
+</mat-stepper>

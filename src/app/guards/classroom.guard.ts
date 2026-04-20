@@ -2,10 +2,12 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { ContextService } from '../services/context.service';
 import { getParamFromRouteTree } from '../utils/guard.utils';
+import { TutorialUtils } from '../utils/Tutorial.utils';
 
 export const classroomGuard: CanActivateFn = async (route, state) => {
 	const router = inject(Router);
 	const classroomId = getParamFromRouteTree(route, 'classroomId');
+	const institutionId = getParamFromRouteTree(route, 'institutionId');
 	const ctx = inject(ContextService);
 	try {
 		if (!classroomId) {
@@ -25,10 +27,12 @@ export const classroomGuard: CanActivateFn = async (route, state) => {
 			ctx.clearLearningPathStudy();
 		}
 		ctx.classroom = classroom;
+		if (TutorialUtils.hasMissingSetup(classroom) && ctx.isTeacher && !state.url.endsWith('/setup')) {
+			router.navigateByUrl('/i/' + institutionId + '/c/' + classroomId + '/setup');
+		}
 		return true;
 	} catch (e) {
 		ctx.clearClassroom();
-		let institutionId = getParamFromRouteTree(route, 'institutionId');
 		router.navigateByUrl('/i/' + institutionId);
 		return false;
 	}

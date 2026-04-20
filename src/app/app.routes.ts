@@ -82,6 +82,14 @@ export const routes: Routes = [
 									),
 							},
 							{
+								path: 'setup',
+								loadComponent: () =>
+									import('./views/main/classroom/classroom-setup/classroom-setup.component').then(
+										m => m.ClassroomSetupComponent,
+									),
+								canActivate: [classroomTeacherGuard],
+							},
+							{
 								path: 'settings',
 								loadComponent: () =>
 									import('./views/main/classroom/classroom-settings/classroom-settings.component').then(
