@@ -78,7 +78,10 @@ export class SyllabusDashboardComponent {
 		])
 			.then(([syllabus, history, rankingResponse]) => {
 				this.syllabus = syllabus;
-				this.scoreHistory = history;
+				this.scoreHistory = history.map(item => {
+					item.average = Math.round(item.average * 100) / 100;
+					return item;
+				});
 				if (this.scoreHistory.length > 0) {
 					let lastValue: ClassroomScoreHistoryBySyllabus = history[history.length - 1];
 					this.average = lastValue.average;
