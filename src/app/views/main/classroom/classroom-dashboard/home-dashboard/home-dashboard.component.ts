@@ -72,7 +72,12 @@ export class HomeDashboardComponent {
 		])
 			.then(([students, classroomCurrentScores]) => {
 				this.students = students;
-				this.classroomCurrentScores = classroomCurrentScores;
+				const decimalPlaces = 2;
+				const factor = Math.pow(10, decimalPlaces);
+				this.classroomCurrentScores = classroomCurrentScores.map(score => {
+					score.average = Math.round(score.average * factor) / factor;
+					return score;
+				});
 			})
 			.finally(() => {
 				this.isLoading = false;
