@@ -29,51 +29,10 @@
 			font-size: 1.05rem;
 			color: var(--text-color);
 		}
-
-		.panel__header-actions {
-			display: flex;
-			gap: 8px;
-			flex-wrap: wrap;
-		}
 	}
 
 	.panel__body {
 		padding: 14px;
-	}
-	.panel__footer {
-		padding: 12px 14px;
-		border-top: 1px solid gray;
-
-		.select-document-div {
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			align-items: center;
-			gap: 20px;
-
-			.file-hint-div {
-				max-width: 40%;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: flex-start;
-				gap: 6px;
-				font-size: 14px;
-			}
-		}
-
-		.selected-document-div {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 20px;
-
-			.upload-actions {
-				display: flex;
-				gap: 8px;
-				justify-content: flex-end;
-			}
-		}
 	}
 }
 

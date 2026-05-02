@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { SubHeaderComponent } from '../../../../components/sub-header/sub-header.component';
+import { SyllabusEditorComponent } from '../../../../components/syllabus-editor/syllabus-editor.component';
 import { Classroom } from '../../../../models/Classroom';
 import { Document } from '../../../../models/Document';
 import { Syllabus } from '../../../../models/Syllabus';
@@ -15,7 +16,6 @@ import { ContextService } from '../../../../services/context.service';
 import { TutorialUtils } from '../../../../utils/Tutorial.utils';
 import { ClassroomDocumentsComponent } from '../classroom-documents/classroom-documents.component';
 import { ClassroomMembersComponent } from '../classroom-members/classroom-members.component';
-import { ClassroomSettingsComponent } from '../classroom-settings/classroom-settings.component';
 
 export type SetupTutorial = {
 	step: number;
@@ -30,11 +30,11 @@ export type SetupTutorial = {
 	imports: [
 		MatStepperModule,
 		MatButtonModule,
-		ClassroomSettingsComponent,
 		ClassroomDocumentsComponent,
 		ClassroomMembersComponent,
 		LoadingComponent,
 		SubHeaderComponent,
+		SyllabusEditorComponent,
 	],
 	templateUrl: './classroom-setup.component.html',
 	styleUrl: './classroom-setup.component.scss',
