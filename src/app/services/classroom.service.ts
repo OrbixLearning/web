@@ -63,4 +63,8 @@ export class ClassroomService {
 		formData.append('file', file);
 		return this.http.put<Classroom>(`${this.api}/syllabus-document`, formData);
 	}
+
+	completeSetup(classroomId: string): Observable<Classroom> {
+		return this.http.put<Classroom>(`${this.api}/complete-setup/${classroomId}`, {});
+	}
 }

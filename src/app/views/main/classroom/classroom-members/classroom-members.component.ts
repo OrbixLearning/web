@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,6 +17,7 @@ import { User, UserAccount } from '../../../../models/User';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
 import { UserService } from '../../../../services/user.service';
+import { SetupTutorial } from '../classroom-setup/classroom-setup.component';
 
 @Component({
 	selector: 'o-classroom-members',
@@ -37,6 +38,8 @@ export class ClassroomMembersComponent {
 	classroomService: ClassroomService = inject(ClassroomService);
 	userService: UserService = inject(UserService);
 	dialog: MatDialog = inject(MatDialog);
+
+	@Input() setup?: SetupTutorial;
 
 	isLoading: boolean = false;
 	students: UserAccount[] = [];

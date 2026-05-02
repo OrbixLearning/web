@@ -1,31 +1,23 @@
+<o-loading [isLoading]="isLoading" />
+
 <mat-stepper #stepper>
 
     <mat-step [stepControl]="syllabusSetupForm" label="Defina a ementa">
         <div>
-            <div>
-                <button matButton matStepperNext>Next</button>
-            </div>
+            <o-sub-header [setup]="getSetupTutorial(0)" />
             <o-classroom-settings />
         </div>
     </mat-step>
 
     <mat-step [stepControl]="documentsSetupForm" label="Adicione documentos" optional>
         <div>
-            <div>
-                <button matButton matStepperPrevious>Back</button>
-                <button matButton matStepperNext>Next</button>
-            </div>
-            <o-classroom-documents />
+            <o-classroom-documents [setup]="getSetupTutorial(1)" />
         </div>
     </mat-step>
 
     <mat-step [stepControl]="membersSetupForm" label="Adicione membros" optional>
         <div>
-            <div>
-                <button matButton matStepperPrevious>Back</button>
-                <button matButton matStepperNext>Next</button>
-            </div>
-            <o-classroom-members />
+            <o-classroom-members [setup]="getSetupTutorial(2)" />
         </div>
     </mat-step>
 </mat-stepper>

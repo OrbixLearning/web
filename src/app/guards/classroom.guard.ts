@@ -30,6 +30,9 @@ export const classroomGuard: CanActivateFn = async (route, state) => {
 		if (TutorialUtils.hasMissingSetup(classroom) && ctx.isTeacher && !state.url.endsWith('/setup')) {
 			router.navigateByUrl('/i/' + institutionId + '/c/' + classroomId + '/setup');
 		}
+		if (!TutorialUtils.hasMissingSetup(classroom) && state.url.endsWith('/setup')) {
+			router.navigateByUrl('/i/' + institutionId + '/c/' + classroomId);
+		}
 		return true;
 	} catch (e) {
 		ctx.clearClassroom();

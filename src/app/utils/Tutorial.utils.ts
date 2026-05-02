@@ -3,9 +3,10 @@ import { Classroom } from '../models/Classroom';
 export class TutorialUtils {
 	static hasMissingSetup(classroom: Classroom): boolean {
 		if (
-			classroom.syllabus.length === 0 ||
-			classroom.documents.length === 0 ||
-			(classroom.numberOfStudents !== undefined && classroom.numberOfStudents === 0)
+			!classroom.setupComplete &&
+			(classroom.syllabus.length === 0 ||
+				classroom.documents.length === 0 ||
+				(classroom.numberOfStudents !== undefined && classroom.numberOfStudents === 0))
 		) {
 			return true;
 		}

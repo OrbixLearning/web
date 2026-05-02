@@ -1,10 +1,19 @@
 <header class="sub-header">
     <div class="right">
-        @if (backButtonLink) {
+        @if (backButtonLink && !setup) {
         <button mat-icon-button [routerLink]="backButtonLink">
             <mat-icon>arrow_back</mat-icon>
         </button>
         }
+        @if (setup) {
+        @if (setup.step > 0) { <o-text-button (onclick)="setup.back()">
+            Anterior</o-text-button> }
+        @if (setup.step < setup.totalSteps-1) { <o-text-button (onclick)="setup.next()">
+            Próximo</o-text-button> }
+            @else {
+            <o-highlight-button (onclick)="setup.finish()">Concluir</o-highlight-button>
+            }
+            }
     </div>
 
     <div class="left">

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -29,6 +29,7 @@ import { DocumentTypePipe } from '../../../../pipes/document-type.pipe';
 import { ContextService } from '../../../../services/context.service';
 import { DocumentService } from '../../../../services/document.service';
 import { TreeUtils } from '../../../../utils/Tree.utils';
+import { SetupTutorial } from '../classroom-setup/classroom-setup.component';
 
 @Component({
 	selector: 'o-classroom-documents',
@@ -54,6 +55,8 @@ export class ClassroomDocumentsComponent {
 	ctx: ContextService = inject(ContextService);
 	service: DocumentService = inject(DocumentService);
 	dialog: MatDialog = inject(MatDialog);
+
+	@Input() setup?: SetupTutorial;
 
 	isLoading: boolean = false;
 	filter: string = '';

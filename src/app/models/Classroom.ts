@@ -8,6 +8,7 @@ export type Classroom = {
 	name: string;
 	institution: Institution;
 	icon: string;
+	setupComplete: boolean;
 	syllabus: Syllabus[];
 	documents: Document[];
 	questions: QuestionData[];

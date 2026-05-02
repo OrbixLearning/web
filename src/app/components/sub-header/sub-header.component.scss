@@ -6,6 +6,12 @@
 	border-bottom: 1px solid gray;
 	margin-bottom: 10px;
 
+	.right {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
 	.left {
 		display: flex;
 		align-items: center;
