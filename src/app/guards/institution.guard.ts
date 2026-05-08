@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { ContextService } from '../services/context.service';
 import { getParamFromRouteTree } from '../utils/guard.utils';
+import { TutorialUtils } from '../utils/Tutorial.utils';
 
 export const institutionGuard: CanActivateFn = async (route, state) => {
 	const router = inject(Router);
@@ -25,6 +26,19 @@ export const institutionGuard: CanActivateFn = async (route, state) => {
 			ctx.clearClassroom();
 		}
 		ctx.institution = institution;
+		if (ctx.institutionRoles === undefined) {
+			await ctx.loadInstitutionRoles();
+		}
+		if (
+			TutorialUtils.institutionHasMissingSetup(institution) &&
+			ctx.isInstitutionAdmin &&
+			!state.url.endsWith('/setup')
+		) {
+			router.navigateByUrl('/i/' + institutionId + '/setup');
+		}
+		if (!TutorialUtils.institutionHasMissingSetup(institution) && state.url.endsWith('/setup')) {
+			router.navigateByUrl('/i/' + institutionId);
+		}
 		return true;
 	} catch (e) {
 		ctx.clearInstitution();

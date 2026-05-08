@@ -45,6 +45,14 @@ export const routes: Routes = [
 							),
 					},
 					{
+						path: 'setup',
+						loadComponent: () =>
+							import('./views/main/institution/institution-setup/institution-setup.component').then(
+								m => m.InstitutionSetupComponent,
+							),
+						canActivate: [institutionAdminGuard],
+					},
+					{
 						path: 'settings',
 						loadComponent: () =>
 							import('./views/main/institution/institution-settings/institution-settings.component').then(

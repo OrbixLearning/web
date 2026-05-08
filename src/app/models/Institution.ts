@@ -7,6 +7,7 @@ export type Institution = {
 	name: string;
 	domains: string[];
 	lms: LMSEnum | null;
+	setupComplete: boolean;
 	style: InstitutionStyle | null; // The personal institution does not have a style
 
 	accounts?: UserAccount[];

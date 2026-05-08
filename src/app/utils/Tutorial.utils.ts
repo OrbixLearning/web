@@ -1,7 +1,9 @@
 import { Classroom } from '../models/Classroom';
+import { Institution } from '../models/Institution';
 
 export class TutorialUtils {
-	static hasMissingSetup(classroom: Classroom): boolean {
+	// CLASSROOM SETUP
+	static classroomHasMissingSetup(classroom: Classroom): boolean {
 		if (
 			!classroom.setupComplete &&
 			(classroom.syllabus.length === 0 ||
@@ -22,5 +24,17 @@ export class TutorialUtils {
 			return 2;
 		}
 		throw new Error('Classroom setup is complete, no current step.');
+	}
+
+	// INSTITUTION SETUP
+	static institutionHasMissingSetup(institution: Institution): boolean {
+		return !institution.setupComplete;
+	}
+
+	static currentInstitutionSetupStep(institution: Institution): number {
+		if (TutorialUtils.institutionHasMissingSetup(institution)) {
+			return 0;
+		}
+		throw new Error('Institution setup is complete, no current step.');
 	}
 }

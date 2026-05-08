@@ -178,4 +178,8 @@ export class ContextService {
 		let professorRoles = [InstitutionRoleEnum.ADMIN, InstitutionRoleEnum.TEACHER];
 		return professorRoles.some(role => this.institutionRoles?.includes(role));
 	}
+
+    get isInstitutionAdmin(): boolean {
+        return this.institutionRoles?.includes(InstitutionRoleEnum.ADMIN) ?? false;
+    }
 }

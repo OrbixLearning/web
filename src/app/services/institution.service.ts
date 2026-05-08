@@ -71,4 +71,8 @@ export class InstitutionService {
 		formData.append('file', file);
 		return this.http.post<MultipleUserCreationResult>(`${this.api}/create-users/${id}`, formData);
 	}
+
+	completeSetup(institutionId: string): Observable<Institution> {
+		return this.http.put<Institution>(`${this.api}/complete-setup/${institutionId}`, {});
+	}
 }
