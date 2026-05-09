@@ -1,6 +1,7 @@
 <o-loading [isLoading]="isLoading" />
 
-<o-sub-header [backButtonLink]="'/i/' + this.ctx.institution?.id + '/settings'" [buttons]="headerButtons" />
+<o-sub-header [backButtonLink]="'/i/' + this.ctx.institution?.id + '/settings'" [buttons]="headerButtons"
+    [setup]="setup" />
 
 <!-- General Infos -->
 <div class="role-counts">

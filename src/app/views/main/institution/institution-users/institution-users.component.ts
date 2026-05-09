@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -26,6 +26,7 @@ import { InstitutionRolePipe } from '../../../../pipes/institution-role.pipe';
 import { ContextService } from '../../../../services/context.service';
 import { InstitutionService } from '../../../../services/institution.service';
 import { UserService } from '../../../../services/user.service';
+import { SetupTutorial } from '../../classroom/classroom-setup/classroom-setup.component';
 
 @Component({
 	selector: 'o-institution-users',
@@ -53,6 +54,8 @@ export class InstitutionUsersComponent {
 	cd: ChangeDetectorRef = inject(ChangeDetectorRef);
 	dialog: MatDialog = inject(MatDialog);
 	institutionService: InstitutionService = inject(InstitutionService);
+
+	@Input() setup?: SetupTutorial;
 
 	isLoading: boolean = false;
 	page?: Page<UserAccount>;

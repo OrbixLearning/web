@@ -5,19 +5,19 @@
     <mat-step [stepControl]="whiteLabelSetupForm" label="Personalize sua plataforma" optional>
         <div>
             <o-sub-header [setup]="getSetupTutorial(0)" />
-
+            <o-white-label-configuration #whitelabelconfiguration />
         </div>
     </mat-step>
 
     <mat-step [stepControl]="usersSetupForm" label="Adicione alunos e professores" optional>
         <div>
-
+            <o-institution-users [setup]="getSetupTutorial(1)" />
         </div>
     </mat-step>
 
     <mat-step [stepControl]="classroomsSetupForm" label="Crie turmas" optional>
         <div>
-
+            <o-institution-classrooms [setup]="getSetupTutorial(2)" />
         </div>
     </mat-step>
 </mat-stepper>

@@ -12,10 +12,20 @@ import { ContextService } from '../../../../services/context.service';
 import { InstitutionService } from '../../../../services/institution.service';
 import { TutorialUtils } from '../../../../utils/Tutorial.utils';
 import { SetupTutorial } from '../../classroom/classroom-setup/classroom-setup.component';
+import { WhiteLabelConfigurationComponent } from '../../../../components/white-label-configuration/white-label-configuration.component';
+import { InstitutionUsersComponent } from '../institution-users/institution-users.component';
+import { InstitutionClassroomsComponent } from '../institution-classrooms/institution-classrooms.component';
 
 @Component({
 	selector: 'o-institution-setup',
-	imports: [LoadingComponent, MatStepperModule, SubHeaderComponent],
+	imports: [
+		LoadingComponent,
+		MatStepperModule,
+		SubHeaderComponent,
+		WhiteLabelConfigurationComponent,
+		InstitutionUsersComponent,
+		InstitutionClassroomsComponent,
+	],
 	templateUrl: './institution-setup.component.html',
 	styleUrl: './institution-setup.component.scss',
 })
@@ -27,6 +37,7 @@ export class InstitutionSetupComponent {
 	route: ActivatedRoute = inject(ActivatedRoute);
 
 	@ViewChild('stepper') stepper?: MatStepper;
+	@ViewChild('whitelabelconfiguration') whiteLabelConfiguration?: WhiteLabelConfigurationComponent;
 
 	readonly TOTAL_STEPS = 3;
 
@@ -93,7 +104,14 @@ export class InstitutionSetupComponent {
 
 	startData() {}
 
+	saveWhiteLabelConfiguration() {
+		if (this.step === 0 && this.whiteLabelConfiguration) {
+			this.whiteLabelConfiguration.onSubmit();
+		}
+	}
+
 	nextStep() {
+		this.saveWhiteLabelConfiguration();
 		if (this.step < this.TOTAL_STEPS - 1) {
 			this.step++;
 		}
@@ -106,6 +124,7 @@ export class InstitutionSetupComponent {
 	}
 
 	goToStep(i: number) {
+		this.saveWhiteLabelConfiguration();
 		if (i >= 0 && i < this.TOTAL_STEPS - 1) {
 			this.step = i;
 		}

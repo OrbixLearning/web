@@ -1,6 +1,7 @@
 <o-loading [isLoading]="isLoading" />
 
-<o-sub-header [backButtonLink]="'/i/' + this.ctx.institution?.id + '/settings'" [buttons]="headerButtons" />
+<o-sub-header [backButtonLink]="'/i/' + this.ctx.institution?.id + '/settings'" [buttons]="headerButtons"
+    [setup]="setup" />
 
 <!-- Table -->
 <p-table [value]="classrooms" size="small" dataKey="id" [lazy]="true" (onLazyLoad)="getClassrooms($event)"

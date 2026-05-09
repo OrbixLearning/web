@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,6 +20,7 @@ import { Classroom } from '../../../../models/Classroom';
 import { Page } from '../../../../models/Page';
 import { ClassroomService } from '../../../../services/classroom.service';
 import { ContextService } from '../../../../services/context.service';
+import { SetupTutorial } from '../../classroom/classroom-setup/classroom-setup.component';
 
 @Component({
 	selector: 'o-institution-classrooms',
@@ -43,6 +44,8 @@ export class InstitutionClassroomsComponent {
 	service: ClassroomService = inject(ClassroomService);
 	cd: ChangeDetectorRef = inject(ChangeDetectorRef);
 	dialog: MatDialog = inject(MatDialog);
+
+	@Input() setup?: SetupTutorial;
 
 	isLoading: boolean = false;
 	page?: Page<Classroom>;
