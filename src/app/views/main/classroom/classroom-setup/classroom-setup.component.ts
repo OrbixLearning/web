@@ -100,6 +100,7 @@ export class ClassroomSetupComponent {
 	}
 
 	ngOnInit() {
+		this.ctx.closeSidebar();
 		// This is used to update the data when the classroomId changes in the URL
 		this.route.url.subscribe(url => {
 			this.startData();
@@ -109,6 +110,10 @@ export class ClassroomSetupComponent {
 
 	ngAfterViewInit() {
 		this.step = TutorialUtils.currentClassroomSetupStep(this.ctx.classroom!);
+	}
+
+	ngOnDestroy() {
+		this.ctx.openSidebar();
 	}
 
 	startData() {

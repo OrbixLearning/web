@@ -17,8 +17,8 @@ import { ChatComponent } from '../../../components/chat/chat.component';
 import { DocumentCardComponent } from '../../../components/document-card/document-card.component';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import {
-    ConfirmPopUpComponent,
-    ConfirmPopUpData,
+	ConfirmPopUpComponent,
+	ConfirmPopUpData,
 } from '../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { SyllabusTagsComponent } from '../../../components/syllabus-tags/syllabus-tags.component';
 import { LearningPathGenerationStatusEnum } from '../../../enums/LearningPathGenerationStatus.enum';
@@ -99,7 +99,12 @@ export class LearningPathComponent {
 	}
 
 	ngOnInit() {
+		this.ctx.closeSidebar();
 		this.getDocuments();
+	}
+
+	ngOnDestroy() {
+		this.ctx.openSidebar();
 	}
 
 	async getDocuments() {

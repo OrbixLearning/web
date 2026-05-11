@@ -34,6 +34,8 @@ export class ContextService {
 	public institutionRolesLoading: boolean = false;
 	public classroomListLoading: boolean = false;
 
+	private sidebarOpenSignal = signal<boolean>(true);
+
 	constructor() {
 		effect(() => {
 			const user = this.userSignal();
@@ -87,9 +89,12 @@ export class ContextService {
 		return this.learningPathStudySignal();
 	}
 
-    get inLMS(): boolean {
-        return window.self !== window.top;
-    }
+	get inLMS(): boolean {
+		return window.self !== window.top;
+	}
+	get isSidebarOpen(): boolean {
+		return this.sidebarOpenSignal();
+	}
 
 	// SETTERS
 	set user(value: User | undefined) {
@@ -112,6 +117,16 @@ export class ContextService {
 	}
 	set learningPathStudy(value: LearningPathStudy | undefined) {
 		this.learningPathStudySignal.set(value ? { ...value } : undefined);
+	}
+
+	closeSidebar() {
+		this.sidebarOpenSignal.set(false);
+	}
+	openSidebar() {
+		this.sidebarOpenSignal.set(true);
+	}
+	toggleSidebar() {
+		this.sidebarOpenSignal.update(state => !state);
 	}
 
 	// CLEAR
@@ -179,7 +194,7 @@ export class ContextService {
 		return professorRoles.some(role => this.institutionRoles?.includes(role));
 	}
 
-    get isInstitutionAdmin(): boolean {
-        return this.institutionRoles?.includes(InstitutionRoleEnum.ADMIN) ?? false;
-    }
+	get isInstitutionAdmin(): boolean {
+		return this.institutionRoles?.includes(InstitutionRoleEnum.ADMIN) ?? false;
+	}
 }

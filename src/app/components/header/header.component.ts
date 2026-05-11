@@ -52,7 +52,6 @@ export class HeaderComponent {
 	dialog: MatDialog = inject(MatDialog);
 
 	@Input() inLMS: boolean = false;
-	@Output() sidebar: EventEmitter<void> = new EventEmitter<void>();
 
 	institutionId?: string;
 	personalInstitution: Institution = {

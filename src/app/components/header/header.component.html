@@ -1,7 +1,7 @@
 <header>
     <div class="left-header">
         @if(!inLMS) {
-        <button mat-button (click)="sidebar.emit()" class="menu-button">
+        <button mat-button (click)="ctx.toggleSidebar()" class="menu-button">
             <mat-icon>menu</mat-icon>
         </button>
         }

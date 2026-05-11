@@ -1,14 +1,14 @@
 <content class="layout-content">
 
     @if (!inLMS) {
-        
+
     <!-- Header -->
-    <o-header (sidebar)="drawer.toggle()" [inLMS]="false" />
+    <o-header [inLMS]="false" />
 
     <mat-drawer-container class="layout-wrapper">
 
         <!-- Sidebar -->
-        <mat-drawer #drawer mode="side" opened class="layout-drawer">
+        <mat-drawer mode="side" opened class="layout-drawer" [opened]="ctx.isSidebarOpen">
             <o-sidebar />
         </mat-drawer>
 
