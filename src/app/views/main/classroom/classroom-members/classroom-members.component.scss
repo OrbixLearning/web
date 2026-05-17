@@ -1,8 +1,19 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	height: 100%;
+	min-height: 0;
+}
+
 .classroom-members {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 20px;
 	width: 100%;
+	align-items: stretch;
+	height: 100%;
+	min-height: 0;
 }
 
 /* Panel */
@@ -13,12 +24,17 @@
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 	overflow: hidden;
 
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+
 	.panel__header {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		padding: 10px 12px;
 		border-bottom: 1px solid 1px solid color-mix(in oklab, var(--background-color) 30%, gray);
+		flex-shrink: 0;
 
 		h3 {
 			margin: 0;
@@ -38,6 +54,9 @@
 
 	.panel__body {
 		padding: 12px;
+		flex: 1;
+		min-height: 0;
+		overflow-y: auto;
 	}
 	.empty {
 		margin: 0;
