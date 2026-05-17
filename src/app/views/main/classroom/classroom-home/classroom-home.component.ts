@@ -15,8 +15,8 @@ import { ChatComponent } from '../../../../components/chat/chat.component';
 import { LearningPathCardComponent } from '../../../../components/learning-path-card/learning-path-card.component';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import {
-	ConfirmPopUpComponent,
-	ConfirmPopUpData,
+    ConfirmPopUpComponent,
+    ConfirmPopUpData,
 } from '../../../../components/pop-ups/confirm-pop-up/confirm-pop-up.component';
 import { LearningPathCreationPopUpComponent } from '../../../../components/pop-ups/learning-path-creation-pop-up/learning-path-creation-pop-up.component';
 import { SyllabusViewerPopUpComponent } from '../../../../components/pop-ups/syllabus-viewer-pop-up/syllabus-viewer-pop-up.component';

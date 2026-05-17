@@ -1,9 +1,16 @@
+:host {
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
 .chat-main {
 	display: flex;
 	flex-direction: column;
 	padding: 16px;
 	gap: 16px;
 	width: 100%;
+	height: 100%;
 	background: color-mix(in oklab, var(--background-color) 96%, white);
 }
 
@@ -22,6 +29,8 @@
 
 .messages-wrapper {
 	width: 100%;
+	flex: 1;
+	min-height: 0;
 	overflow-y: auto;
 	scroll-behavior: smooth;
 	padding-right: 4px;

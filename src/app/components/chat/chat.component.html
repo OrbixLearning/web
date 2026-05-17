@@ -18,7 +18,7 @@
         </mat-menu>
     </div>
 
-    <div class="messages-wrapper" #messagesWrapper [style]="'height: ' + height" (scroll)="chatScrollRolled($event)">
+    <div class="messages-wrapper" #messagesWrapper (scroll)="chatScrollRolled($event)">
         @if (messages.length > 0) {
         <div class="messages">
             @for (message of messages; track $index) {

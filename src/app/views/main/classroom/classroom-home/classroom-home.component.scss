@@ -1,9 +1,20 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	height: 100%;
+	min-height: 0;
+}
+
 .classroom-home {
 	display: grid;
 	grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
 	gap: 20px;
 	width: 100%;
+	height: 100%;
 	align-items: start;
+	height: 100%;
+	min-height: 0;
 }
 
 /* Generic panel */
@@ -37,13 +48,29 @@
 
 /* Left column (chat) */
 .left-content {
-	display: grid;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 0;
+}
+
+.left-content .panel__body {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 0;
+	padding: 0;
 }
 
 /* Right column */
 .right-content {
-	display: grid;
+	display: flex;
+	flex-direction: column;
 	gap: 16px;
+	height: 100%;
+	min-height: 0;
+	overflow-y: auto;
+	padding-right: 4px;
 }
 
 /* Filters row */
@@ -56,6 +83,9 @@
 	.full {
 		flex: 1;
 	}
+}
+.filter-div {
+	flex-shrink: 0;
 }
 
 /* Learning paths container */

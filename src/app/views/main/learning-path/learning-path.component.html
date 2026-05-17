@@ -114,7 +114,7 @@
 
     @if (mode === 'study') {
     <div class="right" [style]="expandedChat ? '' : 'width: 15%'">
-        <o-chat #chat [learningPaths]="[ctx.learningPathStudy!.learningPath]" [showLearningPaths]="false" height="68vh"
+        <o-chat #chat [learningPaths]="[ctx.learningPathStudy!.learningPath]" [showLearningPaths]="false"
             (expandedChange)="expandedChat = $event"
             message="Esse chat já tem todo o conhecimento dessa Rota de Aprendizagem." />
     </div>
