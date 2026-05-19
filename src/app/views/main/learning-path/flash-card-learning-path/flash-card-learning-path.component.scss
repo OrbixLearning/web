@@ -1,9 +1,20 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	height: 100%;
+	min-height: 0;
+}
+
 .flashcards-lp {
-	display: grid;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	height: 100%;
+	min-height: 0;
 	gap: 14px;
 }
 
-/* toolbar superior */
 .fc-toolbar {
 	display: flex;
 	flex-direction: row;
@@ -29,14 +40,12 @@
 	}
 }
 
-/* grade de cartões (view) */
 .fc-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 	gap: 12px;
 }
 
-/* cartão base */
 .fc-card {
 	border: 1px solid gray;
 	border-radius: 12px;
@@ -44,6 +53,7 @@
 	display: flex;
 	flex-direction: column;
 	min-height: 160px;
+	flex: 1;
 
 	&.fc-card--focus {
 		min-height: 220px;
@@ -57,12 +67,14 @@
 	}
 
 	.fc-card__content {
-		padding: 12px 14px;
+		padding: 12px 18px 12px 14px;
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
+		justify-content: flex-start;
 		height: 100%;
 		gap: 10px;
+
+		overflow-y: auto;
 
 		.fc-card__text {
 			display: flex;
@@ -85,10 +97,18 @@
 	align-items: flex-start;
 	width: 100%;
 
+	flex: 1;
+	height: 100%;
+	min-height: 0;
+
 	.fc-left {
-		display: grid;
+		display: flex;
+		flex-direction: column;
 		gap: 12px;
-		width: 70%;
+
+		flex: 1;
+		height: 100%;
+		min-height: 0;
 	}
 
 	.fc-right {
@@ -97,18 +117,27 @@
 		gap: 14px;
 		padding-left: 16px;
 		border-left: 1px solid color-mix(in oklab, var(--text-color) 25%, transparent);
-		position: sticky;
-		top: 12px;
 		align-self: flex-start;
+
 		width: 30%;
+		flex-shrink: 0;
+		height: 100%;
+		min-height: 0;
 
 		.menu {
 			display: flex;
 			flex-direction: column;
 			gap: 8px;
-			max-height: 70vh;
 			overflow: auto;
 			padding-right: 4px;
+			padding-bottom: 4px; // Prevents scrollbar due to Angular Material buttons
+
+			flex: 1;
+			min-height: 0;
+
+			button {
+				padding: 6px 0;
+			}
 		}
 	}
 
@@ -122,7 +151,6 @@
 	}
 }
 
-/* responsivo opcional */
 @media (max-width: 1200px) {
 	.fc-grid {
 		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
