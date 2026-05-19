@@ -88,7 +88,7 @@
         </button>
 
         @if (expandedMenu) {
-        <div class="questions-menu" role="list">
+        <div class="questions-menu">
             @for (context of questionsContext; track $index; let i = $index) {
             <button mat-stroked-button class="q-item" (click)="goToQuestion(i)"
                 [class.answered]="context.userAnswer.length > 0"

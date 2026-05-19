@@ -1,3 +1,11 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	height: 100%;
+	min-height: 0;
+}
+
 .study-mode {
 	display: flex;
 	flex-direction: row;
@@ -5,6 +13,9 @@
 	align-items: flex-start;
 	width: 100%;
 	color: var(--text-color);
+
+	flex: 1;
+	min-height: 0;
 
 	.q-left {
 		display: flex;
@@ -150,19 +161,23 @@
 		gap: 14px;
 		padding-left: 16px;
 		border-left: 1px solid color-mix(in oklab, var(--text-color) 25%, transparent);
-		position: sticky;
-		top: 12px;
-		align-self: flex-start;
 		width: 40%;
+
+		flex: 1;
+		height: 100%;
+		min-height: 0;
 	}
 
 	.questions-menu {
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
-		max-height: 70vh;
 		overflow: auto;
 		padding-right: 4px;
+		padding-bottom: 4px; // Prevents scrollbar due to Angular Material buttons
+
+		flex: 1;
+		min-height: 0;
 	}
 
 	.q-item {
@@ -202,6 +217,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
+		flex-shrink: 0;
 
 		.q-summary {
 			margin: 0;
