@@ -75,6 +75,10 @@ export class HeaderComponent {
 		this.refreshNotifications();
 		this.setThemes();
 		this.setLMSHomePath();
+		if (!this.ctx.institution?.id) {
+			this.ctx.closeSidebar();
+		}
+
 		// This is used to update the data when the institutionId changes in the URL
 		this.router.events
 			.pipe(filter((e: Event | RouterEvent): e is RouterEvent => e instanceof NavigationEnd))
