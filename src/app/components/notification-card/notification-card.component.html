@@ -12,7 +12,7 @@
         </button>
     </div>
 
-    <p class="msg">{{ notification.message }}</p>
+    <o-markdown [text]="notification.message" />
 
     <div class="meta">
         <span class="sender" [style]="notification.sender === null ? 'visibility: hidden' : ''">de {{

@@ -12,6 +12,7 @@ export class NotificationTypePipe implements PipeTransform {
 			[NotificationTypeEnum.LEARNING_PATH_VALIDATION_RESPONSE]: 'Resposta de validação de rota de aprendizagem',
 			[NotificationTypeEnum.AI_SENTENCE_VALIDATION_REQUEST]: 'Validação de frase gerada por IA',
 			[NotificationTypeEnum.AI_SENTENCE_VALIDATION_RESPONSE]: 'Resposta de validação de frase gerada por IA',
+			[NotificationTypeEnum.SYSTEM_ANNOUNCEMENT]: 'Comunicado do sistema',
 		};
 
 		let label = map[value] ?? String(value);

@@ -7,10 +7,11 @@ import { NotificationService } from '../../services/notification.service';
 import { DateUtils } from '../../utils/Date.util';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MarkdownComponent } from '../markdown/markdown.component';
 
 @Component({
 	selector: 'o-notification-card',
-	imports: [MatButtonModule, MatIconModule],
+	imports: [MatButtonModule, MatIconModule, MarkdownComponent],
 	templateUrl: './notification-card.component.html',
 	styleUrl: './notification-card.component.scss',
 })
@@ -41,12 +42,23 @@ export class NotificationCardComponent {
 			case NotificationTypeEnum.AI_SENTENCE_VALIDATION_REQUEST:
 				this.goToLink();
 				break;
+			case NotificationTypeEnum.SYSTEM_ANNOUNCEMENT:
+				this.goToLink();
+				break;
 		}
 	}
 
 	goToLink() {
-		this.router.navigate([this.notification.link!]).then(() => {
-			this.closePopover.emit();
-		});
+		const link = this.notification.link;
+		if (link && link.length > 0) {
+			if (link.startsWith('http')) {
+				window.open(link, '_blank');
+				this.closePopover.emit();
+			} else {
+				this.router.navigate([link]).then(() => {
+					this.closePopover.emit();
+				});
+			}
+		}
 	}
 }
