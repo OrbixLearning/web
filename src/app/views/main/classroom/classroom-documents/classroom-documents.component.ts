@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -55,6 +55,7 @@ export class ClassroomDocumentsComponent {
 	ctx: ContextService = inject(ContextService);
 	service: DocumentService = inject(DocumentService);
 	dialog: MatDialog = inject(MatDialog);
+	cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
 	@Input() setup?: SetupTutorial;
 
@@ -117,6 +118,11 @@ export class ClassroomDocumentsComponent {
 		await lastValueFrom(this.service.getByClassroom(this.ctx.classroom!.id))
 			.then((docs: Document[]) => {
 				this.ctx.classroom!.documents = docs;
+				this.ctx.classroom!.documents.forEach(d => {
+					if (d.aiStatus === DocumentAIUploadStatusEnum.UPLOADING) {
+						this.observeDocumentUpload(d.id);
+					}
+				});
 			})
 			.finally(() => {
 				this.isLoading = false;
@@ -155,6 +161,7 @@ export class ClassroomDocumentsComponent {
 								};
 								this.dialog.open(SuccessPopUpComponent, { data });
 							}
+							this.observeDocumentUpload(document.id);
 						})
 						.finally(() => {
 							this.isLoading = false;
@@ -165,5 +172,13 @@ export class ClassroomDocumentsComponent {
 
 	markSyllabus(syllabus: Syllabus[]) {
 		this.markedSyllabus = syllabus;
+	}
+
+	observeDocumentUpload(documentId: string) {
+		const updateDocument = (doc: Document) => {
+			this.ctx.classroom!.documents = this.ctx.classroom!.documents.map(d => (d.id === doc.id ? doc : d));
+			this.cdr.detectChanges();
+		};
+		this.service.observeAiStatus(documentId, updateDocument);
 	}
 }

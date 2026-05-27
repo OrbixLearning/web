@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { DocumentTypeEnum } from '../enums/DocumentType.enum';
 import { Document } from '../models/Document';
+import { SSEUtils } from '../utils/ServerSentEvents.utils';
 
 @Injectable({
 	providedIn: 'root',
@@ -64,5 +65,9 @@ export class DocumentService {
 
 	delete(documentId: string): Observable<void> {
 		return this.http.delete<void>(`${this.api}/${documentId}`);
+	}
+
+	observeAiStatus(documentId: string, onUpdate: (doc: Document) => void) {
+		SSEUtils.observe<Document>(`${this.api}/ai-status/${documentId}`, onUpdate);
 	}
 }
