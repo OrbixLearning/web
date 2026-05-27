@@ -21,7 +21,7 @@
 	--p-accordion-header-active-hover-background: color-mix(in oklch, var(--background-color), gray 40%) !important;
 	--p-accordion-header-background: var(--background-color) !important;
 	--p-accordion-header-hover-background: color-mix(in oklch, var(--background-color), gray 40%) !important;
-	--p-tooltip-background: var(--secondary-color) !important;
+	--p-tooltip-background: color-mix(in oklch, var(--background-color), gray 20%) !important;
 	--p-tooltip-color: var(--text-color) !important;
 	--p-progressbar-label-color: var(--text-color) !important;
 	--p-progressbar-background: color-mix(in oklch, var(--background-color), gray 40%) !important;
