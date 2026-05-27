@@ -1,7 +1,7 @@
 <o-loading [isLoading]="isLoading" />
 
-<div [class]="'chat-main chat-main-' + (expanded ? 'expanded' : 'colapsed')">
-    @if (expanded) {
+<div [class]="'chat-main chat-main-' + (expanded() ? 'expanded' : 'colapsed')">
+    @if (expanded()) {
     <div class="menu-button-div">
         <button mat-icon-button class="menu-button" [matMenuTriggerFor]="menu" [disabled]="isSending || isLoading">
             <mat-icon>more_vert</mat-icon>

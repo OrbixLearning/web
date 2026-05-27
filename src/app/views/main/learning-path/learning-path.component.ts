@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, Signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -29,6 +29,7 @@ import { ContextService } from '../../../services/context.service';
 import { DocumentService } from '../../../services/document.service';
 import { LearningPathStudyService } from '../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../services/learning-path.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
 import { UserService } from '../../../services/user.service';
 import { TreeUtils } from '../../../utils/Tree.utils';
 import { FlashCardLearningPathComponent } from './flash-card-learning-path/flash-card-learning-path.component';
@@ -72,6 +73,7 @@ export class LearningPathComponent {
 	userService: UserService = inject(UserService);
 	documentService: DocumentService = inject(DocumentService);
 	learningPathStudyService: LearningPathStudyService = inject(LearningPathStudyService);
+	storage: LocalStorageService = inject(LocalStorageService);
 
 	@ViewChild('chat') chatComponent?: ChatComponent;
 	@ViewChild('text') textComponent?: TextLearningPathComponent;
@@ -84,7 +86,7 @@ export class LearningPathComponent {
 	typeEnum = LearningPathTypeEnum;
 	generationStatusEnum = LearningPathGenerationStatusEnum;
 	validationRequested: boolean = false;
-	expandedChat: boolean = true;
+	chatExpanded: Signal<boolean> = this.storage.get('chatExpanded');
 	documents: Document[] = [];
 
 	mode: 'edit' | 'study' = 'study';

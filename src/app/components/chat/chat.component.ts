@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Input, Output, Signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,6 +14,7 @@ import { AIChatMessage } from '../../models/AIChatMessage';
 import { LearningPath } from '../../models/LearningPath/LearningPath';
 import { AIChatService } from '../../services/aichat.service';
 import { ContextService } from '../../services/context.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 import { HighlightButtonComponent } from '../buttons/highlight-button/highlight-button.component';
 import { LoadingComponent } from '../loading/loading.component';
 import { MarkdownComponent } from '../markdown/markdown.component';
@@ -42,13 +43,13 @@ export class ChatComponent {
 	service: AIChatService = inject(AIChatService);
 	route: ActivatedRoute = inject(ActivatedRoute);
 	dialog: MatDialog = inject(MatDialog);
+	storage: LocalStorageService = inject(LocalStorageService);
 
 	@ViewChild('messagesWrapper') messagesWrapper!: ElementRef<HTMLDivElement>;
 	@Input() learningPaths: LearningPath[] = [];
 	@Input() showLearningPaths: boolean = true;
 	@Input() message!: string;
 	@Output() removeLearningPath: EventEmitter<LearningPath> = new EventEmitter<LearningPath>();
-	@Output() expandedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	messages: AIChatMessage[] = [];
 	input: string = '';
@@ -57,7 +58,7 @@ export class ChatComponent {
 	page: number = 0;
 	file?: File;
 	preview: string | ArrayBuffer | null = null;
-	expanded: boolean = true;
+	expanded: Signal<boolean> = this.storage.get('chatExpanded');
 	blockAutoScroll: boolean = false;
 	readonly CHAT_PAGE_SIZE: number = 30;
 
@@ -150,8 +151,7 @@ export class ChatComponent {
 	}
 
 	toggleExpanded() {
-		this.expanded = !this.expanded;
-		this.expandedChange.emit(this.expanded);
+		this.storage.set('chatExpanded', !this.expanded());
 	}
 
 	getMessageImage(message: AIChatMessage) {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -29,6 +29,7 @@ import { Syllabus } from '../../../../models/Syllabus';
 import { ContextService } from '../../../../services/context.service';
 import { LearningPathStudyService } from '../../../../services/learning-path-study.service';
 import { LearningPathService } from '../../../../services/learning-path.service';
+import { LocalStorageService } from '../../../../services/local-storage.service';
 import { TreeUtils } from '../../../../utils/Tree.utils';
 
 @Component({
@@ -60,6 +61,7 @@ export class ClassroomHomeComponent {
 	dialog: MatDialog = inject(MatDialog);
 	router: Router = inject(Router);
 	route: ActivatedRoute = inject(ActivatedRoute);
+	storage: LocalStorageService = inject(LocalStorageService);
 
 	readonly NUMBER_OF_LEARNING_PATH_CARDS_PER_PAGE: number = 5;
 
@@ -77,7 +79,7 @@ export class ClassroomHomeComponent {
 		index: 0,
 		size: this.NUMBER_OF_LEARNING_PATH_CARDS_PER_PAGE,
 	};
-	chatExpanded: boolean = true;
+	chatExpanded: Signal<boolean> = this.storage.get('chatExpanded');
 
 	constructor(private paginator: MatPaginatorIntl) {
 		paginator.getRangeLabel = (page: number, pageSize: number, length: number) => {
