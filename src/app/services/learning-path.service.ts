@@ -3,7 +3,6 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AudioVoiceEnum } from '../enums/AudioVoice.enum';
-import { Document } from '../models/Document';
 import { FlashCard } from '../models/LearningPath/FlashCard';
 import {
 	FlashCardLearningPath,
@@ -15,6 +14,7 @@ import {
 import { GenerateLearningPathRequest } from '../models/LearningPath/LearningPathGeneration';
 import { VideoDetails } from '../models/LearningPath/VideoDetails';
 import { Question } from '../models/Question';
+import { SSEUtils } from '../utils/ServerSentEvents.utils';
 
 @Injectable({
 	providedIn: 'root',
@@ -93,5 +93,11 @@ export class LearningPathService {
 
 	requestValidation(learningPathId: string): Observable<void> {
 		return this.http.post<void>(`${this.api}/request-validation/${learningPathId}`, {});
+	}
+
+	// MISC
+
+	observeAiStatus(learningPathId: string, onUpdate: (lp: LearningPath) => void) {
+		SSEUtils.observe<LearningPath>(`${this.api}/ai-status/${learningPathId}`, onUpdate);
 	}
 }

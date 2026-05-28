@@ -50,7 +50,8 @@
                 <div class="panel__body lp-list">
                     @if (filteredMyNotGeneratedLearningPaths.length > 0) {
                     <h5 class="group-title">Rotas em geração</h5>
-                    @for (learningPath of paginatedFilteredMyNotGeneratedLearningPaths; track learningPath.id) {
+                    @for (learningPath of paginatedFilteredMyNotGeneratedLearningPaths; track learningPath.id +
+                    learningPath.generation.status) {
                     <o-learning-path-card [learningPath]="learningPath"
                         (regenerate)="regenerateLearningPath(learningPath)" [mine]="true" />
                     }
@@ -58,7 +59,8 @@
                     <h5 class="group-title">Rotas geradas</h5>
                     }
 
-                    @for (learningPath of paginatedFilteredMyGeneratedLearningPaths; track learningPath.id) {
+                    @for (learningPath of paginatedFilteredMyGeneratedLearningPaths; track learningPath.id +
+                    learningPath.generation.status) {
                     <o-learning-path-card [learningPath]="learningPath" (cardClick)="goToLearningPath(learningPath)"
                         [inChat]="isLearningPathIdInChat(learningPath.id)"
                         (addToChat)="addLearningPathToChat(learningPath)" (share)="shareLearningPath(learningPath)"

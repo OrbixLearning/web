@@ -46,7 +46,7 @@
         </header>
 
         <div class="panel__body doc-list">
-            @for (document of filteredDocuments; track document.id) {
+            @for (document of filteredDocuments; track document.id + document.aiStatus) {
             <o-document-card [document]="document" />
             } @empty {
             <p class="empty">Nenhum documento encontrado.</p>

@@ -1,4 +1,4 @@
-import { Component, inject, Signal } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -62,6 +62,7 @@ export class ClassroomHomeComponent {
 	router: Router = inject(Router);
 	route: ActivatedRoute = inject(ActivatedRoute);
 	storage: LocalStorageService = inject(LocalStorageService);
+	cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
 	readonly NUMBER_OF_LEARNING_PATH_CARDS_PER_PAGE: number = 5;
 
@@ -237,6 +238,12 @@ export class ClassroomHomeComponent {
 		])
 			.then(res => {
 				this.myLearningPaths = res[0];
+				this.myLearningPaths.forEach(lp => {
+					if (lp.generation.status === LearningPathGenerationStatusEnum.GENERATING) {
+						this.observeLearningPathGeneration(lp.id);
+					}
+				});
+
 				this.sharedLearningPaths = res[1];
 			})
 			.finally(() => {
@@ -271,6 +278,8 @@ export class ClassroomHomeComponent {
 			.subscribe((res: LearningPath | undefined) => {
 				if (res) {
 					this.myLearningPaths = [res, ...this.myLearningPaths];
+					this.observeLearningPathGeneration(res.id);
+					this.cdr.detectChanges();
 				}
 			});
 	}
@@ -305,14 +314,16 @@ export class ClassroomHomeComponent {
 			});
 	}
 
-	async regenerateLearningPath(learningPath: LearningPath) {
+	async regenerateLearningPath(learningPathToRegenerate: LearningPath) {
 		this.isLoading = true;
-		await lastValueFrom(this.learningPathService.regenerateLearningPath(learningPath.id))
-			.then(async () => {
-				await this.getData();
+		await lastValueFrom(this.learningPathService.regenerateLearningPath(learningPathToRegenerate.id))
+			.then((learningPath: LearningPath) => {
+				this.myLearningPaths = this.myLearningPaths.map(lp => (lp.id === learningPath.id ? learningPath : lp));
+				this.observeLearningPathGeneration(learningPath.id);
 			})
 			.finally(() => {
 				this.isLoading = false;
+				this.cdr.detectChanges();
 			});
 	}
 
@@ -328,5 +339,13 @@ export class ClassroomHomeComponent {
 		this.learningPathsInChat = this.learningPathsInChat.filter(
 			learningPathInChat => learningPathInChat.id !== learningPath.id,
 		);
+	}
+
+	observeLearningPathGeneration(learningPathId: string) {
+		const updateLearningPath = (learningPath: LearningPath) => {
+			this.myLearningPaths = this.myLearningPaths.map(lp => (lp.id === learningPath.id ? learningPath : lp));
+			this.cdr.detectChanges();
+		};
+		this.learningPathService.observeAiStatus(learningPathId, updateLearningPath);
 	}
 }
