@@ -227,11 +227,7 @@ export class HeaderComponent {
 
 	observeNotifications() {
 		const newNotification = (notification: Notification) => {
-			console.log('CHEGOU NOTIFICAÇÃO!', notification);
-			console.log('NOTIFICAÇÕES ANTES!', Object.assign({}, this.notifications));
 			this.notifications.unshift(notification);
-			console.log('NOTIFICAÇÕES DEPOIS!', Object.assign({}, this.notifications));
-
 			this.cdr.detectChanges();
 		};
 		this.notificationService.observe(newNotification);

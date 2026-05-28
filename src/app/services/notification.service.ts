@@ -33,7 +33,6 @@ export class NotificationService {
 	}
 
 	observe(onUpdate: (notification: Notification) => void) {
-		console.log('OBSERVING!');
 		SSEUtils.persistent<Notification>(`${this.api}/stream`, onUpdate);
 	}
 }
