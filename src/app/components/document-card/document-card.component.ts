@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,11 +37,11 @@ export class DocumentCardComponent {
 	service: DocumentService = inject(DocumentService);
 	dialog: MatDialog = inject(MatDialog);
 	router: Router = inject(Router);
+	cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
-	@Input() document!: Document;
+	@Input() document!: Document; // TODO: try to find a way to keep this document updated with the context document list
 	@Input() showActions: boolean = true;
 	@Input() showSyllabus: boolean = true;
-	@Output() aiRecalled: EventEmitter<void> = new EventEmitter<void>();
 
 	isLoading: boolean = false;
 	documentAIUploadStatusEnum = DocumentAIUploadStatusEnum;
@@ -53,6 +53,12 @@ export class DocumentCardComponent {
 			(this.document.type === DocumentTypeEnum.EXERCISE || this.document.type === DocumentTypeEnum.PAST_EXAM) &&
 			!this.document.questionsValidated
 		);
+	}
+
+	contextDocumentUpdate(doc: Document) {
+		this.document = doc;
+		this.ctx.classroom!.documents = this.ctx.classroom!.documents.map(d => (d.id === doc.id ? doc : d));
+		this.cdr.detectChanges();
 	}
 
 	async downloadDocument() {
@@ -88,8 +94,8 @@ export class DocumentCardComponent {
 							syllabusIds,
 						),
 					)
-						.then((documentUpdated: Document) => {
-							this.document = Object.assign(this.document, documentUpdated);
+						.then((doc: Document) => {
+							this.contextDocumentUpdate(doc);
 						})
 						.finally(() => {
 							this.isLoading = false;
@@ -126,8 +132,9 @@ export class DocumentCardComponent {
 	async recallDocumentAI() {
 		this.isLoading = true;
 		await lastValueFrom(this.service.recallAI(this.document.id))
-			.then(() => {
-				this.aiRecalled.emit();
+			.then((doc: Document) => {
+				this.contextDocumentUpdate(doc);
+				this.observeDocumentUpdate(doc.id);
 			})
 			.finally(() => {
 				this.isLoading = false;
@@ -140,5 +147,12 @@ export class DocumentCardComponent {
 				documentQueryId: this.document.id,
 			},
 		});
+	}
+
+	observeDocumentUpdate(documentId: string) {
+		const updateDocument = (doc: Document) => {
+			this.contextDocumentUpdate(doc);
+		};
+		this.service.observeAiStatus(documentId, updateDocument);
 	}
 }
