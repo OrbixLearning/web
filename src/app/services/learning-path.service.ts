@@ -98,6 +98,6 @@ export class LearningPathService {
 	// MISC
 
 	observeAiStatus(learningPathId: string, onUpdate: (lp: LearningPath) => void) {
-		SSEUtils.observe<LearningPath>(`${this.api}/ai-status/${learningPathId}`, onUpdate);
+		SSEUtils.transient<LearningPath>(`${this.api}/ai-status/${learningPathId}`, onUpdate);
 	}
 }

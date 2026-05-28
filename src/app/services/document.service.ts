@@ -68,6 +68,6 @@ export class DocumentService {
 	}
 
 	observeAiStatus(documentId: string, onUpdate: (doc: Document) => void) {
-		SSEUtils.observe<Document>(`${this.api}/ai-status/${documentId}`, onUpdate);
+		SSEUtils.transient<Document>(`${this.api}/ai-status/${documentId}`, onUpdate);
 	}
 }

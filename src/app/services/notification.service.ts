@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Notification } from '../models/Notification';
 import { Page } from '../models/Page';
+import { SSEUtils } from '../utils/ServerSentEvents.utils';
 
 @Injectable({
 	providedIn: 'root',
@@ -29,5 +30,10 @@ export class NotificationService {
 
 	delete(notificationId: string): Observable<void> {
 		return this.http.delete<void>(`${this.api}/${notificationId}`);
+	}
+
+	observe(onUpdate: (notification: Notification) => void) {
+		console.log('OBSERVING!');
+		SSEUtils.persistent<Notification>(`${this.api}/stream`, onUpdate);
 	}
 }

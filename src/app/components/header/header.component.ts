@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -50,6 +50,7 @@ export class HeaderComponent {
 	notificationService: NotificationService = inject(NotificationService);
 	route: ActivatedRoute = inject(ActivatedRoute);
 	dialog: MatDialog = inject(MatDialog);
+	cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
 	@Input() inLMS: boolean = false;
 
@@ -186,7 +187,9 @@ export class HeaderComponent {
 						.then(() => {
 							this.notifications = [];
 						})
-						.finally(() => (this.loadingNotifications = false));
+						.finally(() => {
+							this.loadingNotifications = false;
+						});
 				}
 			});
 	}
@@ -196,6 +199,7 @@ export class HeaderComponent {
 		await lastValueFrom(this.notificationService.get(0, 20))
 			.then((response: Page<Notification>) => {
 				this.notifications = response.content;
+				this.observeNotifications();
 			})
 			.finally(() => (this.loadingNotifications = false));
 	}
@@ -219,5 +223,17 @@ export class HeaderComponent {
 						.finally(() => (this.loadingNotifications = false));
 				}
 			});
+	}
+
+	observeNotifications() {
+		const newNotification = (notification: Notification) => {
+			console.log('CHEGOU NOTIFICAÇÃO!', notification);
+			console.log('NOTIFICAÇÕES ANTES!', Object.assign({}, this.notifications));
+			this.notifications.unshift(notification);
+			console.log('NOTIFICAÇÕES DEPOIS!', Object.assign({}, this.notifications));
+
+			this.cdr.detectChanges();
+		};
+		this.notificationService.observe(newNotification);
 	}
 }
