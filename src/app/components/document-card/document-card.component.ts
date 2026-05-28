@@ -39,7 +39,7 @@ export class DocumentCardComponent {
 	router: Router = inject(Router);
 	cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
-	@Input() document!: Document; // TODO: try to find a way to keep this document updated with the context document list
+	@Input() document!: Document;
 	@Input() showActions: boolean = true;
 	@Input() showSyllabus: boolean = true;
 
@@ -55,9 +55,8 @@ export class DocumentCardComponent {
 		);
 	}
 
-	contextDocumentUpdate(doc: Document) {
-		this.document = doc;
-		this.ctx.classroom!.documents = this.ctx.classroom!.documents.map(d => (d.id === doc.id ? doc : d));
+	documentObjectUpdate(doc: Document) {
+		this.document = Object.assign({}, doc);
 		this.cdr.detectChanges();
 	}
 
@@ -95,7 +94,7 @@ export class DocumentCardComponent {
 						),
 					)
 						.then((doc: Document) => {
-							this.contextDocumentUpdate(doc);
+							this.documentObjectUpdate(doc);
 						})
 						.finally(() => {
 							this.isLoading = false;
@@ -133,7 +132,7 @@ export class DocumentCardComponent {
 		this.isLoading = true;
 		await lastValueFrom(this.service.recallAI(this.document.id))
 			.then((doc: Document) => {
-				this.contextDocumentUpdate(doc);
+				this.documentObjectUpdate(doc);
 				this.observeDocumentUpdate(doc.id);
 			})
 			.finally(() => {
@@ -151,7 +150,7 @@ export class DocumentCardComponent {
 
 	observeDocumentUpdate(documentId: string) {
 		const updateDocument = (doc: Document) => {
-			this.contextDocumentUpdate(doc);
+			this.documentObjectUpdate(doc);
 		};
 		this.service.observeAiStatus(documentId, updateDocument);
 	}
